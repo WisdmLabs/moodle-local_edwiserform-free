@@ -1,0 +1,34 @@
+/*
+  Animations
+*/
+
+@keyframes PLACEHOLDER {
+  0% {
+    height: 1px;
+  }
+
+  100% {
+    height: 15px;
+  }
+}
+
+@keyframes DRAG_GHOST {
+  0% {
+    box-shadow: 0 0 0 0 $gray-light;
+  }
+
+  100% {
+    box-shadow: 0 0 30px 0 $gray-light;
+  }
+}
+
+@keyframes EDIT_PULSE {
+  from,
+  to {
+    border-color: $input-focus;
+  }
+
+  50% {
+    border-color: lighten($input-focus, 20%);
+  }
+}

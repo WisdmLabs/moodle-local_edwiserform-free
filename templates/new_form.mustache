@@ -1,0 +1,93 @@
+ {{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+  }}
+
+<style>
+#region-main > .card{
+    min-height:unset;
+    border:unset;
+    margin-bottom:unset;
+}
+.card-block{
+    padding:unset;
+}
+#page-wrapper{
+    overflow: hidden;
+}
+#page{
+    margin:unset;
+    padding:unset;
+}
+#region-main-box,
+#page.container-fluid{
+    padding:unset;
+}
+#page-wrapper::after{
+    min-height:unset;
+}
+
+</style>
+
+<div class="efb-form-builder-wrap">
+    <!-- Form Toolbar -->
+    {{#formid}}
+        <input type="hidden" name="id" value="{{formid}}">
+    {{/formid}}
+    {{#formversion}}
+        <input type="hidden" name="version" value="{{formversion}}">
+    {{/formversion}}
+    <div class="efb-editor-toolbar">
+        <div class="efb-editor-logo-wrap">
+            <img class="efb-img" src="{{logo}}"/>
+        </div>
+        <div class="efb-editor-action efb-hide">
+            <label id="efb-form-cur-action">{{form_action}}</label>
+            <span class="efb-form-title">{{form_title}}<span>
+        </div>
+        <div class="efb-editor-buttons">
+            <!-- Adding id to identify buttons individually -->
+            {{#header_button}}
+            <a class="btn btn-primary" {{#id}}id="{{id}}"{{/id}} href="{{url}}">{{label}}</a>
+            {{/header_button}}
+        </div>
+    </div>
+
+    <div class="efb-forms-editor-body row">
+        <!-- Form Panels-->
+        <div id="efb-forms-panels-toggle" class="efb-forms-panels-toggle col-md-1 p-a-0">
+            {{#nav_item}}
+            <button id="{{id}}" class="efb-panel-btn panel-{{#active}}{{active}}{{/active}}" data-panel="{{panelid}}" data-panel-lbl="{{label}}">
+                <i class="fa {{icon}}"></i>
+                <span>{{label}}</span>
+            </button>
+            {{/nav_item}}
+        </div>
+        <div class="col-md-11 efb-form-content">
+            <div class="efb-forms-panel-heading">Setup</div>
+            <div class="efb-forms-panels">
+                <div id="{{panel_setup.id}}" class="efb-tabcontent content-active">
+                    {{body}}
+                    {{> local_edwiserform/_create_form_setup_panel }}
+                </div>
+                {{#panels}}
+                <div id="{{id}}" class="efb-tabcontent content-{{#active}}{{active}}{{/active}}{{^active}}hide{{/active}}">
+                    {{{body}}}
+                </div>
+                {{/panels}}
+            </div>
+        </div>
+    </div>
+</div>

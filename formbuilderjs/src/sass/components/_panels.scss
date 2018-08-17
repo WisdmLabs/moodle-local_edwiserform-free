@@ -1,0 +1,145 @@
+.panels-wrap {
+  h5 {
+    margin: 0;
+    padding: .55em 0;
+    color: $gray;
+    font-weight: normal;
+    display: inline-block;
+    width: 100%;
+  }
+
+  nav {
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+
+    button {
+      position: absolute;
+      width: 24px;
+      color: $black;
+      height: 100%;
+      padding: 0;
+      line-height: 0;
+      z-index: 1;
+
+      &:focus {
+        outline: none;
+        border: 1px solid $input-focus;
+        box-shadow: none;
+      }
+
+      .svg-icon {
+        width: 20px;
+        height: 20px;
+      }
+
+      &.next-group {
+        right: 0;
+        top: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+
+      &.prev-group {
+        left: 0;
+        top: 0;
+        border-top-right-radius: 0;
+
+        // border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+  }
+
+  ul {
+    @extend %no-list-style;
+  }
+
+  .f-panel {
+    vertical-align: top;
+    display: inline-block;
+    width: 100%;
+    flex-direction: column;
+    flex: 1 0 100%;
+
+    > li {
+      &:last-child {
+        border-radius: 0 0 5px 5px;
+      }
+    }
+  }
+
+  .panels {
+    white-space: nowrap;
+    transition-property: transform, height;
+    transition-duration: 150ms;
+    transition-timing-function: ease-in-out;
+    will-change: transform;
+    flex-direction: row;
+  }
+
+  .panel-labels {
+    background: $white;
+    overflow: hidden;
+    text-align: center;
+
+    div {
+      transition: transform 150ms ease-in-out;
+      will-change: transform;
+      white-space: nowrap;
+    }
+  }
+}
+
+.tabbed-panels {
+  .panel-nav {
+    height: auto;
+
+    button {
+      display: none;
+    }
+  }
+
+  /*.panels {
+    transition: none;
+  }*/
+
+  .f-panel {
+    background-color: $white;
+  }
+
+  .panel-labels {
+    div {
+      flex-direction: row;
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+      align-content: stretch;
+      align-items: stretch;
+      display: flex;
+    }
+
+    h5 {
+      flex-direction: column;
+      flex: 1;
+      cursor: pointer;
+      background-color: $gray-lighter;
+      box-shadow: 0 -1px 6px $gray-light inset;
+
+      &.active-tab {
+        color: $black;
+        box-shadow: none;
+        background-color: $white;
+      }
+    }
+  }
+}
+
+.options-panel {
+  .prop-inputs {
+    .f-field-group {
+      // width: 33%;
+      // display: inline-block;
+
+    }
+  }
+}

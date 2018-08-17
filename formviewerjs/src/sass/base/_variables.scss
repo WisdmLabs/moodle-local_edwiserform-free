@@ -1,0 +1,44 @@
+$brand-primary: #325d88 !default;
+$brand-primary-dark: darken($brand-primary, 10%) !default;
+$brand-success: #93c54b !default;
+$brand-success-dark: darken($brand-success, 10%) !default;
+$brand-warning: #f47c3c !default;
+$brand-warning-dark: darken($brand-warning, 10%) !default;
+$brand-error: #d9534f !default;
+$brand-error-dark: darken($brand-error, 10%) !default;
+
+$remove-bg: rgba(217, 83, 79, 0.5) !default;
+
+$row-outline-color: #325d88;
+$column-outline-color: #29abe0;
+$field-outline-color: #93c54b;
+
+$input-focus: #66afe9;
+
+$prop-btn-width: 28px;
+$action-btn-width: 2rem;
+
+// Colors
+//
+// Grayscale and brand colors for use across Bootstrap.
+$black: #000;
+$white: #fff;
+$off-white: #fefefe;
+
+// $gray-dark: #373a3c !default;
+$gray-dark: lighten($black, 20%) !default;
+$gray: lighten($black, 40%) !default;
+$gray-light: lighten($black, 60%) !default;
+$gray-lighter: lighten($black, 80%) !default;
+$gray-lightest: lighten($black, 90%) !default;
+
+// Stage
+$stage-background: rgba(255, 255, 255, 0);
+$shadow: rgba(255, 255, 255, 0.25);
+
+$border-radius: 6px;
+$input-border-radius: 3px;
+$input-btn-border-width: 1px;
+$input-padding: 0.3em 0.6em;
+$input-border: $input-btn-border-width solid $gray-lighter;
+$checkbox-character: '✔' !default;

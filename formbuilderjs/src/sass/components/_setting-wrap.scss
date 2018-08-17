@@ -1,0 +1,117 @@
+.setting-wrap {
+    width: 48%;
+    display: inline-table;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 0.3em;
+    margin: 1%;
+    background-color: rgba(0,0,0,0.05);
+    color: black;
+    user-select: none;
+    label {
+        display: table-row;
+        width: 100%;
+    }
+    .setting-inputs {
+        width: calc(100% - 32px);
+        float: left;
+        display: flex;
+        textarea {
+            height: 5rem;
+            resize: none;
+        }
+        .setting-input {
+            display: table-cell;
+            width: 100%;
+            opacity: 1;
+            position: relative;
+            &.color-group:first-child {
+                width: 90%;
+            }
+            &.color-group:last-child {
+                width: 10%;
+                vertical-align: bottom;
+            }
+            &.color-group[type="color"] {
+                padding: 0;
+            }
+            &.range-group:first-child {
+                width: 84%;
+                vertical-align: top;
+            }
+            &.range-group:last-child {
+                width: 16%;
+            }
+            &.toggle-group[type="checkbox"] {
+                display: none;
+            }
+            &.toggle-group[type="checkbox"] {
+                & + .setting-input-label {
+                    &.toggle-group-wrap {
+                        .setting-input {
+                            width: max-content;
+                            vertical-align: middle;
+                            text-align: center;
+                            padding: 0 10px;
+                            &.setting-toggle-icon {
+                                width: -webkit-fill-available;
+                                position: relative;
+                                border-radius: 2em;
+                                border: 2px solid #ccc;
+                                background: #ccc;
+                            }
+                            .toggle-off {
+                                position: relative;
+                                left: 0.7em;
+                            }
+                            .toggle-on {
+                                position: relative;
+                                right: 0.7em;
+                            }
+                        }
+                    }
+                }
+                &:checked {
+                    & + .setting-input-label {
+                        &.toggle-group-wrap {
+                            .setting-input {
+                                .toggle-on {
+                                    background: white;
+                                    border-radius: 2em;
+                                }
+                                .toggle-off {
+                                    padding-left: 0;
+                                }
+                            }
+                        }
+                    }
+                }
+                &:not(:checked) {
+                    & + .setting-input-label {
+                        &.toggle-group-wrap {
+                            .setting-input {
+                                .toggle-on {
+                                    padding-right: 0;
+                                }
+                                .toggle-off {
+                                    background: white;
+                                    border-radius: 2em;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .setting-control {
+        float: left;
+        .setting-default {
+            width: 32px;
+            height: 32px;
+            vertical-align: middle;
+            padding: 0px;
+            cursor: pointer;
+        }
+    }
+}

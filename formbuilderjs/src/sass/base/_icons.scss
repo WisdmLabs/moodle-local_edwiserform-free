@@ -1,0 +1,15 @@
+.svg-icon {
+  display: inline-block;
+  width: $action-btn-width;
+  height: $action-btn-width;
+  pointer-events: none;
+  fill: white;
+}
+
+button[class*='-clone'] {
+  cursor: copy;
+}
+
+button[class*='-handle']:active {
+  cursor: move;
+}

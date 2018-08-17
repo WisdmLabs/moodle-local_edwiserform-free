@@ -1,0 +1,216 @@
+.field-edit {
+  margin-top: 23px;
+  display: none;
+  overflow: hidden;
+
+  label {
+    font-size: .85em;
+  }
+
+  .panel-nav {
+    margin-bottom: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  &.field-edit-options {
+    list-style: decimal;
+  }
+
+  .prop-controls {
+    width: $prop-btn-width;
+    height: $prop-btn-width;
+    text-align: right;
+    position: absolute;
+    border: none;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    white-space: nowrap;
+
+    .svg-icon {
+      width: $prop-btn-width / 2;
+      height: $prop-btn-width / 2;
+      left: 50%;
+      fill: white;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    &:hover {
+      .prop-control {
+        &:last-child {
+          display: inline-block;
+        }
+      }
+    }
+  }
+
+  .prop-control {
+    width: $prop-btn-width;
+    border-radius: 50%;
+    height: 100%;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    @for $i from 1 through 4 {
+      &:nth-of-type(#{$i}) {
+        right: $i * $prop-btn-width - $prop-btn-width;
+      }
+    }
+
+    &:first-child {
+      right: 0;
+    }
+
+    :not(.control-count-1) & {
+      &:last-child {
+        margin-right: -1px;
+        display: none;
+      }
+    }
+
+    &:hover {
+      background-position: -2em -2em;
+      &:last-child {
+        display: inline-block;
+      }
+    }
+
+    &:last-child:first-child {
+      display: inline-block;
+      margin-right: 0;
+    }
+  }
+
+  .prop-wrap {
+    position: relative;
+    margin-bottom: 10px;
+    min-height: $prop-btn-width;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .field-edit-group {
+    padding: 10px;
+  }
+
+  .prop-inputs,
+  .prop-controls {
+    transition: width 150ms;
+    will-change: width;
+
+    .f-addon,
+    input,
+    select,
+    textarea {
+      min-height: 2.5em;
+      font-size: 0.825em;
+    }
+  }
+
+  .prop-inputs {
+    width: 100%;
+    display: inline-flex;
+    vertical-align: bottom;
+    padding-right: calc(#{$prop-btn-width} + 2px);
+    transition: padding 150ms;
+    will-change: padding;
+
+
+    .f-field-group {
+      width: 100%;
+      margin-bottom: 0;
+      display: inline-flex;
+      vertical-align: bottom;
+    }
+
+    .f-checkbox {
+      margin-top: 7px;
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+    }
+  }
+
+  .control-count-2 {
+    .prop-controls {
+      &:hover {
+        width: $prop-btn-width * 2;
+
+        + .prop-inputs {
+          padding-right: calc(#{$prop-btn-width} * 2 + 2px);
+        }
+      }
+    }
+  }
+
+  &.panel-count-1 {
+    .panel-nav {
+      border-bottom: 1px solid $gray-light;
+
+      button {
+        display: none;
+      }
+    }
+
+    .panel-labels {
+      background-color: transparent;
+    }
+  }
+}
+
+.field-edit-group {
+  @extend %no-list-style;
+}
+
+.options-panel {
+  .prop-wrap {
+    margin-bottom: 10px;
+  }
+
+  .input-group-addon {
+    line-height: 0;
+  }
+
+  .prop-labels {
+    padding: 10px 34px 10px 10px;
+
+    .input-group-addon {
+      font-size: 12px;
+    }
+
+    label {
+      font-size: 12px;
+      width: 50%;
+      position: relative;
+      display: table-cell;
+    }
+  }
+
+  .prop-label-selected,
+  .prop-label-disabled {
+    width: 1% !important;
+    white-space: nowrap;
+    vertical-align: middle;
+    border: 0 none;
+    background-color: transparent;
+  }
+}
+
+.panel-action-buttons {
+  @include clearfix;
+
+  padding: 0 10px 10px;
+
+  [class^='add-'] {
+    float: right;
+  }
+}

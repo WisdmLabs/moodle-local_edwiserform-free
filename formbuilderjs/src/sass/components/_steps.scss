@@ -1,0 +1,139 @@
+.stage-tabs-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+    width: 100%;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    &.hovering-stage-tabs {
+      border: 1px solid rgba(147, 197, 75, 1);
+      .stage-tabs-actions {
+        width: calc(#{$action-btn-width} *2);
+        opacity: 1;
+      }
+    }
+    &:not(.hovering-stage-tabs) {
+        .stage-tabs-actions {
+            .svg-icon-remove {
+                position: relative;
+                left: 10px;
+            }
+        }
+    }
+    &.editing-stage-tabs {
+        padding: 23px 5px 5px 5px;
+        background-color: #e6e6e6;
+        .stage-tabs-edit {
+            display: block;
+        }
+        .stage-tabs-preview {
+            display: none;
+        }
+    }
+    .stage-tabs-actions {
+        &.group-actions {
+            transition: width 0.15s linear;
+            top: 0px;
+            right: 0px;
+        }
+    }
+    .stage-tabs-edit {
+        display: none;
+        background-color: white;
+        padding: 0px;
+        margin: 0px;
+        .tab-edit {
+            .panels {
+                height: auto;
+                .panel-tab-list {
+                    transition: height 0.15s;
+                    will-change: height;
+                    .prop-input {
+                        transition: padding .15s;
+                        will-change: padding;
+                        padding-right: calc(2.537rem + 2px);
+                    }
+                    .prop-controls:hover + .prop-input {
+                        padding-right: calc(2.537rem *2 + 2px);
+                    }
+                }
+                .panel-tab-config {
+                    .field-edit-group {
+                        display: inline-block;
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+    .stage-tabs-preview {
+        display: block;
+        list-style: none;
+        padding: 0px;
+        margin: 0px;
+        .wfb-tab {
+            display: inline-block;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+            border: 1px solid #838b8e;
+            border-radius: .215rem;
+            color: #ffff;
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.571429;
+            padding: .429rem 1rem;
+            border-color: #838b8e;
+            background-color: #838b8e;
+            position: relative;
+            margin: 1px 1px 1px 25px;
+            &:before {
+                content: '';
+                position: absolute;
+                left: -1.5rem;
+                top: -1px;
+                border-width: 1.27rem;
+                border-style: solid;
+                border-color: #838b8e;
+                border-left-color: transparent;
+            }
+            &:after {
+                content: '';
+                position: absolute;
+                right: -2.5rem;
+                top: -1px;
+                border-width: 1.27rem;
+                border-style: solid;
+                border-color: transparent;
+                border-left-color: #838b8e;
+            }
+            &.complete {
+                color: #fff;
+                border-color: #46be8a;
+                background-color: #46be8a;
+                &:before {
+                    border-color: #46be8a;
+                }
+                &:after {
+                    border-left-color: #46be8a;
+                }
+            }
+            &.active {
+                color: #fff;
+                border-color: #62a8ea;
+                background-color: #62a8ea;
+                &:before {
+                    border-color: #62a8ea;
+                    border-left-color: transparent;
+                }
+                &:after {
+                    border-color: transparent;
+                    border-left-color: #62a8ea;
+                }
+            }
+        }
+    }
+}

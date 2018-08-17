@@ -1,0 +1,31 @@
+.f-row > .f-render-column > .f-field-group {
+	&.single-line {
+		position: relative;
+		display: table;
+	    width: 100%;
+	    & > {
+	    	 * {
+				display: table-cell;
+			    width: 100%;
+		    }
+			label {
+				position: relative;
+			    width: 25%;
+			    text-align: right;
+			    padding: 0 2%;
+			}
+	    }
+	}
+	&.off {
+		position: relative;
+		& > {
+			label {
+				display: none;
+			}
+			.text-error {
+				position: absolute;
+				left: -1em;
+			}
+		}
+	}
+}

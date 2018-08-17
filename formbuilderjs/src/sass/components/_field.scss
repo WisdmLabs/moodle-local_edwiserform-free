@@ -1,0 +1,94 @@
+.stage-fields {
+  min-height: 26px;
+  position: relative;
+  padding: 5px;
+  transition: background-color 125ms ease-in-out;
+
+  &.first-field {
+    border-top-right-radius: $input-border-radius;
+
+    .field-actions {
+      border-top-right-radius: $input-border-radius;
+    }
+  }
+
+  &.last-field {
+    border-bottom-right-radius: $input-border-radius;
+    border-bottom-left-radius: $input-border-radius;
+  }
+
+  [contenteditable] {
+    padding: 1px 1px 0;
+    transition: border-color 250ms;
+    border-bottom: 1px dashed $gray-lighter;
+    user-select: text;
+
+    &:focus {
+      border: 1px solid $input-focus;
+      outline: none;
+      padding: 0;
+    }
+  }
+
+  .form-check {
+    margin-left: 1.25em;
+  }
+
+  .form-check-input:only-child {
+    position: absolute;
+  }
+
+  &::before {
+    @extend %element-tag;
+
+    display: none;
+
+    // remove to animate field title
+    position: absolute;
+    top: 0;
+    padding: 0 10px;
+    right: 0;
+    transform: translateX(-(3 * $action-btn-width));
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: $border-radius;
+  }
+
+  &.editing-field,
+  &.hovering-field {
+    box-shadow: 0 0 0 1px $field-outline-color inset;
+
+    &::before {
+      line-height: 23px !important;
+
+      // width: 68px !important;
+      border-left: 1px solid $field-outline-color;
+      border-bottom: 1px solid $field-outline-color;
+    }
+  }
+
+  &.field-moving {
+    box-shadow: 0 0 0 1px $field-outline-color inset, 0 0 30px 0 $gray-light;
+    background-color: $white;
+  }
+
+  &.editing-field {
+    background-color: $gray-lightest;
+    z-index: 1;
+  }
+
+  &.field-type-hidden {
+    border: 1px dashed $gray-lighter;
+  }
+}
+
+.editing-field-preview {
+  .field-actions {
+    display: none;
+  }
+}
+
+.field-preview {
+  p {
+    white-space: normal;
+  }
+}

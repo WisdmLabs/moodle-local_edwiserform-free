@@ -1,0 +1,304 @@
+.formeo-controls {
+  width: 19.5vw;
+  right: 0;
+  height: 80%;
+  position: fixed;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  transition: width 0.5s, right 0.5s;
+  background-color: white;
+  padding: 0px 10px;
+  z-index: 2;
+  &.pull-left {
+    .form-actions {
+      float: left;
+    }
+  }
+
+  .control-group {
+    border-bottom: 1px solid #ccc;
+    &.collapsed-controls {
+      .control-list {
+        overflow-y: hidden;
+        height: 0;
+        padding: 0px;
+      }
+    }
+    .control-label {
+      cursor: pointer;
+      h4 {
+        i {
+          float: right;
+          transition: transform 0.5s ease;
+        }
+      }
+    }
+    &:not(.collapsed-controls) {
+      .control-label{
+        h4 {
+          i {
+            transform: rotate(90deg);
+          }
+        }
+      }
+      .control-list {
+        border-top: 1px solid #ccc;
+      }
+    }
+    .control-list {
+      transition: height 0.5s ease;
+      overflow: hidden;
+      .field-control {
+        border: none;
+        button {
+          width: 100%;
+          text-align: left;
+          font-weight: 400;
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+
+  .controls-toggle {
+    position: fixed;
+    right: 19.5vw;
+    bottom: calc(50% - 100px);
+    width: 30px;
+    height: 50px;
+    border-radius: 50px 0 0 50px;
+    text-align: center;
+    transition: right 0.5s;
+    &:hover {
+      opacity: 1;
+    }
+    i {
+      line-height: 50px;
+      font-size: 1.5em;
+      transform: rotateY(0deg);
+      transition: transform 0.5s;
+      color: white;
+    }
+  }
+
+  .filtered-term {
+    background-color: $white;
+    text-align: center;
+    border-radius: $input-border-radius $input-border-radius 0 0;
+    border: 1px solid $gray-lighter;
+    border-bottom: 0 none;
+    width: calc(100% - 2px);
+  }
+
+  nav {
+    position: relative;
+    padding: 0 $action-btn-width;
+    overflow: hidden;
+
+    h5 {
+      font-size: 13px;
+      line-height: 22px;
+    }
+
+    button {
+      position: absolute;
+      width: $action-btn-width;
+      color: $black;
+      height: calc(100% + 1px);
+      padding: 0;
+      line-height: 0;
+      margin: 0;
+      border-color: $gray-lighter;
+
+      &.next-group {
+        right: 0;
+        top: 0;
+        border-top-left-radius: 0;
+        border-top-right-radius: $border-radius;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      &.prev-group {
+        border-top-left-radius: $border-radius;
+        border-bottom-left-radius: 0;
+      }
+    }
+  }
+
+  .panels-wrap {
+    font-size: .85em;
+    line-height: 1.8em;
+  }
+
+  .panel-labels {
+    border-top: 1px solid $gray-lighter;
+
+    // border-radius: $border-radius;
+
+  }
+
+  .panel-count-1 {
+    border-bottom-left-radius: 0;
+
+    .panel-nav {
+      display: none;
+    }
+  }
+
+  ul {
+    @extend %no-list-style;
+  }
+
+  /*.control-group {
+    vertical-align: top;
+    display: inline-block;
+    width: 100%;
+    border-top: 1px solid $gray-lighter;
+
+    > li {
+      &:first-child {
+        border-top-right-radius: 0;
+      }
+
+      &:last-child {
+        border-radius: 0 0 $border-radius $border-radius;
+      }
+    }
+  }*/
+
+  &.filtered {
+    .panel-nav {
+      display: none;
+    }
+  }
+
+  .form-action-buttons {
+    position: fixed;
+    transition: right 0.5s;
+    border: 0;
+    right: 21vw;
+    bottom: 1vw;
+    display: block;
+    width: min-content;
+    flex-direction: column;
+    align-items: baseline;
+    margin-top: 5px;
+    &:hover {
+      .form-actions {
+        li:not(.hide-action) {
+          opacity: 1;
+          transform: translateY(0) !important;
+        }
+      }
+    }
+    .form-actions {
+      display: block;
+      transition: height 0.3s;
+      float: right;
+      overflow: hidden;
+      li {
+        transition: opacity 0.3s, transform 0.3s;
+        opacity: 0;
+        margin-bottom: 10px;
+        display: inline-block;
+        font-weight: 400;
+        width: -webkit-fill-available;
+        &.hide-action {
+          display: none;
+        }
+        &:not(.hide-action):nth-child(1) {
+          transform: translateY(390%);
+        }
+        &:not(.hide-action):nth-child(2) {
+          transform: translateY(260%);
+        }
+        &:not(.hide-action):nth-child(3) {
+          transform: translateY(130%);
+        }
+      }
+    }
+    .form-actions-floater {
+      &.hide-action {
+        display: none;
+      }
+      font-size: 1.5rem;
+      color: white;
+      font-weight: bold;
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 50%;
+      float: right;
+      box-shadow: 0px 5px 10px 0px grey;
+    }
+  }
+
+  @include breakpoint('phone-lrg') {
+    width: 45px;
+
+    /*.control-group {
+      text-indent: -9999px;
+    }*/
+
+    .form-actions {
+      display: inline-block;
+      width: 100%;
+      position: relative;
+      vertical-align: middle;
+      float: none;
+      margin-top: 10px;
+
+      > button + button {
+        margin-top: -$input-btn-border-width;
+        margin-left: 0;
+      }
+
+      > button {
+        max-width: 100%;
+        padding: 10px;
+        border-radius: 0;
+        line-height: 0;
+        width: 100%;
+
+        border: 1px solid transparent;
+        border-radius: .215rem;
+
+        &:not(:first-child):not(:last-child) {
+          border-radius: 0;
+        }
+
+        &:first-child:not(:last-child) {
+          border-top-right-radius: $input-border-radius;
+          border-top-left-radius: $input-border-radius;
+          border-bottom-right-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+
+        &:last-child:not(:first-child) {
+          border-bottom-left-radius: $input-border-radius;
+          border-bottom-right-radius: $input-border-radius;
+          border-top-right-radius: 0;
+          border-top-left-radius: 0;
+        }
+      }
+
+      .svg-icon,
+      .glyphicon {
+        display: inline-block;
+        margin-right: 10px;
+      }
+    }
+  }
+
+
+  .field-control {
+    @extend %field-control;
+
+    .svg-icon {
+      pointer-events: none;
+    }
+    &.disable-control {
+      display: none !important;
+    }
+  }
+}

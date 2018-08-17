@@ -1,0 +1,68 @@
+@import 'base/variables';
+@import 'base/mixins';
+
+.modal {
+  display: table !important;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  .fade.show {
+    opacity: 1;
+  }
+  .modal-wrap {
+    display: table-cell;
+    vertical-align: middle;
+    .modal-dialog {
+      background-color: white;
+      pointer-events: auto;
+      .modal-header {
+        h1, h2, h3, h4, h5, h6 {
+          color: white;
+          font-weight: 600;
+        }
+        border-bottom: none;
+        button {
+          color: white;
+          outline: none;
+        }
+      }
+      .modal-footer {
+        border-top: 1px solid #e9ecef;
+        button {
+          pointer-events: auto;
+        }
+      }
+    }
+  }
+}
+
+.formeo {
+  * {
+    box-sizing: inherit;
+  }
+
+  @import 'base/bs';
+
+  @include clearfix;
+
+  &.formeo-editor {
+
+    @import 'base/rtl';
+  }
+
+  &.formeo-render {
+    @import 'render';
+    @import 'base/display-label';
+  }
+}
+.d-none {
+  display: none !important;
+}
+
+$text: left center right;
+@each $alignment in $text {
+  .form-submit.text-#{$text} {
+    text-align: #{$text} !important;
+    padding: 5px;
+  }
+}

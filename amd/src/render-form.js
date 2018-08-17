@@ -1,0 +1,195 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+require(['jquery', 'core/ajax'], function ($, ajax) {
+    $(document).ready(function (e) {
+        $.getScript(M.cfg.wwwroot + '/local/edwiserform/amd/src/formviewer.min.js', function() {
+            let formeoOpts = {
+              container: '',
+              // allowEdit: false,
+              controls: {
+                sortable: false,
+                groupOrder: [
+                  'common',
+                  'html',
+                ],
+                elements: [
+                ],
+                elementOrder: {
+                  common: [
+                  'button',
+                  'checkbox',
+                  'date-input',
+                  'hidden',
+                  'upload',
+                  'number',
+                  'radio',
+                  'select',
+                  'text-input',
+                  'textarea',
+                  ]
+                }
+              },
+              sitekey: sitekey,
+              events: {
+                // onUpdate: console.log,
+                // onSave: console.log
+              },
+              localStorage: false, //Changed from session storage to local storage
+              editPanelOrder: ['attrs', 'options']
+            };
+            var formeo = [];
+            var forms = $('.edwiserform-container');
+            $.each(forms, function(index, form) {
+                var idElement = $(form).children('.id');
+                var id = idElement.val();
+                var promise = ajax.call([{
+                    methodname: 'edwiserform_get_form_definition',
+                    args: {
+                        form_id: id
+                    }
+                }]);
+                promise[0].done(function(response) {
+                    if (response.status != false) {
+                        formeoOpts.container = form;
+                        formeo[index] = new Formeo(formeoOpts, response.definition);
+                        formeo[index].render(form);
+                        $(form).prepend(`<h2>${response.title}</h2>`);
+                        $(form).prepend(idElement);
+                        if (response.data) {
+                            var formData = JSON.parse(response.data);
+                            $.each(formData, function(index, attr) {
+                                $.each($(`[name="${attr.name}"]`), function(i, elem) {
+                                    switch (elem.tagName) {
+                                        case 'INPUT':
+                                            switch (elem.type) {
+                                                case 'radio':
+                                                    if (elem.value == attr.value) {
+                                                        $(elem).prop('checked', true);
+                                                    }
+                                                    break;
+                                                case 'checkbox':
+                                                    if (elem.value == attr.value) {
+                                                        $(elem).prop('checked', true);
+                                                    }
+                                                    break;
+                                                default:
+                                                    $(elem).val(attr.value);
+                                                    break;
+                                            }
+                                            break;
+                                        case 'SELECT':
+                                        case 'TEXTAREA':
+                                            $(elem).val(attr.value);
+                                            break;
+                                    }
+                                    var changeEvent = new CustomEvent("change", {target: $(elem)[0]});
+                                    $(elem)[0].dispatchEvent(changeEvent);
+                                    if ('readonly' in attr && attr.value != "") {
+                                        $(elem).prop("readonly", true);
+                                    }
+                                });
+                            });
+                        }
+                        if (response.action && response.action != '') {
+                            apply_action(form, response.action);
+                        }
+                        $(form).keyup(function(event) {
+                            if (event.keyCode == 13) {
+                                submit_form(this, formeo[index], response.formtype);
+                            }
+                        });
+                        $(form).find('#submit-form').click(function() {
+                            submit_form(this, formeo[index], response.formtype);
+                        });
+                    } else {
+                        $(form).html(response.msg).addClass("empty");
+                    }
+                }).fail(function(ex) {
+                    console.log(ex);
+                });
+            });
+            $('.step-navigation #previous-step').click(function() {
+                return;
+            });
+            $('.step-navigation #next-step').click(function() {
+                return;
+            });
+
+            function apply_action(form, action) {
+                $(form).attr('action', action);
+            }
+
+            function submit_form_data(form, formeo, submitButton, label, processingLabel, formid, formdata, afterSubmit = null) {
+                $(submitButton).text(processingLabel);
+                var submitFormData = ajax.call([{
+                    methodname: 'edwiserform_submit_form_data',
+                    args: {
+                        formid: formid,
+                        data: formdata
+                    }
+                }]);
+                submitFormData[0].done(function(response) {
+                    if (response.status) {
+                        formeo.dom.alert('success', response.msg, function() {
+                            $(form).remove();
+                        });
+                        if (afterSubmit != null) {
+                            afterSubmit(form, formdata);
+                        }
+                    } else {
+                        formeo.dom.alert('warning', response.msg);
+                        if (response.hasOwnProperty('errors')) {
+                            display_validation_errors(response.errors);
+                        }
+                    }
+                }).fail(function(ex) {
+                    $(submitButton).text(label);
+                    console.log(ex);
+                });
+            }
+
+            function display_validation_errors(errors) {
+                var errors = JSON.parse(errors);
+                $('.custom-validation-error').remove();
+                $.each(errors, function(name, error) {
+                    var errorview = $(`#${name}-error`);
+                    if (errorview.length == 0) {
+                        $(`[name="${name}"]`).after(`<span id="${name}-error" class="text-error custom-validation-error"></span>`)
+                        errorview = $(`#${name}-error`);
+                    }
+                    errorview.text(error);
+                });
+            }
+
+            function filter_formdata(formdata) {
+                var removeList = ['g-recaptcha-response'];
+                var filteredList = [];
+                formdata.forEach(function(element, index) {
+                    if (removeList.indexOf(element.name) == -1) {
+                        filteredList.push(element);
+                    }
+                });
+                return JSON.stringify(filteredList);
+            }
+
+            function submit_form(_this, formeo, type) {
+                var form = $(_this).closest('form');
+                var submitButton = _this;
+                var valid = formeo.dom.checkValidity(form[0]);
+                var label = $(_this).text();
+                var processingLabel = $(_this).attr('data-processing');
+                var formid = $(form).find('.id').val();
+                var formdata = filter_formdata(form.serializeArray());
+                if (valid) {
+                    if ($(form).attr('action') != '') {
+                        $(form).submit();
+                    }
+                    submit_form_data(form, formeo, submitButton, label, processingLabel, formid, formdata);
+                }
+            }
+        });
+    });
+});

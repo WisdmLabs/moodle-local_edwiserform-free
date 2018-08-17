@@ -1,0 +1,441 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 5 Apr, 2018, 6:47:25 PM
+    Author     : sudam
+*/
+
+/* Style the tab */
+.efb-panel-btn.panel-active{
+    background: #00666b;
+    font-weight: bold;
+}
+#efb-cont-form-builder {
+    margin: 0;
+}
+.p-a-0 {
+    padding: 0 0 !important;
+}
+.efb-forms-panels-toggle {
+    width: 95px;
+    color: #fff;
+    background: #2d2d2d;
+    overflow: hidden;
+    text-align: left;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    z-index: 15;
+}
+
+#id_error_template_title {
+    color: red;
+    display: none;
+}
+.tab-active{
+    background-color: white;
+}
+.efb-forms-panels-toggle li{
+    cursor: pointer;
+}
+.efb-forms-panels-toggle label{
+    padding: 1px 10px;
+    color: black;
+    text-decoration: none;
+}
+
+/* Style the tab content */
+.efb-page-content{
+    float: left;
+    padding: 0px 12px;
+    width: 90%;
+    border-left: none;
+    background: #6b6b6b;
+}
+.content-active{
+    display: block;
+    margin: 2em 2em 11em 2em;
+}
+.content-hide{
+    display: none;
+}
+.efb-hide{
+    display: none !important;
+}
+#efb-btn-save-form-settings,
+#efb-btn-next
+{
+    float: right;
+}
+.efb-btn-link{
+    right: 1em;
+    position: absolute;
+    top: 1em;
+}
+.efb-notice-error{
+    color: red;
+}
+.efb-notice-fail,
+.efb-notice-success{
+    padding: 0.5em;
+    border-radius: 0.3em;
+    display: block;
+    color: white;
+}
+.efb-notice-fail{
+    background-color: #ff606066;
+    border: 1px solid red;
+    color: red;
+}
+
+.efb-notice-success{
+    background-color: #D3FFCD;
+    border: 1px solid green;
+    color: green;
+}
+.efb-form-hader{
+    position: relative;
+    display: flex;
+
+}
+.efb-form-msg-wrap{
+    width: 100%;
+    margin-right: 10%;
+}
+
+.efb-tbl-col-shortcode,
+.efb-tbl-col-title{
+    font-weight: bold;
+}
+
+.efb-version-action-menu {
+    display: block !important;
+}
+
+.step-title {
+    display: none;
+}
+.step-title.active {
+    display: block;
+}
+.efb-editor-toolbar{
+    border-bottom: 1px solid #d3d3d3;
+    padding: 28px 10px 0 10px;
+    top: 0;
+    z-index: 140001;
+    width: 100%;
+    background: #fff;
+    text-align: center;
+    height: 75px;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+.efb-editor-logo-wrap{
+    position: absolute;
+    left: 5px;
+    top: 18px;
+}
+.efb-editor-logo-wrap > .efb-img{
+    height: 40px;
+}
+.efb-editor-toolbar > .efb-editor-action{
+    font-size: 20px;
+    font-weight: 300;
+}
+.efb-form-title{
+    font-weight: 700;
+}
+.efb-editor-toolbar > .efb-editor-buttons{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.efb-list-buttons .btn{
+    text-transform: uppercase;
+    font-weight: 700;
+}
+.efb-editor-buttons > .btn{
+    text-transform: uppercase;
+    font-weight: 700;
+    margin: 17px 20px 0 0;
+}
+.efb-form-builder-wrap {
+    overflow: hidden;
+    position: fixed;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: 0;
+}
+
+.efb-forms-panels-toggle .fa{
+    font-size:30px;
+}
+.efb-forms-panels-toggle span{
+    display: block;
+}
+.efb-forms-panels-toggle button:hover{
+    background: #55a1a5;
+}
+.efb-forms-panels-toggle button{
+    color: white;
+    cursor: pointer;
+    width: 100%;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+.efb-forms-panels{
+    display: block;
+    height: 100%;
+    background: #6b6b6b;
+    overflow: auto;
+    margin-bottom: 3em;
+}
+.efb-forms-panel-heading{
+    background-color: #f6f6f6;
+    text-align: center;
+    font-size: 18px;
+    border-bottom: 1px solid #d3d3d3;
+    padding: 15px 10px 0 10px;
+    z-index: 10;
+    overflow: hidden;
+    height: 50px;
+}
+
+.efb-forms-editor-body{
+    display: flex;
+    height: 100%;
+}
+
+.efb-form-content {
+    padding:0 !important;
+    background: #2e2e2e;
+    width: 100%;
+}
+
+#efb-forms-setup-name{
+    margin: 17px 0 18px 18px;
+    height: 55px;
+    box-shadow: none;
+    border: 1px solid #d6d6d6;
+    font-size: 18px;
+    width: 420px;
+    padding: 0 20px;
+}
+.efb-form-name{
+    border-bottom: 1px solid #d6d6d6;
+    overflow: auto;
+}
+.efb-form-name span{
+    display: inline-block;
+    font-size: 16px;
+    height: 90px;
+    float: left;
+    border-right: 1px solid #d6d6d6;
+    line-height: 90px;
+    padding: 0 30px;
+}
+.efb-forms-setup{
+    padding: 0;
+    padding-bottom: 30px;
+    background: white;
+    display: grid;
+}
+.efb-forms-setup-title{
+    font-size: 24px;
+    padding: 40px 30px 2px 30px;
+}
+.efb-forms-setup-desc{
+    padding: 15px 30px;
+    color: #666;
+    font-size: 16px;
+    margin: 0;
+}
+.efb-forms-setup-templates{
+    padding: 0 15px 0 15px;
+    margin-top: 30px;
+}
+.efb-forms-template{
+    float: left;
+    width: 33.333333%;
+    padding: 0 15px;
+}
+.efb-forms-template-inner{
+    border: 1px solid #d6d6d6;
+    padding: 20px;
+    position: relative;
+    margin-bottom: 30px;
+    height: 10em;
+}
+.efb-forms-template-name{
+    font-size: 18px;
+    line-height: 1.3;
+    margin: 0;
+}
+.efb-forms-template-details{
+    margin: 10px 0 0;
+}
+
+.efb-forms-template-overlay{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.85);
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    -ms-justify-content: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    opacity: 0;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+.efb-forms-template-select:hover,
+.efb-forms-template-select:active,
+.efb-forms-template-select:focus{
+    background-color: #29666a;
+    text-decoration: none;
+    color: white;
+}
+
+.efb-forms-template-select{
+    background-color: #55a1a5;
+    border: 1px solid #29666a;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 500;
+    display: inline-block;
+    padding: 10px;
+    text-decoration: none;
+    position: relative;
+}
+
+.efb-forms-pro-select{
+    background-color: #83c11f;
+    border: 1px solid #75ac1c;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 500;
+    display: inline-block;
+    padding: 10px;
+    text-decoration: none;
+    position: relative;
+}
+.efb-forms-pro-select:hover,
+.efb-forms-pro-select:active,
+.efb-forms-pro-select:focus{
+    background-color: #75ac1c;
+    text-decoration: none;
+    color: white;
+}
+.efb-forms-setup-title a{
+    background-color: #83c11f;
+    border: 1px solid #75ac1c;
+    border-radius: 3px;
+    padding: 8px 15px;
+    font-size: 15px;
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+}
+.efb-forms-template-overlay:hover{
+    opacity: 1;
+}
+#efb-cont-form-settings{
+    background: white;
+    padding: 3rem;
+}
+
+
+.efb-form-content:after{
+    min-height: 6em;
+    content: "";
+    display: block;
+}
+.efb-forms-template-inner-selected{
+    border: 2px solid #29666a;
+    background: #e0fffc;
+    opacity: 0.7;
+}
+.form-page .edwiserform-root-container {
+    padding:  2em;
+}
+.form-page .edwiserform-container {
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+}
+.form-page .edwiserform-container.empty {
+    box-shadow: none;
+}
+.form-group.f-input-group, .prop-inputs.form-group {
+    margin: 0;
+}
+.item-handle .svg-icon {
+    fill: black;
+}
+.efb-forms-template .efb-forms-template-inner .efb-forms-template-name .efb-forms-template-active {
+    color: #FFFFFF;
+    transform: scale(0.7);
+}
+.efb-forms-template .efb-forms-template-inner .efb-forms-template-name .efb-forms-pro-label {
+    color: #FFFFFF;
+    transform: scale(0.9);
+}
+.efb-forms-template:not(.active) .efb-forms-template-inner .efb-forms-template-name .efb-forms-template-active {
+    display: none;
+}
+.efb-forms-template .efb-forms-template-outer {
+    color: #4a4a4a !important;
+}
+.efb-forms-template:not(.active) .efb-forms-template-outer {
+    background: white !important;
+}
+.efb-forms-template .efb-forms-template-outer .efb-forms-template-inner {
+    background-color: rgba(255,255,255,0.8);
+}
+.notifi-email-group-input, .notifi-email-group-edit {
+    border: 0px;
+    outline-width: 0px;
+}
+.notifi-email-group {
+    height: auto !important;
+}
+.notifi-email-group .email-tag {
+    border-radius: 2em;
+    margin: 2px;
+    border: 1px solid gray;
+}
+.notifi-email-group .email-tag .email-tag-delete {
+    margin-left: 10px;
+}
+.efb-import-form-container {
+    position: relative;
+    pointer-events: none;
+}
+.efb-import-form-pro-cover {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.5;
+    background: white;
+}
