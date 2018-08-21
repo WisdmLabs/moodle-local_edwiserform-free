@@ -63,6 +63,10 @@ $string['efb-forms-update-create-new'] = "New";
 $string['efb-forms-update-overwrite-existing'] = "Overwrite";
 $string['efb-admin-disabled-teacher'] = "You are not allowed create form. Contact admin to enable form creation.";
 $string['efb-contact-admin'] = "Please contact site admin.";
+$string['efb-notify-email-subject'] = '{$a->site}: New user submission in {$a->title}.';
+$string['efb-notify-email-body'] = '{$a->user} has made submission in {$a->title} form. To see submission please <a href="{$a->link}">click</a> here.';
+$string['efb-notify-email-failed'] = "<p>Unable to send email</p>";
+$string['efb-notify-email-success'] = "<p>Notified successfully</p>";
 
 /**
  * Template event string

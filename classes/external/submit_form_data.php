@@ -94,23 +94,25 @@ trait submit_form_data {
     }
 
     public static function notify($form, $submission) {
-        global $CFG;
+        global $CFG, $COURSE, $USER;
         $submission = json_decode($submission);
-        $subject = $form->title . " submission";
-        foreach ($submission as $data) {
-            $messagehtml .= "<p><b>".$data->name . ": </b>" . $data->value . "</p>";
-        }
-        if ($form && $form->notifi_email) {
+        $subject = get_string('efb-notify-email-subject', 'local_edwiserform', array('site' => $COURSE->fullname, 'title' => $form->title));
+        $user = $USER->id != 0 ? "$USER->firstname $USER->lastname" : get_string('efb-submission-anonymous-user', 'local_edwiserform');
+        $title = $form->title;
+        $link = $CFG->wwwroot . "/local/edwiserform/view.php?page=viewdata&formid=" .$form->id;
+        $messagehtml = get_string('efb-notify-email-body', 'local_edwiserform', array('user' => $user, 'title' => $form->title, 'link' => $link));
+        if ($form->notifi_email) {
             $emails = explode(',',$form->notifi_email);
             $status = true;
             foreach ($emails as $email) {
                 $status = $status && send_email(get_config("core", "smtpuser"), $email, $subject, $messagehtml);
             }
-            if ($status == true) {
-                return '';
+            if ($status != true) {
+                return get_string('efb-notify-email-failed', 'local_edwiserform');
             }
+            return get_string('efb-notify-email-success', 'local_edwiserform');
         }
-        return "<p>Unable to send email</p>";
+        return '';
     }
 
     public static function submit_form_data_returns() {
