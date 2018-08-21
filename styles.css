@@ -393,11 +393,13 @@ and open the template in the editor.
 }
 .efb-forms-template .efb-forms-template-inner .efb-forms-template-name .efb-forms-template-active {
     color: #FFFFFF;
-    transform: scale(0.7);
+    transform: scale(.7);
+    padding: .1em 0.3em;
 }
 .efb-forms-template .efb-forms-template-inner .efb-forms-template-name .efb-forms-pro-label {
     color: #FFFFFF;
-    transform: scale(0.9);
+    transform: scale(.7);
+    padding: .1em 0.3em;
 }
 .efb-forms-template:not(.active) .efb-forms-template-inner .efb-forms-template-name .efb-forms-template-active {
     display: none;
