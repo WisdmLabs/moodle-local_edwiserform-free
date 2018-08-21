@@ -22,7 +22,7 @@
     </div>
     <hr>
     <h2>{{heading}}</h2>
-    <table class="generaltable">
+    <table class="generaltable efb-table efb-forms-table">
         <thead>
             <tr>
                 {{#headings}}
@@ -41,9 +41,14 @@
                     <td class="efb-tbl-col-modified">{{modified}}</td>
                     <td class="efb-tbl-col-action-list" data-formid="{{id}}" data-formtype="{{type}}">
                         {{#actions}}
-                            <a {{#attrs}} {{key}}="{{{value}}}" {{/attrs}}>
-                                <i class="{{icon}}" aria-hidden="true" title="{{title}}" aria-label="{{label}}"></i>
-                            </a>
+                            {{#html}}
+                                {{{html}}}
+                            {{/html}}
+                            {{^html}}
+                                <a {{#attrs}} {{key}}="{{{value}}}" {{/attrs}}>
+                                    <i class="{{icon}}" aria-hidden="true" title="{{title}}" aria-label="{{label}}"></i>
+                                </a>
+                            {{/html}}
                         {{/actions}}
                     </td>
                 </tr>
