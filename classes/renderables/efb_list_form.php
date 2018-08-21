@@ -112,32 +112,15 @@ class efb_list_form implements renderable, templatable {
                 ["key" => "href", "value" => new moodle_url("/local/edwiserform/view.php", array("page" => "viewdata", "formid" => $form->id))]
             )
         );
-        $enable = array(
-            "icon" => "icon fa fa-square-o fa-fw",
-            "title" => get_string("efb-form-action-enable-title", "local_edwiserform"),
-            "attrs" => array(
-                ["key" => "class", "value" => "efb-form-enable"],
-                ["key" => "target", "value" => "_blank"],
-                ["key" => "href", "value" => "#"]
-            )
-        );
-        $disable = array(
-            "icon" => "icon fa fa-check-square-o fa-fw",
-            "title" => get_string("efb-form-action-disable-title", "local_edwiserform"),
-            "attrs" => array(
-                ["key" => "class", "value" => "efb-form-disable"],
-                ["key" => "target", "value" => "_blank"],
-                ["key" => "href", "value" => "#"]
-            )
-        );
         $enabled = $form->type == "login" ? get_config("core", "alternateloginurl") : $form->enabled;
-        if ($enabled) {
-            $enable["attrs"][0]["value"] .= " d-none";
-        } else {
-            $disable["attrs"][0]["value"] .= " d-none";
-        }
-        $actions[] = $enable;
-        $actions[] = $disable;
+        $enabledisable = "";
+        $enabledisable .= html_writer::start_tag('label', array('class' => 'efb-switch'));
+        $enabledisable .= html_writer::checkbox('efb-switch-input', '', $enabled, '', array('data-formid' => $form->id));
+        $enabledisable .= html_writer::tag('span', '', array('class' => 'efb-slider efb-enable-disable-form'));
+        $enabledisable .= html_writer::end_tag('label');
+        $actions[] = array(
+            "html" => $enabledisable,
+        );
         $actions[] = $preview;
         if ($form->type == 'blank') {
             $actions[] = $view_data;

@@ -30,26 +30,30 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
             event.preventDefault();
         });
 
-        function enable_disable_form(button, action) {
-            var formid = $(button).parent().attr('data-formid');
+        function enable_disable_form(input) {
+            var formid = $(input).data('formid');
             var enabledisableform = ajax.call([{
                 methodname: 'edwiserform_enable_disable_form',
                 args: {
                     id: formid,
-                    action: action
+                    action: !$(input).is(':checked')
                 }
             }]);
             enabledisableform[0].done(function(response) {
                 if (response.status) {
-                    $(button).parent().children('.efb-form-enable').toggleClass('d-none', action);
-                    $(button).parent().children('.efb-form-disable').toggleClass('d-none', !action);
+                    $(input).prop('checked', $(input).is(':checked'));
                 } else {
-                    console.log(response.msg);
+                    $(input).prop('checked', !$(input).is(':checked'));
                 }
             }).fail(function(ex) {
                 console.log(ex);
             });
         }
+
+        $('.efb-enable-disable-form').click(function(event) {
+            var input = $(this).prev();
+            enable_disable_form(input);
+        });
 
         $('.efb-form-enable').click(function(event) {
             enable_disable_form(this, true);

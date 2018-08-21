@@ -439,3 +439,53 @@ and open the template in the editor.
     opacity: 0.5;
     background: white;
 }
+.efb-table .icon {
+    font-size: 1.3rem;
+}
+.efb-switch {
+    width: 2rem;
+    height: 1rem;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    top: 0.2rem;
+}
+.efb-switch input {
+    display: none;
+}
+.efb-switch .efb-slider {
+    position: absolute;
+    border-radius: 1rem;
+    border: 0.11rem solid #76838f;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transition: background-color 400ms ease;
+}
+.efb-switch .efb-slider:after {
+    content: " ";
+    width: 0.7rem;
+    height: 0.7rem;
+    position: absolute;
+    border-radius: 50%;
+    left: 0.05rem;
+    top: 0.05rem;
+    transition: left 400ms ease, background-color 400ms ease;
+}
+.efb-switch input:checked + .efb-slider {
+    background-color: #76838f;
+}
+.efb-switch input:not(:checked) + .efb-slider {
+    background-color: white;
+}
+.efb-switch input:checked + .efb-slider:after {
+    background-color: white;
+    left: 1rem;
+}
+.efb-switch input:not(:checked) + .efb-slider:after {
+    background-color: #76838f;
+}
+.efb-table a .icon{
+    color: #76838f;
+}
