@@ -172,6 +172,7 @@ and open the template in the editor.
 
 .efb-forms-panels-toggle .fa{
     font-size:30px;
+    line-height: inherit;
 }
 .efb-forms-panels-toggle span{
     display: block;
