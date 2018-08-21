@@ -441,6 +441,12 @@ and open the template in the editor.
     opacity: 0.5;
     background: white;
 }
+#efb-basic-form-settings .form-control-feedback {
+    width: 100%;
+}
+#efb-basic-form-settings .form-control {
+    width: 70%;
+}
 .efb-table .icon {
     font-size: 1.3rem;
 }
