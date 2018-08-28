@@ -3735,10 +3735,13 @@ class DOM {
         content: button.title,
         action: {
           click: evt => {
-            _this.removeModal(id, keyup);
             if (button.action) {
-              button.action(evt);
+              let status = button.action(evt);
+              if (typeof status == 'boolean' && status == false) {
+                return;
+              }
             }
+            _this.removeModal(id, keyup);
           }
         }
       });
