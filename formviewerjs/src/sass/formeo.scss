@@ -24,10 +24,3 @@
   display: none !important;
 }
 
-$text: left center right;
-@each $alignment in $text {
-  .form-submit.text-#{$text} {
-    text-align: #{$text} !important;
-    padding: 5px;
-  }
-}

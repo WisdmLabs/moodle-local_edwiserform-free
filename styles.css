@@ -328,7 +328,19 @@ and open the template in the editor.
     text-decoration: none;
     position: relative;
 }
-
+.efb-forms-template-overlay.loading {
+    opacity: 1;
+}
+.efb-forms-template-overlay .efb-forms-template-loading {
+    color: white;
+    font-size: 3rem;
+}
+.efb-forms-template-overlay:not(.loading) .efb-forms-template-loading {
+    display: none;
+}
+.efb-forms-template-overlay.loading .efb-forms-template-select {
+    display: none;
+}
 .efb-forms-pro-select{
     background-color: #83c11f;
     border: 1px solid #75ac1c;
