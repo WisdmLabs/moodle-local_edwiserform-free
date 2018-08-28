@@ -254,25 +254,25 @@ export default class Row {
       }
     };
 
-    let inputGroupInput = {
-      tag: 'input',
-      id: _this.rowID + '-inputGroup',
-      attrs: {
-        type: 'checkbox',
-        checked: rowData.config.inputGroup,
-        ariaLabel: getString('row.settings.inputGroup.aria')
-      },
-      action: {
-        click: e => {
-          rowData.config.inputGroup = e.target.checked;
-          data.save();
-        }
-      },
-      config: {
-        label: getString('row.makeInputGroup'),
-        description: getString('row.makeInputGroupDesc')
-      }
-    };
+    // let inputGroupInput = {
+    //   tag: 'input',
+    //   id: _this.rowID + '-inputGroup',
+    //   attrs: {
+    //     type: 'checkbox',
+    //     checked: rowData.config.inputGroup,
+    //     ariaLabel: getString('row.settings.inputGroup.aria')
+    //   },
+    //   action: {
+    //     click: e => {
+    //       rowData.config.inputGroup = e.target.checked;
+    //       data.save();
+    //     }
+    //   },
+    //   config: {
+    //     label: getString('row.makeInputGroup'),
+    //     description: getString('row.makeInputGroupDesc')
+    //   }
+    // };
 
     let inputAddon = {
       tag: 'span',
@@ -329,8 +329,8 @@ export default class Row {
         label: getString('containersettings')
       },
       content: [
-        inputGroupInput,
-        dom.create('hr'),
+        // inputGroupInput,
+        // dom.create('hr'),
         fieldSetControls,
         dom.create('hr'),
         columnSettingsLabel,
