@@ -74,7 +74,7 @@ trait submit_form_data {
             }
         }
         $submission = $DB->get_record("efb_form_data", array('formid' => $formid, 'userid' => $userid));
-        if ($submission && ($form->type != 'blank' && $plugin->support_form_update())) {
+        if ($submission && ($form->type == 'blank' || ($form->type != 'blank' && $plugin->support_form_data_update()))) {
             $submission->submission = $data;
             $status = $DB->update_record("efb_form_data", $submission);
         } else {

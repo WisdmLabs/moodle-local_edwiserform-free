@@ -154,7 +154,7 @@ class edwiserform_events_plugin {
         $PAGE->requires->strings_for_js(array_keys($strings), "edwiserformevents_$type");
     }
 
-    public function support_form_update() {
+    public function support_form_data_update() {
         return true;
     }
 
