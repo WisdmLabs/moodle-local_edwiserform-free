@@ -498,3 +498,64 @@ and open the template in the editor.
 .efb-table a .icon{
     color: #76838f;
 }
+/* Modal css starts */
+.efb-modal.modal {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.efb-modal.modal.show {
+    display: table !important;
+}
+.efb-modal.modal.fade.show {
+    opacity: 1;
+}
+.efb-modal.modal.fade.show .modal-dialog {
+    transform: translate(0);
+}
+.efb-modal.modal .modal-wrap {
+    display: table-cell;
+    vertical-align: middle;
+}
+.efb-modal.modal .modal-wrap .modal-dialog {
+    background-color: white;
+    pointer-events: auto;
+}
+.efb-modal.modal .modal-wrap .modal-dialog .modal-header {
+    border-bottom: none;
+}
+.efb-modal.modal .modal-wrap .modal-dialog .modal-header h1, .efb-modal.modal .modal-wrap .modal-dialog .modal-header h2, .efb-modal.modal .modal-wrap .modal-dialog .modal-header h3, .efb-modal.modal .modal-wrap .modal-dialog .modal-header h4, .efb-modal.modal .modal-wrap .modal-dialog .modal-header h5, .efb-modal.modal .modal-wrap .modal-dialog .modal-header h6 {
+    color: white;
+    font-weight: 600;
+}
+.efb-modal.modal .modal-wrap .modal-dialog .modal-header button {
+    color: white;
+    outline: none;
+    float: right;
+}
+.efb-modal.modal .modal-wrap .modal-dialog .modal-footer {
+    border-top: 1px solid #e9ecef;
+}
+.efb-modal.modal .modal-wrap .modal-dialog .modal-footer > :not(:first-child) {
+    margin-left: 0.25rem;
+}
+.efb-modal.modal .modal-wrap .modal-dialog .modal-footer > :not(:last-child) {
+    margin-right: 0.25rem;
+}
+.efb-modal.modal .modal-wrap .modal-dialog .modal-footer button {
+    pointer-events: auto;
+}
+.efb-modal.modal.pro .efb-modal-delete-form, .efb-modal.modal.pro .efb-modal-delete-close, .efb-modal.modal.delete .efb-modal-upgrade-pro, .efb-modal.modal.delete .efb-modal-upgrade-close {
+    display: none;
+}
+/* Modal css ends */
+.efb-wrap-list .efb-bottom .efb-list-pagination{
+    float: right;
+}
+.efb-wrap-list .efb-top .efb-listing {
+    float: left;
+}
+.efb-wrap-list .efb-csv-export {
+    pointer-events: none;
+}
