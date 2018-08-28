@@ -60,6 +60,7 @@ trait get_form_definition {
             }
             $params = array('form_id' => $formid);
             $responce["form_id"] = $formid;
+            $plugin = null;
             if ($form->type != 'blank') {
                 $plugin = get_plugin($form->type);
             }
@@ -113,7 +114,7 @@ trait get_form_definition {
         return $responce;
     }
 
-    public static function can_save_data($form, $plugins) {
+    public static function can_save_data($form, $plugin) {
         global $DB, $USER;
         $responce = ['status' => 1];
         if ($USER->id == 0) {
@@ -125,7 +126,7 @@ trait get_form_definition {
                  WHERE f.id = ?
                    AND fd.userid = ?";
         $form = $DB->get_record_sql($sql, array($formid, $USER->id));
-        if ($form && ($form->type == 'blank' || $plugins[$form->type]->can_save_data())) {
+        if ($form && ($form->type == 'blank' || $plugin->can_save_data())) {
             if ($form->data_edit) {
                 $responce['data'] = $form->submission;
                 $responce['status'] = 2;
