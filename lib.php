@@ -109,3 +109,14 @@ function get_plugin($type) {
     $edwiserform = new edwiserform();
     return $edwiserform->get_plugin($type);
 }
+
+/**
+ * Call cron on the assign module.
+ */
+function local_edwiserform_cron() {
+    global $CFG;
+    require_once($CFG->dirroot . '/local/edwiserform/locallib.php');
+    $edwiserform = new edwiserform();
+    $edwiserform->cron();
+    return true;
+}
