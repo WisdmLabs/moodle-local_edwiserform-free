@@ -131,7 +131,7 @@ class edwiserform {
         $js = [new moodle_url('https://www.google.com/recaptcha/api.js')];
         switch ($page) {
             case 'newform':
-                $js[] = new moodle_url($CFG->wwwroot . '/local/edwiserform/amd/src/new-form-main.js');
+                $js[] = new moodle_url($CFG->wwwroot . '/local/edwiserform/amd/src/new_form_main.js');
                 $sitekey = get_config('local_edwiserform', 'google_recaptcha_sitekey');
                 $PAGE->requires->data_for_js('sitekey', $sitekey);
                 $formid = optional_param('formid', null, PARAM_FLOAT);
@@ -141,10 +141,11 @@ class edwiserform {
                 }
                 break;
             case 'listforms':
-                $js[] = new moodle_url($CFG->wwwroot . '/local/edwiserform/amd/src/form-list-js.js');
+                $PAGE->requires->js_call_amd('local_edwiserform/form_list', 'init');
                 $out = $this->get_renderer()->render(new efb_list_form());
                 break;
             case 'viewdata':
+                $PAGE->requires->js_call_amd('local_edwiserform/form_data_list', 'init');
                 $formid= optional_param('formid', null, PARAM_FLOAT);
                 $out = $this->get_renderer()->render(new efb_list_form_data($formid));
                 break;
@@ -152,6 +153,7 @@ class edwiserform {
         foreach ($js as $jsfile) {
             $PAGE->requires->js($jsfile);
         }
+        $PAGE->requires->css(new moodle_url($CFG->wwwroot .'/local/edwiserform/style/dataTables.bootstrap4.min.css'));
         return $out;
     }
 }
