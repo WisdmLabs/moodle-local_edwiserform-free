@@ -1644,13 +1644,6 @@ class DOM {
       tag: 'div',
       className: 'modal-header bg-' + type,
       content: [{
-        tag: 'h4',
-        attrs: {
-          className: 'modal-title',
-          id: 'modal-' + id
-        },
-        content: title
-      }, {
         tag: 'button',
         attrs: {
           type: 'button',
@@ -1675,6 +1668,13 @@ class DOM {
             _this.removeModal(id);
           }
         }
+      }, {
+        tag: 'h4',
+        attrs: {
+          className: 'modal-title',
+          id: 'modal-' + id
+        },
+        content: title
       }]
     };
     let footer = {
@@ -1710,7 +1710,7 @@ class DOM {
       tag: 'div',
       id: id,
       attrs: {
-        className: 'efb-prompt modal fade',
+        className: 'efb-modal modal fade',
         role: 'dialog',
         'aria-hidden': true
       },
