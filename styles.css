@@ -9,13 +9,7 @@ and open the template in the editor.
 */
 
 /* Style the tab */
-.efb-panel-btn.panel-active{
-    background: #00666b;
-    font-weight: bold;
-}
-#efb-cont-form-builder {
-    margin: 0;
-}
+
 .p-a-0 {
     padding: 0 0 !important;
 }
@@ -28,6 +22,7 @@ and open the template in the editor.
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
     z-index: 15;
+    padding: 0 !important;
 }
 
 #id_error_template_title {
@@ -54,11 +49,14 @@ and open the template in the editor.
     border-left: none;
     background: #6b6b6b;
 }
-.content-active{
+.efb-tabcontent.content-active{
     display: block;
     margin: 2em 2em 11em 2em;
 }
-.content-hide{
+#efb-cont-form-builder {
+    margin: 0;
+}
+.efb-tabcontent.content-hide{
     display: none;
 }
 .efb-hide{
@@ -177,17 +175,17 @@ and open the template in the editor.
 .efb-forms-panels-toggle span{
     display: block;
 }
-.efb-forms-panels-toggle button:hover{
-    background: #55a1a5;
-}
 .efb-forms-panels-toggle button{
     color: white;
     cursor: pointer;
     width: 100%;
-    background: none;
     border: none;
     border-bottom: 1px solid #ddd;
     padding: 10px;
+}
+.efb-panel-btn:not(.panel-active){
+    background: none;
+    font-weight: bold;
 }
 .efb-forms-panels{
     display: block;
@@ -195,6 +193,9 @@ and open the template in the editor.
     background: #6b6b6b;
     overflow: auto;
     margin-bottom: 3em;
+}
+.efb-forms-panels#efb-cont-form-builder {
+    margin: 0 !important;
 }
 .efb-forms-panel-heading{
     background-color: #f6f6f6;
@@ -511,6 +512,16 @@ and open the template in the editor.
 .efb-table a .icon{
     color: #76838f;
 }
+.text-left {
+    text-align: left;
+}
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: right;
+}
+
 /* Modal css starts */
 .efb-modal.modal {
     display: none;
