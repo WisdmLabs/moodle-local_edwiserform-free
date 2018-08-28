@@ -107,31 +107,43 @@ require(["jquery"], function ($) {
 			$("#id_error_notifi_email").hide().parent(".felement").removeClass('has-danger');
 			$("#id_notifi_email").val(emails.join(','));
 		}
-		$("body").on("keydown", "#notifi-email-group-input", function(event) {
+		function checkAndAdd(elem) {
+			if ($(elem).val() == '') {
+				hideEmailError();
+				return;
+			}
+			var status = validateEmail($(elem).val());
+			switch (status) {
+				case 0:
+					showEmailError(M.util.get_string("efb-lbl-notifi-email-warning", "local_edwiserform"));
+					return;
+				case 1:
+					var nextIndex = $(elem).siblings('.email-tag').length;
+					var email = $(elem).val().trim();
+					addEmail(nextIndex, email);
+					emails.push(email);
+					$(elem).val('');
+					hideEmailError();
+					return;
+				case 2:
+					showEmailError(M.util.get_string("efb-lbl-notifi-email-duplicate", "local_edwiserform"));
+					return;
+			}
+		}
+		$("body").on("keyup", "#notifi-email-group-input", function(event) {
+			event.preventDefault();
 			if (event.keyCode == 13) {
-				var status = validateEmail($(this).val());
-				switch (status) {
-					case 0:
-						showEmailError(M.util.get_string("efb-lbl-notifi-email-warning", "local_edwiserform"));
-						return;
-					case 1:
-						var nextIndex = $(this).siblings('.email-tag').length;
-						var email = $(this).val().trim();
-						addEmail(nextIndex, email);
-						emails.push(email);
-						$(this).val('');
-						hideEmailError();
-						return;
-					case 2:
-						showEmailError(M.util.get_string("efb-lbl-notifi-email-duplicate", "local_edwiserform"));
-						return;
-				}
+				checkAndAdd(this);
 			} else if (event.keyCode == 8 && $(this).val().trim() == "") {
 				var index = $(".email-tag").length - 1;
 				$(".email-tag")[index].remove();
 				emails.splice(index, 1);
 				$("#id_notifi_email").val(emails.join(','));
 			}
+		});
+		$("body").on("focusout", "#notifi-email-group-input", function(event) {
+			event.preventDefault();
+			checkAndAdd(this);
 		});
 	});
 });
