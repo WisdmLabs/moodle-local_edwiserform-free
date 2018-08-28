@@ -477,7 +477,6 @@ and open the template in the editor.
 .efb-switch .efb-slider {
     position: absolute;
     border-radius: 1rem;
-    border: 0.11rem solid #76838f;
     top: 0;
     bottom: 0;
     left: 0;
@@ -489,9 +488,9 @@ and open the template in the editor.
     width: 0.7rem;
     height: 0.7rem;
     position: absolute;
-    border-radius: 50%;
-    left: 0.05rem;
-    top: 0.05rem;
+    border-radius: 2rem;
+    left: 0.15rem;
+    top: 0.15rem;
     transition: left 400ms ease, background-color 400ms ease;
 }
 .efb-switch input:checked + .efb-slider {
@@ -500,12 +499,14 @@ and open the template in the editor.
 .efb-switch input:not(:checked) + .efb-slider {
     background-color: white;
 }
-.efb-switch input:checked + .efb-slider:after {
+.efb-switch .efb-slider:after {
     background-color: white;
-    left: 1rem;
 }
-.efb-switch input:not(:checked) + .efb-slider:after {
-    background-color: #76838f;
+.efb-switch input:not(:checked) + .efb-slider {
+    background-color: darkgray !important;
+}
+.efb-switch input:checked + .efb-slider:after {
+    left: 1.1rem;
 }
 .efb-table a .icon{
     color: #76838f;

@@ -61,7 +61,7 @@ class efb_list_form implements renderable, templatable {
     private function get_form_actions($form) {
         global $DB, $CFG;
         $edit = array(
-            "icon" => "icon fa fa-edit fa-fw",
+            "icon" => "icon fa fa-edit fa-fw text-primary",
             "title" => get_string("efb-form-action-edit-title", "local_edwiserform"),
             "attrs" => array(
                 ["key" => "class", "value" => "efb-form-edit"],
@@ -69,7 +69,7 @@ class efb_list_form implements renderable, templatable {
             )
         );
         $preview = array(
-            "icon" => "icon fa fa-eye fa-fw",
+            "icon" => "icon fa fa-eye fa-fw text-primary",
             "title" => get_string("efb-form-action-preview-title", "local_edwiserform"),
             "attrs" => array(
                 ["key" => "class", "value" => "efb-form-preview"],
@@ -78,7 +78,7 @@ class efb_list_form implements renderable, templatable {
             )
         );
         $export = array(
-            "icon" => "icon fa fa-share-square-o fa-fw",
+            "icon" => "icon fa fa-share-square-o fa-fw text-primary",
             "title" => get_string("efb-form-action-export-title", "local_edwiserform"),
             "attrs" => array(
                 ["key" => "class", "value" => "efb-form-export"],
@@ -87,7 +87,7 @@ class efb_list_form implements renderable, templatable {
             )
         );
         $delete = array(
-            "icon" => "icon fa fa-trash fa-fw",
+            "icon" => "icon fa fa-trash fa-fw text-primary",
             "title" => get_string("efb-form-action-delete-title", "local_edwiserform"),
             "attrs" => array(
                 ["key" => "class", "value" => "efb-form-delete"],
@@ -96,7 +96,7 @@ class efb_list_form implements renderable, templatable {
             )
         );
         $view_data = array(
-            "icon" => "icon fa fa-table fa-fw",
+            "icon" => "icon fa fa-table fa-fw text-primary",
             "title" => get_string("efb-form-action-view-data-title", "local_edwiserform"),
             "attrs" => array(
                 ["key" => "class", "value" => "efb-form-view-data"],
@@ -106,9 +106,11 @@ class efb_list_form implements renderable, templatable {
         );
         $enabled = $form->type == "login" ? get_config("core", "alternateloginurl") : $form->enabled;
         $enabledisable = "";
-        $enabledisable .= html_writer::start_tag('label', array('class' => 'efb-switch'));
-        $enabledisable .= html_writer::checkbox('efb-switch-input', '', $enabled, '', array('data-formid' => $form->id));
-        $enabledisable .= html_writer::tag('span', '', array('class' => 'efb-slider efb-enable-disable-form'));
+        $enabletitle = get_string('efb-form-action-enable-title', 'local_edwiserform');
+        $disabletitle = get_string('efb-form-action-disable-title', 'local_edwiserform');
+        $enabledisable .= html_writer::start_tag('label', array('class' => 'efb-switch', 'title' => $enabled ? $disabletitle : $enabletitle));
+        $enabledisable .= html_writer::checkbox('efb-switch-input', '', $enabled, '', array('data-formid' => $form->id, 'data-enable-title' => $enabletitle, 'data-disable-title' => $disabletitle));
+        $enabledisable .= html_writer::tag('span', '', array('class' => 'efb-slider bg-primary efb-enable-disable-form'));
         $enabledisable .= html_writer::end_tag('label');
         $actions[] = array(
             "html" => $enabledisable,
