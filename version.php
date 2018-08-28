@@ -29,3 +29,4 @@ $plugin->release = '1.0.0';
 $plugin->version  = 2018040323;
 $plugin->requires = 2015111610.00;
 $plugin->maturity = MATURITY_ALPHA;
+$plugin->cron = 3600;

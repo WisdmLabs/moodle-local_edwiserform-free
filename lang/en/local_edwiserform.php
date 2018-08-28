@@ -400,3 +400,11 @@ $string['position-center'] = 'Center';
 $string['position-right'] = 'Right';
 $string['backgroundcolor'] = 'Background color';
 $string['textcolor'] = 'Label color';
+
+/* Cron job string */
+$string['efb-delete-form-data-cron-start'] = 'Deleting form data of {$a}.';
+$string['efb-delete-form-data-cron-failed'] = 'Deleting form data of {$a} failed.';
+$string['efb-delete-form-data-cron-end'] = 'Deleted form data of {$a}.';
+$string['efb-delete-form-cron-start'] = 'Deleting form {$a}.';
+$string['efb-delete-form-cron-failed'] = 'Deleting form {$a} failed.';
+$string['efb-delete-form-cron-end'] = 'Deleted form {$a}.';
