@@ -113,7 +113,6 @@ class efb_list_form_data implements renderable, templatable
                 $data->rows[] = array('data' => $formdata);
             }
         }
-        $this->plugin->form_data_list_js();
         return $data;
     }
 
