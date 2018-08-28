@@ -349,7 +349,7 @@ const defaultElements = [{
   tag: 'input',
   attrs: {
     type: 'text',
-    pattern: '^(\+[0-9]{0,2})?0?[0-9]{10}$',
+    pattern: '^(\\+[0-9]{0,2})?0?[0-9]{10}$',
     required: false,
     value: ''
   },
