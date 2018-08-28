@@ -417,9 +417,7 @@ class DOM {
 
     // Set element attributes
     if (elem.attrs) {
-      if (!elem.attrs.hasOwnProperty('name')) {
-        elem.attrs.name = elem.attrs.id;
-      }
+      elem.attrs.name = elem.id;
       _this.processAttrs(elem, element, isPreview);
       processed.push('attrs');
     }

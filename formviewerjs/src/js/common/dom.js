@@ -207,6 +207,7 @@ class DOM {
 
     // Set element attributes
     if (elem.attrs) {
+      elem.attrs.name = elem.id;
       _this.processAttrs(elem, element);
       processed.push('attrs');
     }
