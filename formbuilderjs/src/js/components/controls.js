@@ -536,7 +536,10 @@ export class Controls {
       //     let currentGroup = closestFtype(evt.target);
       //     _this.panels.nav.refresh(h.indexOfNode(currentGroup));
       //   },
-      click: evt => dom.proWarning()
+      click: evt => {
+        let text = evt.target.lastChild.wholeText;
+        dom.proWarning(text);
+      }
       // mousedown: evt => {
       //   let position = _this.cPosition;
       //   position.x = evt.clientX;
