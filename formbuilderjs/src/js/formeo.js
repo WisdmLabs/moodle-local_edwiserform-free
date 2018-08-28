@@ -93,8 +93,9 @@ class Formeo {
       promises.push(h.ajax(opts.style, h.insertStyle));
     }
 
+    let svgSprite = document.getElementById('formeo-sprite');
     // Ajax load svgSprite and inject into markup.
-    if (opts.svgSprite) {
+    if (opts.svgSprite && svgSprite == null) {
       promises.push(h.ajax(opts.svgSprite, h.insertIcons));
     }
 
