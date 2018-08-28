@@ -96,13 +96,14 @@ class efb_add_new_form implements renderable, templatable
         $nav_item      = array(
             array(
                 "id"      => "efb-form-setup",
+                "active"  => isset($this->form) ? "" : "active",
                 "panelid" => "#efb-cont-form-setup",
                 "label"   => get_string("efb-lbl-form-setup", "local_edwiserform"),
-                "active"  => "active",
                 "icon"    => "fa-cog"
             ),
             array(
                 "id"      => "efb-form-builder",
+                "active"  => isset($this->form) ? "active" : "",
                 "panelid" => "#efb-cont-form-builder",
                 "label"   => get_string("efb-lbl-form-builder", "local_edwiserform"),
                 "icon"    => "fa-list-alt"
@@ -128,6 +129,7 @@ class efb_add_new_form implements renderable, templatable
             ),
             array(
                 "id"      => "efb-cont-form-builder",
+                "active"  => isset($this->form) ? "active" : "hide",
                 "heading" => get_string("efb-lbl-form-builder", "local_edwiserform"),
                 "body"    => "<form class='build-form'></form>"
             ),
@@ -137,7 +139,7 @@ class efb_add_new_form implements renderable, templatable
                 "body"    => "<form class='render-form'></form>"
             ),
         );
-
+        $this->form_sections->set_builder_active(isset($this->form) ? "content-hide" : "content-active");
         $this->form_sections->setNav_item($nav_item);
         $this->form_sections->setPanels($panels);
         $this->form_sections->setHeader_button($header_button);
@@ -177,16 +179,16 @@ class efb_add_new_form implements renderable, templatable
                 $templates[$key]["active"] = $value["tmpl_id"] == $this->form->type;
             }
         }
+        $heading = isset($this->form) ? 'builder' : 'setup';
         $setup = array(
             "id"              => "efb-cont-form-setup",
-            "heading"         => get_string("efb-lbl-form-setup", "local_edwiserform"),
+            "heading"         => get_string("efb-lbl-form-$heading", "local_edwiserform"),
             "active"          => "active",
             "msg_select_tmpl" => get_string("efb-setup-msg-select-tmpl", "local_edwiserform"),
             "form_name"       => array(
                 "label"       => get_string("efb-lbl-form-setup-formname", "local_edwiserform"),
                 "placeholder" => get_string("efb-lbl-form-setup-formname-placeholder", "local_edwiserform")
             ),
-            "heading"         => get_string("efb-lbl-form-setup-formname-sub-heading", "local_edwiserform"),
             "list"            => $templates,
             "tmpl_add_title"  => get_string("efb-setup-additional-title", "local_edwiserform"),
             "msg_upgrade"     => get_string("efb-setup-msg-upgrade", "local_edwiserform"),

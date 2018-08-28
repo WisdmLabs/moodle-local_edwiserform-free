@@ -23,6 +23,7 @@ class efb_new_form_sections
     private $header_button;
     private $section_data;
     private $panel_setup;
+    private $builder_active;
 
     public function get_form_section_data()
     {
@@ -36,6 +37,7 @@ class efb_new_form_sections
         $this->section_data->form_action= $this->getForm_action();
         $this->section_data->header_button= $this->getHeader_button();
         $this->section_data->panel_setup= $this->getPanel_setup();
+        $this->section_data->builder_active = $this->get_builder_active();
         return $this->section_data;
     }
 
@@ -89,6 +91,10 @@ class efb_new_form_sections
         return $this->header_button;
     }
 
+    public function get_builder_active() {
+        return $this->builder_active;
+    }
+
     public function setNav_item($nav_item)
     {
         $this->nav_item = $nav_item;
@@ -129,5 +135,8 @@ class efb_new_form_sections
         $this->header_button = $header_button;
     }
 
+    public function set_builder_active($builder_active) {
+        $this->builder_active = $builder_active;
+    }
 
 }
