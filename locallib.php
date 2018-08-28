@@ -58,15 +58,6 @@ class edwiserform {
         return $this->output;
     }
 
-        public function parse_xml($xml) {
-        $xml = simplexml_load_string($xml);
-        $form = new stdClass;
-        foreach ($xml as $key => $obj) {
-            $form->$key = (string)$obj;
-        }
-        return $form;
-    }
-
     /**
      * Load the plugins from the sub folder events
      *
@@ -133,12 +124,6 @@ class edwiserform {
             case 'viewdata':
                 $formid= optional_param('formid', null, PARAM_FLOAT);
                 $out = $this->get_renderer()->render(new efb_list_form_data($formid));
-                break;
-            case 'import':
-                require_once($CFG->dirroot.'/local/edwiserform/classes/import_form.php');
-                $js[] = new moodle_url($CFG->wwwroot . '/local/edwiserform/amd/src/import-form.js');
-                $mform = new local_edwiserform_import_form();
-                $out = $this->get_renderer()->render(new efb_import_form($mform));
                 break;
         }
         foreach ($js as $jsfile) {

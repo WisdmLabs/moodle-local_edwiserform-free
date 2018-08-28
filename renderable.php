@@ -29,4 +29,3 @@ global $CFG;
 include_once ($CFG->dirroot . '/local/edwiserform/classes/renderables/efb_add_new_form.php');
 include_once ($CFG->dirroot . '/local/edwiserform/classes/renderables/efb_list_form.php');
 include_once ($CFG->dirroot . '/local/edwiserform/classes/renderables/efb_list_form_data.php');
-include_once ($CFG->dirroot . '/local/edwiserform/classes/renderables/efb_import_form.php');
