@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
   }}
-<div class="efb-wrap-list-forms">
+<div class="efb-wrap-list efb-wrap-list-form-data">
     <div class='efb-list-buttons text-right'>
         {{#pageactions}}
             <a class='btn btn-primary' href='{{url}}'>{{label}}</a>
@@ -30,7 +30,7 @@
             {{nodata}}
         {{/nodata}}
         {{^nodata}}
-            <table class="generaltable" data-formid="{{formid}}">
+            <table id="efb-form-submissions" class="generaltable display efb-table efb-form-submissions-table" data-formid="{{formid}}">
                 <thead>
                     <tr>
                         {{#headings}}
