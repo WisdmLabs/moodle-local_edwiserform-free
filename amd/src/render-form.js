@@ -134,7 +134,7 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                 submitFormData[0].done(function(response) {
                     if (response.status) {
                         formeo.dom.alert('success', response.msg, function() {
-                            $(form).remove();
+                            $(form).html(response.msg);
                         });
                         if (afterSubmit != null) {
                             afterSubmit(form, formdata);
