@@ -60,4 +60,26 @@
             {{/norowsmsg}}
         </tbody>
     </table>
+    <div class="efb-modal modal fade" role="dialog" aria-hidden="true" id="efb-modal">
+        <div class="modal-wrap" role="wrap">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close efb-modal-close" data-dismiss="efb-modal" aria-label="Close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                        <h4 class="modal-title" id="efb-modal-header"></h4>
+                    </div>
+                    <div class="modal-body" id="efb-modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger efb-modal-delete-form" type="button">{{#str}} proceed, local_edwiserform {{/str}}</button>
+                        <button class="btn btn-success efb-modal-upgrade-pro" type="button">{{#str}} efb-setup-btn-upgrade, local_edwiserform {{/str}}</button>
+                        <button class="btn btn-success efb-modal-close efb-modal-delete-close" type="button">{{#str}} cancel, local_edwiserform {{/str}}</button>
+                        <button class="btn btn-danger efb-modal-close efb-modal-upgrade-close" type="button">{{#str}} cancel, local_edwiserform {{/str}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
