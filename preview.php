@@ -41,7 +41,7 @@ if (!$form) {
     $PAGE->requires->data_for_js('sitekey', $sitekey);
 	$PAGE->requires->data_for_js('definition', $form->definition);
 	$PAGE->requires->data_for_js('title', $form->title);
-	$PAGE->requires->js(new moodle_url($CFG->wwwroot . '/local/edwiserform/amd/src/preview-form.js'));
+	$PAGE->requires->js(new moodle_url($CFG->wwwroot . '/local/edwiserform/amd/src/preview_form.js'));
 	$PAGE->requires->js(new moodle_url('https://www.google.com/recaptcha/api.js'));
 }
 $out .= html_writer::end_tag("div");
