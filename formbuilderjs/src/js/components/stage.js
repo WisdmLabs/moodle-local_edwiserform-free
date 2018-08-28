@@ -189,8 +189,37 @@ export default class Stage {
    * @return {Object} formData
    */
   onAdd(evt) {
-    dom.remove(evt.item);
-    dom.proWarning();
+    let _this = this;
+    dom.activeStage = _this.stage;
+    let {from, item, to} = evt;
+    let newIndex = h.indexOfNode(item, to);
+    let row = from.fType === 'stages' ? item : dom.addRow();
+    let fromColumn = from.fType === 'columns';
+    let fromRow = from.fType === 'rows';
+    let fromControl = from.fType === 'controlGroup';
+
+    if (fromControl) {
+      let text = evt.item.firstChild.lastChild.wholeText;
+      text = getString('dragndrop', text);
+      dom.proWarning(text);
+      dom.remove(item);
+      dom.remove(row);
+      return data.save();
+    } else if (fromColumn) {
+      let column = dom.addColumn(row.id);
+      column.appendChild(item);
+      data.saveFieldOrder(column);
+      dom.emptyClass(column);
+    } else if(fromRow) {
+      row.appendChild(item);
+      data.saveColumnOrder(row);
+      dom.emptyClass(row);
+    }
+
+    to.insertBefore(row, to.children[newIndex]);
+    dom.columnWidths(row);
+    data.saveRowOrder(to);
+    dom.checkSingle();
     return data.save();
   }
 

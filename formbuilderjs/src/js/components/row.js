@@ -459,8 +459,37 @@ export default class Row {
    * @param  {Object} evt
    */
   onAdd(evt) {
-    dom.remove(evt.item);
-    dom.proWarning();
+    let {from, item, to} = evt;
+    let fromRow = from.fType === 'rows';
+    let fromColumn = from.fType === 'columns';
+    let fromControls = from.fType === 'controlGroup';
+    let column;
+
+    if (fromRow) {
+      column = item;
+    } else if(fromColumn) {
+      let meta = h.get(rFields[item.id], 'meta');
+      if (meta.group !== 'layout') {
+        column = dom.addColumn(to.id);
+        dom.addField(column.id, item.id);
+      } else if (meta.id === 'layout-column') {
+        dom.addColumn(to.id);
+      }
+    } else if(fromControls) {
+      let text = evt.item.firstChild.lastChild.wholeText;
+      text = getString('dragndrop', text);
+      dom.proWarning(text);
+    }
+
+    if (fromColumn || fromControls) {
+      dom.remove(item);
+    }
+
+    data.saveColumnOrder(to);
+
+    dom.columnWidths(to);
+    dom.emptyClass(to);
+    data.save();
   }
 
 }

@@ -127,8 +127,27 @@ export default class Column {
    * @param  {Object} evt
    */
   onAdd(evt) {
-    dom.remove(evt.item);
-    dom.proWarning();
+    let {from, item, to} = evt;
+    let fromColumn = from.fType === 'columns';
+    let fromControl = from.fType === 'controlGroup';
+    if (fromControl) {
+      let text = evt.item.firstChild.lastChild.wholeText;
+      text = getString('dragndrop', text);
+      dom.proWarning(text);
+      dom.remove(item);
+    }
+
+    dom.fieldOrderClass(to);
+
+    if (fromColumn) {
+      dom.fieldOrderClass(from);
+    }
+
+    dom.emptyClass(evt.to);
+
+    data.save();
+    to.classList.remove('hovering-column');
+    dom.checkSingle();
   }
 
   /**
