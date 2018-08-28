@@ -158,11 +158,26 @@ class edwiserform_events_plugin {
         return true;
     }
 
-    /**
-     * Return array of templates supported by plugin
-     * @return array templates
-     */
-    public function get_templates() {
-        return [];
+    public function common_submission_email_message($form, $submission) {
+        $definition = json_decode($form->definition, true);
+        $fields = $definition['fields'];
+        $data = json_decode($submission->submission);
+        $messagehtml = '';
+        foreach ($data as $input) {
+            $name = $fields[$input->name]['config']['label'];
+            $messagehtml .= html_writer::start_tag('div');
+            $messagehtml .= html_writer::start_tag('table');
+            $messagehtml .= html_writer::start_tag('tr');
+            $messagehtml .= html_writer::tag('td', $name . ':');
+            $messagehtml .= html_writer::tag('td', $input->value);
+            $messagehtml .= html_writer::end_tag('tr');
+            $messagehtml .= html_writer::end_tag('table');
+            $messagehtml .= html_writer::end_tag('div');
+        }
+        return $messagehtml;
+    }
+
+    public function submission_email_message($form, $submission) {
+        return null;
     }
 }

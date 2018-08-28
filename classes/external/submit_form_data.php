@@ -88,12 +88,16 @@ trait submit_form_data {
             $responce['status'] = true;
             $responce['msg'] = $form->message ? $form->message : get_string("efb-form-data-submission-successful", "local_edwiserform");
             $responce['msg'] = '<p>' . $responce['msg'] . '</p>';
+            $eventmail = '';
+            if ($form->type != 'blank') {
+                $eventmail = $plugin->submission_email_message($form, $submission);
+            }
+            $responce['msg'] .= self::notify($form, $data, $eventmail);
         }
-        $responce['msg'] .= self::notify($form, $data);
         return $responce;
     }
 
-    public static function notify($form, $submission) {
+    public static function notify($form, $submission, $eventmail = '') {
         global $CFG, $COURSE, $USER;
         $submission = json_decode($submission);
         $subject = get_string('efb-notify-email-subject', 'local_edwiserform', array('site' => $COURSE->fullname, 'title' => $form->title));
@@ -101,6 +105,7 @@ trait submit_form_data {
         $title = $form->title;
         $link = $CFG->wwwroot . "/local/edwiserform/view.php?page=viewdata&formid=" .$form->id;
         $messagehtml = get_string('efb-notify-email-body', 'local_edwiserform', array('user' => $user, 'title' => $form->title, 'link' => $link));
+        $messagehtml .= $eventmail;
         if ($form->notifi_email) {
             $emails = explode(',',$form->notifi_email);
             $status = true;
