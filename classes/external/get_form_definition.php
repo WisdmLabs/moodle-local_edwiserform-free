@@ -139,7 +139,7 @@ trait get_form_definition {
             [
                 'status' => new external_value(PARAM_BOOL, 'Form status.'),
                 'title' => new external_value(PARAM_TEXT, 'Form title'),
-                'definition'    => new external_value(PARAM_TEXT, 'Form data or message.'),
+                'definition'    => new external_value(PARAM_RAW, 'Form data or message.'),
                 'formtype' => new external_value(PARAM_TEXT, 'Form type.'),
                 'action' => new external_value(PARAM_TEXT, 'Form action'),
                 'data' => new external_value(PARAM_TEXT, 'Form data if previous submission present'),
