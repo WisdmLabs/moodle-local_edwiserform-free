@@ -51,7 +51,8 @@ class efb_add_new_form implements renderable, templatable
                 "title"          => $this->form->title,
                 "editdata"       => $this->form->data_edit,
                 "description"    => $this->form->description,
-                "type"           => $this->form->type
+                "type"           => $this->form->type,
+                "notifi_email"   => $this->form->notifi_email
             );
         }
         return $data;
