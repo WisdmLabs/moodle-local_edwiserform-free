@@ -77,8 +77,10 @@ trait get_form_definition {
             }
             $responce["formtype"] = $form->type;
             $responce["title"] = $form->title;
-            self::validate_form($form, $plugins, $responce);
-            self::form_action_url($form, $plugins, $responce);
+            self::validate_form($form, $plugin, $responce);
+            if ($form->type != 'blank') {
+                $responce['action']  = $plugin->get_action_url();
+            }
         }
         return $responce;
     }
@@ -88,17 +90,8 @@ trait get_form_definition {
         return $DB->get_field('efb_forms', 'deleted', array('id' => $formid));
     }
 
-    public static function form_action_url($form, $plugins, &$responce) {
-        global $CFG;
-        $action = '';
-        if (isset($plugins[$form->type])) {
-            $action = $plugins[$form->type]->get_action_url();
-        }
-        $responce['action'] = $action;
-    }
-
-    public static function validate_form($form, $plugins, &$responce) {
-        $canuser = self::can_save_data($form, $plugins);
+    public static function validate_form($form, $plugin, &$responce) {
+        $canuser = self::can_save_data($form, $plugin);
         switch ($canuser['status']) {
             case 0:
                 $responce["msg"] = get_string("efb-form-cannot-submit", "local_edwiserform");
