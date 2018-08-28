@@ -41,7 +41,6 @@ class efb_form_basic_settings extends moodleform
         /**
          * Defines the list of the form basic settings.
          */
-        $form->addElement('header', 'formsettings', get_string('efb-header-settings', 'local_edwiserform'));
         $form->addElement("hidden", "id",null);
         $form->setType("id", PARAM_INTEGER);
         $form->addElement("text", "title", get_string("efb-lbl-title", "local_edwiserform"), null);
