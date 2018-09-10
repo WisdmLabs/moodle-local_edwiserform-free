@@ -36,7 +36,6 @@ define([
                     //     ]
                     // },
                 });
-                // console.log(forms);
                 $('.efb-modal-close').click(function() {
                     $('#efb-modal').removeClass('show');
                 });
@@ -45,7 +44,7 @@ define([
                     var id = $(this).parent().data('formid');
                     var row = $(`#efb-form-id-${id}`);
                     var title = $(row).children('.efb-tbl-col-title').text();
-                    $('#efb-modal #efb-modal-header').html(M.util.get_string('warning', 'local_edwiserform')).removeClass('bg-success').addClass('bg-warning');
+                    $('#efb-modal #efb-modal-header').removeClass('bg-success').addClass('bg-warning').children('.modal-title').html(M.util.get_string('warning', 'local_edwiserform'));
                     $('#efb-modal #efb-modal-body').html(`<h5>${M.util.get_string('efb-delete-form-and-data', 'local_edwiserform', {title, id})}</h5>`);
                     $('#efb-modal').addClass('show delete').removeClass('pro');
                     $('#efb-modal .efb-modal-delete-form').data('formid', id);
