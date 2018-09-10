@@ -139,12 +139,7 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                     $("#efb-btn-next").removeClass("efb-hide");
                 }
                 if ("#efb-cont-form-builder" == eleCont) {
-                    if (event.hasOwnProperty('template')) {
-                        formeoOpts.container = container;
-                        formeo = new Formeo(formeoOpts, event.template);
-                    } else {
-                        formeo.render(renderContainer);
-                    }
+                    formeo.render(renderContainer);
                     $("#efb-btn-previous, #efb-btn-next").removeClass("efb-hide");
                 }
                 if ("#efb-cont-form-preview" == eleCont) {
@@ -327,10 +322,9 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                 // Triggering change event
                 var changeEvent = new CustomEvent("change", {target: $("#id_type")[0]});
                 $("#id_type")[0].dispatchEvent(changeEvent);
-                $("#efb-form-builder").trigger({
-                    type: 'click',
-                    template: template
-                });
+                formeoOpts.container = container;
+                formeo = new Formeo(formeoOpts, template);
+                $("#efb-form-settings").trigger('click');
             }
             $(".efb-forms-pro-select").click(function() {
                 var templatename = $(this).parent().siblings('.efb-forms-template-name')[0].firstChild.wholeText;
