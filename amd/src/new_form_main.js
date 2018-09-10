@@ -10,6 +10,11 @@ var events = [];
 require(['jquery', 'core/ajax'], function ($, ajax) {
     $(document).ready(function (e) {
         $.getScript(M.cfg.wwwroot + '/local/edwiserform/amd/src/formbuilder.min.js', function () {
+            function can_save_form() {
+                var status = check_template() && check_title(false) && !empty_form_definition();
+                $('#efb-btn-save-form-settings').parents('.efb-editor-button').toggleClass('d-none', !status);
+                $('.efb-form-save').toggleClass('d-none', !status);
+            };
             let container = document.querySelector('.build-form');
             let renderContainer = document.querySelector('.render-form');
             let formeoOpts = {
@@ -61,6 +66,10 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                 return;
             });
 
+            $(document).on('formeoUpdated', function(event) {
+                can_save_form();
+            });
+
             function check_template() {
                 return $('.efb-forms-template.active').length > 0;
             }
@@ -105,6 +114,11 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                     event.preventDefault();
                     return;
                 }
+                var id = $(this).attr('id');
+                if (id != 'efb-form-setup' && id != 'efb-form-settings' && !check_title()) {
+                    return 0;
+                }
+                can_save_form();
                 var eleCont = $(this).data("panel");
                 $("#efb-form-settings, #efb-form-builder, #efb-form-preview, #efb-form-setup").removeClass("panel-active");
                 $("#efb-cont-form-settings, #efb-cont-form-builder, #efb-cont-form-preview, #efb-cont-form-setup").removeClass("content-active").addClass("content-hide");
@@ -270,11 +284,23 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                 save_form_settings(service_name, settings, formdef, form_success_action);
             });
 
+            $("#efb-form-title").keyup(function () {
+                var formName = $(this).val();
+                var empty = formName == '';
+                $(this).parent().toggleClass('has-danger', empty);
+                $("#id_title").val(formName);
+                change_heading(formName);
+            }).change(function() {
+                can_save_form();
+            });
             $("#id_title").keyup(function () {
                 var formName = $(this).val();
                 $("#id_title").val(formName);
                 change_heading(formName);
-
+            }).change(function() {
+                var formName = $(this).val();
+                $("#efb-form-title").val(formName);
+                can_save_form();
             });
             function change_heading(formName) {
                 $(".efb-form-title").text(formName);
@@ -309,12 +335,9 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
             });
             $(".efb-forms-template-select").click(function(event){
                 var _this = this;
+                can_save_form();
                 var select = function() {
                     var formtype = $(_this).data("template");
-                    if (formtype == 'blank') {
-                        select_template(formtype);
-                        return;
-                    }
                     $(_this).parents('.efb-forms-template-overlay').addClass('loading');
                     var templateRequest = ajax.call([{
                         methodname: 'edwiserform_get_template',
@@ -353,6 +376,7 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                     select();
                 }
             });
+            can_save_form();
         });
     });
 });
