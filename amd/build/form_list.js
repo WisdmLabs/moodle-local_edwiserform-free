@@ -26,7 +26,7 @@ define([
                 var forms = $("#efb-forms").DataTable({
                     paging:   true,
                     ordering: true,
-                    // dom: 'Bfrtip',
+                    dom: '<"efb-top"<"efb-listing"l><"efb-list-filtering"f>>t<"efb-bottom"<"efb-form-list-info"i><"efb-list-pagination"p>><"efb-shortcode-copy-note">',
                     aoColumns: [
                         null,
                         null,
@@ -36,11 +36,7 @@ define([
                         null,
                         { "bSortable": false }
                     ]
-                    // buttons: {
-                    //     buttons: [
-                    //         { extend: 'csvHtml5', text: 'CSV', className: 'btn btn-primary' }
-                    //     ]
-                    // },
+
                 });
                 $('.efb-modal-close').click(function() {
                     $('#efb-modal').removeClass('show');
