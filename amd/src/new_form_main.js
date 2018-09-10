@@ -65,12 +65,11 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                 return $('.efb-forms-template.active').length > 0;
             }
 
-            function switch_template(id) {
-                formeo.dom.alert('warning', M.util.get_string('efb-select-template-warning', 'local_edwiserform'));
+            function switch_panel(id) {
                 $('.efb-panel-btn').removeClass('panel-active');
-                $('.efb-tabcontent').removeClass('content-active').add('content-hide');
-                $(`#efb-cont-${id}`).addClass('content-active').removeClass('content-hide');
                 $(`#efb-${id}`).addClass('panel-active');
+                $('.efb-tabcontent').removeClass('content-active').addClass('content-hide');
+                $(`#efb-cont-${id}`).addClass('content-active').removeClass('content-hide');
             }
 
             function check_title(showError = true) {
@@ -101,7 +100,9 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
             $('#id_type').closest('.fitem').hide();
             $(".efb-panel-btn").click(function (event) {
                 if (!check_template()) {
-                    switch_template('form-setup');
+                    formeo.dom.toaster(M.util.get_string('efb-select-template-warning', 'local_edwiserform'), 3000);
+                    switch_panel('form-setup');
+                    event.preventDefault();
                     return;
                 }
                 var eleCont = $(this).data("panel");
@@ -213,7 +214,9 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
              */
             $("body").on("click", "#efb-btn-save-form-settings", function (event) {
                 if (!check_template()) {
-                    switch_template('form-setup');
+                    formeo.dom.toaster(M.util.get_string('efb-select-template-warning', 'local_edwiserform'), 3000);
+                    switch_panel('form-setup');
+                    event.preventDefault();
                     return;
                 }
                 if (!check_title()) {
