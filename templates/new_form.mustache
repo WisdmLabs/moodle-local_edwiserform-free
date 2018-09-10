@@ -55,14 +55,20 @@
                 <img class="efb-img" src="{{logo}}"/>
             </div>
         </div>
-        <div class="efb-editor-action efb-hide">
-            <label id="efb-form-cur-action">{{form_action}}</label>
-            <span class="efb-form-title">{{form_title}}<span>
+        <div class="efb-editor-action {{^panel_setup.title}}efb-hide{{/panel_setup.title}}">
+            <div class="efb-editor-action-title">
+                <label id="efb-form-cur-action">{{form_action}}</label>
+                <span class="efb-form-title">{{panel_setup.title}}</span>
+            </div>
         </div>
         <div class="efb-editor-buttons">
             <!-- Adding id to identify buttons individually -->
             {{#header_button}}
-            <a class="btn btn-primary" {{#id}}id="{{id}}"{{/id}} href="{{url}}">{{label}}</a>
+            <div class="efb-editor-button {{class}}">
+                <a class="btn btn-primary efb-form-icon-btn" {{#id}}id="{{id}}"{{/id}} href="{{url}}">
+                    <i class="fa fa-{{icon}}" aria-hidden="true"></i>{{label}}
+                </a>
+            </div>
             {{/header_button}}
         </div>
     </div>
