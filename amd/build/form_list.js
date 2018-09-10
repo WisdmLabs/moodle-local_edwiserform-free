@@ -35,8 +35,10 @@ define([
                         null,
                         null,
                         { "bSortable": false }
-                    ]
-
+                    ],
+                    language: {
+                        sSearch: M.util.get_string('efb-search-form', 'local_edwiserform')
+                    }
                 });
                 $('.efb-modal-close').click(function() {
                     $('#efb-modal').removeClass('show');
