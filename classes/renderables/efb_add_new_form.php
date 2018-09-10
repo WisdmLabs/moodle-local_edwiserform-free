@@ -109,6 +109,12 @@ class efb_add_new_form implements renderable, templatable
                 "icon"    => "fa-cog"
             ),
             array(
+                "id"      => "efb-form-settings",
+                "panelid" => "#efb-cont-form-settings",
+                "label"   => get_string("efb-lbl-form-settings", "local_edwiserform"),
+                "icon"    => "fa-wrench"
+            ),
+            array(
                 "id"      => "efb-form-builder",
                 "active"  => isset($this->form) ? "active" : "",
                 "panelid" => "#efb-cont-form-builder",
@@ -120,12 +126,6 @@ class efb_add_new_form implements renderable, templatable
                 "panelid" => "#efb-cont-form-preview",
                 "label"   => get_string("efb-lbl-form--preview", "local_edwiserform"),
                 "icon"    => "fa-eye"
-            ),
-            array(
-                "id"      => "efb-form-settings",
-                "panelid" => "#efb-cont-form-settings",
-                "label"   => get_string("efb-lbl-form-settings", "local_edwiserform"),
-                "icon"    => "fa-wrench"
             )
         );
         $panels        = array(
