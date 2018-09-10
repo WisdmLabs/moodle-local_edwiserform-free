@@ -6,13 +6,13 @@
 
 
 define([
-       'jquery',
-       'local_edwiserform/jszip',
-       'local_edwiserform/jquery.dataTables',
-       'local_edwiserform/dataTables.bootstrap4',
-       'local_edwiserform/dataTables.buttons',
-       'local_edwiserform/buttons.html5'
-       ], function ($, ajax) {
+    'jquery',
+    'local_edwiserform/jszip',
+    'local_edwiserform/jquery.dataTables',
+    'local_edwiserform/dataTables.bootstrap4',
+    'local_edwiserform/dataTables.buttons',
+    'local_edwiserform/buttons.html5'
+    ], function ($) {
     return {
         init: function() {
             $(document).ready(function (e) {
@@ -21,13 +21,9 @@ define([
                     ordering: true,
                     dom: '<"efb-top"<"efb-listing"l><"efb-list-filtering"f>>t<"efb-bottom"<"efb-list-pagination"p><"efb-export"B>>i',
                     buttons: [
-                        { extend: 'csvHtml5', text: M.util.get_string('exportcsv', 'local_edwiserform'), className: 'btn btn-primary efb-csv-export' }
-                    ],
-                    drawCallback: function( settings ) {
-                        $('.efb-csv-export').off();
-                    }
+                        { text: M.util.get_string('exportcsv', 'local_edwiserform'), className: 'btn btn-primary efb-csv-export' }
+                    ]
                 });
-
             });
         }
     };
