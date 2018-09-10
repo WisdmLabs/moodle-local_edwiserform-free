@@ -72,9 +72,14 @@ define([
                 });
                 $('.efb-form-export').click(function(event) {
                     event.preventDefault();
-                    var string = M.util.get_string('efb-form-action-export-title', 'local_edwiserform');
-                    $('#efb-modal #efb-modal-header').html(M.util.get_string('upgrade', 'local_edwiserform')).addClass('bg-success').removeClass('bg-warning');
-                    $('#efb-modal #efb-modal-body').html(`<h5>${M.util.get_string('profeature', 'local_edwiserform', string)}</h5>`);
+                    $('#efb-modal #efb-modal-header').addClass('bg-success').removeClass('bg-warning').children('.modal-title').html(M.util.get_string('upgrade', 'local_edwiserform'));
+                    var string = M.util.get_string('hey-wait', 'local_edwiserform');
+                    var message = M.util.get_string('export-pro-message', 'local_edwiserform');
+                    message = M.util.get_string('profeaturemessage', 'local_edwiserform', {
+                        type: string,
+                        message
+                    });
+                    $('#efb-modal #efb-modal-body').html(`<h5>${message}</h5>`);
                     $('#efb-modal').addClass('show pro').removeClass('delete');
                 });
 
