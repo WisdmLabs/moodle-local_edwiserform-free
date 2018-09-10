@@ -750,136 +750,6 @@ export class Controls {
   }
 
   /**
-   * [formActions description]
-   * @return {[type]} [description]
-   */
-  formActions() {
-    let btnTemplate = {
-        tag: 'li'
-      };
-
-    let clearStep = h.merge(btnTemplate, {
-      content: [getString('clearstep')],
-      className: ['clear-step btn btn-danger hide-action'],
-      attrs: {
-        title: getString('clearstep')
-      },
-      action: {
-        click: evt => {
-          let stageID = dom.activeStage.id;
-          if (formData.stages.get(stageID).rows.length) {
-            events.confirmClearAll = new CustomEvent('confirmClearAll', {
-              detail: {
-                confirmationMessage: getString('confirmclearstep'),
-                clearAllAction: dom.clearStep.bind(dom),
-                btnCoords: dom.coords(evt.target),
-                rows: dom.rows,
-                rowCount: dom.rows.size
-              }
-            });
-
-            document.dispatchEvent(events.confirmClearAll);
-          } else {
-            dom.alert('info', getString('nofields'));
-          }
-        }
-      }
-    });
-    let clearAllSteps = h.merge(btnTemplate, {
-      content: [getString('clearallsteps')],
-      className: ['clear-all-steps btn btn-danger hide-action'],
-      attrs: {
-        title: getString('clearallsteps')
-      },
-      action: {
-        click: evt => {
-          if (formData.rows.size) {
-            events.confirmClearAll = new CustomEvent('confirmClearAll', {
-              detail: {
-                confirmationMessage: getString('confirmclearallSteps'),
-                clearAllAction: dom.clearAllSteps.bind(dom),
-                btnCoords: dom.coords(evt.target),
-                rows: dom.rows,
-                rowCount: dom.rows.size
-              }
-            });
-
-            document.dispatchEvent(events.confirmClearAll);
-          } else {
-            dom.alert('info', getString('nofields'));
-          }
-        }
-      }
-    });
-    let clearForm = h.merge(btnTemplate, {
-      content: [getString('clearform')],
-      className: ['clear-form btn btn-danger hide-action'],
-      attrs: {
-        title: getString('clearform')
-      },
-      action: {
-        click: evt => {
-          if (formData.rows.size || formData.stages.size) {
-            events.confirmClearAll = new CustomEvent('confirmClearAll', {
-              detail: {
-                confirmationMessage: getString('confirmclearform'),
-                clearAllAction: dom.clearForm.bind(dom),
-                btnCoords: dom.coords(evt.target),
-                rows: dom.rows,
-                rowCount: dom.rows.size
-              }
-            });
-            document.dispatchEvent(events.confirmClearAll);
-          } else {
-            dom.alert('info', getString('nofields'));
-          }
-        }
-      }
-    });
-    let formActions = [{
-      tag: 'div',
-      className: 'form-action-buttons',
-      content: [{
-        tag: 'ul',
-        className: 'form-actions f-btn-group',
-        content: [clearStep, clearAllSteps, clearForm]
-      }, {
-        tag: 'button',
-        attrs: {
-          type: 'button'
-        },
-        className: 'form-actions-floater btn btn-danger hide-action',
-        content: [{
-          tag: 'i',
-          attrs: {
-            className: 'fa fa-trash',
-            'aria-hidden': true
-          }
-        }],
-      }],
-      action: {
-        mouseenter: event => {
-          let target = event.target;
-          let list = target.childNodes[0];
-          list.style.height = 'auto';
-          let height = list.clientHeight + 'px';
-          list.style.height = '0px';
-          setTimeout(() => {
-              list.style.height = height;
-          }, 0);
-        },
-        mouseleave: evnt => {
-          let target = event.target;
-          let list = target.childNodes[0];
-          list.style.height = '0px';
-        }
-      }
-    }];
-
-    return formActions;
-  }
-
-  /**
    * Returns the markup for the form controls/fields
    * @return {DOM}
    */
@@ -889,7 +759,6 @@ export class Controls {
     }
     let _this = this;
     let groupedFields = this.groupElements();
-    let formActions = this.formActions();
     // _this.panels = new Panels({panels: groupedFields, type: 'controls'});
     let groupsWrapClasses = [
       'control-groups',
@@ -925,7 +794,7 @@ export class Controls {
     let element = dom.create({
         tag: 'div',
         className: this.formID + '-controls formeo-controls',
-        content: [controlsToggle, groupsWrap, formActions]
+        content: [controlsToggle, groupsWrap]
       });
     let groups = element.getElementsByClassName('control-list');
 
