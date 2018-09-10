@@ -359,7 +359,8 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                             select_template(formtype, response.definition);
                         });
                     }).fail(function(ex) {
-                        formeo.dom.alert('dange', ex.message);
+                        $(_this).parents('.efb-forms-template-overlay').removeClass('loading');
+                        formeo.dom.alert('danger', ex.message);
                     });
                 }
                 if ($(".efb-forms-template.active").length && !empty_form_definition()) {
