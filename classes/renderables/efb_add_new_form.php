@@ -70,7 +70,11 @@ class efb_add_new_form implements renderable, templatable
             $this->form_sections->setForm_title($this->form->title);
             $this->form_sections->setFormid($this->formid);
         }
-        $this->form_sections->setLogo($output->image_url("edwiser-logoalternate", "local_edwiserform"));
+        $logo = $output->get_logo_url();
+        if (!$logo) {
+            $logo = $output->image_url("edwiser-logoalternate", "local_edwiserform");
+        }
+        $this->form_sections->setLogo($logo);
         return $this->form_sections->get_form_section_data();
     }
 

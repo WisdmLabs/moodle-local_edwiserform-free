@@ -130,12 +130,18 @@ and open the template in the editor.
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
 }
-.efb-editor-logo-wrap{
+.efb-editor-logo {
+    display: table;
+    height: 100%;
     position: absolute;
-    left: 5px;
-    top: 18px;
 }
-.efb-editor-logo-wrap > .efb-img{
+.efb-editor-logo .efb-editor-logo-wrap {
+    display: table-cell;
+    vertical-align: middle;
+    height: 100%;
+    padding: 11px;
+}
+.efb-editor-logo .efb-editor-logo-wrap img {
     height: 40px;
 }
 .efb-editor-toolbar > .efb-editor-action{
