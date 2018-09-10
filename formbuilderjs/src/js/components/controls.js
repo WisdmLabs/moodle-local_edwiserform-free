@@ -785,8 +785,13 @@ export class Controls {
       action: {
         click: event => {
           let container = closest(event.target, 'formeo');
-          container.classList.toggle('hidden-controls');
+          container.parentElement.classList.toggle('hidden-controls');
           dom.repositionPanels(container);
+          document.dispatchEvent(new CustomEvent('controlsCollapsed', {
+            detail: {
+              collapsed: container.parentElement.classList.contains('hidden-controls'),
+            }
+          }));
         }
       }
     };
