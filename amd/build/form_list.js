@@ -109,16 +109,31 @@ define([
                     enable_disable_form(input);
                 });
 
-                $('.efb-form-enable').click(function(event) {
-                    enable_disable_form(this, true);
-                    event.preventDefault();
-                    return;
-                });
-
-                $('.efb-form-disable').click(function(event) {
-                    enable_disable_form(this, false);
-                    event.preventDefault();
-                    return;
+                function show_toaster(msg) {
+                    var id= guid();
+                    var toast = $(`<div id='${id}' class='efb-toaster toaster-container'>
+                      <lable class='toaster-message'>${msg}</lable>
+                    </div>`);
+                    $('body').append(toast);
+                    $(toast).addClass('show');
+                    setTimeout(function() {
+                        $(toast).addClass('fade');
+                        setTimeout(function() {
+                            $(toast).removeClass('fade');
+                            setTimeout(function() {
+                                $(toast).remove();
+                            }, 300);
+                        }, 2000);
+                    });
+                }
+                $('.efb-tbl-col-shortcode').click(function(event) {
+                    var temp = $('<input>');
+                    $('body').append(temp);
+                    var shortcode = $(this).text();
+                    temp.val(shortcode).select();
+                    document.execCommand('copy');
+                    temp.remove();
+                    show_toaster(M.util.get_string('shortcodecoppied', 'local_edwiserform', shortcode));
                 });
             });
         }
