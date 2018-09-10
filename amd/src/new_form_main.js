@@ -107,6 +107,10 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
             }
 
             $('#id_type').closest('.fitem').hide();
+            $(".efb-form-step").click(function() {
+                var id = $(this).data('id');
+                $('#'+id).click();
+            });
             $(".efb-panel-btn").click(function (event) {
                 if (!check_template()) {
                     formeo.dom.toaster(M.util.get_string('efb-select-template-warning', 'local_edwiserform'), 3000);
