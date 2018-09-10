@@ -3601,7 +3601,7 @@ class DOM {
    */
   addModal(modal) {
     modal = dom.create(modal);
-    this.container.parentElement.parentElement.appendChild(modal);
+    document.querySelector('body').appendChild(modal);
     setTimeout(function() {
       modal.classList.toggle('show');
       let event = new CustomEvent('focus', {target: modal});
