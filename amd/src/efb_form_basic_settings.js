@@ -138,14 +138,11 @@ require(["jquery"], function ($) {
 			}
 		}
 		$("body").on("keyup", "#notifi-email-group-input", function(event) {
-			event.preventDefault();
-			if (event.keyCode == 13) {
+			if (event.keyCode == 13 || event.keyCode == 32) { //Enter key or space key
 				checkAndAdd(this);
-			} else if (event.keyCode == 8 && $(this).val().trim() == "") {
-				var index = $(".email-tag").length - 1;
-				$(".email-tag")[index].remove();
-				emails.splice(index, 1);
-				$("#id_notifi_email").val(emails.join(','));
+			} else if (event.keyCode == 188) { //Comma key
+				$(this).val($(this).val().slice(0, -1));
+				checkAndAdd(this);
 			}
 		});
 		$("body").on("focusout", "#notifi-email-group-input", function(event) {
