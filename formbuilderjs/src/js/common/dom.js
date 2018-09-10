@@ -3481,10 +3481,11 @@ class DOM {
    */
   proWarning(msg = null) {
     let _this = this;
-    if (msg == null) {
-      msg = getString('this');
+    if (typeof msg == 'object') {
+      msg = getString('profeaturemessage', msg);
+    } else {
+      msg = getString('profeature', msg);
     }
-    msg = getString('profeature', msg);
     let warning = {
       tag: 'div',
       content: msg
@@ -3492,17 +3493,17 @@ class DOM {
     warning = dom.create(warning);
     dom.multiActions(
       'warning',
-      'Attention',
+      getString('hey-wait'),
       warning,
       [{
-        title: getString('upgrade', 'local_edwiserform'),
+        title: getString('upgrade'),
         type: 'success',
         action: function() {
           alert('Redirect to PRO version download page.');
         }
       }, {
-        title: getString('later', 'local_edwiserform'),
-        type: 'danger'
+        title: getString('later'),
+        type: 'secondary'
       }]
     );
   }
