@@ -99,52 +99,6 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                 }
                 return emptytitle;
             }
-            function get_title_description(event) {
-                settings = get_form_settings();
-                formeo.dom.multiActions(
-                    'warning',
-                    M.util.get_string("efb-forms-get-title-desc", "local_edwiserform"),
-                    [
-
-                        {
-                            tag: 'input',
-                            attrs: {
-                                type: 'text',
-                                className: 'form-control',
-                                id: 'modal_title',
-                                value: settings.title
-                            },
-                            config: {
-                                label: M.util.get_string('efb-lbl-title', 'local_edwiserform')
-                            }
-                        },
-                        {
-                            tag: 'textarea',
-                            attrs: {
-                                className: 'form-control',
-                                id: 'modal_description'
-                            },
-                            config: {
-                                label: M.util.get_string('efb-lbl-description', 'local_edwiserform')
-                            },
-                            content: settings.description
-                        }
-                    ],
-                    [{
-                        title: M.util.get_string("proceed", "local_edwiserform"),
-                        type: 'success',
-                        action: function() {
-                            $("#id_title").val($('#modal_title').val());
-                            $("#id_description").val($('#modal_description').val());
-                            $(event.target).trigger(event.type);
-                        }
-                    }, {
-                        title: M.util.get_string("cancel", "local_edwiserform"),
-                        type: 'danger'
-                    }]
-                );
-
-            }
 
             function check_description() {
                 if ($.trim($("#id_description").val()) == "") {
