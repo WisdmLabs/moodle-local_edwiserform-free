@@ -126,7 +126,7 @@ class efb_list_form_data implements renderable, templatable
         $fields = $def["fields"];
         $map = [];
         foreach ($fields as $field) {
-            if (isset($field["attrs"]["name"]) && isset($map[$field["attrs"]["name"]])) {
+            if (isset($field["attrs"]["name"]) && !isset($map[$field["attrs"]["name"]])) {
                 $map[$field["attrs"]["name"]] = $field["config"]["label"];
             }
         }
