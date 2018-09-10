@@ -303,8 +303,9 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                 $("#efb-form-settings").trigger('click');
             }
             $(".efb-forms-pro-select").click(function() {
-                var templatename = $(this).parent().siblings('.efb-forms-template-name')[0].firstChild.wholeText;
-                formeo.dom.proWarning(templatename);
+                var type = M.util.get_string(`efb-event-${$(this).data('template')}-name`, 'local_edwiserform');
+                var message = $(this).parent().siblings('.efb-forms-template-details').children('.desc').text();
+                formeo.dom.proWarning({type,message});
             });
             $(".efb-forms-template-select").click(function(event){
                 var _this = this;
