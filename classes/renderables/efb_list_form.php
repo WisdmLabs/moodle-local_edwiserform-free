@@ -111,7 +111,10 @@ class efb_list_form implements renderable, templatable {
         $disabletitle = get_string('efb-form-action-disable-title', 'local_edwiserform');
         $enabledisable .= html_writer::start_tag('label', array('class' => 'efb-switch', 'title' => $enabled ? $disabletitle : $enabletitle));
         $enabledisable .= html_writer::checkbox('efb-switch-input', '', $enabled, '', array('data-formid' => $form->id, 'data-enable-title' => $enabletitle, 'data-disable-title' => $disabletitle));
-        $enabledisable .= html_writer::tag('span', '', array('class' => 'efb-slider bg-primary efb-enable-disable-form'));
+        $enabledisable .= html_writer::start_tag('div', array('class' => 'switch-container efb-enable-disable-form'));
+        $enabledisable .= html_writer::tag('div', '', array('class' => 'switch-background bg-success'));
+        $enabledisable .= html_writer::tag('div', '', array('class' => 'switch-lever bg-success'));
+        $enabledisable .= html_writer::end_tag('div');
         $enabledisable .= html_writer::end_tag('label');
         $actions[] = array(
             "html" => $enabledisable,
