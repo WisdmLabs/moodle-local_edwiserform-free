@@ -211,13 +211,7 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
 
             function empty_form_definition() {
                 formdef = JSON.parse(get_form_def());
-                if ($.isEmptyObject(formdef.fields)) {
-                    return false;
-                }
-                if (Object.keys(formdef.stages).length == 1) {
-                    return false;
-                }
-                return true;
+                return Object.keys(formdef.fields).length == 0;
             }
 
             function save_form_settings(service_name, settings, formdef, callable) {
