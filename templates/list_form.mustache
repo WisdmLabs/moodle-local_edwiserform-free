@@ -17,7 +17,9 @@
 <div class="efb-wrap-list-forms">
     <div class='efb-list-buttons text-right'>
         {{#pageactions}}
-            <a class='btn btn-primary' href='{{url}}'>{{label}}</a>
+            <a class='btn btn-primary efb-form-icon-btn' href='{{url}}'>
+                <i class="fa fa-{{icon}}" aria-hidden="true"></i>{{label}}
+            </a>
         {{/pageactions}}
     </div>
     <hr>

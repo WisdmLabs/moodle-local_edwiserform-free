@@ -163,11 +163,13 @@ class efb_list_form_data implements renderable, templatable
         $actions = array(
             array(
                 'url' => new moodle_url('/local/edwiserform/view.php', array('page' => 'newform')),
-                'label' => get_string('efb-heading-newform', 'local_edwiserform')
+                'label' => get_string('efb-heading-newform', 'local_edwiserform'),
+                'icon'  => 'edit'
             ),
             array(
                 'url' => new moodle_url('/local/edwiserform/view.php', array('page' => 'listforms')),
-                'label' => get_string('efb-heading-listforms', 'local_edwiserform')
+                'label' => get_string('efb-heading-listforms', 'local_edwiserform'),
+                'icon'  => 'list'
             )
         );
         return $actions;

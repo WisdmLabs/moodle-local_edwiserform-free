@@ -51,8 +51,9 @@ class efb_list_form implements renderable, templatable {
     private function get_page_actions() {
         $actions = array(
             array(
-                'url' => new moodle_url('/local/edwiserform/view.php', array('page' => 'newform')),
-                'label' => get_string('efb-heading-newform', 'local_edwiserform')
+                'url'   => new moodle_url('/local/edwiserform/view.php', array('page' => 'newform')),
+                'label' => get_string('efb-heading-newform', 'local_edwiserform'),
+                'icon'  => 'edit'
             )
         );
         return $actions;
