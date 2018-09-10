@@ -2,7 +2,7 @@
 import '../sass/formeo.scss';
 import animate from './common/animation';
 import h from './common/helpers';
-import {closest, hideControl} from './common/utils';
+import {closest, hideControl, getString} from './common/utils';
 import {data, formData} from './common/data';
 import events from './common/events';
 import actions from './common/actions';
@@ -169,13 +169,48 @@ class Formeo {
         }
       }
     };
+    let deleteform = {
+      tag: 'button',
+      content: [{
+        tag: 'i',
+        attrs: {
+          className: 'fa fa-trash',
+          'aria-hidden': true
+        }
+      }],
+      attrs: {
+        className: 'btn btn-danger item-delete-form',
+        type: 'button'
+      },
+      action: {
+        click: evt => {
+          if (formData.rows.size || formData.stages.size) {
+            let confirmClearAll = new CustomEvent('confirmClearAll', {
+              detail: {
+                confirmationMessage: getString('confirmclearform'),
+                clearAllAction: dom.clearForm.bind(dom),
+                btnCoords: dom.coords(evt.target),
+                rows: dom.rows,
+                rowCount: dom.rows.size
+              }
+            });
+            document.dispatchEvent(confirmClearAll);
+          } else {
+            dom.alert('info', getString('nofields'));
+          }
+        }
+      },
+      meta: {
+        id: 'delete'
+      }
+    };
     return {
       tag: 'div',
       className: 'form-settings-actions group-actions',
       content: [{
         tag: 'div',
         className: 'action-btn-wrap',
-        content: [edit]
+        content: [deleteform, edit]
       }]
     };
   }
@@ -269,7 +304,7 @@ class Formeo {
       hideControl('layout-tab-control');
     }
     document.dispatchEvent(events.formeoLoaded);
-    dom.toggleFormActions();
+    dom.toggleFormDeleteAction();
     dom.checkSingle();
   }
 }

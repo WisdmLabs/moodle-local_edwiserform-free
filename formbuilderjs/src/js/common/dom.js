@@ -866,7 +866,7 @@ class DOM {
             activeTab.classList.remove('active');
             event.target.classList.add('active');
             dom.activeStage = selectedStage.querySelector('.stage'); // Changing active stage to newly added stage
-            dom.toggleFormActions();
+            dom.toggleFormDeleteAction();
           }
         }
       }
@@ -947,7 +947,7 @@ class DOM {
     if (status == true) {
       formData.stages.delete(stageID);
     }
-    _this.toggleFormActions();
+    _this.toggleFormDeleteAction();
     data.save();
   }
 
@@ -1083,7 +1083,7 @@ class DOM {
             tabContainer.appendChild(dom.create(tabItem));
             _this.resizeTabContainer(event.target);
             data.save();
-            _this.toggleFormActions();
+            _this.toggleFormDeleteAction();
           }
         }
       }]
@@ -2615,7 +2615,7 @@ class DOM {
       hideControl('layout-tab-control');
     }
     dom.tabSorting();
-    _this.toggleFormActions();
+    _this.toggleFormDeleteAction();
   }
 
   /**
@@ -3273,26 +3273,13 @@ class DOM {
   /**
    * Toggle form actions depending on stages status
    */
-  toggleFormActions() {
+  toggleFormDeleteAction() {
     if (this.container) {
-      let actions = this.container.querySelector('.form-actions');
-      if (actions) {
-        let clearStepAction = actions.querySelector('.clear-step');
-        let clearAllStepsAction = actions.querySelector('.clear-all-steps');
-        let clearFormAction = actions.querySelector('.clear-form');
-        let clearAction = this.container.querySelector('.form-actions-floater');
-        let result = {
-          step: true,
-          steps: true,
-          form: true
-        };
-        result.step = dom.activeStage.classList.contains('empty-stages');
-        result.steps = formData.stages.size < 2 || this.container.querySelectorAll('.stage:not(.empty-stages)').length < 1;
-        result.form = formData.stages.size < 2;
-        clearStepAction.classList.toggle('hide-action', result.step);
-        clearAllStepsAction.classList.toggle('hide-action', result.steps);
-        clearFormAction.classList.toggle('hide-action', result.form);
-        clearAction.classList.toggle('hide-action', result.step && result.steps && result.form);
+      let action = this.container.querySelector('.item-delete-form');
+      let result = formData.fields.size == 0 && formData.stages.size == 1;
+      if (action) {
+        action.classList.toggle('d-none', result);
+        action.parentElement.parentElement.classList.toggle('hide-delete', result);
       }
     }
   }
@@ -3312,7 +3299,7 @@ class DOM {
       let children = elem.getElementsByClassName(`stage-${childMap.get(type)}`);
       elem.classList.toggle(`empty-${type}`, !children.length);
       if (type == 'stages') {
-        this.toggleFormActions();
+        this.toggleFormDeleteAction();
       }
     }
   }
