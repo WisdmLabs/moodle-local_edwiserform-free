@@ -89,12 +89,15 @@ class efb_add_new_form implements renderable, templatable
             array(
                 "id"    => "efb-heading-listforms",
                 "label" => get_string("efb-heading-listforms", "local_edwiserform"),
-                "url"   => new moodle_url('/local/edwiserform/view.php?page=listforms')
+                "url"   => new moodle_url('/local/edwiserform/view.php?page=listforms'),
+                "icon"  => "list"
             ),
             array(
                 "id"    => "efb-btn-save-form-settings",
                 "label" => get_string("efb-btn-save", "local_edwiserform"),
-                "url"   => '#'
+                "url"   => "#",
+                "class" => "d-none",
+                "icon"  => "check"
             )
         );
         $nav_item      = array(
