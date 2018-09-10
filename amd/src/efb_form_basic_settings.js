@@ -23,10 +23,17 @@ require(["jquery"], function ($) {
 
 		}
 		function addEmail(index, email) {
+			var classes = [
+				'primary',
+				'warning',
+				'success',
+				'danger',
+				'info',
+			];
 			var emailElement = document.createElement("span");
 			$(emailElement).html(email);
 			$(emailElement).attr("data-email", email);
-			$(emailElement).attr("class", "email-tag btn");
+			$(emailElement).attr("class", `email-tag btn btn-${classes[Math.floor((Math.random()*classes.length))]}`);
 			var deleteEmail = document.createElement("span");
 			$(deleteEmail).attr("class", "email-tag-delete");
 			$(deleteEmail).html("X");
