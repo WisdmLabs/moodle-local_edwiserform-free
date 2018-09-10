@@ -3631,25 +3631,30 @@ class DOM {
    * @param {Number} time
    */
   toaster(title, time = 2000) {
-    let _this = this;
     let id = uuid();
-    let closed = false;
-    let closeToaster = function() {
-      if (!closed && document.getElementById(id)) {
-        _this.removeModal(id, keyup);
-        closed = true;
-      }
-    };
-    let keyup = evt => {
-      if(evt.keyCode == 27) {
-        closeToaster();
-      }
-    };
-    let modal = _this.modalContainer(id, [_this.modalHeader(id, title, 'primary', keyup)], keyup);
-    _this.addModal(modal);
+    let toast = this.create({
+      tag: 'div',
+      attrs: {
+        id,
+        className: 'efb-toaster toaster-container',
+      },
+      content: [{
+        tag: 'lable',
+        className: 'toaster-message',
+        content: title
+      }]
+    });
+    document.querySelector('body').appendChild(toast);
+    document.getElementById(id).classList.add('show');
     setTimeout(function() {
-      closeToaster();
-    }, time);
+      document.getElementById(id).classList.add('fade');
+      setTimeout(function() {
+        document.getElementById(id).classList.remove('fade');
+        setTimeout(function() {
+          document.getElementById(id).remove();
+        }, time);
+      }, time);
+    });
   }
 
   /**
