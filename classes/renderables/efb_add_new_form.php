@@ -132,18 +132,60 @@ class efb_add_new_form implements renderable, templatable
             array(
                 "id"      => "efb-cont-form-settings",
                 "heading" => get_string("efb-lbl-form-settings", "local_edwiserform"),
-                "body"    => $form_settings->render()
+                "body"    => "<div class='efb-form-settings'>".$form_settings->render()."</div>",
+                "buttons" => array(
+                    array(
+                        'class' => 'efb-form-previous-step',
+                        'id' => 'efb-form-setup',
+                        'icon' => 'cog',
+                        'title' => get_string('efb-lbl-form-setup', 'local_edwiserform')
+                    ),
+                    array(
+                        'class' => 'efb-form-next-step',
+                        'id' => 'efb-form-builder',
+                        'icon' => 'list-alt',
+                        'title' => get_string('efb-form-builder-step', 'local_edwiserform')
+                    )
+                )
             ),
             array(
                 "id"      => "efb-cont-form-builder",
                 "active"  => isset($this->form) ? "active" : "hide",
                 "heading" => get_string("efb-lbl-form-builder", "local_edwiserform"),
-                "body"    => "<form class='build-form'></form>"
+                "body"    => "<form class='build-form'></form>",
+                "buttons" => array(
+                    array(
+                        'class' => 'efb-form-previous-step',
+                        'id' => 'efb-form-settings',
+                        'icon' => 'cog',
+                        'title' => get_string('efb-lbl-form-settings', 'local_edwiserform')
+                    ),
+                    array(
+                        'class' => 'efb-form-next-step',
+                        'id' => 'efb-form-preview',
+                        'icon' => 'eye',
+                        'title' => get_string('efb-lbl-form-preview', 'local_edwiserform')
+                    )
+                )
             ),
             array(
                 "id"      => "efb-cont-form-preview",
-                "heading" => get_string("efb-lbl-form--preview", "local_edwiserform"),
-                "body"    => "<form class='render-form'></form>"
+                "heading" => get_string("efb-lbl-form-preview", "local_edwiserform"),
+                "body"    => "<form class='render-form'></form>",
+                "buttons" => array(
+                    array(
+                        'class' => 'efb-form-previous-step',
+                        'id' => 'efb-form-builder',
+                        'icon' => 'list-alt',
+                        'title' => get_string('efb-lbl-form-builder', 'local_edwiserform')
+                    ),
+                    array(
+                        'class' => 'efb-form-save d-none efb-form-next-step',
+                        'id' => 'efb-btn-save-form-settings',
+                        'icon' => 'check',
+                        'title' => get_string('efb-btn-save', 'local_edwiserform')
+                    )
+                )
             ),
         );
         $this->form_sections->set_builder_active(isset($this->form) ? "content-hide" : "content-active");

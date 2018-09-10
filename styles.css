@@ -59,6 +59,22 @@ and open the template in the editor.
 .efb-tabcontent.content-hide{
     display: none;
 }
+.efb-panel-btns {
+    padding: 5px;
+    position: fixed;
+    left: 110px;
+    bottom: 0px;
+    right: 0px;
+    background-color: white;
+    z-index: 10;
+    border-top: 1px solid rgba(0,0,0,0.2);
+}
+.efb-panel-btns .efb-form-previous-step {
+    float: left;
+}
+.efb-panel-btns .efb-form-next-step {
+    float: right;
+}
 .efb-hide{
     display: none !important;
 }
