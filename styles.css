@@ -452,17 +452,19 @@ and open the template in the editor.
 .notifi-email-group-input, .notifi-email-group-edit {
     border: 0px;
     outline-width: 0px;
+    width: 100%;
 }
 .notifi-email-group {
-    height: auto !important;
+    width: 100%;
 }
 .notifi-email-group .email-tag {
-    border-radius: 2em;
     margin: 2px;
-    border: 1px solid gray;
+    font-size: 95%;
+    padding: 0px 7px;
 }
 .notifi-email-group .email-tag .email-tag-delete {
-    margin-left: 10px;
+    margin-left: 4px;
+    font-size: 90%;
 }
 .efb-import-form-container {
     position: relative;

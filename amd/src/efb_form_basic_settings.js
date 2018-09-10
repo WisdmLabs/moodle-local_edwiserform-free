@@ -68,7 +68,7 @@ require(["jquery"], function ($) {
 				}
 			}
 		}
-		$("#id_notifi_email").parent().prepend(`<div class="notifi-email-group form-control"><input type="email" class="notifi-email-group-input" id="notifi-email-group-input"/></div>`);
+		$("#id_notifi_email").parent().prepend(`<div class="notifi-email-group"><input type="email" class="notifi-email-group-input form-control" id="notifi-email-group-input"/></div>`);
 		$("#id_notifi_email").hide();
 		var emails = $("#id_notifi_email").val().trim();
 		var editing = -1;
