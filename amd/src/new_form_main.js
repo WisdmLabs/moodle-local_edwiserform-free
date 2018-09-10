@@ -10,8 +10,6 @@ var events = [];
 require(['jquery', 'core/ajax'], function ($, ajax) {
     $(document).ready(function (e) {
         $.getScript(M.cfg.wwwroot + '/local/edwiserform/amd/src/formbuilder.min.js', function () {
-            // $("#id_title").val('id_title');
-            // $("#id_description").val('id_description');
             let container = document.querySelector('.build-form');
             let renderContainer = document.querySelector('.render-form');
             let formeoOpts = {
@@ -100,26 +98,7 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                 return emptytitle;
             }
 
-            function check_description() {
-                if ($.trim($("#id_description").val()) == "") {
-                    $("#id_error_description").show();
-                    $("#id_error_description").text(M.util.get_string("efb-lbl-description-warning", "local_edwiserform"));
-                    $("#id_description").addClass('is-invalid');
-                } else {
-                    $("#id_error_description").hide();
-                    $("#id_description").removeClass('is-invalid');
-                }
-            }
-
-            function focus_description() {
-                $('#efb-form-settings').trigger('click');
-                $("#id_description").focus();
-                check_description();
-            }
             $('#id_type').closest('.fitem').hide();
-            $("#id_description").blur(function() {
-                check_description();
-            })
             $(".efb-panel-btn").click(function (event) {
                 if (!check_template()) {
                     switch_template('form-setup');
