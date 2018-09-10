@@ -75,9 +75,29 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                 $(`#efb-${id}`).addClass('panel-active');
             }
 
-            function check_title_description() {
+            function check_title(showError = true) {
                 settings = get_form_settings();
-                return settings.title != '' && settings.description != '';
+                var active = $('.efb-panel-btn.panel-active').attr('id');
+                var emptytitle = settings.title != '';
+                if (!showError) {
+                    return emptytitle;
+                }
+                if (!emptytitle) {
+                    switch(active) {
+                        case 'efb-form-setup':
+                        case 'efb-form-builder':
+                        case 'efb-form-preview':
+                            switch_panel('form-settings');
+                        case 'efb-form-settings':
+                            $('#id_title').parents('.fitem').addClass('has-danger');
+                            break;
+                    }
+                    formeo.dom.toaster(M.util.get_string('efb-lbl-title-warning', 'local_edwiserform'), 3000);
+                } else {
+                    $('.efb-form-title-container').removeClass('has-danger');
+                    $('#id_title').parents('.fitem').removeClass('has-danger');
+                }
+                return emptytitle;
             }
             function get_title_description(event) {
                 settings = get_form_settings();
@@ -150,10 +170,6 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                 if (!check_template()) {
                     switch_template('form-setup');
                     return;
-                }
-                if (!check_title_description()) {
-                    get_title_description(event);
-                    return 0;
                 }
                 var eleCont = $(this).data("panel");
                 $("#efb-form-settings, #efb-form-builder, #efb-form-preview, #efb-form-setup").removeClass("panel-active");
@@ -278,12 +294,7 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                     switch_template('form-setup');
                     return;
                 }
-                if (!check_title_description()) {
-                    get_title_description(event);
-                    return 0;
-                }
-                if ($.trim($('#id_description').val()).length == 0) {
-                    focus_description();
+                if (!check_title()) {
                     return 0;
                 }
                 var settings = get_form_settings();
@@ -373,10 +384,6 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
             });
             $(".efb-forms-template-select").click(function(event){
                 var _this = this;
-                if (!check_title_description()) {
-                    get_title_description(event);
-                    return;
-                }
                 var select = function() {
                     var formtype = $(_this).data("template");
                     if (formtype == 'blank') {
