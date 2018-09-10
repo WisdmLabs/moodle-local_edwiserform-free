@@ -38,6 +38,9 @@ define([
                     ],
                     language: {
                         sSearch: M.util.get_string('efb-search-form', 'local_edwiserform')
+                    },
+                    drawCallback: function( settings ) {
+                        $('.efb-shortcode-copy-note').html(M.util.get_string('clickonshortcode', 'local_edwiserform'));
                     }
                 });
                 $('.efb-modal-close').click(function() {
