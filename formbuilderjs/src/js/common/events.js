@@ -8,9 +8,21 @@ let defaults = {
   },
   onSave: evt => {},
   confirmClearAll: evt => {
-    dom.confirm('warning', getString('attention'), evt.confirmationMessage, function() {
-      evt.clearAllAction(evt);
-    });
+    dom.multiActions(
+      'warning',
+      getString('attention'),
+      evt.confirmationMessage,
+      [{
+        title: M.util.get_string('proceed', 'local_edwiserform'),
+        type: 'warning',
+        action: function() {
+          evt.clearAllAction(evt);
+        }
+      }, {
+        title: M.util.get_string('cancel', 'local_edwiserform'),
+        type: 'success'
+      }]
+    );
   }
 };
 
