@@ -51,9 +51,27 @@ and open the template in the editor.
     border-left: none;
     background: #6b6b6b;
 }
+.efb-tabcontent {
+    padding: 15px 15px 60px;
+    height: 100%;
+    margin: 0;
+}
 .efb-tabcontent.content-active{
     display: block;
-    margin: 2em 2em 11em 2em;
+}
+.efb-tabcontent.content-hide{
+    display: none;
+}
+#efb-cont-form-setup.efb-tabcontent {
+    padding: 15px;
+    height: 100%;
+    margin: 0;
+}
+.efb-tabcontent .efb-form-settings {
+    height: 100%;
+    background: white;
+    padding: 25px;
+    overflow: auto;
 }
 #efb-cont-form-builder {
     margin: 0;
@@ -207,11 +225,13 @@ and open the template in the editor.
     border-bottom: 1px solid #ddd;
     padding: 10px 10px 10px 0;
 }
-.efb-panel-btn:not(.panel-active){
-    background: none;
-    font-weight: bold;
+.efb-panel-btn:not(.panel-active):not(:hover) {
+    background-color: transparent !important;
 }
-.efb-forms-panels{
+.efb-panel-btns button {
+    transition: left 0.5s, right 0.5s;
+}
+.efb-forms-panels {
     display: block;
     position: fixed;
     right: 0;
