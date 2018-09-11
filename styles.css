@@ -213,10 +213,13 @@ and open the template in the editor.
 }
 .efb-forms-panels{
     display: block;
-    height: 100%;
+    position: fixed;
+    right: 0;
+    left: 110px;
+    top: 100px;
+    bottom: 0px;
     background: #6b6b6b;
-    overflow: auto;
-    margin-bottom: 3em;
+    padding-top: 0;
 }
 .efb-forms-panels#efb-cont-form-builder {
     margin: 0 !important;
