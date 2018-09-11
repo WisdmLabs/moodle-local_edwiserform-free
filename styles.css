@@ -76,9 +76,6 @@ and open the template in the editor.
 #efb-cont-form-builder {
     margin: 0;
 }
-.efb-tabcontent.content-hide{
-    display: none;
-}
 .efb-panel-btns {
     padding: 5px;
     position: fixed;
@@ -219,7 +216,6 @@ and open the template in the editor.
 .efb-list-buttons .btn{
     text-transform: uppercase;
     font-weight: 700;
-    margin: 17px 20px 0 0;
 }
 .efb-form-builder-wrap {
     overflow: hidden;
@@ -281,12 +277,14 @@ and open the template in the editor.
 .efb-forms-editor-body{
     display: flex;
     height: 100%;
+    margin-top: 60px;
 }
 
 .efb-form-content {
-    padding:0 !important;
     background: #2e2e2e;
     width: 100%;
+    left: 124px;
+    position: relative;
 }
 
 #efb-forms-setup-name{
@@ -313,9 +311,10 @@ and open the template in the editor.
 }
 .efb-forms-setup{
     padding: 0;
-    padding-bottom: 30px;
     background: white;
     display: grid;
+    height: 100%;
+    overflow: scroll;
 }
 .efb-forms-setup-title{
     font-size: 24px;
@@ -471,13 +470,8 @@ and open the template in the editor.
 .efb-forms-template-overlay:hover {
     opacity: 1;
 }
-#efb-cont-form-settings{
-    background: white;
-    padding: 3rem;
-}
 
-
-.efb-form-content:after{
+.efb-form-content:after {
     min-height: 6em;
     content: "";
     display: block;
@@ -566,7 +560,9 @@ and open the template in the editor.
     width: 100%;
 }
 #efb-basic-form-settings .form-control {
+    display: block;
     width: 70%;
+    border: 1px solid rgba(0,0,0,.5);
 }
 .efb-table .icon {
     font-size: 1.3rem;
@@ -678,14 +674,20 @@ and open the template in the editor.
     display: none;
 }
 /* Modal css ends */
-.efb-wrap-list .efb-bottom .efb-list-pagination{
+.efb-wrap-list .efb-bottom .efb-list-pagination {
     float: right;
 }
-.efb-wrap-list .efb-top .efb-listing {
+.efb-wrap-list .efb-top .efb-listing, .efb-wrap-list .efb-top .efb-form-list-info {
     float: left;
+}
+.efb-shortcode-copy-note {
+    clear: both;
 }
 .efb-wrap-list .efb-csv-export {
     pointer-events: none;
+}
+.d-none {
+    display: none;
 }
 .efb-forms-panels::-webkit-scrollbar, .efb-forms-panels-toggle::-webkit-scrollbar, .formeo .form-wrapper::-webkit-scrollbar, .formeo .formeo-controls::-webkit-scrollbar {
     width: 5px;
@@ -725,6 +727,9 @@ and open the template in the editor.
   color: white;
   border-radius: 2px;
   background-color: #424242;
+}
+.efb-form-container {
+    border-bottom: 1px solid #d6d6d6;
 }
 .efb-form-title-container .efb-form-title-heading {
     display: inline-block;
