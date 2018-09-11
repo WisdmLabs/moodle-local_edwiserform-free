@@ -34,6 +34,7 @@ define([
                         null,
                         null,
                         null,
+                        null,
                         { "bSortable": false }
                     ],
                     language: {
