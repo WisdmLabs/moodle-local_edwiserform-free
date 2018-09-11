@@ -153,14 +153,16 @@ export default class Field {
       }
 
       h.forEach(panelArray, (dataProp, i) => {
-        let args = {
-          i,
-          dataProp,
-          fieldData,
-          panelType,
-          propType
-        };
-        panel.content.push(_this.panelContent(args));
+        if (this.isAllowedAttr(dataProp)) {
+          let args = {
+            i,
+            dataProp,
+            fieldData,
+            panelType,
+            propType
+          };
+          panel.content.push(_this.panelContent(args));
+        }
       });
     }
 
