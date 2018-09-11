@@ -154,17 +154,15 @@ and open the template in the editor.
 .step-title.active {
     display: block;
 }
-.efb-editor-toolbar{
+.efb-editor-toolbar {
     border-bottom: 1px solid #d3d3d3;
-    padding: 28px 10px 0 10px;
+    position: fixed;
     top: 0;
     z-index: 140001;
     width: 100%;
     background: #fff;
     text-align: center;
-    height: 75px;
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
+    height: 60px;
 }
 .efb-editor-logo {
     display: table;
@@ -180,23 +178,45 @@ and open the template in the editor.
 .efb-editor-logo .efb-editor-logo-wrap img {
     height: 40px;
 }
-.efb-editor-toolbar > .efb-editor-action{
+.efb-editor-toolbar > .efb-editor-action {
+    display: table;
+    width: 100%;
+    height: 100%;
     font-size: 20px;
     font-weight: 300;
+}
+.efb-editor-toolbar > .efb-editor-action > .efb-editor-action-title {
+    display: table-cell;
+    vertical-align: middle;
+}
+.efb-editor-toolbar > .efb-editor-action > .efb-editor-action-title > label {
+    margin-bottom: 0;
 }
 .efb-form-title{
     font-weight: 700;
 }
-.efb-editor-toolbar > .efb-editor-buttons{
+.efb-editor-toolbar > .efb-editor-buttons {
     position: absolute;
     right: 0;
     top: 0;
+    height: 100%;
+    display: table;
 }
-.efb-list-buttons .btn{
+.efb-editor-toolbar > .efb-editor-buttons > .efb-editor-button {
+    display: table-cell;
+    height: 100%;
+    vertical-align: middle;
+    padding: 0 0.5rem;
+}
+.efb-editor-toolbar > .efb-editor-buttons > .efb-editor-button > .btn {
     text-transform: uppercase;
     font-weight: 700;
+    padding-left: 4rem;
 }
-.efb-editor-buttons > .btn{
+.efb-editor-toolbar > .efb-editor-buttons > .efb-editor-button > .btn i, .efb-form-save.efb-form-step.btn i {
+    padding: 0% 8%;
+}
+.efb-list-buttons .btn{
     text-transform: uppercase;
     font-weight: 700;
     margin: 17px 20px 0 0;
