@@ -745,3 +745,22 @@ and open the template in the editor.
 .efb-form-title-container:not(.has-danger) .efb-form-title-warning {
     display: none;
 }
+
+.efb-form-icon-btn.btn {
+    position: relative;
+    padding-left: 3.5rem;
+}
+.efb-form-icon-btn.btn i {title-
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    line-height: 2.4rem;
+    padding: 0 10%;
+    border-radius: inherit;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    background: rgba(0,0,0,.2);
+}
+.efb-list-buttons .efb-form-icon-btn i {
+    padding: 0 7%;
+}
