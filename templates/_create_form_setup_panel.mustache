@@ -21,52 +21,53 @@
             {{panel_setup.msg_select_tmpl}}
         </p>
     </div>
-
     <div id="efb-forms-setup-templates-core" class="efb-forms-setup-templates">
         <div class="efb-list">
-            {{#panel_setup.list}}
-                {{#pro}}
-                    <div class="efb-forms-template" id="efb-forms-template-{{tmpl_id}}">
-                        <div class="efb-forms-template-outer bg-primary">
-                            <div class="efb-forms-template-inner">
-                                <div class="efb-forms-template-name">
-                                    {{tmpl_name}}
-                                    <label class="efb-forms-pro-label bg-warning m-0">{{#str}} efb-pro-label, local_edwiserform {{/str}}</label>
-                                </div>
-                                <div class="efb-forms-template-details">
-                                    <p class="desc">{{desc}}</p>
-                                </div>
-                                <div class="efb-forms-template-overlay">
-                                    <a href="#" class="efb-forms-pro-select btn-success" data-template-name="{{tmpl_name}}" data-template="{{tmpl_id}}">
-                                        {{panel_setup.btn_upgrade}}
-                                    </a>
-                                </div>
+            {{#panel_setup.free}}
+                <div class="efb-forms-template {{#active}}active{{/active}}" id="efb-forms-template-{{tmpl_id}}">
+                    <div class="efb-forms-template-outer btn-primary">
+                        <div class="efb-forms-template-inner">
+                            <div class="efb-forms-template-name">
+                                {{tmpl_name}}
+                                <label class="efb-forms-template-active bg-primary m-0">{{#str}} active, local_edwiserform {{/str}}</label>
+                            </div>
+                            <div class="efb-forms-template-details">
+                                <p class="desc">{{desc}}</p>
+                            </div>
+                            <div class="efb-forms-template-overlay">
+                                <a href="#" class="efb-forms-template-select btn-primary" {{#pro}}data-pro="true"{{/pro}} data-template-name="{{tmpl_name}}" data-template="{{tmpl_id}}">
+                                    {{tmpl_hover_txt}}
+                                </a>
+                                <i class="efb-forms-template-loading fa fa-gear fa-spin" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
-                {{/pro}}
-                {{^pro}}
-                    <div class="efb-forms-template {{#active}}active{{/active}}" id="efb-forms-template-{{tmpl_id}}">
-                        <div class="efb-forms-template-outer bg-primary">
-                            <div class="efb-forms-template-inner">
-                                <div class="efb-forms-template-name">
-                                    {{tmpl_name}}
-                                    <label class="efb-forms-template-active bg-success m-0">{{#str}} active, local_edwiserform {{/str}}</label>
-                                </div>
-                                <div class="efb-forms-template-details">
-                                    <p class="desc">{{desc}}</p>
-                                </div>
-                                <div class="efb-forms-template-overlay">
-                                    <a href="#" class="efb-forms-template-select btn-primary" {{#pro}}data-pro="true"{{/pro}} data-template-name="{{tmpl_name}}" data-template="{{tmpl_id}}">
-                                        {{tmpl_hover_txt}}
-                                    </a>
-                                    <i class="efb-forms-template-loading fa fa-gear fa-spin" aria-hidden="true"></i>
-                                </div>
+                </div>
+            {{/panel_setup.free}}
+        </div>
+    </div>
+    <div id="efb-forms-setup-templates-pro" class="efb-forms-setup-templates pro">
+        <div class="efb-list">
+            {{#panel_setup.pro}}
+                <div class="efb-forms-template" id="efb-forms-template-{{tmpl_id}}">
+                    <div class="efb-forms-template-outer btn-primary">
+                        <div class="efb-forms-template-inner">
+                            <div class="efb-forms-template-name">
+                                {{tmpl_name}}
+                                <label class="efb-forms-pro-label m-0">{{#str}} efb-pro-label, local_edwiserform {{/str}}</label>
+                            </div>
+                            <div class="efb-forms-template-details">
+                                <p class="desc">{{desc}}</p>
+                            </div>
+                            <div class="efb-forms-template-overlay">
+                                <a href="#" class="efb-forms-pro-select" data-template-name="{{tmpl_name}}" data-template="{{tmpl_id}}">
+                                    {{panel_setup.btn_upgrade}}
+                                </a>
                             </div>
                         </div>
                     </div>
-                {{/pro}}
-            {{/panel_setup.list}}
+                </div>
+            {{/panel_setup.pro}}
         </div>
     </div>
 

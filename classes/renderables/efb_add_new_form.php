@@ -197,25 +197,17 @@ class efb_add_new_form implements renderable, templatable
 
     private function setupData()
     {
-        $templates = array(
-            array(
-                "tmpl_id"        => "blank",
-                "pro"            => true,
-                "tmpl_name"      => get_string("efb-event-blank-name", "local_edwiserform"),
-                "desc"           => get_string("efb-event-blank-desc", "local_edwiserform"),
-            )
-        );
         foreach (array_keys($this->plugins) as $pluginname) {
-            $templates[] = array(
+            $free[] = array(
                 "tmpl_id"        => $pluginname,
                 "tmpl_name"      => get_string("efb-event-$pluginname-name", "edwiserformevents_$pluginname"),
                 "tmpl_hover_txt" => get_string("efb-event-hover-text", "local_edwiserform"),
                 "desc"           => get_string("efb-event-$pluginname-desc", "edwiserformevents_$pluginname"),
             );
         }
-        $pro = array('login', 'enrolment', 'registration');
-        foreach ($pro as $templatename) {
-            $templates[] = array(
+        $protemplates = array('blank', 'login', 'enrolment', 'registration');
+        foreach ($protemplates as $templatename) {
+            $pro[] = array(
                 "tmpl_id"        => $templatename,
                 "pro"            => true,
                 "tmpl_name"      => get_string("efb-event-$templatename-name", "local_edwiserform"),
@@ -224,21 +216,24 @@ class efb_add_new_form implements renderable, templatable
         }
         if (isset($this->form)) {
             $setup["form_name"]["value"] = $this->form->title;
-            foreach ($templates as $key => $value) {
-                $templates[$key]["active"] = $value["tmpl_id"] == $this->form->type;
+            foreach ($free as $key => $value) {
+                $free[$key]["active"] = $value["tmpl_id"] == $this->form->type;
             }
         }
         $heading = isset($this->form) ? 'builder' : 'setup';
+        $title = isset($this->form) ? $this->form->title : '';
         $setup = array(
             "id"              => "efb-cont-form-setup",
             "heading"         => get_string("efb-lbl-form-$heading", "local_edwiserform"),
+            "title"           => $title,
             "active"          => "active",
             "msg_select_tmpl" => get_string("efb-setup-msg-select-tmpl", "local_edwiserform"),
             "form_name"       => array(
                 "label"       => get_string("efb-lbl-form-setup-formname", "local_edwiserform"),
                 "placeholder" => get_string("efb-lbl-form-setup-formname-placeholder", "local_edwiserform")
             ),
-            "list"            => $templates,
+            "free"            => $free,
+            "pro"             => $pro,
             "tmpl_add_title"  => get_string("efb-setup-additional-title", "local_edwiserform"),
             "msg_upgrade"     => get_string("efb-setup-msg-upgrade", "local_edwiserform"),
             "btn_upgrade"     => get_string("efb-setup-btn-upgrade", "local_edwiserform"),
