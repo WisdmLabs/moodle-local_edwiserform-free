@@ -2,34 +2,7 @@
 @import 'base/animation';
 @import 'base/mixins';
 @import 'base/icons';
-
-.build-form {
-  &.hidden-controls {
-    .formeo {
-      .formeo-controls {
-          .form-action-buttons {
-              position: fixed;
-              border: 0;
-              right: 1vw;
-              display: inline-block;
-              width: -webkit-min-content;
-              width: min-content;
-              margin-top: 5px;
-          }
-          right: -19.5vw;
-          .controls-toggle{
-              right: 0vw;
-              i {
-                  transform: rotateY(180deg);
-              }
-          }
-      }
-      .form-wrapper {
-          right: 0;
-      }
-    }
-  }
-}
+@import 'components/positioning';
 .formeo {
   * {
     box-sizing: inherit;
@@ -41,34 +14,10 @@
   @include clearfix;
 
   @import 'components/display-label';
-
   &.formeo-editor {
     @import 'components/stage';
     @import 'components/controls';
     @import 'components/setting-wrap';
-    &.hidden-controls {
-        .formeo-controls {
-            .form-action-buttons {
-                position: fixed;
-                border: 0;
-                right: 1vw;
-                display: inline-block;
-                width: -webkit-min-content;
-                width: min-content;
-                margin-top: 5px;
-            }
-            right: -19.5vw;
-            .controls-toggle{
-                right: 0vw;
-                i {
-                    transform: rotateY(180deg);
-                }
-            }
-        }
-        .form-wrapper {
-            right: 0;
-        }
-    }
     @import 'base/rtl';
     .stage-wrap {
             display: none;
@@ -106,27 +55,26 @@
     }
     .form-wrapper {
         position: fixed;
-        left: 7.5vw;
-        right: 19.5vw;
-        bottom: 0;
-        top: 125px;
+        left: 110px;
+        bottom: 45px;
+        top: 100px;
         overflow: auto;
         width: auto;
-        padding: 28px;
+        padding: 15px;
         transition: right 0.5s;
         .form-settings-actions {
-            display: none;
             position: absolute;
-            top: 28px;
-            right: 28px;
-        }
-        &:hover {
-            .form-settings-actions {
-                opacity: 1;
-                display: block;
+            opacity: 1;
+            top: 20px;
+            right: 20px;
+            width: calc(#{$action-btn-width} * 2);
+            &.hide-delete {
+              width: #{$action-btn-width};
             }
         }
         .form-container {
+            height: 100% !important;
+            overflow: auto;
             display: block;
             padding: 30px 25px 25px;
             background: white;
@@ -206,8 +154,13 @@
 }
 
 .render-form {
-  padding: 25px;
-  background: white;
+    width: 100%;
+    color: #000000;
+    background-color: #ffffff;
+    margin: 0 auto;
+    padding: 40px;
+    height: 100%;
+    overflow: auto;
 }
 
 .d-none {

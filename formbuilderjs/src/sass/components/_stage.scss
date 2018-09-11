@@ -21,13 +21,10 @@
 
   .stage {
     @extend %no-list-style;
-
-    min-height: 450px;
     transition-property: background-color, border-color;
     transition-duration: 500ms, 333ms;
     background-color: $stage-background;
     padding-left: $action-btn-width - 1;
-    padding-bottom: 15px;
     overflow: visible;
 
     &.empty-stages {

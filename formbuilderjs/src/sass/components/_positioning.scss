@@ -1,0 +1,52 @@
+.build-form {
+  &.hidden-controls {
+    .formeo .formeo-controls {
+      right: -250px;
+      .controls-toggle{
+        right: 0vw;
+        i {
+          transform: rotateY(180deg);
+        }
+      }
+    }
+  }
+  .formeo .formeo-controls {
+    right: 0px;
+    .controls-toggle{
+      right: 250px;
+      i {
+        transform: rotateY(0deg);
+      }
+    }
+  }
+}
+
+/* Lower devices (mobile devices, low and 767px) */
+@media only screen and (max-width: 767px) {
+  .build-form {
+    .formeo .form-wrapper {
+      right: 0px;
+    }
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and 1023px) */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  .build-form {
+    .formeo .form-wrapper {
+      right: 0px;
+    }
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1024px and up) */
+@media only screen and (min-width: 1024px) {
+  .build-form {
+    &.hidden-controls .formeo .form-wrapper {
+      right: 0;
+    }
+    .formeo .form-wrapper {
+      right: 250px;
+    }
+  }
+}
