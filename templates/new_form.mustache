@@ -75,7 +75,7 @@
 
     <div class="efb-forms-editor-body row">
         <!-- Form Panels-->
-        <div id="efb-forms-panels-toggle" class="efb-forms-panels-toggle col-md-1 p-a-0">
+        <div id="efb-forms-panels-toggle" class="efb-forms-panels-toggle">
             {{#nav_item}}
             <button id="{{id}}" class="efb-panel-btn btn-primary {{#active}}panel-{{active}}{{/active}}" data-panel="{{panelid}}" data-panel-lbl="{{label}}">
                 <i class="fa {{icon}}"></i>
@@ -83,7 +83,7 @@
             </button>
             {{/nav_item}}
         </div>
-        <div class="col-md-11 efb-form-content">
+        <div class="efb-form-content">
             <div class="efb-forms-panel-heading">Setup</div>
             <div class="efb-forms-panels">
                 <div id="{{panel_setup.id}}" class="efb-tabcontent {{builder_active}}">
