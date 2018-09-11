@@ -604,3 +604,38 @@ and open the template in the editor.
 .efb-wrap-list .efb-csv-export {
     pointer-events: none;
 }
+.efb-form-title-container .efb-form-title-heading {
+    display: inline-block;
+    font-size: 16px;
+    height: 65px;
+    float: left;
+    border-right: 1px solid #d6d6d6;
+    line-height: 70px;
+    padding: 0 30px;
+}
+.efb-form-title-container .efb-form-title-heading i{
+    padding-left: 0.5rem;
+    cursor: help;
+}
+.efb-form-title-container #efb-form-title {
+    float: left;
+    margin: 12px 0 13px 18px;
+    height: 40px;
+    box-shadow: none;
+    font-size: 18px;
+    width: 420px;
+    padding: 0 20px;
+}
+.efb-form-title-container:not(.has-danger) #efb-form-title {
+    border: 1px solid #d6d6d6;
+}
+.efb-form-title-container .efb-form-title-warning {
+    font-size: 1rem;
+    height: 90px;
+    float: left;
+    line-height: 90px;
+    padding: 0 20px;
+}
+.efb-form-title-container:not(.has-danger) .efb-form-title-warning {
+    display: none;
+}

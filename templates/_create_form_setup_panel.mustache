@@ -15,6 +15,12 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
   }}
 <div class="efb-forms-setup ">
+    <div class="efb-form-title-container">
+        <span class="efb-form-title-heading">
+            {{#str}} FormTitle, local_edwiserform {{/str}}
+        </span>
+        <input type="text" class='form-control' id="efb-form-title" placeholder="{{#str}} efb-form-enter-title, local_edwiserform {{/str}}" value="{{panel_setup.title}}">
+    </div>
     <div class="efb-forms-setup-title">
         {{panel_setup.heading}}
         <p class="efb-forms-setup-desc core">
