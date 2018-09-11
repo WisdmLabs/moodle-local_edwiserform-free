@@ -53,13 +53,13 @@ class efb_list_form_data implements renderable, templatable
         }
         $data->formid = $this->formid;
         $headings = $this->get_headings();
+        $data->heading = $this->form->title;
+        $data->headings = array(get_string("efb-form-data-heading-user", "local_edwiserform"));
+        $data->pageactions = $this->get_page_actions();
         if (empty($headings)) {
             $data->nodata = get_string("efb-form-data-no-data", "local_edwiserform");
             return $data;
         }
-        $data->heading = $this->form->title;
-        $data->headings = array(get_string("efb-form-data-heading-user", "local_edwiserform"));
-        $data->pageactions = $this->get_page_actions();
         $supportActions = isset($this->plugin) && $this->plugin->support_form_data_list_actions();
         if ($supportActions) {
             $data->headings[] = get_string("efb-form-data-heading-action", "local_edwiserform");
