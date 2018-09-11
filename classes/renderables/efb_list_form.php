@@ -35,6 +35,7 @@ class efb_list_form implements renderable, templatable {
             get_string("efb-tbl-heading-shortcode", "local_edwiserform"),
             get_string("efb-tbl-heading-author", "local_edwiserform"),
             get_string("efb-tbl-heading-created", "local_edwiserform"),
+            get_string("efb-tbl-heading-author2", "local_edwiserform"),
             get_string("efb-tbl-heading-modified", "local_edwiserform"),
             get_string("efb-tbl-heading-action", "local_edwiserform"),
         );
@@ -159,7 +160,8 @@ class efb_list_form implements renderable, templatable {
                 "type" => $record->type,
                 "author" => $this->get_user_name($record->author),
                 "created" => $record->created,
-                "modified" => empty($record->modified) ? $record->created : $record->modified,
+                "author2" => empty($record->author2) ? '-' : $this->get_user_name($record->author2),
+                "modified" => empty($record->author2) ? '-' : $record->modified,
                 "actions" => $this->get_form_actions($record),
             );
             $rows[] = $data;

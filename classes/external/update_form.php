@@ -79,7 +79,7 @@ trait update_form {
     }
 
     private static function get_form_settings($setting) {
-        global $DB;
+        global $DB, $USER;
         $data = new \stdClass();
         $data->id = self::getArrVal($setting, "id");
         $data->title = self::getArrVal($setting, "title");
@@ -88,6 +88,7 @@ trait update_form {
         $data->notifi_email = self::getArrVal($setting, "notifi_email");
         $data->courses = self::getArrVal($setting, "courses", array());
         $data->data_edit = self::getArrVal($setting, "data_edit", false);
+        $data->author2 = $USER->id;
         $data->modified = date('Y-m-d H:i:s');
         return $data;
     }
