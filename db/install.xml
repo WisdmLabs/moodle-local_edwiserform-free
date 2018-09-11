@@ -12,7 +12,7 @@
                 <FIELD NAME="definition" TYPE="text" LENGTH="1000" NOTNULL="true" SEQUENCE="false" COMMENT="The form structure defination."/>
                 <FIELD NAME="data_edit" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="The form creation datetime"/>
                 <FIELD NAME="type" TYPE="char"  NOTNULL="true" SEQUENCE="false" DEFAULT="FALSE" COMMENT="Type of the form."/>
-                <FIELD NAME="notifi_email" TYPE="char"  NOTNULL="false" SEQUENCE="false" DEFAULT="FALSE" COMMENT="This is the optional values used for the contactus type form."/>
+                <FIELD NAME="notifi_email" TYPE="char" LENGTH="1000" NOTNULL="false" SEQUENCE="false" DEFAULT="FALSE" COMMENT="This is the optional values used for the contactus type form."/>
                 <FIELD NAME="message" TYPE="text" LENGTH="200" NOTNULL="false" SEQUENCE="false" COMMENT="Message when user successfully submit form data"/>
                 <FIELD NAME="enabled" TYPE="binary"  NOTNULL="true" SEQUENCE="false" COMMENT="The form active status."/>
                 <FIELD NAME="deleted" TYPE="binary"  NOTNULL="true" SEQUENCE="false" COMMENT="If the value is true then it will represent the form is deleted."/>
