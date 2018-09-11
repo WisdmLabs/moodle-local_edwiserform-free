@@ -331,28 +331,49 @@ and open the template in the editor.
     padding: 0 15px 0 15px;
     margin-top: 30px;
 }
-.efb-forms-template{
-    float: left;
-    width: 33.333333%;
-    padding: 0 15px;
+.efb-forms-setup-templates .efb-list {
+    display: flex;
+    flex-wrap: wrap;
 }
-.efb-forms-template-inner{
+.efb-forms-setup-templates.pro {
+    margin-top: 0;
+}
+.efb-forms-setup-templates .efb-list .efb-forms-template {
+    display: inline-flex;
+    float: left;
+    padding: 10px;
+    transition: width 0.5s;
+}
+/* Medium devices (landscape tablets, 768px and 1023px) */
+@media only screen and (max-width: 799px) {
+    .efb-forms-setup-templates .efb-list .efb-forms-template {
+        width: 50%;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1024px and up) */
+@media only screen and (min-width: 800px) {
+    .efb-forms-setup-templates .efb-list .efb-forms-template {
+        width: 33.333333%;
+    }
+}
+
+.efb-forms-template-inner {
     border: 1px solid #d6d6d6;
     padding: 20px;
     position: relative;
-    margin-bottom: 30px;
-    height: 10em;
+    height: 100%;
 }
-.efb-forms-template-name{
+.efb-forms-template-name {
     font-size: 18px;
     line-height: 1.3;
     margin: 0;
 }
-.efb-forms-template-details{
+.efb-forms-template-details {
     margin: 10px 0 0;
 }
 
-.efb-forms-template-overlay{
+.efb-forms-template-overlay {
     position: absolute;
     left: 0;
     top: 0;
@@ -412,10 +433,10 @@ and open the template in the editor.
 .efb-forms-template-overlay.loading .efb-forms-template-select {
     display: none;
 }
-.efb-forms-pro-select{
-    background-color: #83c11f;
-    border: 1px solid #75ac1c;
+.efb-forms-setup-title a, .efb-forms-pro-select {
     color: #fff;
+    background-color: #46be8a;
+    border-color: #46be8a;
     border-radius: 3px;
     font-size: 15px;
     font-weight: 500;
@@ -424,16 +445,22 @@ and open the template in the editor.
     text-decoration: none;
     position: relative;
 }
-.efb-forms-pro-select:hover,
-.efb-forms-pro-select:active,
-.efb-forms-pro-select:focus{
-    background-color: #75ac1c;
+.efb-modal .btn-success, .efb-modal .bg-success {
+    color: #fff;
+    background-color: #46be8a;
+    border-color: #46be8a;
+}
+.efb-form-builder-wrap .btn-success:hover, .efb-form-builder-wrap .bg-success:hover, .efb-form-builder-wrap .btn-success:focus, .efb-form-builder-wrap .bg-success:focus, .efb-forms-setup-title a:hover, .efb-forms-setup-title a:focus, .efb-forms-pro-select:hover, .efb-forms-pro-select:focus {
+    background-color: #5cd29d;
     text-decoration: none;
     color: white;
 }
-.efb-forms-setup-title a{
-    background-color: #83c11f;
-    border: 1px solid #75ac1c;
+.efb-form-builder-wrap .btn-success:actve, .efb-form-builder-wrap .bg-success:actve, .efb-forms-setup-title a:active, .efb-forms-pro-select:active {
+    background-color: #36ab7a;
+    text-decoration: none;
+    color: white;
+}
+.efb-forms-setup-title a {
     border-radius: 3px;
     padding: 8px 15px;
     font-size: 15px;
@@ -441,7 +468,7 @@ and open the template in the editor.
     color: #fff;
     text-decoration: none;
 }
-.efb-forms-template-overlay:hover{
+.efb-forms-template-overlay:hover {
     opacity: 1;
 }
 #efb-cont-form-settings{
@@ -455,7 +482,7 @@ and open the template in the editor.
     content: "";
     display: block;
 }
-.efb-forms-template-inner-selected{
+.efb-forms-template-inner-selected {
     border: 2px solid #29666a;
     background: #e0fffc;
     opacity: 0.7;
@@ -481,15 +508,23 @@ and open the template in the editor.
     padding: .1em 0.3em;
 }
 .efb-forms-template .efb-forms-template-inner .efb-forms-template-name .efb-forms-pro-label {
-    color: #FFFFFF;
+    color: #fff;
+    background-color: #46be8a;
+    border-color: #46be8a;
     transform: scale(.7);
     padding: .1em 0.3em;
 }
 .efb-forms-template:not(.active) .efb-forms-template-inner .efb-forms-template-name .efb-forms-template-active {
     display: none;
 }
+.efb-forms-template:not(.active) .efb-forms-template-outer {
+    border-color: white;
+}
 .efb-forms-template .efb-forms-template-outer {
+    border-width: 1px;
+    border-style: solid;
     color: #4a4a4a !important;
+    width: 100%;
 }
 .efb-forms-template:not(.active) .efb-forms-template-outer {
     background: white !important;
