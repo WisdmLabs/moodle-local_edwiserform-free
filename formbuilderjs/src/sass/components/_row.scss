@@ -11,8 +11,8 @@
   background-color: $white;
   padding: 5px;
   min-height: 34px;
-  box-shadow: 0 0 0 1px $gray-lighter inset;
   &:hover {
+    box-shadow: 0 0 0 1px $gray-lighter inset;
     .group-actions {
       opacity: 1;
     }
