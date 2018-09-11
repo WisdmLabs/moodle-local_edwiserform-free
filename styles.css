@@ -687,6 +687,22 @@ and open the template in the editor.
 .efb-wrap-list .efb-csv-export {
     pointer-events: none;
 }
+.efb-forms-panels::-webkit-scrollbar, .efb-forms-panels-toggle::-webkit-scrollbar, .formeo .form-wrapper::-webkit-scrollbar, .formeo .formeo-controls::-webkit-scrollbar {
+    width: 5px;
+}
+/* Track */
+.efb-forms-panels::-webkit-scrollbar-track, .efb-forms-panels-toggle::-webkit-scrollbar-track, .formeo .form-wrapper::-webkit-scrollbar-track, .formeo .formeo-controls::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+/* Handle */
+.efb-forms-panels::-webkit-scrollbar-thumb, .efb-forms-panels-toggle::-webkit-scrollbar-thumb, .formeo .form-wrapper::-webkit-scrollbar-thumb, .formeo .formeo-controls::-webkit-scrollbar-thumb {
+    background: #b8babf;
+    border-radius: 5px;
+}
+/* Handle on hover */
+.efb-forms-panels::-webkit-scrollbar-thumb:hover, .efb-forms-panels-toggle::-webkit-scrollbar-thumb:hover, .formeo .form-wrapper::-webkit-scrollbar-thumb:hover, .formeo .formeo-controls::-webkit-scrollbar-thumb:hover {
+    background: #76838f;
+}
 .efb-toaster.toaster-container {
   position: fixed;
   width: 100%;
