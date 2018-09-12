@@ -32,6 +32,7 @@ class efb_add_new_form implements renderable, templatable
         $this->formid        = $formid;
         $this->plugins        = get_plugins();
         $this->form_sections = new efb_new_form_sections();
+        $this->form = null;
         if ($formid != null) {
             global $DB;
             $this->form = $DB->get_record("efb_forms", array("id" => $this->formid));
@@ -45,7 +46,7 @@ class efb_add_new_form implements renderable, templatable
     private function get_form_settings()
     {
         $data = array();
-        if (isset($this->form)) {
+        if ($this->form) {
             $data = array(
                 "id"             => $this->form->id,
                 "title"          => $this->form->title,
@@ -65,7 +66,7 @@ class efb_add_new_form implements renderable, templatable
     {
         global $PAGE;
         $this->form_sections->setForm_action(get_string("efb-form-editing", "local_edwiserform"));
-        if (isset($this->form)) {
+        if ($this->form) {
             $PAGE->requires->data_for_js('formdefinition', $this->form->definition);
             $this->form_sections->setForm_title($this->form->title);
             $this->form_sections->setFormid($this->formid);
@@ -81,7 +82,7 @@ class efb_add_new_form implements renderable, templatable
     private function set_default_section_data()
     {
         $settingsparam = array('plugins' => $this->plugins);
-        $settingsparam['form'] = isset($this->form) ? $this->form : null;
+        $settingsparam['form'] = $this->form ? $this->form : null;
         $form_settings = new efb_form_basic_settings(null, $settingsparam);
         $form_data     = $this->get_form_settings();
         $form_settings->set_data($form_data);
@@ -103,7 +104,7 @@ class efb_add_new_form implements renderable, templatable
         $nav_item      = array(
             array(
                 "id"      => "efb-form-setup",
-                "active"  => isset($this->form) ? "" : "active",
+                "active"  => $this->form ? "" : "active",
                 "panelid" => "#efb-cont-form-setup",
                 "label"   => get_string("efb-lbl-form-setup", "local_edwiserform"),
                 "icon"    => "fa-cog"
@@ -116,7 +117,7 @@ class efb_add_new_form implements renderable, templatable
             ),
             array(
                 "id"      => "efb-form-builder",
-                "active"  => isset($this->form) ? "active" : "",
+                "active"  => $this->form ? "active" : "",
                 "panelid" => "#efb-cont-form-builder",
                 "label"   => get_string("efb-lbl-form-builder", "local_edwiserform"),
                 "icon"    => "fa-list-alt"
@@ -124,7 +125,7 @@ class efb_add_new_form implements renderable, templatable
             array(
                 "id"      => "efb-form-preview",
                 "panelid" => "#efb-cont-form-preview",
-                "label"   => get_string("efb-lbl-form--preview", "local_edwiserform"),
+                "label"   => get_string("efb-lbl-form-preview", "local_edwiserform"),
                 "icon"    => "fa-eye"
             )
         );
@@ -150,7 +151,7 @@ class efb_add_new_form implements renderable, templatable
             ),
             array(
                 "id"      => "efb-cont-form-builder",
-                "active"  => isset($this->form) ? "active" : "hide",
+                "active"  => $this->form ? "active" : "hide",
                 "heading" => get_string("efb-lbl-form-builder", "local_edwiserform"),
                 "body"    => "<form class='build-form'></form>",
                 "buttons" => array(
@@ -188,7 +189,7 @@ class efb_add_new_form implements renderable, templatable
                 )
             ),
         );
-        $this->form_sections->set_builder_active(isset($this->form) ? "content-hide" : "content-active");
+        $this->form_sections->set_builder_active($this->form ? "content-hide" : "content-active");
         $this->form_sections->setNav_item($nav_item);
         $this->form_sections->setPanels($panels);
         $this->form_sections->setHeader_button($header_button);
@@ -214,14 +215,14 @@ class efb_add_new_form implements renderable, templatable
                 "desc"           => get_string("efb-event-$templatename-desc", "local_edwiserform"),
             );
         }
-        if (isset($this->form)) {
+        if ($this->form) {
             $setup["form_name"]["value"] = $this->form->title;
             foreach ($free as $key => $value) {
                 $free[$key]["active"] = $value["tmpl_id"] == $this->form->type;
             }
         }
-        $heading = isset($this->form) ? 'builder' : 'setup';
-        $title = isset($this->form) ? $this->form->title : '';
+        $heading = $this->form ? 'builder' : 'setup';
+        $title = $this->form ? $this->form->title : '';
         $setup = array(
             "id"              => "efb-cont-form-setup",
             "heading"         => get_string("efb-lbl-form-$heading", "local_edwiserform"),
