@@ -184,67 +184,6 @@
     }
   }
 
-  .form-action-buttons {
-    position: fixed;
-    transition: right 0.5s;
-    border: 0;
-    right: 22.5vw;
-    bottom: 2.5vw;
-    display: block;
-    width: min-content;
-    flex-direction: column;
-    align-items: baseline;
-    margin-top: 5px;
-    &:hover {
-      .form-actions {
-        li:not(.hide-action) {
-          opacity: 1;
-          transform: translateY(0) !important;
-        }
-      }
-    }
-    .form-actions {
-      display: block;
-      transition: height 0.3s;
-      float: right;
-      overflow: hidden;
-      li {
-        transition: opacity 0.3s, transform 0.3s;
-        opacity: 0;
-        margin-bottom: 10px;
-        display: inline-block;
-        font-weight: 400;
-        width: -webkit-fill-available;
-        &.hide-action {
-          display: none;
-        }
-        &:not(.hide-action):nth	-child(1) {
-          transform: translateY(390%);
-        }
-        &:not(.hide-action):nth-child(2) {
-          transform: translateY(260%);
-        }
-        &:not(.hide-action):nth-child(3) {
-          transform: translateY(130%);
-        }
-      }
-    }
-    .form-actions-floater {
-      &.hide-action {
-        display: none;
-      }
-      font-size: 1.5rem;
-      color: white;
-      font-weight: bold;
-      width: 3.5rem;
-      height: 3.5rem;
-      border-radius: 50%;
-      float: right;
-      outline: none;
-      box-shadow: 0 1px 5px 0px black;
-    }
-  }
-
   @include breakpoint('phone-lrg') {
     width: 45px;
 

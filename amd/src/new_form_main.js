@@ -151,40 +151,6 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                 }
             });
 
-            $(".efb-btn-form-build").click(function (event) {
-                if (!check_template()) {
-                    switch_template('form-setup');
-                    return;
-                }
-                if (!check_title_description()) {
-                    get_title_description(event);
-                    return 0;
-                }
-                var id = $(this).attr("id");
-                var active_page = $(".tab-active").attr("id");
-                if ("efb-btn-next" == id) {
-                    if ("efb-form-settings" == active_page) {
-                        $("#efb-btn-previous").removeClass("efb-hide");
-                        $("#efb-form-builder").trigger("click");
-                    } else if ("efb-form-builder" == active_page) {
-                        $("#efb-btn-save-form-settings").removeClass("efb-hide");
-                        $("#efb-btn-next").addClass("efb-hide");
-                        $("#efb-form-preview").trigger("click");
-                    } else {
-                        $("#efb-btn-next").addClass("efb-hide");
-                    }
-                } else if ("efb-btn-previous" == id) {
-                    if ("efb-form-preview" == active_page) {
-                        $("#efb-btn-save-form-settings").addClass("efb-hide");
-                        $("#efb-btn-next").removeClass("efb-hide");
-                        $("#efb-form-builder").trigger("click");
-                    } else if ("efb-form-builder" == active_page) {
-                        $("#efb-btn-previous").addClass("efb-hide");
-                        $("#efb-form-settings").trigger("click");
-                    }
-                }
-            });
-
             get_form_settings = function() {
                 var type = $("#id_type").val();
                 var data = {
