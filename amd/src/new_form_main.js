@@ -315,9 +315,9 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                 formeo = new Formeo(formeoOpts, template);
                 $("#efb-form-settings").trigger('click');
             }
-            $(".efb-forms-pro-select").click(function() {
-                var type = M.util.get_string(`efb-event-${$(this).data('template')}-name`, 'local_edwiserform');
-                var message = $(this).parent().siblings('.efb-forms-template-details').children('.desc').text();
+            $(".efb-forms-template.pro").click(function() {
+                var type = $(this).find('.efb-forms-template-name').text();
+                var message = $(this).find('.efb-forms-template-details .desc').text();
                 formeo.dom.proWarning({type,message});
             });
             $(".efb-forms-template-select").click(function(event){
