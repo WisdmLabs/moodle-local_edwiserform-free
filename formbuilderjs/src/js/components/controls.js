@@ -656,6 +656,10 @@ export class Controls {
         content: [{
           tag: 'h4',
           content: [groups[i].label || '', {
+            tag: 'label',
+            className: 'efb-forms-pro-label m-0',
+            content: getString('efb-pro-label')
+          }, {
             tag: 'i',
             attrs: {
               className: 'fa fa-angle-right',
@@ -665,7 +669,7 @@ export class Controls {
           action: {
             click: evt => {
               let target = evt.target;
-              if (target.tagName == 'I') {
+              if (target.tagName == 'I' || target.tagName == 'LABEL') {
                 target = target.parentElement;
               }
               let parent = target.parentElement.parentElement;
