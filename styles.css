@@ -316,12 +316,13 @@ and open the template in the editor.
     height: 100%;
     overflow: scroll;
 }
-.efb-forms-setup-title{
-    font-size: 24px;
-    padding: 40px 30px 2px 30px;
+.efb-forms-setup-title, .efb-forms-upgrade-link {
+    padding: 30px;
+}
+.efb-forms-upgrade-link .efb-forms-upgrade-title {
+    font-size: 2rem;
 }
 .efb-forms-setup-desc{
-    padding: 15px 30px;
     color: #666;
     font-size: 16px;
     margin: 0;
@@ -333,6 +334,9 @@ and open the template in the editor.
 .efb-forms-setup-templates .efb-list {
     display: flex;
     flex-wrap: wrap;
+}
+.efb-forms-setup-templates.pro .efb-forms-template-inner{
+    opacity: 0.7;
 }
 .efb-forms-setup-templates.pro {
     margin-top: 0;
@@ -432,7 +436,7 @@ and open the template in the editor.
 .efb-forms-template-overlay.loading .efb-forms-template-select {
     display: none;
 }
-.efb-forms-setup-title a, .efb-forms-pro-select {
+.efb-forms-upgrade-link a, .efb-forms-pro-select {
     color: #fff;
     background-color: #46be8a;
     border-color: #46be8a;
@@ -449,17 +453,17 @@ and open the template in the editor.
     background-color: #46be8a;
     border-color: #46be8a;
 }
-.efb-form-builder-wrap .btn-success:hover, .efb-form-builder-wrap .bg-success:hover, .efb-form-builder-wrap .btn-success:focus, .efb-form-builder-wrap .bg-success:focus, .efb-forms-setup-title a:hover, .efb-forms-setup-title a:focus, .efb-forms-pro-select:hover, .efb-forms-pro-select:focus {
+.efb-form-builder-wrap .btn-success:hover, .efb-form-builder-wrap .bg-success:hover, .efb-form-builder-wrap .btn-success:focus, .efb-form-builder-wrap .bg-success:focus, .efb-forms-upgrade-link a:hover, .efb-forms-upgrade-link a:focus, .efb-forms-pro-select:hover, .efb-forms-pro-select:focus {
     background-color: #5cd29d;
     text-decoration: none;
     color: white;
 }
-.efb-form-builder-wrap .btn-success:actve, .efb-form-builder-wrap .bg-success:actve, .efb-forms-setup-title a:active, .efb-forms-pro-select:active {
+.efb-form-builder-wrap .btn-success:actve, .efb-form-builder-wrap .bg-success:actve, .efb-forms-upgrade-link a:active, .efb-forms-pro-select:active {
     background-color: #36ab7a;
     text-decoration: none;
     color: white;
 }
-.efb-forms-setup-title a {
+.efb-forms-upgrade-link a {
     border-radius: 3px;
     padding: 8px 15px;
     font-size: 15px;

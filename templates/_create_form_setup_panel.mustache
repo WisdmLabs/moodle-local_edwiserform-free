@@ -52,23 +52,23 @@
             {{/panel_setup.free}}
         </div>
     </div>
+    <div class="efb-forms-upgrade-link">
+        <label class="efb-forms-upgrade-title">{{panel_setup.msg_upgrade}}</label>
+        <a href="" target="_blank" rel="noopener noreferrer">
+            {{panel_setup.btn_upgrade}}
+        </a>
+    </div>
     <div id="efb-forms-setup-templates-pro" class="efb-forms-setup-templates pro">
         <div class="efb-list">
             {{#panel_setup.pro}}
-                <div class="efb-forms-template" id="efb-forms-template-{{tmpl_id}}">
-                    <div class="efb-forms-template-outer btn-primary">
+                <div class="efb-forms-template pro" id="efb-forms-template-{{tmpl_id}}">
+                    <div class="efb-forms-template-outer">
                         <div class="efb-forms-template-inner">
                             <div class="efb-forms-template-name">
                                 {{tmpl_name}}
-                                <label class="efb-forms-pro-label m-0">{{#str}} efb-pro-label, local_edwiserform {{/str}}</label>
                             </div>
                             <div class="efb-forms-template-details">
                                 <p class="desc">{{desc}}</p>
-                            </div>
-                            <div class="efb-forms-template-overlay">
-                                <a href="#" class="efb-forms-pro-select" data-template-name="{{tmpl_name}}" data-template="{{tmpl_id}}">
-                                    {{panel_setup.btn_upgrade}}
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -76,12 +76,4 @@
             {{/panel_setup.pro}}
         </div>
     </div>
-
-    <div class="efb-forms-setup-title">
-        {{panel_setup.msg_upgrade}}
-        <a href="" target="_blank" rel="noopener noreferrer">
-            {{panel_setup.btn_upgrade}}
-        </a>
-    </div>
-
 </div>
