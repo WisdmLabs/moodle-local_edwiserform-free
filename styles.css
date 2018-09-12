@@ -52,7 +52,7 @@ and open the template in the editor.
     background: #6b6b6b;
 }
 .efb-tabcontent {
-    padding: 15px 15px 60px;
+    padding: 15px;
     height: 100%;
     margin: 0;
 }
@@ -75,22 +75,6 @@ and open the template in the editor.
 }
 #efb-cont-form-builder {
     margin: 0;
-}
-.efb-panel-btns {
-    padding: 5px;
-    position: fixed;
-    left: 110px;
-    bottom: 0px;
-    right: 0px;
-    background-color: white;
-    z-index: 10;
-    border-top: 1px solid rgba(0,0,0,0.2);
-}
-.efb-panel-btns .efb-form-previous-step {
-    float: left;
-}
-.efb-panel-btns .efb-form-next-step {
-    float: right;
 }
 .efb-hide{
     display: none !important;
@@ -244,9 +228,6 @@ and open the template in the editor.
 .efb-panel-btn:not(.panel-active):not(:hover) {
     background-color: transparent !important;
 }
-.efb-panel-btns button {
-    transition: left 0.5s, right 0.5s;
-}
 .efb-forms-panels {
     display: block;
     position: fixed;
@@ -309,12 +290,12 @@ and open the template in the editor.
     line-height: 90px;
     padding: 0 30px;
 }
-.efb-forms-setup{
+.efb-forms-setup {
     padding: 0;
     background: white;
     display: grid;
     height: 100%;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 .efb-forms-setup-title, .efb-forms-upgrade-link {
     padding: 30px;
@@ -693,20 +674,20 @@ and open the template in the editor.
 .d-none {
     display: none;
 }
-.efb-forms-panels::-webkit-scrollbar, .efb-forms-panels-toggle::-webkit-scrollbar, .formeo .form-wrapper::-webkit-scrollbar, .formeo .formeo-controls::-webkit-scrollbar {
+.efb-tabcontent .efb-form-settings::-webkit-scrollbar, .efb-tabcontent .efb-forms-setup::-webkit-scrollbar, .efb-tabcontent .render-form::-webkit-scrollbar, .efb-tabcontent .form-container::-webkit-scrollbar, .efb-forms-panels-toggle::-webkit-scrollbar, .efb-tabcontent .formeo .formeo-controls::-webkit-scrollbar {
     width: 5px;
 }
 /* Track */
-.efb-forms-panels::-webkit-scrollbar-track, .efb-forms-panels-toggle::-webkit-scrollbar-track, .formeo .form-wrapper::-webkit-scrollbar-track, .formeo .formeo-controls::-webkit-scrollbar-track {
+.efb-tabcontent .efb-form-settings::-webkit-scrollbar-track, .efb-tabcontent .efb-forms-setup::-webkit-scrollbar-track, .efb-tabcontent .render-form::-webkit-scrollbar-track, .efb-tabcontent .form-container::-webkit-scrollbar-track, .efb-forms-panels-toggle::-webkit-scrollbar-track, .efb-tabcontent .formeo .formeo-controls::-webkit-scrollbar-track {
     background: #f1f1f1;
 }
 /* Handle */
-.efb-forms-panels::-webkit-scrollbar-thumb, .efb-forms-panels-toggle::-webkit-scrollbar-thumb, .formeo .form-wrapper::-webkit-scrollbar-thumb, .formeo .formeo-controls::-webkit-scrollbar-thumb {
+.efb-tabcontent .efb-form-settings::-webkit-scrollbar-thumb, .efb-tabcontent .efb-forms-setup::-webkit-scrollbar-thumb, .efb-tabcontent .render-form::-webkit-scrollbar-thumb, .efb-tabcontent .form-container::-webkit-scrollbar-thumb, .efb-forms-panels-toggle::-webkit-scrollbar-thumb, .efb-tabcontent .formeo .formeo-controls::-webkit-scrollbar-thumb {
     background: #b8babf;
     border-radius: 5px;
 }
 /* Handle on hover */
-.efb-forms-panels::-webkit-scrollbar-thumb:hover, .efb-forms-panels-toggle::-webkit-scrollbar-thumb:hover, .formeo .form-wrapper::-webkit-scrollbar-thumb:hover, .formeo .formeo-controls::-webkit-scrollbar-thumb:hover {
+.efb-tabcontent .efb-form-settings::-webkit-scrollbar-thumb:hover, .efb-tabcontent .efb-forms-setup::-webkit-scrollbar-thumb:hover, .efb-tabcontent .render-form::-webkit-scrollbar-thumb:hover, .efb-tabcontent .form-container::-webkit-scrollbar-thumb:hover, .efb-forms-panels-toggle::-webkit-scrollbar-thumb:hover, .efb-tabcontent .formeo .formeo-controls::-webkit-scrollbar-thumb:hover {
     background: #76838f;
 }
 .efb-toaster.toaster-container {
@@ -732,7 +713,7 @@ and open the template in the editor.
   border-radius: 2px;
   background-color: #424242;
 }
-.efb-form-container {
+.efb-form-title-container {
     border-bottom: 1px solid #d6d6d6;
 }
 .efb-form-title-container .efb-form-title-heading {

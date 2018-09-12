@@ -92,12 +92,7 @@
                 </div>
                 {{#panels}}
                 <div id="{{id}}" class="efb-tabcontent content-{{#active}}{{active}}{{/active}}{{^active}}hide{{/active}}">
-                    {{{body}}}
-                    <div class="efb-panel-btns">
-                        {{#buttons}}
-                            <button data-id="{{id}}" class="btn btn-primary efb-form-step efb-form-icon-btn {{class}}"><i class="fa fa-{{icon}}" aria-hidden="true"></i>{{title}}</button>
-                        {{/buttons}}
-                    </div>
+                    {{{body}}}{{{button}}}
                 </div>
                 {{/panels}}
             </div>
