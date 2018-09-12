@@ -515,7 +515,7 @@ class DOM {
       icon = `<svg class="svg-icon svg-icon-${name}"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-${name}"></use></svg>`;
     } else {
       //eslint-disable-next-line
-      icon = `<span class="glyphicon glyphicon-${name}" aria-hidden="true"></span>`;
+      icon = `<span class="fa fa-${name}" aria-hidden="true"></span>`;
     }
     return icon;
   }
@@ -3140,7 +3140,6 @@ class DOM {
    */
   clearStage(stage) {
     stage.classList.add('removing-all-fields');
-
     const resetStage = () => {
       // Empty the data register for stage
       // and everything below it.
@@ -3148,7 +3147,9 @@ class DOM {
       stage.classList.remove('removing-all-fields');
       data.save();
       dom.emptyClass(stage);
-      animate.slideDown(stage, 300);
+      animate.slideDown(stage, 300, function() {
+        stage.style.height = '100%';
+      });
     };
 
     // var markEmptyArray = [];
