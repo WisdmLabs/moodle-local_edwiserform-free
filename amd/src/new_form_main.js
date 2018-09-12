@@ -17,6 +17,7 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
             };
             let container = document.querySelector('.build-form');
             let renderContainer = document.querySelector('.render-form');
+            let saved = false;
             let formeoOpts = {
                 container: container,
                 // allowEdit: false,
@@ -244,25 +245,33 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                 var formdef = get_form_def();
                 var formid = $("[name='id']").val();
                 var service_name = "edwiserform_create_new_form";
-                function form_success_action(response) {
+                var form_create_action = function (response) {
                     if (response.status == true) {
-                        var formid = response.formid;
-                        var msg = response.msg;
-                        if ($("[name='id']").val() == "") {
-                            $("#id").val(formid);
-                        }
+                        saved = true;
+                        window.onbeforeunload = null;
                         formeo.dom.alert('success', response.msg, function() {
                             formeo.reset();
-                            window.location.href = M.cfg.wwwroot + "/local/edwiserform/view.php?page=listforms";
+                            $(location).attr('href', M.cfg.wwwroot + "/local/edwiserform/view.php?page=listforms");
                         });
                         setTimeout(function() {
-                            window.location.href = M.cfg.wwwroot + "/local/edwiserform/view.php?page=listforms";
+                            $(location).attr('href', M.cfg.wwwroot + "/local/edwiserform/view.php?page=listforms");
                         }, 4000);
                     } else {
                         formeo.dom.alert('danger', response.msg);
                     }
                 }
                 if (formid) {
+                    var form_update_action = function (response) {
+                        if (response.status == true) {
+                            window.onbeforeunload = null;
+                            formeo.dom.alert('success', response.msg, function() {
+                                formeo.reset();
+                                $(location).attr('href', M.cfg.wwwroot + "/local/edwiserform/view.php?page=listforms");
+                            });
+                        } else {
+                            formeo.dom.alert('danger', response.msg);
+                        }
+                    }
                     formeo.dom.multiActions(
                         'warning',
                         M.util.get_string("attention", "local_edwiserform"),
@@ -271,7 +280,7 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                             title: M.util.get_string("efb-forms-update-create-new", "local_edwiserform"),
                             type: 'primary',
                             action: function() {
-                                save_form_settings(service_name, settings, formdef, form_success_action);
+                                save_form_settings(service_name, settings, formdef, form_create_action);
                             }
                         }, {
                             title: M.util.get_string("efb-forms-update-overwrite-existing", "local_edwiserform"),
@@ -279,13 +288,17 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                             action: function() {
                                 service_name = "edwiserform_update_form_settings";
                                 settings["id"] = formid;
-                                save_form_settings(service_name, settings, formdef, form_success_action);
+                                save_form_settings(service_name, settings, formdef, form_update_action);
                             }
                         }]
                     );
                     return;
                 }
-                save_form_settings(service_name, settings, formdef, form_success_action);
+                if (!saved) {
+                    save_form_settings(service_name, settings, formdef, form_create_action);
+                } else {
+                    formeo.dom.toaster(M.util.get_string('efb-form-setting-saved', 'local_edwiserform'), 3000);
+                }
             });
 
             $("#efb-form-title").keyup(function () {
