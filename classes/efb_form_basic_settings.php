@@ -55,6 +55,10 @@ class efb_form_basic_settings extends moodleform
         // $form->addElement("select", "efb_courses", get_string("efb-lbl-courses-list", "local_edwiserform"), $courses, array('multiple' => true));
         $form->addElement("checkbox", "editdata", get_string("efb-lbl-allowedit", "local_edwiserform"), null);
         $form->addElement("textarea", "confirmation_msg", get_string("efb-lbl-confirmation-msg", "local_edwiserform"), null);
+        $buildform = html_writer::start_tag("div", array("class" => "text-center"));
+        $buildform .= html_writer::tag("button", get_string("efb-form-builder-step", "local_edwiserform"), array('class' => 'efb-form-step btn btn-primary', 'data-id' => 'efb-form-builder'));
+        $buildform .= html_writer::end_tag("div");
+        $form->addElement("html", $buildform);
         foreach ($plugins as $plugin) {
             $plugin->get_settings($form, $this->_customdata['form']);
         }

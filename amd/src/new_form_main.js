@@ -70,6 +70,9 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
             $(document).on('formeoUpdated', function(event) {
                 can_save_form();
             });
+            $(document).on('controlsCollapsed', function(event) {
+                $('.efb-form-step-preview').toggleClass('collapsed', event.detail.collapsed);
+            });
 
             function check_template() {
                 return $('.efb-forms-template.active').length > 0;
@@ -108,7 +111,8 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
             }
 
             $('#id_type').closest('.fitem').hide();
-            $(".efb-form-step").click(function() {
+            $(".efb-form-step").click(function(event) {
+                event.preventDefault();
                 var id = $(this).data('id');
                 $('#'+id).click();
             });

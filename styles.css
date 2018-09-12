@@ -73,6 +73,21 @@ and open the template in the editor.
     padding: 25px;
     overflow: auto;
 }
+.efb-form-step-preview {
+    position: absolute;
+    bottom: 25px;
+    right: 275px;
+    border: 0;
+    border-radius: 50%;
+    height: 3rem;
+    width: 3rem;
+    outline: unset;
+    box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.5);
+    transition: right .5s;
+}
+.efb-form-step-preview.collapsed {
+    right: 25px;
+}
 #efb-cont-form-builder {
     margin: 0;
 }
