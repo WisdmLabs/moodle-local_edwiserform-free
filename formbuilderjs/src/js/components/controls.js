@@ -57,57 +57,20 @@ const defaultElements = [{
   },
   fMap: 'attrs.value'
 }, {
-  tag: 'input',
+  tag: 'textarea',
+  config: {
+    label: getString('textarea'),
+    disabledAttrs: ['name']
+  },
+  meta: {
+    group: 'standard',
+    icon: 'textarea',
+    id: 'textarea'
+  },
   attrs: {
-    type: 'email',
     required: false,
     className: 'form-control',
     style: ''
-  },
-  config: {
-    disabledAttrs: ['type', 'template', 'name'],
-    label: getString('email')
-  },
-  meta: {
-    group: 'standard',
-    icon: 'email',
-    id: 'email'
-  },
-  fMap: 'attrs.value',
-}, {
-  tag: 'input',
-  attrs: {
-    type: 'number',
-    required: false,
-    className: 'form-control',
-    style: ''
-  },
-  config: {
-    label: getString('number'),
-    disabledAttrs: ['type', 'template', 'name']
-  },
-  meta: {
-    group: 'standard',
-    icon: 'hash',
-    id: 'number'
-  },
-  fMap: 'attrs.value',
-}, {
-  tag: 'input',
-  attrs: {
-    type: 'password',
-    required: true,
-    className: 'form-control',
-    style: ''
-  },
-  config: {
-    label: getString('password'),
-    disabledAttrs: ['type', 'template', 'name']
-  },
-  meta: {
-    group: 'standard',
-    icon: 'password',
-    id: 'password'
   }
 }, {
   tag: 'select',
@@ -135,20 +98,68 @@ const defaultElements = [{
 }, {
   tag: 'input',
   attrs: {
-    type: 'date',
+    type: 'radio',
+    required: false,
+    style: ''
+  },
+  config: {
+    label: getString('radioGroup'),
+    disabledAttrs: ['type', 'template', 'name']
+  },
+  meta: {
+    group: 'standard',
+    icon: 'radio-group',
+    id: 'radio'
+  },
+  options: [1, 2, 3].map(i => {
+    return {
+      label: 'Radio-' + i,
+      value: 'radio value-' + i,
+      selected: false
+    };
+  })
+}, {
+  tag: 'input',
+  attrs: {
+    type: 'checkbox',
+    required: false,
+    name: 'checkbox',
+    style: ''
+  },
+  config: {
+    label: getString('checkbox') + '/' + getString('group'),
+    disabledAttrs: ['type', 'template']
+  },
+  meta: {
+    group: 'standard',
+    icon: 'checkbox',
+    id: 'checkbox'
+  },
+  options: [1, 2, 3].map(i => {
+    return {
+      label: 'Checkbox -' + i,
+      value: 'checkbox value-' + i,
+      selected: false
+    };
+  })
+}, {
+  tag: 'input',
+  attrs: {
+    type: 'number',
     required: false,
     className: 'form-control',
     style: ''
   },
   config: {
-    disabledAttrs: ['type', 'template', 'name'],
-    label: getString('input.date')
+    label: getString('number'),
+    disabledAttrs: ['type', 'template', 'name']
   },
   meta: {
     group: 'standard',
-    icon: 'calendar',
-    id: 'date-input'
-  }
+    icon: 'hash',
+    id: 'number'
+  },
+  fMap: 'attrs.value',
 }, {
   tag: 'button',
   attrs: {
@@ -221,71 +232,147 @@ const defaultElements = [{
     ]
   }]
 }, {
-
-  tag: 'textarea',
-  config: {
-    label: getString('textarea'),
-    disabledAttrs: ['name']
-  },
-  // This is the beginning of actions being supported for render
-  // editor field actions should be in config.action
-  meta: {
-    group: 'standard',
-    icon: 'textarea',
-    id: 'textarea'
-  },
+  tag: 'input',
   attrs: {
+    type: 'text',
     required: false,
     className: 'form-control',
     style: ''
+  },
+  config: {
+    disabledAttrs: ['type', 'template', 'name'],
+    label: getString('name')
+  },
+  meta: {
+    group: 'advance',
+    icon: 'user-circle',
+    id: 'name'
+  },
+  fMap: 'attrs.value'
+}, {
+  tag: 'input',
+  attrs: {
+    type: 'date',
+    required: false,
+    className: 'form-control',
+    style: ''
+  },
+  config: {
+    disabledAttrs: ['type', 'template', 'name'],
+    label: getString('input.date')
+  },
+  meta: {
+    group: 'advance',
+    icon: 'calendar',
+    id: 'date-input'
   }
 }, {
   tag: 'input',
   attrs: {
-    type: 'checkbox',
+    type: 'text',
+    pattern: '^(\\+[0-9]{0,2})?0?[0-9]{10}$',
+    className: 'form-control',
     required: false,
-    name: 'checkbox',
-    style: ''
+    value: ''
   },
   config: {
-    label: getString('checkbox') + '/' + getString('group'),
-    disabledAttrs: ['type', 'template']
+    disabledAttrs: ['type', 'template', 'pattern', 'name'],
+    label: getString('mobile')
   },
   meta: {
-    group: 'standard',
-    icon: 'checkbox',
-    id: 'checkbox'
+    group: 'advance',
+    icon: 'mobile',
+    id: 'mobile'
   },
-  options: [1, 2, 3].map(i => {
-    return {
-      label: 'Checkbox -' + i,
-      value: 'checkbox value-' + i,
-      selected: false
-    };
-  })
+  fMap: 'attrs.value'
 }, {
   tag: 'input',
   attrs: {
-    type: 'radio',
+    type: 'text',
     required: false,
+    className: 'form-control',
     style: ''
   },
   config: {
-    label: getString('radioGroup'),
+    disabledAttrs: ['type', 'template', 'name'],
+    label: getString('address')
+  },
+  meta: {
+    group: 'advance',
+    icon: 'address-card',
+    id: 'address'
+  },
+  fMap: 'attrs.value'
+}, {
+  tag: 'input',
+  attrs: {
+    type: 'text',
+    pattern: '((http|https)\:\/\/)?(w{3}\.)?[a-zA-Z]+.[a-zA-Z.]+.*',
+    required: false,
+    value: ''
+  },
+  config: {
+    disabledAttrs: ['type', 'template', 'pattern', 'name'],
+    label: getString('website')
+  },
+  meta: {
+    group: 'advance',
+    icon: 'globe',
+    id: 'website'
+  },
+  fMap: 'attrs.value'
+}, {
+  tag: 'input',
+  attrs: {
+    type: 'text',
+    required: true,
+    className: 'form-control',
+    style: ''
+  },
+  config: {
+    label: getString('username'),
     disabledAttrs: ['type', 'template', 'name']
   },
   meta: {
-    group: 'standard',
-    icon: 'radio-group',
-    id: 'radio'
+    group: 'advance',
+    icon: 'user',
+    id: 'username'
+  }
+}, {
+  tag: 'input',
+  attrs: {
+    type: 'password',
+    required: true,
+    className: 'form-control',
+    style: ''
   },
-  options: [1, 2, 3].map(i => {
-    return {
-      label: 'Radio-' + i,
-      value: 'radio value-' + i,
-      selected: false
-    };
-  })
+  config: {
+    label: getString('password'),
+    disabledAttrs: ['type', 'template', 'name']
+  },
+  meta: {
+    group: 'advance',
+    icon: 'key',
+    id: 'password'
+  }
+}, {
+  tag: 'input',
+  attrs: {
+    type: 'email',
+    required: false,
+    className: 'form-control',
+    style: ''
+  },
+  config: {
+    disabledAttrs: ['type', 'template', 'name'],
+    label: getString('email')
+  },
+  meta: {
+    group: 'standard',
+    icon: 'email',
+    id: 'email'
+  },
+  fMap: 'attrs.value',
 }, {
   tag: 'input',
   attrs: {
@@ -299,7 +386,7 @@ const defaultElements = [{
     label: getString('fileUpload')
   },
   meta: {
-    group: 'standard',
+    group: 'advance',
     icon: 'upload',
     id: 'upload'
   },
@@ -346,23 +433,21 @@ const defaultElements = [{
     };
   })
 }, {
-  tag: 'input',
+  tag: 'div',
   attrs: {
-    type: 'text',
-    pattern: '^(\\+[0-9]{0,2})?0?[0-9]{10}$',
-    required: false,
-    value: ''
+    className: 'g-recaptcha',
   },
   config: {
-    disabledAttrs: ['type', 'template', 'pattern', 'name'],
-    label: getString('mobile')
+    disabledAttrs: ['template', 'className'],
+    recaptcha: true,
+    label: getString('reCaptcha'),
+    single: true
   },
   meta: {
     group: 'advance',
-    icon: 'mobile',
-    id: 'mobile'
-  },
-  fMap: 'attrs.value'
+    icon: 'repeat',
+    id: 'recaptcha'
+  }
 }, {
   tag: 'input',
   attrs: {
@@ -381,22 +466,6 @@ const defaultElements = [{
     id: 'website'
   },
   fMap: 'attrs.value'
-}, {
-  tag: 'div',
-  attrs: {
-    className: 'g-recaptcha',
-  },
-  config: {
-    disabledAttrs: ['template', 'className'],
-    recaptcha: true,
-    label: getString('reCaptcha'),
-    single: true
-  },
-  meta: {
-    group: 'advance',
-    icon: 'recaptcha',
-    id: 'recaptcha'
-  }
 }, {
   tag: 'a',
   attrs: {
