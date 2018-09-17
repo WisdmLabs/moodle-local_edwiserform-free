@@ -41,5 +41,5 @@ $settings->add(new admin_setting_configtext(
     "local_edwiserform/google_recaptcha_sitekey",
     new lang_string("efb-google-recaptcha-sitekey", "local_edwiserform"),
     new lang_string("efb-desc-google-recaptcha-sitekey", "local_edwiserform"),
-    ''
+    'null'
 ));
