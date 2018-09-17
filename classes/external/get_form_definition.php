@@ -55,7 +55,7 @@ trait get_form_definition {
                 return $responce;
             }
             if (!$form->enabled) {
-                $responce['msg'] = get_string("efb-form-not-enabled", "local_edwiserform", ''.$formid);
+                $responce['msg'] = get_string("efb-form-not-enabled", "local_edwiserform", ''.$form->title);
                 return $responce;
             }
             $params = array('form_id' => $formid);
