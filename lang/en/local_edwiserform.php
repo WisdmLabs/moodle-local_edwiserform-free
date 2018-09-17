@@ -73,7 +73,7 @@ $string['clickonshortcode'] = 'Note: Click on shortcode to copy';
 $string['shortcodecoppied'] = '{$a} coppied to clipboard';
 $string['hey-wait'] = 'Hey Wait';
 $string['efb-search-form'] = 'Search Forms:';
-$string['efb-form-enter-title'] = 'Please enter title to your form...';
+$string['efb-form-enter-title'] = 'Please give a name to your form';
 
 /**
  * Template event string
