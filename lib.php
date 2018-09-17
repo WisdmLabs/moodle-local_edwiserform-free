@@ -1,10 +1,27 @@
 <?php
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * @package   local_edwiserform
+ * @copyright WisdmLabs
+ * @author    Yogesh Shirsath
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+define("EDWISERFORM_COMPONENT", "local_edwiserform");
+define("EDWISERFORM_FILEAREA", "successmessage");
 define("UNAUTHORISED_USER", 1);
 define("ADMIN_PERMISSION", 2);
 
@@ -119,4 +136,33 @@ function local_edwiserform_cron() {
     $edwiserform = new edwiserform();
     $edwiserform->cron();
     return true;
+}
+
+/**
+ * Serves the files from the edwiserform file areas
+ *
+ * @package mod_pitchprep
+ * @category files
+ *
+ * @param stdClass $course the course object
+ * @param stdClass $cm the course module object
+ * @param stdClass $context the edwiserform's context
+ * @param string $filearea the name of the file area
+ * @param array $args extra arguments (itemid, path)
+ * @param bool $forcedownload whether or not force download
+ * @param array $options additional options affecting the file serving
+ */
+function local_edwiserform_pluginfile($course, $cm, $context, $filearea, array $args, $forcedownload = 0, array $options = array()) {
+    if ($context->contextlevel != CONTEXT_SYSTEM) {
+        send_file_not_found();
+    }
+    $itemid = (int)array_shift($args);
+    $relativepath = implode('/', $args);
+    $fullpath = "/{$context->id}/local_edwiserform/$filearea/$itemid/$relativepath";
+    $fs = get_file_storage();
+    if (!($file = $fs->get_file_by_hash(sha1($fullpath)))) {
+        return false;
+    }
+    // Download MUST be forced - security!
+    send_stored_file($file, 0, 0, $forcedownload, $options);
 }
