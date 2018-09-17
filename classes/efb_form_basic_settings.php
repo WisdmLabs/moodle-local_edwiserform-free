@@ -47,14 +47,19 @@ class efb_form_basic_settings extends moodleform
         $form->addRule('title', get_string("efb-lbl-title-warning", "local_edwiserform"), "required", null, "client");
         $form->setType("title", PARAM_TEXT);
         $form->addElement("textarea", "description", get_string("efb-lbl-description", "local_edwiserform"), null);
-        $form->addRule('description', get_string("efb-lbl-description-warning", "local_edwiserform"), "required", null, "client");
         $form->setType("description", PARAM_TEXT);
         $form->addElement("select", "type", get_string("efb-lbl-event", "local_edwiserform"), $events);
         $form->addElement("text", "notifi_email", get_string("efb-lbl-notifi-email", "local_edwiserform"), null);
         $form->setType("notifi_email", PARAM_TEXT);
-        // $form->addElement("select", "efb_courses", get_string("efb-lbl-courses-list", "local_edwiserform"), $courses, array('multiple' => true));
         $form->addElement("checkbox", "editdata", get_string("efb-lbl-allowedit", "local_edwiserform"), null);
-        $form->addElement("textarea", "confirmation_msg", get_string("efb-lbl-confirmation-msg", "local_edwiserform"), null);
+        $context = context_system::instance();
+        $form->addElement("editor", "confirmation_msg", get_string("efb-lbl-confirmation-msg", "local_edwiserform"), null, array(
+            'maxfiles' => EDITOR_UNLIMITED_FILES,
+            'noclean' => true,
+            'context' => $context,
+            'subdirs' => false
+        ));
+        $form->setType("confirmation_msg", PARAM_RAW);
         $buildform = html_writer::start_tag("div", array("class" => "text-center"));
         $buildform .= html_writer::tag("button", get_string("efb-form-builder-step", "local_edwiserform"), array('class' => 'efb-form-step btn btn-primary', 'data-id' => 'efb-form-builder'));
         $buildform .= html_writer::end_tag("div");
