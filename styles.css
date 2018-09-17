@@ -564,6 +564,9 @@ and open the template in the editor.
     width: 70%;
     border: 1px solid rgba(0,0,0,.5);
 }
+#efb-basic-form-settings .editor_atto .form-control {
+    width: 100%;
+}
 .efb-table .icon {
     font-size: 1.3rem;
 }
