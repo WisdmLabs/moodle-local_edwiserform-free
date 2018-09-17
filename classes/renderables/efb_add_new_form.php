@@ -47,13 +47,21 @@ class efb_add_new_form implements renderable, templatable
     {
         $data = array();
         if ($this->form) {
+            $draftid = file_get_submitted_draft_itemid(EDWISERFORM_FILEAREA);
+            $context = context_system::instance();
+            $message = file_prepare_draft_area($draftid, $context->id, EDWISERFORM_COMPONENT, EDWISERFORM_FILEAREA, $this->form->id, null, $this->form->message);
             $data = array(
                 "id"             => $this->form->id,
                 "title"          => $this->form->title,
                 "editdata"       => $this->form->data_edit,
                 "description"    => $this->form->description,
                 "type"           => $this->form->type,
-                "notifi_email"   => $this->form->notifi_email
+                "notifi_email"   => $this->form->notifi_email,
+                "confirmation_msg" => array(
+                    "itemid" => $draftid,
+                    "format" => FORMAT_HTML,
+                    "text"   => $message
+                )
             );
         }
         return $data;
