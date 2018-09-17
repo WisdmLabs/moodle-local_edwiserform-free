@@ -10,6 +10,7 @@ namespace local_edwiserform\external;
 
 use external_function_parameters;
 use external_value;
+use context_system;
 
 /**
  *
@@ -86,7 +87,13 @@ trait submit_form_data {
         }
         if ($status) {
             $responce['status'] = true;
-            $responce['msg'] = $form->message ? $form->message : get_string("efb-form-data-submission-successful", "local_edwiserform");
+            if ($form->message) {
+                $context = context_system::instance();
+                $message = file_rewrite_pluginfile_urls($form->message, 'pluginfile.php', $context->id, EDWISERFORM_COMPONENT, EDWISERFORM_FILEAREA, $form->id);
+                $responce['msg'] = $message;
+            } else {
+                $responce['msg'] = get_string("efb-form-data-submission-successful", "local_edwiserform");
+            }
             $responce['msg'] = '<p>' . $responce['msg'] . '</p>';
             $eventmail = '';
             if ($form->type != 'blank') {
