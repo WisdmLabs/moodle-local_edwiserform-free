@@ -159,6 +159,7 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                     "type": type,
                     "notifi_email": $("#id_notifi_email").val(),
                     "message": $("#id_confirmation_msg").val(),
+                    "draftitemid": $('[name="confirmation_msg[itemid]"]').val(),
                     "data_edit": $("#id_editdata").val(),
                     "eventsettings": ""
                 };

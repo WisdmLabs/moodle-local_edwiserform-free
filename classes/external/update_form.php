@@ -10,6 +10,7 @@ namespace local_edwiserform\external;
 
 use external_function_parameters;
 use external_value;
+use context_system;
 /**
  *
  * @author sudam
@@ -28,7 +29,8 @@ trait update_form {
                         'type' => new external_value(PARAM_TEXT, 'Type of the form', VALUE_REQUIRED),
                         'notifi_email' => new external_value(PARAM_TEXT, 'Notification email address. This value is required if the form type is contact us', VALUE_OPTIONAL),
                         'courses' => new external_value(PARAM_SEQUENCE, 'Enrollment courses list this value is reqired if type is enrol', VALUE_OPTIONAL),
-                        'message' => new external_value(PARAM_TEXT, 'Message to show after successfull submission', VALUE_OPTIONAL),
+                        'message' => new external_value(PARAM_RAW, 'Message to show after successfull submission', VALUE_OPTIONAL),
+                        "draftitemid" => new external_value(PARAM_INT, 'Draft item id form message', VALUE_OPTIONAL),
                         'eventsettings' => new external_value(PARAM_RAW, 'Event settings', VALUE_OPTIONAL)
                     )
                 ),
@@ -88,6 +90,16 @@ trait update_form {
         $data->notifi_email = self::getArrVal($setting, "notifi_email");
         $data->courses = self::getArrVal($setting, "courses", array());
         $data->data_edit = self::getArrVal($setting, "data_edit", false);
+        $context = context_system::instance();
+        $data->message = file_save_draft_area_files(
+            self::getArrVal($setting, "draftitemid", 0),
+            $context->id,
+            EDWISERFORM_COMPONENT,
+            EDWISERFORM_FILEAREA,
+            $data->id,
+            array('subdirs'=>false),
+            self::getArrVal($setting, "message", "")
+        );
         $data->author2 = $USER->id;
         $data->modified = date('Y-m-d H:i:s');
         return $data;

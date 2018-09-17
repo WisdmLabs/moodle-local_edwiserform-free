@@ -10,6 +10,8 @@ namespace local_edwiserform\external;
 
 use external_function_parameters;
 use external_value;
+use stdClass;
+use context_system;
 
 /**
  *
@@ -26,7 +28,8 @@ trait create_new_form {
                         'data_edit' => new external_value(PARAM_BOOL, 'Is form editable. Boolean true/flase', VALUE_REQUIRED),
                         'type' => new external_value(PARAM_TEXT, 'Type of the form', VALUE_REQUIRED),
                         'notifi_email' => new external_value(PARAM_TEXT, 'Notification email address. This value is required if the form type is contact us', VALUE_OPTIONAL),
-                        'message' => new external_value(PARAM_TEXT, 'Message to show after successfull submission', VALUE_OPTIONAL),
+                        'message' => new external_value(PARAM_RAW, 'Message to show after successfull submission', VALUE_OPTIONAL),
+                        "draftitemid" => new external_value(PARAM_INT, 'Draft item id form message', VALUE_OPTIONAL),
                         'courses' => new external_value(PARAM_SEQUENCE, 'Enrollment courses list this value is reqired if type is enrol', VALUE_OPTIONAL),
                         'eventsettings' => new external_value(PARAM_RAW, 'Event settings', VALUE_OPTIONAL)
                     )
@@ -83,6 +86,19 @@ trait create_new_form {
         $data->deleted = 0;
         try {
             $result = $DB->insert_record("efb_forms", $data, $returnid = true, $bulk = false);
+            $form = new stdClass;
+            $form->id = $result;
+            $context = context_system::instance();
+            $form->message = file_save_draft_area_files(
+                self::getArrVal($setting, "draftitemid", 0),
+                $context->id,
+                EDWISERFORM_COMPONENT,
+                EDWISERFORM_FILEAREA,
+                $result,
+                array('subdirs'=>false),
+                self::getArrVal($setting, "message", "")
+            );
+            $DB->update_record("efb_forms", $form);
         } catch (\Exception $ex) {
             $result = $ex->getMessage();
         }
