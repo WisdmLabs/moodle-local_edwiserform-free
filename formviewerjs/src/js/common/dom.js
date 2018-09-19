@@ -1629,15 +1629,18 @@ class DOM {
 
   /**
    * @param {String} type of prompt window
-   * @param {String} title for prompt window
+   * @param {String} msg for prompt window
    * @param {function} action to apply after pressing ok button
    */
-  alert(type, title, action = null) {
+  alert(type, msg, action = null) {
     let _this = this;
     let id = uuid();
     let keyup = evt => {
       if(evt.keyCode == 27) {
-        _this.removeModal(id);
+        if (action != null) {
+          action();
+        }
+        _this.removeModal(id, keyup);
       }
     };
     let header = {
@@ -1674,7 +1677,15 @@ class DOM {
           className: 'modal-title',
           id: 'modal-' + id
         },
-        content: title
+        content: getString(type)
+      }]
+    };
+    let body = {
+      tag: 'div',
+      className: 'modal-body',
+      content: [{
+        tag: 'h5',
+        content: msg
       }]
     };
     let footer = {
@@ -1704,7 +1715,7 @@ class DOM {
         className: 'modal-dialog',
         role: 'document'
       },
-      content: [header, footer]
+      content: [header, body, footer]
     };
     let modal = {
       tag: 'div',
