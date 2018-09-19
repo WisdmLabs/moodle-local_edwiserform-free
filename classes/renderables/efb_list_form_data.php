@@ -70,50 +70,63 @@ class efb_list_form_data implements renderable, templatable
                 $value = isset($headingsmap[$value]) ? $headingsmap[$value] : $value;
                 $data->headings[] = ucfirst($value);
             }
-            $forms = $DB->get_records('efb_form_data', array('formid' => $this->formid));
             $data->rows = [];
-            foreach ($forms as $form) {
-                $formdata = [];
-                $submission = $form->submission;
-                $submission = json_decode($submission);
-                list($usql, $uparams) = $DB->get_in_or_equal($form->userid);
-                $sql = "SELECT id," . get_all_user_name_fields(true) . " FROM {user} WHERE id " . $usql;
-                if ($user = $DB->get_record_sql($sql, $uparams)) {
-                    $userlink = new moodle_url('/user/profile.php', array('id' => $form->userid));
-                    $formdata[] = html_writer::tag('a', fullname($user), array('href' => $userlink, 'target' => '_blank', 'class' => 'formdata-user', 'data-userid' => $form->userid));
-                } else {
-                    $formdata[] = '-';
-                }
-                if ($supportActions) {
-                    $formdata[] = $this->plugin->form_data_list_actions($form);
-                }
-                $submittedData = array_fill_keys($headings, null);
-                $formdata = array_merge($formdata, $submittedData);
-                foreach ($submission as $elem) {
-                    $value = $elem->value;
-                    if (isset($formdata[$elem->name])) {
-                        if (!is_array($formdata[$elem->name])) {
-                            $formdata[$elem->name] = array($formdata[$elem->name]);
-                        }
-                        $formdata[$elem->name][] = $value;
-                        $value = $formdata[$elem->name];
-                    }
-                    $formdata[$elem->name] = $value;
-                }
-                $formdata = array_values($formdata);
-                foreach ($formdata as $key => $value) {
-                    if (is_array($value)) {
-                        $formdata[$key] = html_writer::start_tag('ul');
-                        $formdata[$key] .= html_writer::start_tag('li');
-                        $formdata[$key] .= implode($value, "</li><li>");
-                        $formdata[$key] .= html_writer::end_tag('li');
-                        $formdata[$key] .= html_writer::end_tag('ul');
-                    }
-                }
-                $data->rows[] = array('data' => $formdata);
-            }
         }
         return $data;
+    }
+
+    public function get_submissions_list($limit = "", $searchText = "") {
+        global $DB;
+        $headings = $this->get_headings();
+        $supportActions = isset($this->plugin) && $this->plugin->support_form_data_list_actions();
+        $stmt = "SELECT * FROM {efb_form_data} WHERE formid = " . $this->formid . " ";
+        if ($searchText) {
+            $stmt .= "and JSON_EXTRACT(submission, '$[*].value') REGEXP '" . $searchText . "' ";
+        }
+        $stmt .= $limit;
+        $records = $DB->get_records_sql($stmt);
+        $rows = [];
+        foreach ($records as $record) {
+            $formdata = [];
+            $submission = $record->submission;
+            $submission = json_decode($submission);
+            list($usql, $uparams) = $DB->get_in_or_equal($record->userid);
+            $sql = "SELECT id," . get_all_user_name_fields(true) . " FROM {user} WHERE id " . $usql;
+            if ($user = $DB->get_record_sql($sql, $uparams)) {
+                $userlink = new moodle_url('/user/profile.php', array('id' => $record->userid));
+                $formdata[] = html_writer::tag('a', fullname($user), array('href' => $userlink, 'target' => '_blank', 'class' => 'formdata-user', 'data-userid' => $record->userid));
+            } else {
+                $formdata[] = '-';
+            }
+            if ($supportActions) {
+                $formdata[] = $this->plugin->form_data_list_actions($record);
+            }
+            $submittedData = array_fill_keys($headings, null);
+            $formdata = array_merge($formdata, $submittedData);
+            foreach ($submission as $elem) {
+                $value = $elem->value;
+                if (isset($formdata[$elem->name])) {
+                    if (!is_array($formdata[$elem->name])) {
+                        $formdata[$elem->name] = array($formdata[$elem->name]);
+                    }
+                    $formdata[$elem->name][] = $value;
+                    $value = $formdata[$elem->name];
+                }
+                $formdata[$elem->name] = $value;
+            }
+            $formdata = array_values($formdata);
+            foreach ($formdata as $key => $value) {
+                if (is_array($value)) {
+                    $formdata[$key] = html_writer::start_tag('ul');
+                    $formdata[$key] .= html_writer::start_tag('li');
+                    $formdata[$key] .= implode($value, "</li><li>");
+                    $formdata[$key] .= html_writer::end_tag('li');
+                    $formdata[$key] .= html_writer::end_tag('ul');
+                }
+            }
+            $rows[] = $formdata;
+        }
+        return $rows;
     }
 
     private function get_name_label_map() {
