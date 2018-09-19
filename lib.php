@@ -138,6 +138,63 @@ function local_edwiserform_cron() {
     return true;
 }
 
+
+function get_total_ebf_table_records($searchFlag, $searchText)
+{
+    global $DB, $USER;
+    $stmt = "SELECT * FROM {efb_forms} WHERE deleted = 0 ";
+    if ($searchFlag) {
+        $stmt = "SELECT * FROM {efb_forms} WHERE (title REGEXP '" . $searchText . "' OR  type REGEXP '" . $searchText."') and deleted = 0";
+    }
+
+    $param = [];
+    if (!is_siteadmin()) {
+        $stmt .= " author=?";
+        $param[] = $USER->id;
+    }
+    $records = $DB->get_records_sql($stmt, $param);
+    return count($records);
+}
+
+if (isset($_GET['efb_form_list_key'])) {
+    global $CFG;
+    if (isset($_REQUEST['iDisplayStart']) && $_REQUEST['iDisplayLength'] != '-1') {
+        $wdmLimit = 'LIMIT '.intval($_REQUEST['iDisplayStart']).', '.
+                intval($_REQUEST['iDisplayLength']);
+    }
+    $searchText = "";
+    $searchFlag = 0;
+    if (isset($_REQUEST['sSearch']) && !empty($_REQUEST['sSearch'])) {
+        $searchText = $_REQUEST['sSearch'];
+        $searchFlag = 1;
+    }
+
+    $sortColumn = 0;
+    $sortDir = "";
+    if (isset($_REQUEST['iSortCol_0'])) {
+        if ($_REQUEST['iSortCol_0'] == 0 && $_REQUEST['sSortDir_0'] === 'desc') {
+            $sortColumn = 0;
+            $sortDir = "desc";
+        } else {
+            $sortColumn = $_REQUEST['iSortCol_0'];
+            $sortDir = $_REQUEST['sSortDir_0'];
+        }
+    }
+
+    require_once('../../config.php');
+    require_once($CFG->dirroot . "/local/edwiserform/classes/renderables/efb_list_form.php");
+    $object = new \efb_list_form();
+    $rows = $object->get_forms_list($wdmLimit, $searchText, $sortColumn, $sortDir);
+    $data = array(
+                'sEcho' => intval($_REQUEST['sEcho']),
+                'iTotalRecords' => count($rows),
+                'iTotalDisplayRecords' => get_total_ebf_table_records($searchFlag, $searchText),
+            );
+    $data["data"] = $rows;
+    echo json_encode($data);
+    die();
+}
+
 /**
  * Serves the files from the edwiserform file areas
  *

@@ -23,34 +23,51 @@ define([
                     }
                     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
                 }
-                var forms = $("#efb-forms").DataTable({
-                    paging:   true,
-                    ordering: true,
-                    dom: '<"efb-top"<"efb-listing"l><"efb-list-filtering"f>>t<"efb-bottom"<"efb-form-list-info"i><"efb-list-pagination"p>><"efb-shortcode-copy-note">',
-                    aoColumns: [
-                        null,
-                        null,
-                        { "bSortable": false },
-                        null,
-                        null,
-                        null,
-                        null,
-                        { "bSortable": false }
-                    ],
-                    language: {
-                        sSearch: M.util.get_string('efb-search-form', 'local_edwiserform')
-                    },
-                    drawCallback: function( settings ) {
-                        $('.efb-shortcode-copy-note').html(M.util.get_string('clickonshortcode', 'local_edwiserform'));
-                    }
-                });
+                if ($(".efb-wrap-list").data("sesskey") != 0) {
+                    var sesskey = $(".efb-wrap-list").data("sesskey");
+                    var forms = $("#efb-forms").DataTable({
+                        "paging":   true,
+                        "ordering": true,
+                        "bProcessing": true,
+                        "bServerSide": true,
+                        "rowId": 'DT_RowId',
+                        "bDeferRender": true,
+                        "sAjaxSource": M.cfg.wwwroot + "/local/edwiserform/lib.php?efb_form_list_key=" + sesskey,
+                        dom: '<"efb-top"<"efb-listing"l><"efb-list-filtering"f>>t<"efb-bottom"<"efb-form-list-info"i><"efb-list-pagination"p>><"efb-shortcode-copy-note">',
+                        "columns": [
+                            { "data": "title" },
+                            { "data": "type" },
+                            { "data": "id" , "orderable" : false},
+                            { "data": "author" },
+                            { "data": "created" },
+                            { "data": "author2" },
+                            { "data": "modified" },
+                            { "data": "actions" , "orderable" : false}
+                        ],
+                        language: {
+                            sSearch: M.util.get_string('efb-search-form', 'local_edwiserform')
+                        },
+                        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                            $('td:eq(0)', nRow).addClass( "efb-tbl-col-title" );
+                            $('td:eq(1)', nRow).addClass( "efb-tbl-col-type" );
+                            $('td:eq(2)', nRow).addClass( "efb-tbl-col-shortcode" );
+                            $('td:eq(3)', nRow).addClass( "efb-tbl-col-create" );
+                            $('td:eq(4)', nRow).addClass( "efb-tbl-col-modified" );
+                            $('td:eq(5)', nRow).addClass( "efb-tbl-col-action-list" );
+                        },
+                        drawCallback: function( settings ) {
+                            $('.efb-csv-export').removeClass('dt-button').off();
+                            $('.efb-shortcode-copy-note').html(M.util.get_string('clickonshortcode', 'local_edwiserform'));
+                        }
+                    });
+                }
                 $('.efb-modal-close').click(function() {
                     $('#efb-modal').removeClass('show');
                 });
                 $('body').on('click', '.efb-form-delete', function(event) {
                     event.preventDefault();
-                    var id = $(this).parent().data('formid');
-                    var row = $(`#efb-form-id-${id}`);
+                    var id = $(this).data('formid');
+                    var row = $(this).parents('tr');
                     var title = $(row).children('.efb-tbl-col-title').text();
                     $('#efb-modal #efb-modal-header').removeClass('bg-success').addClass('bg-warning').children('.modal-title').html(M.util.get_string('warning', 'local_edwiserform'));
                     $('#efb-modal #efb-modal-body').html(`<h5>${M.util.get_string('efb-delete-form-and-data', 'local_edwiserform', {title, id})}</h5>`);
@@ -58,7 +75,7 @@ define([
                     $('#efb-modal .efb-modal-delete-form').data('formid', id);
                     return;
                 });
-                $('.efb-modal-delete-form').click(function(event) {
+                $('body').on('click', '.efb-modal-delete-form', function(event) {
                     event.preventDefault();
                     var id = $(this).data('formid');
                     var row = $(`#efb-form-id-${id}`);
@@ -77,7 +94,7 @@ define([
                     });
                     $('.efb-modal-close').click();
                 });
-                $('.efb-form-export').click(function(event) {
+                $('body').on('click', '.efb-form-export', function(event) {
                     event.preventDefault();
                     $('#efb-modal #efb-modal-header').addClass('bg-success').removeClass('bg-warning').children('.modal-title').html(M.util.get_string('upgrade', 'local_edwiserform'));
                     var string = M.util.get_string('hey-wait', 'local_edwiserform');
@@ -111,7 +128,7 @@ define([
                     });
                 }
 
-                $('.efb-enable-disable-form').click(function(event) {
+                $('body').on('click', '.efb-enable-disable-form', function(event) {
                     var input = $(this).prev();
                     enable_disable_form(input);
                 });
@@ -133,7 +150,7 @@ define([
                         }, 2000);
                     });
                 }
-                $('.efb-tbl-col-shortcode').click(function(event) {
+                $('body').on("click", ".efb-tbl-col-shortcode", function(event) {
                     var temp = $('<input>');
                     $('body').append(temp);
                     var shortcode = $(this).text();

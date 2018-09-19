@@ -39,7 +39,6 @@ class efb_list_form implements renderable, templatable {
             get_string("efb-tbl-heading-modified", "local_edwiserform"),
             get_string("efb-tbl-heading-action", "local_edwiserform"),
         );
-        $formslist = $this->get_forms_list();
         $data->pageactions = $this->get_page_actions();
         if (!empty($formslist)) {
             $data->rows = $formslist;
@@ -60,6 +59,45 @@ class efb_list_form implements renderable, templatable {
         return $actions;
     }
 
+    public function get_forms_list($limit = "", $searchText = "", $sortColumn = 0, $sortDir = "")
+    {
+        global $DB, $USER;
+        $rows = array();
+
+        $colArray = array("0" => "title", "1" => "type", "3" => "author", "4" =>"created", "5" => "author2", "6" => "modified");
+        $searchQuery = " ";
+        $orderByQuery = " ";
+        if ($searchText) {
+            $searchQuery = " (title REGEXP '" . $searchText . "' OR  type REGEXP '" . $searchText."') and ";
+        }
+        if (!empty($sortDir) && array_key_exists($sortColumn, $colArray)) {
+            $orderByQuery = " ORDER BY ".$colArray[$sortColumn]. " ".$sortDir . " ";
+        }
+
+        $stmt = "SELECT id, title, author, author2, type, enabled, deleted, created, modified FROM {efb_forms} WHERE" . $searchQuery . "deleted = '0'" . $orderByQuery . $limit;
+        $param = [];
+        if (!is_siteadmin()) {
+            $stmt .= " author=?";
+            $param[] = $USER->id;
+        }
+        $records = $DB->get_records_sql($stmt, $param);
+        foreach ($records as $record) {
+            $data = array(
+                "id" => '[edwiser-form id="'.$record->id.'"]',
+                "title" => $record->title,
+                "type" => $record->type,
+                "author" => $this->get_user_name($record->author),
+                "created" => $record->created,
+                "author2" => $record->author2 ? $this->get_user_name($record->author2) : '-',
+                "modified" => empty($record->modified) ? $record->created : $record->modified,
+                "actions" => $this->get_form_actions($record)
+            );
+            $rows[] = $data;
+        }
+        return $rows;
+    }
+
+
     private function get_form_actions($form) {
         global $DB, $CFG;
         $edit = array(
@@ -67,6 +105,7 @@ class efb_list_form implements renderable, templatable {
             "title" => get_string("efb-form-action-edit-title", "local_edwiserform"),
             "attrs" => array(
                 ["key" => "class", "value" => "efb-form-edit"],
+                ["key" => "target", "value" => "_blank"],
                 ["key" => "href", "value" => new moodle_url("/local/edwiserform/view.php", array("page" => "newform", "formid" => $form->id))]
             )
         );
@@ -94,7 +133,8 @@ class efb_list_form implements renderable, templatable {
             "attrs" => array(
                 ["key" => "class", "value" => "efb-form-delete"],
                 ["key" => "target", "value" => "_blank"],
-                ["key" => "href", "value" => "#"]
+                ["key" => "href", "value" => "#"],
+                ["key" => "data-formid", "value" => $form->id]
             )
         );
         $view_data = array(
@@ -117,10 +157,7 @@ class efb_list_form implements renderable, templatable {
         $enabledisable .= html_writer::tag('div', '', array('class' => 'switch-lever bg-success'));
         $enabledisable .= html_writer::end_tag('div');
         $enabledisable .= html_writer::end_tag('label');
-        $actions[] = array(
-            "html" => $enabledisable,
-        );
-        $actions[] = $preview;
+        $actions["html"] = $enabledisable;
         if ($form->type == 'blank') {
             $actions[] = $view_data;
         } else {
@@ -134,39 +171,28 @@ class efb_list_form implements renderable, templatable {
             case "contact":
             case "enrolment";
         }
-        $actions[] = $edit;
-        $actions[] = $export;
-        $actions[] = $delete;
-        return $actions;
-    }
+        $actions["preview"] = $preview;
+        $actions["edit"] = $edit;
+        $actions["export"] = $export;
+        $actions["delete"] = $delete;
 
-    private function get_forms_list() {
-        global $DB, $USER;
-        $rows = array();
+        $html = " ";
 
-        // $stmt = "select * from {efb_forms} where author=?";
-        // Selecting only those forms which are not deleted
-        $stmt = "SELECT * FROM {efb_forms} WHERE deleted = 0";
-        $param = [];
-        if (!is_siteadmin()) {
-            $stmt .= " author=?";
-            $param[] = $USER->id;
+        foreach ($actions as $actionKey => $actionValue) {
+            if ($actionKey === "html") {
+                $html .= $actionValue;
+            } else {
+                $html .= '<a ';
+                foreach ($actionValue["attrs"] as $key => $value) {
+                    $html .= $value["key"].'="'.$value["value"].'"';
+                }
+                $html .= '>
+                            <i class="'.$actionValue["icon"].'" aria-hidden="true" title="'.$actionValue["title"].'"  aria-label="'./*$actionValue["label"]*/ "aaaa".'">
+                            </i>
+                        </a>';
+            }
         }
-        $records = $DB->get_records_sql($stmt, $param);
-        foreach ($records as $record) {
-            $data = array(
-                "id" => $record->id,
-                "title" => $record->title,
-                "type" => $record->type,
-                "author" => $this->get_user_name($record->author),
-                "created" => $record->created,
-                "author2" => empty($record->author2) ? '-' : $this->get_user_name($record->author2),
-                "modified" => empty($record->author2) ? '-' : $record->modified,
-                "actions" => $this->get_form_actions($record),
-            );
-            $rows[] = $data;
-        }
-        return $rows;
+        return $html;
     }
 
     private function get_user_name($userid) {
