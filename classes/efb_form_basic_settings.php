@@ -16,17 +16,10 @@ class efb_form_basic_settings extends moodleform
     {
         parent::__construct($action, $customdata, $method, $target, array("id"=>"efb-basic-form-settings"), $editable, $ajaxformdata);
     }
-
-        /**
-     * Method defines the form basic settings elements.
-     */
     protected function definition()
     {
         global $PAGE, $CFG;
         $form           = $this->_form;
-        /**
-         * Defines the form based events list.
-         */
         $events = array(
             "blank"      => get_string("efb-event-blank-name", "local_edwiserform"),
         );
@@ -34,13 +27,6 @@ class efb_form_basic_settings extends moodleform
         foreach (array_keys($plugins) as $plugin) {
             $events[$plugin] = get_string("efb-event-$plugin-name", "edwiserformevents_$plugin");
         }
-        /**
-         * Get the list of the events.
-         */
-        // $courses        = $this->get_courses_list();
-        /**
-         * Defines the list of the form basic settings.
-         */
         $form->addElement("hidden", "id",null);
         $form->setType("id", PARAM_INTEGER);
         $form->addElement("text", "title", get_string("efb-lbl-title", "local_edwiserform"), null);
@@ -51,7 +37,7 @@ class efb_form_basic_settings extends moodleform
         $form->addElement("select", "type", get_string("efb-lbl-event", "local_edwiserform"), $events);
         $form->addElement("text", "notifi_email", get_string("efb-lbl-notifi-email", "local_edwiserform"), null);
         $form->setType("notifi_email", PARAM_TEXT);
-        $form->addElement("checkbox", "editdata", get_string("efb-lbl-allowedit", "local_edwiserform"), null);
+        $form->addElement('checkbox', 'editdata', get_string('efb-lbl-allowedit', 'local_edwiserform'), get_string('efb-lbl-allowedit-desc', 'local_edwiserform'));
         $context = context_system::instance();
         $form->addElement("editor", "confirmation_msg", get_string("efb-lbl-confirmation-msg", "local_edwiserform"), null, array(
             'maxfiles' => EDITOR_UNLIMITED_FILES,

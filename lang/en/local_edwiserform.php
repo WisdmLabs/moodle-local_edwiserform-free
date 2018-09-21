@@ -52,6 +52,7 @@ $string["efb-lbl-empty-form-warning"] = "Please add fields in form.";
 $string['efb-lbl-description']="Description";
 $string['efb-lbl-description-warning']="Description cannot be empty.";
 $string['efb-lbl-allowedit']="Allow Data Edit";
+$string['efb-lbl-allowedit-desc'] = "Allow user to edit submitted data.";
 $string['efb-lbl-event']="Select Event";
 $string['efb-lbl-courses-list']="Select Courses";
 $string['efb-lbl-notifi-email']="Recipient Email Address";
