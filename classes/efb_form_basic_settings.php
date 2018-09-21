@@ -48,7 +48,7 @@ class efb_form_basic_settings extends moodleform
         ));
         $form->setType("confirmation_msg", PARAM_RAW);
         $buildform = html_writer::start_tag("div", array("class" => "text-center"));
-        $buildform .= html_writer::tag("button", get_string("efb-form-builder-step", "local_edwiserform"), array('class' => 'efb-form-step btn btn-primary', 'data-id' => 'efb-form-builder'));
+        $buildform .= html_writer::tag("button", get_string("efb-form-builder-step", "local_edwiserform"), array('class' => 'efb-form-step btn btn-primary', 'data-id' => 'efb-form-builder', 'type' => 'button'));
         $buildform .= html_writer::end_tag("div");
         $form->addElement("html", $buildform);
         foreach ($plugins as $plugin) {
