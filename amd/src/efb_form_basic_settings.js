@@ -27,7 +27,6 @@ require(["jquery"], function ($) {
 				'primary',
 				'warning',
 				'success',
-				'danger',
 				'info',
 			];
 			var emailElement = document.createElement("span");
