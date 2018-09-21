@@ -433,29 +433,35 @@ and open the template in the editor.
 .efb-forms-template-overlay.loading .efb-forms-template-select {
     display: none;
 }
-.efb-forms-upgrade-link a, .efb-forms-pro-select {
-    color: #fff;
-    background-color: #46be8a;
-    border-color: #46be8a;
+.efb-forms-upgrade-link a {
     border-radius: 3px;
     font-size: 15px;
     font-weight: 500;
     display: inline-block;
     padding: 10px;
-    text-decoration: none;
     position: relative;
+}
+.btn-efb-form-upgrade {
+    color: #fff;
+    background-color: #F86935;
+    border-color: #F86935;
+    text-decoration: none;
+}
+.btn-efb-form-upgrade:hover, .btn-efb-form-upgrade:focus, .btn-efb-form-upgrade:active {
+    color: #fff;
+    background-color: #f74100;
 }
 .efb-modal .btn-success, .efb-modal .bg-success {
     color: #fff;
     background-color: #46be8a;
     border-color: #46be8a;
 }
-.efb-form-builder-wrap .btn-success:hover, .efb-form-builder-wrap .bg-success:hover, .efb-form-builder-wrap .btn-success:focus, .efb-form-builder-wrap .bg-success:focus, .efb-forms-upgrade-link a:hover, .efb-forms-upgrade-link a:focus, .efb-forms-pro-select:hover, .efb-forms-pro-select:focus {
+.efb-form-builder-wrap .btn-success:hover, .efb-form-builder-wrap .bg-success:hover, .efb-form-builder-wrap .btn-success:focus, .efb-form-builder-wrap .bg-success:focus, .efb-forms-pro-select:hover, .efb-forms-pro-select:focus {
     background-color: #5cd29d;
     text-decoration: none;
     color: white;
 }
-.efb-form-builder-wrap .btn-success:actve, .efb-form-builder-wrap .bg-success:actve, .efb-forms-upgrade-link a:active, .efb-forms-pro-select:active {
+.efb-form-builder-wrap .btn-success:actve, .efb-form-builder-wrap .bg-success:actve, .efb-forms-pro-select:active {
     background-color: #36ab7a;
     text-decoration: none;
     color: white;
