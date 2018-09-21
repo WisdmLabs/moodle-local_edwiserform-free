@@ -316,6 +316,7 @@ and open the template in the editor.
     padding: 30px;
 }
 .efb-forms-upgrade-link .efb-forms-upgrade-title {
+    margin-top: 4rem;
     font-size: 2rem;
 }
 .efb-forms-setup-desc{
@@ -463,6 +464,7 @@ and open the template in the editor.
     border-radius: 3px;
     padding: 8px 15px;
     font-size: 15px;
+    margin-left: 1rem;
     display: inline-block;
     color: #fff;
     text-decoration: none;
