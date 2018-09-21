@@ -3485,7 +3485,7 @@ class DOM {
       warning,
       [{
         title: getString('upgrade'),
-        type: 'success',
+        type: 'efb-form-upgrade',
         action: function() {
           alert('Redirect to PRO version download page.');
         }
