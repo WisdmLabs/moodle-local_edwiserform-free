@@ -23,7 +23,7 @@ define([
                     "bServerSide": true,
                     "rowId": 'DT_RowId',
                     "bDeferRender": true,
-                    "sAjaxSource": M.cfg.wwwroot + "/local/edwiserform/lib.php?datatable=1&action=efb_form_data_list&formid="+formid,
+                    "sAjaxSource": M.cfg.wwwroot + "/local/edwiserform/classes/external/get_form_submissions.php?formid="+formid,
                     dom: '<"efb-top"<"efb-listing"l><"efb-list-filtering"f>>t<"efb-bottom"<"efb-list-pagination"p><"efb-export"B>>i',
                     language: {
                         sSearch: M.util.get_string('efb-search-form', 'local_edwiserform')

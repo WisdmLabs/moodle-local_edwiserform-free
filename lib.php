@@ -20,7 +20,7 @@
  * @author    Yogesh Shirsath
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once('../../config.php');
+
 define("EDWISERFORM_COMPONENT", "local_edwiserform");
 define("EDWISERFORM_FILEAREA", "successmessage");
 define("UNAUTHORISED_USER", 1);
@@ -137,90 +137,6 @@ function local_edwiserform_cron() {
     $edwiserform = new edwiserform();
     $edwiserform->cron();
     return true;
-}
-
-
-function get_total_ebf_forms_records($searchFlag, $searchText)
-{
-    global $DB, $USER;
-    $stmt = "SELECT * FROM {efb_forms} WHERE deleted = 0 ";
-    if ($searchFlag) {
-        $stmt = "SELECT * FROM {efb_forms} WHERE (title REGEXP '" . $searchText . "' OR  type REGEXP '" . $searchText."') and deleted = 0";
-    }
-    $param = [];
-    if (!is_siteadmin()) {
-        $stmt .= " author=?";
-        $param[] = $USER->id;
-    }
-    $records = $DB->get_records_sql($stmt, $param);
-    return count($records);
-}
-
-function get_total_ebf_form_data_records($searchFlag, $searchText)
-{
-    global $DB, $USER;
-    $stmt = "SELECT * FROM {efb_form_data} ";
-    if ($searchFlag) {
-        $stmt = "SELECT * FROM {efb_form_data} WHERE JSON_EXTRACT(submission, '$[*].value') REGEXP '" . $searchText . "'";
-    }
-    $param = [];
-    $records = $DB->get_records_sql($stmt, $param);
-    return count($records);
-}
-
-$datatable = optional_param('datatable', false, PARAM_INT);
-if ($datatable) {
-    global $CFG;
-    $action = required_param('action', PARAM_TEXT);
-    if (isset($_REQUEST['iDisplayStart']) && $_REQUEST['iDisplayLength'] != '-1') {
-        $wdmLimit = 'LIMIT '.intval($_REQUEST['iDisplayStart']).', '.
-                intval($_REQUEST['iDisplayLength']);
-    }
-    $searchText = "";
-    $searchFlag = 0;
-    if (isset($_REQUEST['sSearch']) && !empty($_REQUEST['sSearch'])) {
-        $searchText = $_REQUEST['sSearch'];
-        $searchFlag = 1;
-    }
-
-    $sortColumn = 0;
-    $sortDir = "";
-    if (isset($_REQUEST['iSortCol_0'])) {
-        if ($_REQUEST['iSortCol_0'] == 0 && $_REQUEST['sSortDir_0'] === 'desc') {
-            $sortColumn = 0;
-            $sortDir = "desc";
-        } else {
-            $sortColumn = $_REQUEST['iSortCol_0'];
-            $sortDir = $_REQUEST['sSortDir_0'];
-        }
-    }
-    if ($action == 'efb_form_list') {
-        require_once($CFG->dirroot . "/local/edwiserform/classes/renderables/efb_list_form.php");
-        $object = new \efb_list_form();
-        $rows = $object->get_forms_list($wdmLimit, $searchText, $sortColumn, $sortDir);
-        $data = array(
-                    'sEcho' => intval($_REQUEST['sEcho']),
-                    'iTotalRecords' => count($rows),
-                    'iTotalDisplayRecords' => get_total_ebf_forms_records($searchFlag, $searchText),
-                );
-        $data["data"] = $rows;
-        echo json_encode($data);
-        die();
-    }
-    else if ($action == 'efb_form_data_list') {
-        $formid = required_param('formid', PARAM_INT);
-        require_once($CFG->dirroot . "/local/edwiserform/classes/renderables/efb_list_form_data.php");
-        $object = new \efb_list_form_data($formid);
-        $rows = $object->get_submissions_list($wdmLimit, $searchText);
-        $data = array(
-                    'sEcho' => intval($_REQUEST['sEcho']),
-                    'iTotalRecords' => count($rows),
-                    'iTotalDisplayRecords' => get_total_ebf_form_data_records($searchFlag, $searchText),
-                );
-        $data["data"] = $rows;
-        echo json_encode($data);
-        die();
-    }
 }
 
 /**

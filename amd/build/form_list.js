@@ -32,7 +32,7 @@ define([
                         "bServerSide": true,
                         "rowId": 'DT_RowId',
                         "bDeferRender": true,
-                        "sAjaxSource": M.cfg.wwwroot + "/local/edwiserform/lib.php?datatable=1&action=efb_form_list",
+                        "sAjaxSource": M.cfg.wwwroot + "/local/edwiserform/classes/external/get_forms.php",
                         dom: '<"efb-top"<"efb-listing"l><"efb-list-filtering"f>>t<"efb-bottom"<"efb-form-list-info"i><"efb-list-pagination"p>><"efb-shortcode-copy-note">',
                         "columns": [
                             { "data": "title" },
