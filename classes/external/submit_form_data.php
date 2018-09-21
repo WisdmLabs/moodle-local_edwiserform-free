@@ -34,10 +34,10 @@ trait submit_form_data {
             'msg' => get_string("efb-form-data-submission-failed", "local_edwiserform"),
             'errors' => "{}"
         );
-        if (!$formid) {
+        $form = $DB->get_record('efb_forms', array('id' => $formid));
+        if (!$form) {
             return $responce;
         }
-        $form = $DB->get_record('efb_forms', array('id' => $formid));
         $plugin = null;
         $submissionsupports = true;
         if ($form->type != 'blank') {
