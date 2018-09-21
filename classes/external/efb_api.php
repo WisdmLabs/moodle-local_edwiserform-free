@@ -24,7 +24,6 @@ class efb_api extends \external_api {
     use create_new_form;
     use delete_form;
     use update_form;
-    use get_form_data;
     use list_forms;
     use get_form_definition;
     use submit_form_data;
