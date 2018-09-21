@@ -675,8 +675,17 @@ and open the template in the editor.
 .efb-modal.modal .modal-wrap .modal-dialog .modal-footer button {
     pointer-events: auto;
 }
-.efb-modal.modal.pro .efb-modal-delete-form, .efb-modal.modal.pro .efb-modal-delete-close, .efb-modal.modal.delete .efb-modal-upgrade-pro, .efb-modal.modal.delete .efb-modal-upgrade-close {
-    display: none;
+.efb-modal.modal.pro .efb-modal-delete-form,
+.efb-modal.modal.pro .efb-modal-delete-close,
+.efb-modal.modal.pro .efb-modal-deleted-close,
+.efb-modal.modal.delete .efb-modal-upgrade-pro,
+.efb-modal.modal.delete .efb-modal-upgrade-close,
+.efb-modal.modal.delete .efb-modal-deleted-close,
+.efb-modal.modal.deleted .efb-modal-delete-form,
+.efb-modal.modal.deleted .efb-modal-upgrade-pro,
+.efb-modal.modal.deleted .efb-modal-delete-close,
+.efb-modal.modal.deleted .efb-modal-upgrade-close {
+  display: none;
 }
 /* Modal css ends */
 .efb-wrap-list .efb-bottom .efb-list-pagination {

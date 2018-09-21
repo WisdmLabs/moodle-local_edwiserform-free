@@ -71,10 +71,26 @@ define([
                     var title = $(row).children('.efb-tbl-col-title').text();
                     $('#efb-modal #efb-modal-header').removeClass('bg-success').addClass('bg-warning').children('.modal-title').html(M.util.get_string('warning', 'local_edwiserform'));
                     $('#efb-modal #efb-modal-body').html(`<h5>${M.util.get_string('efb-delete-form-and-data', 'local_edwiserform', {title, id})}</h5>`);
-                    $('#efb-modal').addClass('show delete').removeClass('pro');
+                    $('#efb-modal').addClass('show delete').removeClass('pro deleted');
                     $('#efb-modal .efb-modal-delete-form').data('formid', id);
                     return;
                 });
+
+                function delete_form_response(status, message) {
+                    var removeClass, addClass, header;
+                    if (status) {
+                        removeClass = 'bg-warning bg-danger';
+                        addClass = 'bg-success';
+                        header = M.util.get_string('success', 'local_edwiserform');
+                    } else {
+                        removeClass = 'bg-success bg-warning';
+                        addClass = 'bg-danger';
+                        header = M.util.get_string('danger', 'local_edwiserform');
+                    }
+                    $('#efb-modal #efb-modal-header').removeClass(removeClass).addClass(addClass).children('.modal-title').html(header);
+                    $('#efb-modal #efb-modal-body').html(`<h5>${message}</h5>`);
+                    $('#efb-modal').addClass('show deleted').removeClass('pro delete');
+                }
                 $('body').on('click', '.efb-modal-delete-form', function(event) {
                     event.preventDefault();
                     var id = $(this).data('formid');
@@ -87,12 +103,15 @@ define([
                         }
                     }]);
                     reqDeleteForm[0].done(function(response) {
+                        $('.efb-modal-close').click();
                         if (response.status == true) {
                             forms.row(row).remove().draw();
                         }
+                        delete_form_response(response.status, response.msg);
                     }).fail(function(ex) {
+                        $('.efb-modal-close').click();
+                        delete_form_response(false, ex.msg);
                     });
-                    $('.efb-modal-close').click();
                 });
                 $('body').on('click', '.efb-form-export', function(event) {
                     event.preventDefault();
@@ -104,7 +123,7 @@ define([
                         message
                     });
                     $('#efb-modal #efb-modal-body').html(`<h5>${message}</h5>`);
-                    $('#efb-modal').addClass('show pro').removeClass('delete');
+                    $('#efb-modal').addClass('show pro').removeClass('delete deleted');
                 });
 
                 function enable_disable_form(input) {
