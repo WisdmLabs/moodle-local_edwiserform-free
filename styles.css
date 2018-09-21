@@ -781,6 +781,7 @@ and open the template in the editor.
     top: -1px;
     left: -1px;
     line-height: 2.4rem;
+    height: 105%;
     padding: 0 10%;
     border-radius: inherit;
     border-top-right-radius: 0;
