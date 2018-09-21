@@ -139,6 +139,9 @@ and open the template in the editor.
 .efb-tbl-col-title{
     font-weight: bold;
 }
+.efb-tbl-col-shortcode {
+    cursor: copy;
+}
 
 .efb-version-action-menu {
     display: block !important;
