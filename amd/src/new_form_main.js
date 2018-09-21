@@ -354,7 +354,7 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                       M.util.get_string("efb-template-change-warning", "local_edwiserform"),
                       [{
                         title: M.util.get_string('proceed', 'local_edwiserform'),
-                        type: 'danger',
+                        type: 'warning',
                         action: select
                       }, {
                         title: M.util.get_string('cancel', 'local_edwiserform'),
