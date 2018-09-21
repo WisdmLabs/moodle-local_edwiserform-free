@@ -574,7 +574,6 @@ and open the template in the editor.
 #efb-basic-form-settings .form-control {
     display: block;
     width: 70%;
-    border: 1px solid rgba(0,0,0,.5);
 }
 #efb-basic-form-settings .editor_atto .form-control {
     width: 100%;
