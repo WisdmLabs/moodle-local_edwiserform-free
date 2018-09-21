@@ -42,6 +42,7 @@ class efb_form_basic_settings extends moodleform
         $form->addElement("editor", "confirmation_msg", get_string("efb-lbl-confirmation-msg", "local_edwiserform"), null, array(
             'maxfiles' => EDITOR_UNLIMITED_FILES,
             'noclean' => true,
+            'autosave' => false,
             'context' => $context,
             'subdirs' => false
         ));
