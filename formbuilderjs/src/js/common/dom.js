@@ -1882,28 +1882,35 @@ class DOM {
   canRemoveElement(container) {
     let templateElements = container.querySelectorAll('[template="true"]');
     let elementType = container.fType;
-    elementType = elementType.slice(0, elementType.length - 1);
-    if (templateElements.length > 0) {
-      let elements = [];
-      let tagType;
-      templateElements.forEach(function(templateElement) {
-        tagType = elementTagType(templateElement);
-        if (tagType.tag == 'input' && tagType.type == 'hidden') {
-          elements.push(templateElement.getAttribute('name'));
-        } else {
-          let label = templateElement.previousSibling;
-          elements.push(label.innerHTML);
+    let message = '';
+    let check = {
+      fields: (field) => {
+        field = formData.fields.get(field);
+        if (field.hasOwnProperty('attrs') && field.attrs.hasOwnProperty('template')) {
+          if (field.attrs.template) {
+            message += field.config.label + '<br>';
+          }
         }
-      });
-      let message = getString('cannotremove');
-      message = message.replace('{{type}}', elementType);
-      if (elements.length > 0) {
-        elements.forEach(function(element) {
-          message += element + ', ';
+      },
+      columns: (column) => {
+        column = formData.columns.get(column);
+        let status = true;
+        let fields = column.fields.forEach(function(field) {
+          status &= check['fields'](field);
         });
-        message = message.substring(0, message.length - 2);
-        message += '.';
+      },
+      rows: (row) => {
+        row = formData.rows.get(row);
+        let status = true;
+        let rows = row.columns.forEach(function(column) {
+          status &= check['columns'](column);
+        });
       }
+    };
+    check[elementType](container.id);
+    if (message != '') {
+      elementType = elementType.slice(0, elementType.length - 1);
+      message = getString('cannotremove', elementType) + message;
       this.alert('danger', message);
       return false;
     }
