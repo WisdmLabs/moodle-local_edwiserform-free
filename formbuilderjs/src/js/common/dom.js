@@ -417,11 +417,6 @@ class DOM {
 
     // Set element attributes
     if (elem.attrs) {
-      if (elem.tag == 'option') {
-        delete elem.attrs.name;
-      } else {
-        elem.attrs.name = elem.id;
-      }
       _this.processAttrs(elem, element, isPreview);
       processed.push('attrs');
     }
@@ -651,8 +646,8 @@ class DOM {
         if (option.selected) {
           input.attrs.checked = true;
         }
-        if (option.name) {
-          input.attrs.name = option.name;
+        if (elem.tag == 'input' && (elem.attrs.type == 'radio' || elem.attrs.type == 'checkbox')) {
+          input.attrs.name = elem.attrs.name;
         }
         if (isPreview) {
           input.fMap = `options[${i}].selected`;
@@ -665,7 +660,6 @@ class DOM {
           };
           inputWrap.content.unshift(checkableLabel);
         } else {
-          input.attrs.name = id;
           optionLabel.content = checkable;
           optionLabel = dom.create(optionLabel);
           input = dom.create(input);

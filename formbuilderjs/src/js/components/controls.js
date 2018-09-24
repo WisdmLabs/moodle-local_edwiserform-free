@@ -43,11 +43,12 @@ const defaultElements = [{
   attrs: {
     type: 'text',
     required: false,
+    name: '',
     className: 'form-control',
     style: ''
   },
   config: {
-    disabledAttrs: ['type', 'template', 'name'],
+    disabledAttrs: ['type', 'template'],
     label: getString('input.text')
   },
   meta: {
@@ -60,7 +61,7 @@ const defaultElements = [{
   tag: 'textarea',
   config: {
     label: getString('textarea'),
-    disabledAttrs: ['name']
+    disabledAttrs: ['template']
   },
   meta: {
     group: 'standard',
@@ -69,6 +70,7 @@ const defaultElements = [{
   },
   attrs: {
     required: false,
+    name: '',
     className: 'form-control',
     style: ''
   }
@@ -76,10 +78,11 @@ const defaultElements = [{
   tag: 'select',
   config: {
     label: getString('select'),
-    disabledAttrs: ['template', 'name']
+    disabledAttrs: ['template']
   },
   attrs: {
     required: false,
+    name: '',
     className: 'form-control',
     style: ''
   },
@@ -104,7 +107,7 @@ const defaultElements = [{
   },
   config: {
     label: getString('radioGroup'),
-    disabledAttrs: ['type', 'template', 'name']
+    disabledAttrs: ['type', 'template']
   },
   meta: {
     group: 'standard',
@@ -115,6 +118,7 @@ const defaultElements = [{
     return {
       label: 'Radio-' + i,
       value: 'radio value-' + i,
+      name: '',
       selected: false
     };
   })
@@ -123,7 +127,6 @@ const defaultElements = [{
   attrs: {
     type: 'checkbox',
     required: false,
-    name: 'checkbox',
     style: ''
   },
   config: {
@@ -139,6 +142,7 @@ const defaultElements = [{
     return {
       label: 'Checkbox -' + i,
       value: 'checkbox value-' + i,
+      name: '',
       selected: false
     };
   })
@@ -148,11 +152,12 @@ const defaultElements = [{
     type: 'number',
     required: false,
     className: 'form-control',
+    name: '',
     style: ''
   },
   config: {
     label: getString('number'),
-    disabledAttrs: ['type', 'template', 'name']
+    disabledAttrs: ['type', 'template']
   },
   meta: {
     group: 'standard',
@@ -240,7 +245,7 @@ const defaultElements = [{
     style: ''
   },
   config: {
-    disabledAttrs: ['type', 'template', 'name'],
+    disabledAttrs: ['type', 'template'],
     label: getString('name')
   },
   meta: {
@@ -255,10 +260,11 @@ const defaultElements = [{
     type: 'date',
     required: false,
     className: 'form-control',
+    name: '',
     style: ''
   },
   config: {
-    disabledAttrs: ['type', 'template', 'name'],
+    disabledAttrs: ['type', 'template'],
     label: getString('input.date')
   },
   meta: {
@@ -272,11 +278,12 @@ const defaultElements = [{
     type: 'text',
     pattern: '^(\\+[0-9]{0,2})?0?[0-9]{10}$',
     className: 'form-control',
+    name: 'mobile',
     required: false,
     value: ''
   },
   config: {
-    disabledAttrs: ['type', 'template', 'pattern', 'name'],
+    disabledAttrs: ['type', 'template', 'pattern'],
     label: getString('mobile')
   },
   meta: {
@@ -294,7 +301,7 @@ const defaultElements = [{
     style: ''
   },
   config: {
-    disabledAttrs: ['type', 'template', 'name'],
+    disabledAttrs: ['type', 'template'],
     label: getString('address')
   },
   meta: {
@@ -309,10 +316,11 @@ const defaultElements = [{
     type: 'text',
     pattern: '((http|https)\:\/\/)?(w{3}\.)?[a-zA-Z]+.[a-zA-Z.]+.*',
     required: false,
+    name: 'website',
     value: ''
   },
   config: {
-    disabledAttrs: ['type', 'template', 'pattern', 'name'],
+    disabledAttrs: ['type', 'template', 'pattern'],
     label: getString('website')
   },
   meta: {
@@ -326,12 +334,13 @@ const defaultElements = [{
   attrs: {
     type: 'text',
     required: true,
+    name: 'username',
     className: 'form-control',
     style: ''
   },
   config: {
     label: getString('username'),
-    disabledAttrs: ['type', 'template', 'name']
+    disabledAttrs: ['type', 'template']
   },
   meta: {
     group: 'advance',
@@ -343,12 +352,13 @@ const defaultElements = [{
   attrs: {
     type: 'password',
     required: true,
+    name: 'password',
     className: 'form-control',
     style: ''
   },
   config: {
     label: getString('password'),
-    disabledAttrs: ['type', 'template', 'name']
+    disabledAttrs: ['type', 'template']
   },
   meta: {
     group: 'advance',
@@ -360,11 +370,12 @@ const defaultElements = [{
   attrs: {
     type: 'email',
     required: false,
+    name: 'email',
     className: 'form-control',
     style: ''
   },
   config: {
-    disabledAttrs: ['type', 'template', 'name'],
+    disabledAttrs: ['type', 'template'],
     label: getString('email')
   },
   meta: {
@@ -378,11 +389,12 @@ const defaultElements = [{
   attrs: {
     type: 'file',
     required: false,
+    name: '',
     className: 'form-control',
     style: ''
   },
   config: {
-    disabledAttrs: ['type', 'template', 'name'],
+    disabledAttrs: ['type', 'template'],
     label: getString('fileUpload')
   },
   meta: {
@@ -395,7 +407,7 @@ const defaultElements = [{
   tag: 'input',
   attrs: {
     type: 'hidden',
-    name: 'hidden',
+    name: '',
     value: ''
   },
   config: {
@@ -452,12 +464,13 @@ const defaultElements = [{
   tag: 'input',
   attrs: {
     type: 'text',
+    name: 'website',
     pattern: '((http|https)\:\/\/)?(w{3}\.)?[a-zA-Z]+.[a-zA-Z.]+.*',
     required: false,
     value: ''
   },
   config: {
-    disabledAttrs: ['type', 'template', 'pattern', 'name'],
+    disabledAttrs: ['type', 'template', 'pattern'],
     label: getString('website')
   },
   meta: {
