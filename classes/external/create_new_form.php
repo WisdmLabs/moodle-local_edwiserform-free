@@ -71,7 +71,7 @@ trait create_new_form {
     }
 
     private static function save_form($setting, $definition) {
-        global $DB, $USER;
+        global $DB, $USER, $CFG;
         $data = new \stdClass();
         $data->title = self::getArrVal($setting, "title");
         $data->description = self::getArrVal($setting, "description");
@@ -89,6 +89,7 @@ trait create_new_form {
             $form = new stdClass;
             $form->id = $result;
             $context = context_system::instance();
+            require_once($CFG->libdir . "/filelib.php");
             $form->message = file_save_draft_area_files(
                 self::getArrVal($setting, "draftitemid", 0),
                 $context->id,

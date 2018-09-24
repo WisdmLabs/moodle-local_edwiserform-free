@@ -43,10 +43,11 @@ class efb_add_new_form implements renderable, templatable
     /**
      * Method provide the functionality to get the forms previous settings.
      */
-    private function get_form_settings()
-    {
+    private function get_form_settings() {
+        global $CFG;
         $data = array();
         if ($this->form) {
+            require_once($CFG->libdir . "/filelib.php");
             $draftid = file_get_submitted_draft_itemid(EDWISERFORM_FILEAREA);
             $context = context_system::instance();
             $message = file_prepare_draft_area($draftid, $context->id, EDWISERFORM_COMPONENT, EDWISERFORM_FILEAREA, $this->form->id, null, $this->form->message);
@@ -76,7 +77,6 @@ class efb_add_new_form implements renderable, templatable
         $this->form_sections->setForm_action(get_string("efb-form-editing", "local_edwiserform"));
         if ($this->form) {
             $PAGE->requires->data_for_js('formdefinition', $this->form->definition);
-            $this->form_sections->setForm_title($this->form->title);
             $this->form_sections->setFormid($this->formid);
         }
         $logo = $output->get_logo_url();

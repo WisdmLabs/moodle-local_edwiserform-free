@@ -89,6 +89,7 @@ trait submit_form_data {
             $responce['status'] = true;
             if ($form->message) {
                 $context = context_system::instance();
+                require_once($CFG->libdir . "/filelib.php");
                 $message = file_rewrite_pluginfile_urls($form->message, 'pluginfile.php', $context->id, EDWISERFORM_COMPONENT, EDWISERFORM_FILEAREA, $form->id);
                 $responce['msg'] = $message;
             } else {

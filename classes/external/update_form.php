@@ -81,7 +81,7 @@ trait update_form {
     }
 
     private static function get_form_settings($setting) {
-        global $DB, $USER;
+        global $DB, $USER, $CFG;
         $data = new \stdClass();
         $data->id = self::getArrVal($setting, "id");
         $data->title = self::getArrVal($setting, "title");
@@ -91,6 +91,7 @@ trait update_form {
         $data->courses = self::getArrVal($setting, "courses", array());
         $data->data_edit = self::getArrVal($setting, "data_edit", false);
         $context = context_system::instance();
+        require_once($CFG->libdir . "/filelib.php");
         $data->message = file_save_draft_area_files(
             self::getArrVal($setting, "draftitemid", 0),
             $context->id,
