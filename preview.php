@@ -38,11 +38,11 @@ if (!$form) {
 	$out .= html_writer::start_tag('form', array('id' => 'preview-form', 'class' => 'edwiserform-container', 'method' => 'post'));
 	$out .= html_writer::end_tag('form');
 	$sitekey = get_config('local_edwiserform', 'google_recaptcha_sitekey');
-    $PAGE->requires->data_for_js('sitekey', $sitekey);
+	$stringmanager = get_string_manager();
+	$strings = $stringmanager->load_component_strings('local_edwiserform', 'en');
+        $PAGE->requires->strings_for_js(array_keys($strings), 'local_edwiserform');
 	$PAGE->requires->data_for_js('definition', $form->definition);
-	$PAGE->requires->data_for_js('title', $form->title);
-	$PAGE->requires->js(new moodle_url($CFG->wwwroot . '/local/edwiserform/amd/src/preview_form.js'));
-	$PAGE->requires->js(new moodle_url('https://www.google.com/recaptcha/api.js'));
+	$PAGE->requires->js_call_amd('local_edwiserform/preview_form', 'init', array($form->title, $sitekey));
 }
 $out .= html_writer::end_tag("div");
 $url = new moodle_url('/local/edwiserform/form.php', $urlparams);

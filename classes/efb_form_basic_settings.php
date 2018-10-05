@@ -54,7 +54,5 @@ class efb_form_basic_settings extends moodleform
         foreach ($plugins as $plugin) {
             $plugin->get_settings($form, $this->_customdata['form']);
         }
-        $PAGE->requires->js(new moodle_url($CFG->wwwroot."/local/edwiserform/amd/src/".get_class().".js"));
-
     }
 }

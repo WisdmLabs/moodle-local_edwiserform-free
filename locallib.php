@@ -131,8 +131,8 @@ class edwiserform {
         $js = [new moodle_url('https://www.google.com/recaptcha/api.js')];
         switch ($page) {
             case 'newform':
-                $js[] = new moodle_url($CFG->wwwroot . '/local/edwiserform/amd/src/new_form_main.js');
                 $sitekey = get_config('local_edwiserform', 'google_recaptcha_sitekey');
+                $PAGE->requires->js_call_amd('local_edwiserform/new_form_main', 'init', array($sitekey));
                 $PAGE->requires->data_for_js('sitekey', $sitekey);
                 $formid = optional_param('formid', null, PARAM_FLOAT);
                 $out = $this->get_renderer()->render(new efb_add_new_form($formid));
