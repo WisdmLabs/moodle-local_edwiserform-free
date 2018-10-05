@@ -158,13 +158,22 @@ class edwiserform_events_plugin {
         return true;
     }
 
+    private function get_field_label($fields, $name) {
+        foreach ($fields as $field) {
+            if ($field['attr']['name'] == $name) {
+                return $field['config']['label'];
+            }
+        }
+        return ucfirst($name);
+    }
+
     public function common_submission_email_message($form, $submission) {
         $definition = json_decode($form->definition, true);
         $fields = $definition['fields'];
         $data = json_decode($submission->submission);
         $messagehtml = '';
         foreach ($data as $input) {
-            $name = $fields[$input->name]['config']['label'];
+            $name = $this->get_field_label($fields, $input->name);
             $messagehtml .= html_writer::start_tag('div');
             $messagehtml .= html_writer::start_tag('table');
             $messagehtml .= html_writer::start_tag('tr');
