@@ -87,22 +87,34 @@ trait submit_form_data {
         }
         if ($status) {
             $responce['status'] = true;
-            if ($form->message) {
-                $context = context_system::instance();
-                require_once($CFG->libdir . "/filelib.php");
-                $message = file_rewrite_pluginfile_urls($form->message, 'pluginfile.php', $context->id, EDWISERFORM_COMPONENT, EDWISERFORM_FILEAREA, $form->id);
-                $responce['msg'] = $message;
-            } else {
-                $responce['msg'] = get_string("efb-form-data-submission-successful", "local_edwiserform");
-            }
-            $responce['msg'] = '<p>' . $responce['msg'] . '</p>';
+            $responce['msg'] = "<p>" . get_string("efb-form-data-submission-successful", "local_edwiserform") . "</p>";
             $eventmail = '';
             if ($form->type != 'blank') {
                 $eventmail = $plugin->submission_email_message($form, $submission);
             }
             $responce['msg'] .= self::notify($form, $data, $eventmail);
+            if ($form->message) {
+                $responce['msg'] .= self::confirmation($form, $submission);
+            }
         }
         return $responce;
+    }
+    public static function confirmation($form, $submission) {
+        global $USER;
+        $email = "";
+        if ($USER->id != 0 && !empty($USER->email)) {
+            $email = $USER->email;
+        }
+        if (!$email) {
+            return get_string('efb-confirmation-email-failed', 'local_edwiserform');
+        }
+        $submission = json_decode($submission);
+        $context = context_system::instance();
+        $messagehtml = file_rewrite_pluginfile_urls($form->message, 'pluginfile.php', $context->id, EDWISERFORM_COMPONENT, EDWISERFORM_SUCCESS_FILEAREA, $form->id);
+        if (send_email(get_config("core", "smtpuser"), $email, get_string('efb-form-data-submission-successful', 'local_edwiserform'), $messagehtml)) {
+            return get_string('efb-confirmation-email-success', 'local_edwiserform');
+        }
+        return get_string('efb-confirmation-email-failed', 'local_edwiserform');
     }
 
     public static function notify($form, $submission, $eventmail = '') {
@@ -127,6 +139,7 @@ trait submit_form_data {
         }
         return '';
     }
+
 
     public static function submit_form_data_returns() {
         return new \external_single_structure(
