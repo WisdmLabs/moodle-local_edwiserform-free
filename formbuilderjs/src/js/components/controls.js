@@ -102,6 +102,7 @@ const defaultElements = [{
   tag: 'input',
   attrs: {
     type: 'radio',
+    name: '',
     required: false,
     style: ''
   },
@@ -118,7 +119,6 @@ const defaultElements = [{
     return {
       label: 'Radio-' + i,
       value: 'radio value-' + i,
-      name: '',
       selected: false
     };
   })
@@ -126,11 +126,12 @@ const defaultElements = [{
   tag: 'input',
   attrs: {
     type: 'checkbox',
+    name: '',
     required: false,
     style: ''
   },
   config: {
-    label: getString('checkbox') + '/' + getString('group'),
+    label: getString('checkbox') + ' - ' + getString('checkboxes'),
     disabledAttrs: ['type', 'template']
   },
   meta: {
@@ -142,7 +143,6 @@ const defaultElements = [{
     return {
       label: 'Checkbox -' + i,
       value: 'checkbox value-' + i,
-      name: '',
       selected: false
     };
   })
@@ -246,7 +246,8 @@ const defaultElements = [{
   },
   config: {
     disabledAttrs: ['type', 'template'],
-    label: getString('name')
+    label: getString('control-name'),
+    composite: true
   },
   meta: {
     group: 'advance',
@@ -293,6 +294,23 @@ const defaultElements = [{
   },
   fMap: 'attrs.value'
 }, {
+  tag: 'select',
+  config: {
+    label: getString('country'),
+    disabledAttrs: ['template']
+  },
+  attrs: {
+    required: false,
+    name: 'country',
+    className: 'form-control',
+    style: ''
+  },
+  meta: {
+    group: 'advance',
+    icon: 'flag',
+    id: 'country'
+  }
+}, {
   tag: 'input',
   attrs: {
     type: 'text',
@@ -302,7 +320,8 @@ const defaultElements = [{
   },
   config: {
     disabledAttrs: ['type', 'template'],
-    label: getString('address')
+    label: getString('address'),
+    composite: true
   },
   meta: {
     group: 'advance',
