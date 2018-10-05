@@ -30,6 +30,15 @@ require_once($CFG->dirroot . '/local/edwiserform/events/events.php');
 class edwiserform_events_support extends edwiserform_events_plugin {
 
     public function submission_email_message($form, $submission) {
-        return parent::common_submission_email_message($form, $submission);
+        return $this->common_submission_email_message($form, $submission);
+    }
+    /**
+     * Execute event action after form submission
+     * @param object form
+     * @param object data - submitted by user
+     * @return object with attached event data
+     */
+    public function attach_data($form, $data) {
+    	return $this->attach_common_data($form, $data);
     }
 }

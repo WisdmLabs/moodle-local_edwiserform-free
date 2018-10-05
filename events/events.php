@@ -180,4 +180,32 @@ class edwiserform_events_plugin {
     public function submission_email_message($form, $submission) {
         return null;
     }
+    /**
+     * Has field value in form data
+     */
+    public function has_field($formdata, $field) {
+        foreach ($formdata as $fieldObj) {
+            if ($fieldObj->name == $field) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function attach_common_data($form, $data) {
+        global $USER;
+        $data = json_decode($data);
+        if ($USER->id != 0) {
+            $fields = ["firstname" => $USER->firstname, "lastname" => $USER->lastname, "email" => $USER->email, "mobile" => $USER->phone2];
+            foreach ($fields as $key => $value) {
+                if (!$this->has_field($data, $key)) {
+                    $data[] = [
+                        "name"     => $key,
+                        "value"    => $value
+                    ];
+                }
+            }
+        }
+        return json_encode($data);
+    }
 }

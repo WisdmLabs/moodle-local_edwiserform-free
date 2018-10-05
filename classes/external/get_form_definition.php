@@ -108,6 +108,9 @@ trait get_form_definition {
                 $responce["msg"] = get_string("efb-unknown-error", "local_edwiserform");
                 break;
         }
+        if ($form->type != 'blank') {
+            $responce['data'] = $plugin->attach_data($form, $responce["data"]);
+        }
         return $responce;
     }
 
