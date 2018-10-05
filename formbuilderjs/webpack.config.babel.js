@@ -3,16 +3,16 @@ const {resolve} = require('path');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-const {BannerPlugin} = require('webpack');
+const BannerWebpackPlugin = require('banner-webpack-plugin');
 const BabiliPlugin = require('babili-webpack-plugin');
 
 const PRODUCTION = process.argv.includes('-p');
 
 const bannerTemplate = [
-  `${pkg.name} - ${pkg.homepage}`,
-  `Version: ${pkg.version}`,
-  `Author: ${pkg.author}`
-].join('\n');
+  ` ${pkg.name} - ${pkg.homepage}`,
+  ` Version: ${pkg.version}`,
+  ` Author: ${pkg.author}`
+].join('\n *');
 
 let plugins = [
   new ExtractTextPlugin({
@@ -23,7 +23,14 @@ let plugins = [
   }, {
     comments: false
   }),
-  new BannerPlugin(bannerTemplate)
+  new BannerWebpackPlugin({
+      chunks: {
+      'main': {
+        beforeContent: `/*\n${bannerTemplate}\n*/\ndefine([], function() {\n\t`,
+        afterContent: '\n});',
+      }
+    }
+  })
 ];
 
 const extractSass = new ExtractTextPlugin({
