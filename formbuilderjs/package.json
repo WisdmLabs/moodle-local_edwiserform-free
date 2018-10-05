@@ -1,26 +1,12 @@
 {
-  "name": "formeo",
-  "version": "0.7.17",
+  "name": "Edwiser_Forms",
+  "version": "0.1.0",
   "main": "../amd/src/formbuilder.min.js",
   "files": [
     "../amd/src/formbuilder.min.js"
   ],
-  "homepage": "https://formeo.io",
-  "repository": {
-    "url": "http://github.com/draggable/formeo",
-    "type": "git"
-  },
-  "author": "Draggable https://draggable.io",
-  "contributors": [
-    {
-      "name": "Kevin Chappell",
-      "email": "kevin.b.chappell@gmail.com",
-      "url": "https://kevin-chappell.com"
-    }
-  ],
-  "bugs": {
-    "url": "https://github.com/draggable/formeo/issues"
-  },
+  "homepage": "https://edwiser.org/",
+  "author": "Yogesh Shirsath",
   "description": "A zero dependency JavaScript module for drag and drop form creation.",
   "keywords": [
     "drag and drop",
@@ -81,9 +67,9 @@
     "icons": ". ./tools/build-icons.sh",
     "clean": "rm -rf ../amd/src/formbuilder.min.js",
     "build": "npm run clean && webpack -p --progress && npm run copy",
-    "copy": "cp dist/formbuilder.min* ../amd/src/",
+    "copy": "cp dist/formbuilder.min.js ../amd/build/formbuilder.js && cp dist/formbuilder.min* ../amd/src/",
     "build-all": "npm run clean && webpack -p --progress && npm run copy-all",
-    "copy-all": "npm run icons && cp dist/formbuilder.min* ../amd/src/",
+    "copy-all": "npm run icons && cp dist/formbuilder.min.js ../amd/build/formbuilder.js && cp dist/formbuilder.min* ../amd/src/",
     "lint": "eslint ./src/js --ext .js || true",
     "tag": "node ./node_modules/babel-cli/bin/babel-node.js -- tools/run tag",
     "release:patch": "npm run tag patch && npm run deploy",
@@ -157,7 +143,9 @@
   },
   "engines": {},
   "dependencies": {
+    "banner-webpack-plugin": "^0.2.3",
     "eslint-plugin-promise": "^3.7.0",
-    "svgo": "^1.0.5"
+    "svgo": "^1.0.5",
+    "webpack-sources": "^1.3.0"
   }
 }
