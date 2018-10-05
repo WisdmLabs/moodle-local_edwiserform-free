@@ -644,8 +644,10 @@ class DOM {
       if (element.hasAttribute('validation')) {
         errormessage = element.getAttribute('validation');
       }
-      if (response && element.nextSibling) {
-        element.nextSibling.classList.remove('show');
+      if (response) {
+        if (element.nextSibling) {
+          element.nextSibling.classList.remove('show');
+        }
       } else {
         if (element.nextSibling) {
           element.nextSibling.classList.add('show');
