@@ -24,14 +24,14 @@ require_once('../../../../config.php');
 require_once($CFG->dirroot . "/local/edwiserform/lib.php");
 require_once($CFG->dirroot . "/local/edwiserform/classes/renderables/efb_list_form_data.php");
 
-function get_total_ebf_form_data_records($searchFlag, $searchText)
+function get_total_ebf_form_data_records($searchFlag, $searchText, $formid)
 {
     global $DB, $USER;
-    $stmt = "SELECT * FROM {efb_form_data} ";
+    $stmt = "SELECT * FROM {efb_form_data} WHERE formid = ?";
     if ($searchFlag) {
-        $stmt = "SELECT * FROM {efb_form_data} WHERE JSON_EXTRACT(submission, '$[*].value') REGEXP '" . $searchText . "'";
+        $stmt = "SELECT * FROM {efb_form_data} WHERE formid = ? AND JSON_EXTRACT(submission, '$[*].value') REGEXP '" . $searchText . "'";
     }
-    $param = [];
+    $param = [$formid];
     $records = $DB->get_records_sql($stmt, $param);
     return count($records);
 }
@@ -63,7 +63,7 @@ $rows = $object->get_submissions_list($wdmLimit, $searchText);
 $data = array(
             'sEcho' => intval($_REQUEST['sEcho']),
             'iTotalRecords' => count($rows),
-            'iTotalDisplayRecords' => get_total_ebf_form_data_records($searchFlag, $searchText),
+            'iTotalDisplayRecords' => get_total_ebf_form_data_records($searchFlag, $searchText, $formid),
         );
 $data["data"] = $rows;
 echo json_encode($data);
