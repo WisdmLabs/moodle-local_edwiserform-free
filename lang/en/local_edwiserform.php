@@ -22,7 +22,7 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author      Yogesh Shirsath
  */
-$string['pluginname']="Edwiser Forms";
+$string['pluginname']="Edwiser Forms Lite";
 $string['efb-heading-newform']="Add New Form";
 $string['efb-heading-editform']="Edit Form";
 $string['efb-heading-listforms']="View All Forms";
@@ -30,7 +30,6 @@ $string["efb-heading-viewdata"] = "View data";
 $string['efb-heading-import'] = 'Import form(PRO)';
 $string['efb-settings']="Settings";
 $string['efb-header-settings'] = "Form Settings";
-$string['efb-plugin-name']="Form Builder";
 $string['efb-genral-settings']="General Settings";
 $string['efb-enable-user-level-from-creation']="Allow teacher to create new form";
 $string['efb-des-enable-user-level-from-creation']="This will allow teacher to add the new form and view form submitted data.";
@@ -69,6 +68,10 @@ $string['efb-notify-email-subject'] = '{$a->site}: New user submission in {$a->t
 $string['efb-notify-email-body'] = '{$a->user} has made submission in {$a->title} form. To see all submissions please <a href="{$a->link}">click</a> here.';
 $string['efb-notify-email-failed'] = "<p>Unable to send email</p>";
 $string['efb-notify-email-success'] = "<p>Notified successfully</p>";
+$string['efb-confirmation-email-failed'] = "<p>Unable to send confirmation email.</p>";
+$string['efb-confirmation-email-success'] = "<p>Confirmation email sent successfully.</p>";
+$string['efb-notify-email-failed'] = "<p>Unable to notify author.</p>";
+
 $string['efb-delete-form-and-data'] = '{$a->title} form with ID({$a->id}) will be deleted along with its submissions. Are you sure you want to delete this form?';
 $string['clickonshortcode'] = 'Note: Click on shortcode to copy';
 $string['shortcodecoppied'] = '{$a} copied to clipboard';
@@ -103,7 +106,7 @@ $string['efb-setup-btn-upgrade']="Upgrade";
 $string['efb-setup-need-more-template']="Need more templates";
 $string['efb-setup-more-templates-message'] = "More templates are available in Edwiser Form PRO version";
 $string['efb-setup-msg-upgrade'] = "Unlock Pre-Made templates";
-$string['efb-setup-msg-upgrade-desc'] = "Edwiser Forms Free allows you to create Contact, Feedback, Support forms but there are other forms which have events on form submission. You can use those forms by unlocking our other pre-made form templates.";
+$string['efb-setup-msg-upgrade-desc'] = "Edwiser Forms Lite allows you to create Contact, Feedback, Support forms but there are other forms which have events on form submission. You can use those forms by unlocking our other pre-made form templates.";
 $string['efb-form-editing']="Now editing";
 $string['efb-select-template-warning'] = 'Please select template before proceeding';
 $string["efb-template-not-found"] = "Template not found.";
