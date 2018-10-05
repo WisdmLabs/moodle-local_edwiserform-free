@@ -153,15 +153,26 @@ class efb_list_form_data implements renderable, templatable
             return false;
         }
         $def = json_decode($def, true);
-        $fields = $def["fields"];
+        $stages = $def["stages"];
+        $rows = $def["rows"];
         $headings = [];
-        foreach ($fields as $field) {
-            switch ($field["tag"]) {
-                case "input":
-                case "select":
-                case "textarea":
-                    $headings[] = $field["attrs"]["name"];
-                    break;
+        foreach ($stages as $stage) {
+            $rows = $stage["rows"];
+            foreach ($rows as $row) {
+                $columns = $def["rows"][$row]["columns"];
+                foreach ($columns as $column) {
+                    $fields = $def["columns"][$column]["fields"];
+                    foreach ($fields as $field) {
+                        $field = $def["fields"][$field];
+                        switch ($field["tag"]) {
+                            case "input":
+                            case "select":
+                            case "textarea":
+                                $headings[] = $field["attrs"]["name"];
+                                break;
+                        }
+                    }
+                }
             }
         }
         if (!count($headings)) {
