@@ -373,7 +373,7 @@ class DOM {
             }
             label = _this.label(elem);
         }
-        if (displayLabel != 'off' && required) {
+        if (displayLabel != 'off' && required && !isPreview) {
           label.innerHTML = label.innerHTML + dom.create(requiredMark).outerHTML;
         }
 
@@ -385,7 +385,7 @@ class DOM {
             wrap.content.push(label);
           } else {
             wrap.content.push(label);
-            if (displayLabel == 'off' && required) {
+            if(displayLabel == 'off' || isPreview && required) {
               wrap.content.push(requiredMark);
             }
             wrap.content.push(element);
@@ -398,9 +398,12 @@ class DOM {
                 wrap.className = `f-${elem.attrs.type}`;
                 label.insertBefore(element, label.firstChild);
                 wrap.content.push(label);
+                if(displayLabel == 'off' || isPreview && required) {
+                  wrap.content.push(requiredMark);
+                }
             } else {
               wrap.content.push(label);
-              if (displayLabel == 'off' && required) {
+              if(displayLabel == 'off' || isPreview && required) {
                 wrap.content.push(requiredMark);
               }
               wrap.content.push(element);
