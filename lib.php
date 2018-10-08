@@ -87,7 +87,7 @@ function send_email($from, $to, $subject, $messagehtml) {
 	$PAGE->set_context($context);
 	$fromemail = generate_email_user($from);
 	$toemail = generate_email_user($to);
-	$messagetext = html_to_text($body);
+	$messagetext = html_to_text($messagehtml);
 	return email_to_user($toemail, $fromemail, $subject, $messagetext, $messagehtml, '', '', true, $fromemail->email);
 }
 
