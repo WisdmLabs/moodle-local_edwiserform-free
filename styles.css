@@ -709,6 +709,9 @@ and open the template in the editor.
 .efb-wrap-list .efb-csv-export {
     pointer-events: none;
 }
+.efb-wrap-list-form-data table.dataTable tbody th {
+    font-weight: 600;
+}
 .d-none {
     display: none;
 }
