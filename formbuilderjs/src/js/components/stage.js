@@ -204,6 +204,7 @@ export default class Stage {
       dom.proWarning(text);
       dom.remove(item);
       dom.remove(row);
+      dom.emptyClass(dom.activeStage);
       return data.save();
     } else if (fromColumn) {
       let column = dom.addColumn(row.id);
