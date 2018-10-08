@@ -795,6 +795,9 @@ export default class Field {
           }
           let setData = () => {
             if (evt.target.contentEditable === 'true') {
+              if (evt.target.innerHTML == '') {
+                evt.target.innerHTML = ' ';
+              }
               h.set(fieldData, prop, evt.target.innerHTML);
             } else {
               h.set(fieldData, prop, evt.target.value);
