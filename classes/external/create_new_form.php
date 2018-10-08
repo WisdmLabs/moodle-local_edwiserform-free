@@ -47,15 +47,6 @@ trait create_new_form {
         );
         $type = self::getArrVal($settings, "type");
         $eventsettings = self::getArrVal($settings, "eventsettings");
-        if ($type != 'blank') {
-            $plugin = get_plugin($type);
-            $status = $plugin->verify_form_settings($eventsettings);
-            if ($status != '') {
-                $responce["formid"] = 0;
-                $responce['msg'] = $status;
-                return $responce;
-            }
-        }
         $params = self::validate_parameters(self::create_new_form_parameters(), array("setting" => $settings, "formdef" => $formdef));
         $formid = self::save_form($params['setting'], $params['formdef']);
         if ($formid > 0) {
