@@ -25,4 +25,4 @@
 
 $string['pluginname'] = 'Contact Us Form';
 $string['efb-event-contact-name'] = "Simple Contact Form";
-$string['efb-event-contact-desc'] = "Allow your users to contact you with this simple contact form. You can add and remove fields as needed.";
+$string['efb-event-contact-desc'] = "Allow your users to contact you with this simple contact form.";
