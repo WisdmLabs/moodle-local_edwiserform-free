@@ -113,6 +113,7 @@ function can_create_or_view_form($userid = false) {
     if (!get_config('local_edwiserform', 'enable_teacher_forms')) {
     	throw new moodle_exception('efb-admin-disabled-teacher', 'local_edwiserform', new moodle_url('/my/'), null, get_edwiserform_string('efb-contact-admin'));
     }
+    return true;
 }
 
 function get_plugins() {
