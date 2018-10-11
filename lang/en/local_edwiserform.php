@@ -150,6 +150,7 @@ $string["efb-form-setting-saved"] = "Your form is already saved. You will redire
 $string["efb-form-setting-save-fail-msg"]="Error while saving form definition.";
 $string["efb-form-def-save-fail-msg"]="Error while saving form definition.";
 $string["efb-form-def-update-fail-msg"]="Cannot overwrite form. User submissions present. Try to create new form.";
+$string["efb-form-setting-update-fail-msg"]="Unable to update form.";
 $string["efb-form-setting-update-msg"]="Form has been updated successfuly. Click Ok to redirect to forms list.";
 $string["efb-list-form-data-page-title"]="List Form Data.";
 $string["efb-msg-form-delete-success"]="Form deleted successfuly.";
