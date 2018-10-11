@@ -68,12 +68,8 @@ class local_edwiserform_external_testcase extends local_edwiserform_base_testcas
         }
     }
 
-    protected function add_test_data($formid) {
-    	global $DB;
-    	$data = new stdClass;
-    	$data->formid = $formid;
-    	$data->userid = 0;
-    	$data->submission = json_encode([
+    protected function get_test_data() {
+    	return json_encode([
     		[
     			'name' => 'firstname',
     			'value'  => 'Testfirstname'
@@ -91,6 +87,14 @@ class local_edwiserform_external_testcase extends local_edwiserform_base_testcas
     			'value'  => 'Testemail'
     		]
     	]);
+    }
+
+    protected function add_test_data($formid) {
+    	global $DB, $USER;
+    	$data = new stdClass;
+    	$data->formid = $formid;
+    	$data->userid = $USER->id;
+    	$data->submission = $this->get_test_data();
     	$DB->insert_record('efb_form_data', $data);
     }
 
@@ -118,6 +122,7 @@ class local_edwiserform_external_testcase extends local_edwiserform_base_testcas
 
 	public function test_create_new_form() {
 		global $DB;
+		$this->setAdminUser();
 		$setting = array(
 			'title' => 'Test',
 	        'description' => 'Test description',
@@ -134,8 +139,10 @@ class local_edwiserform_external_testcase extends local_edwiserform_base_testcas
 
 	public function test_get_form_definition() {
 		global $DB;
-		// Testing formid is less than 1
+		$this->setAdminUser();
 		$this->create_test_form();
+
+		// Testing formid is less than 1
 		$result = efb_api::get_form_definition(0);
 		$this->assertEquals(get_string("efb-form-not-found", "local_edwiserform", '0'), $result['msg']);
 
@@ -159,15 +166,17 @@ class local_edwiserform_external_testcase extends local_edwiserform_base_testcas
 		$result = efb_api::get_form_definition($this->formid);
 		$this->assertEquals(get_string("efb-form-definition-found", "local_edwiserform"), $result['msg']);
 
-		// Testing formdata submitted
-		$data = new stdClass;
-		$data->id = $this->formid;
+		// Testing formdata submitted but data edit not enabled
+		$this->add_test_data($this->formid);
 		$data->data_edit = false;
 		$DB->update_record("efb_forms", $data);
-		$this->add_test_data($this->formid);
 		$result = efb_api::get_form_definition($this->formid);
 		$data->data_edit = true;
 		$DB->update_record("efb_forms", $data);
 		$this->assertEquals(get_string("efb-form-cannot-submit", "local_edwiserform"), $result['msg']);
+
+		// Testing formdata submitted and data edit enabled
+		$result = efb_api::get_form_definition($this->formid);
+		$this->assertEquals(get_string("efb-form-definition-found", "local_edwiserform"), $result['msg']);
 	}
 }
