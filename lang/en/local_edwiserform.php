@@ -22,7 +22,7 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author      Yogesh Shirsath
  */
-$string['pluginname']="Edwiser Forms Lite";
+$string['pluginname']="Edwiser Forms Free";
 $string['efb-heading-newform']="Add New Form";
 $string['efb-heading-editform']="Edit Form";
 $string['efb-heading-listforms']="View All Forms";
@@ -106,7 +106,7 @@ $string['efb-setup-btn-upgrade']="Upgrade";
 $string['efb-setup-need-more-template']="Need more templates";
 $string['efb-setup-more-templates-message'] = "More templates are available in Edwiser Form PRO version";
 $string['efb-setup-msg-upgrade'] = "Unlock Pre-Made templates";
-$string['efb-setup-msg-upgrade-desc'] = "Edwiser Forms Lite allows you to create Contact, Feedback, Support forms but there are other forms which have events on form submission. You can use those forms by unlocking our other pre-made form templates.";
+$string['efb-setup-msg-upgrade-desc'] = "Edwiser Forms Free allows you to create Contact, Feedback, Support forms but there are other forms which have events on form submission. You can use those forms by unlocking our other pre-made form templates.";
 $string['efb-form-editing']="Now editing";
 $string['efb-select-template-warning'] = 'Please select template before proceeding';
 $string["efb-template-not-found"] = "Template not found.";
