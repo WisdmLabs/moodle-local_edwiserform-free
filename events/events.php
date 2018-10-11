@@ -160,7 +160,7 @@ class edwiserform_events_plugin {
 
     private function get_field_label($fields, $name) {
         foreach ($fields as $field) {
-            if ($field['attr']['name'] == $name) {
+            if ($field['attrs']['name'] == $name) {
                 return $field['config']['label'];
             }
         }
@@ -192,10 +192,12 @@ class edwiserform_events_plugin {
     /**
      * Has field value in form data
      */
-    public function has_field($formdata, $field) {
-        foreach ($formdata as $fieldObj) {
-            if ($fieldObj->name == $field) {
-                return true;
+    public function has_field($formdata, $fieldname) {
+        if (!is_null($formdata)) {
+            foreach ($formdata as $field) {
+                if ((is_object($field) && $field->name == $field) || (is_array($field) && $field['name'] == $field)) {
+                    return true;
+                }
             }
         }
         return false;
