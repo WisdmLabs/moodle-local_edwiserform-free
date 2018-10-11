@@ -67,7 +67,7 @@ trait submit_form_data {
             }
             $responce['msg'] .= self::notify($form, $data, $eventmail);
             if ($form->message) {
-                $responce['msg'] .= self::confirmation($form, $submission);
+                $responce['msg'] .= self::confirmation($form, $submission->submission);
             }
         }
         return $responce;
