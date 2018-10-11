@@ -83,7 +83,7 @@ trait submit_form_data {
         }
         $submission = json_decode($submission);
         $context = context_system::instance();
-        $messagehtml = file_rewrite_pluginfile_urls($form->message, 'pluginfile.php', $context->id, EDWISERFORM_COMPONENT, EDWISERFORM_SUCCESS_FILEAREA, $form->id);
+        $messagehtml = file_rewrite_pluginfile_urls($form->message, 'pluginfile.php', $context->id, EDWISERFORM_COMPONENT, EDWISERFORM_FILEAREA, $form->id);
         if (send_email(get_config("core", "smtpuser"), $email, get_string('efb-form-data-submission-successful', 'local_edwiserform'), $messagehtml)) {
             return get_string('efb-confirmation-email-success', 'local_edwiserform');
         }
