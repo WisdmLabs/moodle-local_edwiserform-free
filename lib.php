@@ -34,22 +34,31 @@ function getArrVal($array,$key,$value=""){
 }
 
 function json_decode_level_1($json) {
-	$json = json_decode($json, true);
-	foreach ($json as $key => $value) {
-		$json[$key] = json_encode($value);
-	}
-	return $json;
+    $json = json_decode($json, true);
+    if (!is_array($json)) {
+        return $json;
+    }
+    foreach ($json as $key => $value) {
+        $json[$key] = json_encode($value);
+    }
+    return $json;
 }
 
 function json_decode_level_2($json) {
-	$json = json_decode($json, true);
-	foreach ($json as $key1 => $json1) {
-		foreach ($json1 as $key2 => $json2) {
-			$json1[$key2] = json_encode($json2);
-		}
-		$json[$key1] = $json1;
-	}
-	return $json;
+    $json = json_decode($json, true);
+    if (!is_array($json)) {
+        return $json;
+    }
+    foreach ($json as $key1 => $json1) {
+        if (!is_array($json1)) {
+            continue;
+        }
+        foreach ($json1 as $key2 => $json2) {
+            $json1[$key2] = json_encode($json2);
+        }
+        $json[$key1] = $json1;
+    }
+    return $json;
 }
 
 function get_edwiserform_string($identifier) {
