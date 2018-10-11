@@ -39,40 +39,13 @@ trait submit_form_data {
             return $responce;
         }
         $plugin = null;
-        $submissionsupports = true;
         if ($form->type != 'blank') {
             $plugin = get_plugin($form->type);
-            $submissionsupports = $plugin->can_save_data();
-        }
-        if (!$submissionsupports) {
-            return array(
-                'status' => false,
-                'msg' => get_string("efb-form-data-submission-not-supported", "local_edwiserform")
-            );
         }
         if (isloggedin()) {
             $userid = $USER->id;
         } else {
             $userid = 0;
-        }
-        if ($form->type != 'blank') {
-            $errors = $plugin->validate_form_data($form, $data);
-            if (!empty($errors)) {
-                return [
-                    'status' => false,
-                    'msg' => get_string('efb-invalid-form-data', 'local_edwiserform'),
-                    'errors' => $errors
-                ];
-            }
-        }
-        if ($form->type != 'blank') {
-            $pluginresponce = $plugin->event_action($form, $data);
-            if ($pluginresponce->status === false) {
-                return $pluginresponce;
-            }
-            if (isset($pluginresponce['userid'])) {
-                $userid = $pluginresponce['userid'];
-            }
         }
         $submission = $DB->get_record("efb_form_data", array('formid' => $formid, 'userid' => $userid));
         if ($submission && ($form->type == 'blank' || ($form->type != 'blank' && $plugin->support_form_data_update()))) {

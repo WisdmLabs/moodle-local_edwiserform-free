@@ -28,7 +28,6 @@ trait update_form {
                         'data_edit' => new external_value(PARAM_BOOL, 'Is form editable. Boolean true/flase', VALUE_REQUIRED),
                         'type' => new external_value(PARAM_TEXT, 'Type of the form', VALUE_REQUIRED),
                         'notifi_email' => new external_value(PARAM_TEXT, 'Notification email address. This value is required if the form type is contact us', VALUE_OPTIONAL),
-                        'courses' => new external_value(PARAM_SEQUENCE, 'Enrollment courses list this value is reqired if type is enrol', VALUE_OPTIONAL),
                         'message' => new external_value(PARAM_RAW, 'Message to show after successfull submission', VALUE_OPTIONAL),
                         "draftitemid" => new external_value(PARAM_INT, 'Draft item id form message', VALUE_OPTIONAL),
                         'eventsettings' => new external_value(PARAM_RAW, 'Event settings', VALUE_OPTIONAL)
@@ -49,15 +48,6 @@ trait update_form {
         $type = self::getArrVal($settings, "type");
         $formid = self::getArrVal($settings, "id");
         $eventsettings = self::getArrVal($settings, "eventsettings");
-        if ($type != 'blank') {
-            $plugin = get_plugin($type);
-            $status = $plugin->verify_form_settings($eventsettings);
-            if ($status != '') {
-                $responce["formid"] = $formid;
-                $responce['msg'] = $status;
-                return $responce;
-            }
-        }
         $params = self::validate_parameters(self::update_form_parameters(), array("setting" => $settings, "formdef" => $formdef));
         $settings = self::getArrVal($params, 'setting');
         $formid = self::getArrVal($settings, "id");
@@ -66,10 +56,6 @@ trait update_form {
         $formsettings = self::get_form_settings($settings);
         $status = self::update_form_status($formid, $formdefinition, $formsettings);
         if ($status == true) {
-            if ($type != 'blank') {
-                $plugin = get_plugin($type);
-                $plugin->update_form($formid, $eventsettings);
-            }
             $responce['status'] = true;
             $responce['msg'] = get_string("efb-form-setting-update-msg", "local_edwiserform");
         } else if ($status == false) {
@@ -88,7 +74,6 @@ trait update_form {
         $data->description = self::getArrVal($setting, "description");
         $data->type = self::getArrVal($setting, "type");
         $data->notifi_email = self::getArrVal($setting, "notifi_email");
-        $data->courses = self::getArrVal($setting, "courses", array());
         $data->data_edit = self::getArrVal($setting, "data_edit", false);
         $context = context_system::instance();
         require_once($CFG->libdir . "/filelib.php");
