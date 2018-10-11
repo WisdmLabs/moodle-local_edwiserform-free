@@ -96,7 +96,7 @@ trait update_form {
             $def1 = json_decode_level_2($def1);
             $def2 = json_decode_level_2($def2);
             foreach ($def1["fields"] as $key => $value) {
-                if ($value != $def2["fields"][$key]) {
+                if (!isset($def2["fields"][$key]) || $value != $def2["fields"][$key]) {
                     return false;
                 }
             }
