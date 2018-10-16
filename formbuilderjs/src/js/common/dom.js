@@ -1251,10 +1251,10 @@ class DOM {
       case 'select':
         inputControl.tag = 'select';
         inputControl.options = [];
-        for (let [i, option] of Object.entries(config.options)) {
-            option.selected = option.value == config.value;
+        Object.values(config.options).forEach(function(option) {
+          option.selected = option.value == config.value;
           inputControl.options.push(option);
-        }
+        });
         break;
       case 'textarea':
         inputControl.tag = 'textarea';
@@ -1883,7 +1883,6 @@ class DOM {
    * @return {Boolean} canRemoveElement true if element can be removed| false if element cannot be removed
    */
   canRemoveElement(container) {
-    let templateElements = container.querySelectorAll('[template="true"]');
     let elementType = container.fType;
     let message = '';
     let check = {
@@ -1897,16 +1896,14 @@ class DOM {
       },
       columns: (column) => {
         column = formData.columns.get(column);
-        let status = true;
-        let fields = column.fields.forEach(function(field) {
-          status &= check['fields'](field);
+        column.fields.forEach(function(field) {
+          check['fields'](field);
         });
       },
       rows: (row) => {
         row = formData.rows.get(row);
-        let status = true;
-        let rows = row.columns.forEach(function(column) {
-          status &= check['columns'](column);
+        row.columns.forEach(function(column) {
+          check['columns'](column);
         });
       }
     };
@@ -2994,7 +2991,6 @@ class DOM {
    */
   renderForm(renderTarget) {
     this.empty(renderTarget);
-    let _this = this;
     this.renderTarget = renderTarget;
     let renderData = data.prepData;
     let renderCount = document.getElementsByClassName('formeo-render').length;
@@ -3455,7 +3451,6 @@ class DOM {
   checkSingle() {
     defaultElements.forEach(function(defaultElement, index) {
       if (defaultElement.hasOwnProperty('config') && defaultElement.config.hasOwnProperty('single') && defaultElement.config.single) {
-        let className = `.${defaultElement.meta.group}-control.${defaultElement.meta.id}-control`;
         let show = true;
         formData.fields.forEach(function(element, index) {
           if (element.meta.group == defaultElement.meta.group && element.meta.id == defaultElement.meta.id) {
@@ -3472,7 +3467,6 @@ class DOM {
    * @param {String} msg for warning
    */
   proWarning(msg = null) {
-    let _this = this;
     if (typeof msg == 'object') {
       msg = getString('profeaturemessage', msg);
     } else {

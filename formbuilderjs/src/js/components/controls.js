@@ -1,7 +1,6 @@
 import Sortable from 'sortablejs';
-import {data, formData, registeredFields as rFields} from '../common/data';
+import {registeredFields as rFields} from '../common/data';
 import h from '../common/helpers';
-import events from '../common/events';
 import {match, unique, uuid, getString, closest} from '../common/utils';
 import dom from '../common/dom';
 
@@ -580,7 +579,6 @@ export class Controls {
    * @param  {String} formID
    */
   constructor(controlOptions, formID) {
-    let _this = this;
     this.formID = formID;
     let {groupOrder = []} = controlOptions;
     this.groupOrder = unique(groupOrder.concat([

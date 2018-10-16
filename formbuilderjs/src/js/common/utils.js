@@ -185,6 +185,7 @@ export const clicked = (x, y, position, button) => {
  * @return {String} string
  */
 export const getString = (id, args = null) => {
+  let M = window['M'];
   let string = args == null ? M.util.get_string(id, 'local_edwiserform') : M.util.get_string(id, 'local_edwiserform', args);
   if (string == '[[' + id + ',local_edwiserform]]') {
     id = id.replace('-', ' ');

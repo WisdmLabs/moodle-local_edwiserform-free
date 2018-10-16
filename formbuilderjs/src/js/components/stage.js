@@ -1,5 +1,5 @@
 import Sortable from 'sortablejs';
-import {data, formData, registeredFields as rFields} from '../common/data';
+import {data, formData} from '../common/data';
 import h from '../common/helpers';
 import dom from '../common/dom';
 import {uuid, getString} from '../common/utils';

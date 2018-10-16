@@ -107,7 +107,6 @@ class Formeo {
    * @return {Object} formSettings
    */
   getFormSettings() {
-    let _this = this;
     let defaultSettings = dom.getFormDefaultSettings();
     let formSettings = formData.settings.get('formSettings');
     if (typeof formSettings == 'undefined') {

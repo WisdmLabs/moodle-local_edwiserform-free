@@ -185,6 +185,7 @@ export const clicked = (x, y, position, button) => {
  * @return {String} string
  */
 export const getString = id => {
+  let M = window['M'];
   let string = M.util.get_string(id, 'local_edwiserform');
   if (string == '[[' + id + ',local_edwiserform]]') {
     if (string.indexOf('.') != -1) {

@@ -1,5 +1,6 @@
 import dom from './dom';
 import {getString} from './utils';
+let M = window['M'];
 // Default options
 let defaults = {
   formeoLoaded: evt => {},
