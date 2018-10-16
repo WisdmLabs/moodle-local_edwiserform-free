@@ -31,18 +31,19 @@ $form = $DB->get_record('efb_forms', array('id' => $formid));
 $out = "";
 $out .= html_writer::start_tag("div", array("class" => "form form-page"));
 if (!$form) {
-	$title = "Invalid form";
-	$out = "404. Form not found.";
+    $title = "Invalid form";
+    $out = "404. Form not found.";
 } else {
-	$title = $form->title;
-	$out .= html_writer::start_tag('form', array('id' => 'preview-form', 'class' => 'edwiserform-container', 'method' => 'post'));
-	$out .= html_writer::end_tag('form');
-	$sitekey = get_config('local_edwiserform', 'google_recaptcha_sitekey');
-	$stringmanager = get_string_manager();
-	$strings = $stringmanager->load_component_strings('local_edwiserform', 'en');
-        $PAGE->requires->strings_for_js(array_keys($strings), 'local_edwiserform');
-	$PAGE->requires->data_for_js('definition', $form->definition);
-	$PAGE->requires->js_call_amd('local_edwiserform/preview_form', 'init', array($form->title, $sitekey));
+    $title = $form->title;
+    $out .= html_writer::start_tag('form', array('id' => 'preview-form', 'class' => 'edwiserform-container', 'method' => 'post'));
+    $out .= html_writer::end_tag('form');
+    $sitekey = get_config('local_edwiserform', 'google_recaptcha_sitekey');
+    $stringmanager = get_string_manager();
+    $strings = $stringmanager->load_component_strings('local_edwiserform', 'en');
+    $PAGE->requires->strings_for_js(array_keys($strings), 'local_edwiserform');
+    $PAGE->requires->js(new moodle_url('https://www.google.com/recaptcha/api.js'));
+    $PAGE->requires->data_for_js('definition', $form->definition);
+    $PAGE->requires->js_call_amd('local_edwiserform/preview_form', 'init', array($form->title, $sitekey));
 }
 $out .= html_writer::end_tag("div");
 $url = new moodle_url('/local/edwiserform/form.php', $urlparams);

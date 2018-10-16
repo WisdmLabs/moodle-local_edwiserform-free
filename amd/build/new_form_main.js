@@ -7,7 +7,7 @@ var get_form_def;
 var get_form_settings;
 var formeo;
 var events = [];
-define(['jquery', 'core/ajax', 'local_edwiserform/efb_form_basic_settings', 'local_edwiserform/grecaptcha', 'local_edwiserform/formbuilder'], function ($, ajax) {
+define(['jquery', 'core/ajax', 'local_edwiserform/efb_form_basic_settings', 'local_edwiserform/formbuilder'], function ($, ajax) {
     return {
         init: function(sitekey) {
             $(document).ready(function (e) {
