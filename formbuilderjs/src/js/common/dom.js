@@ -3485,7 +3485,7 @@ class DOM {
         title: getString('upgrade'),
         type: 'efb-form-upgrade',
         action: function() {
-          alert('Redirect to PRO version download page.');
+          window.open('https://edwiser.org/edwiser-forms-pricing/?utm_source=inproduct&utm_medium=edwiserformsfree&utm_campaign=oct&utm_content=15');
         }
       }, {
         title: getString('later'),
