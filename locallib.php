@@ -15,14 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Internal library of functions for module video
- *
- * All the video specific functions, needed to implement the module
- * logic, should go here. Never include this file from your lib.php!
- *
- * @package    local_edwiserform
- * @copyright  2016 Your Name <your@email.address>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_edwiserform
+ * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author      Yogesh Shirsath
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -30,16 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/repository/lib.php');
 require_once($CFG->dirroot . '/local/edwiserform/renderable.php');
 require_once($CFG->dirroot . '/local/edwiserform/lib.php');
-// use core_component;
-/*
- * Does something really useful with the passed things
- *
- * @param array $things
- * @return object
- * function video_do_something_useful(array $things) {
- *    return new stdClass();
- * }
- */
 
 class edwiserform {
 

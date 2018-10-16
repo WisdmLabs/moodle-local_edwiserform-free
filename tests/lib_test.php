@@ -19,7 +19,7 @@
  *
  * @package    local_edwiserform
  * @category   phpunit
- * @copyright  Wisdmlabs
+ * @copyright  2018 WisdmLabs <support@wisdmlabs.com>
  * @author     Yogesh Shirsath
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

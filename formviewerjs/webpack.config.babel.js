@@ -2,7 +2,6 @@ const pkg = require('./package.json');
 const {resolve} = require('path');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
 const BannerWebpackPlugin = require('banner-webpack-plugin');
 const BabiliPlugin = require('babili-webpack-plugin');
 
@@ -12,7 +11,7 @@ const bannerTemplate = [
   ` ${pkg.name} - ${pkg.homepage}`,
   ` Version: ${pkg.version}`,
   ` Author: ${pkg.author}`
-].join('\n');
+].join('\n *');
 
 let plugins = [
   new ExtractTextPlugin({
@@ -26,7 +25,7 @@ let plugins = [
   new BannerWebpackPlugin({
       chunks: {
       'main': {
-        beforeContent: `/*\n${bannerTemplate}\n*/\ndefine([], function() {\n\t`,
+        beforeContent: `/*\n *${bannerTemplate}\n*/\ndefine([], function() {\n\t`,
         afterContent: '\n});',
       }
     }

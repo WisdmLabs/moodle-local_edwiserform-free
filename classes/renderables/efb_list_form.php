@@ -15,13 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Description of efb_list_form
- * @package   local_edwiserform
- * @copyright WisdmLabs
- * @author sudam
- * @author Yogesh Shirsath
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_edwiserform
+ * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author      Yogesh Shirsath
+ * @author      Sudam
  */
+
 defined('MOODLE_INTERNAL') || die();
 
 class efb_list_form implements renderable, templatable {

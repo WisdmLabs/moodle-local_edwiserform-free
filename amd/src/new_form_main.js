@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Edwiser_Forms - https://edwiser.org/
+ * Version: 0.1.0
+ * Author: Yogesh Shirsath
  */
 var get_form_def;
 var get_form_settings;

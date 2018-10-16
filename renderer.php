@@ -15,14 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Internal library of functions for module video_training
- *
- * All the video_training specific functions, needed to implement the module
- * logic, should go here. Never include this file from your lib.php!
- *
- * @package    mod_lesson_plan
- * @copyright  2016 Your Name <your@email.address>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_edwiserform
+ * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author      Yogesh Shirsath
  */
 
 defined('MOODLE_INTERNAL') || die();

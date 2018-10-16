@@ -26,7 +26,7 @@ let plugins = [
   new BannerWebpackPlugin({
       chunks: {
       'main': {
-        beforeContent: `/*\n${bannerTemplate}\n*/\ndefine([], function() {\n\t`,
+        beforeContent: `/*\n *${bannerTemplate}\n*/\ndefine([], function() {\n\t`,
         afterContent: '\n});',
       }
     }

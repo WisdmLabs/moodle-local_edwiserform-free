@@ -1,3 +1,8 @@
+/*
+ * Edwiser_Forms - https://edwiser.org/
+ * Version: 0.1.0
+ * Author: Yogesh Shirsath
+ */
 require(["jquery"], function ($) {
 	$(document).ready(function() {
 		function validateEmail(email) {

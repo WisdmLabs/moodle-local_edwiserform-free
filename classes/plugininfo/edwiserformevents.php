@@ -15,13 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other meta-data are defined here.
- *
  * @package     local_edwiserform
  * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author      Yogesh Shirsath
  */
+
 namespace local_edwiserform\plugininfo;
 
 use core\plugininfo\base, core_plugin_manager, moodle_url;

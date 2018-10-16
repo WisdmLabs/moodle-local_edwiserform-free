@@ -15,11 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package   local_edwiserform
- * @copyright WisdmLabs
- * @author    Yogesh Shirsath
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_edwiserform
+ * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author      Yogesh Shirsath
+ * @author      Sudam
  */
+
 require_once('../../../../config.php');
 require_once($CFG->dirroot . "/local/edwiserform/lib.php");
 require_once($CFG->dirroot . "/local/edwiserform/classes/renderables/efb_list_form.php");
