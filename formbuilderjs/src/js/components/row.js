@@ -102,7 +102,7 @@ export default class Row {
     let _this = this;
     return {
       tag: 'button',
-      className: 'condition-delete condition-control',
+      className: 'condition-delete condition-control btn-danger',
       content: dom.icon('remove'),
       action: {
         click: event => {
