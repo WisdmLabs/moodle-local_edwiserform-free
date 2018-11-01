@@ -332,7 +332,7 @@ const defaultElements = [{
   tag: 'input',
   attrs: {
     type: 'text',
-    pattern: '((http|https)\:\/\/)?(w{3}\.)?[a-zA-Z]+.[a-zA-Z.]+.*',
+    pattern: '^((http|https)\:\/\/)?(w{3}\.)?[a-zA-Z]+.[a-zA-Z.]+.*$',
     required: false,
     name: 'website',
     value: ''

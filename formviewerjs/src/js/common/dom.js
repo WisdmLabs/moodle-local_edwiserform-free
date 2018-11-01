@@ -164,14 +164,29 @@ class DOM {
 
     if (elem.config) {
       if (elem.config.hasOwnProperty('recaptcha') && elem.config.recaptcha) {
-        let clickEvent = function(response) {
-          if (response) {
-            let errorelem = document.querySelector('.g-recaptcha-error');
-            errorelem.classList.remove('show');
+        delete elem.attrs.placeholder;
+        elem.attrs['data-sitekey'] = _this.sitekey;
+        let limit = 3;
+        let renderCaptcha = function() {
+          if (window.hasOwnProperty('grecaptcha') && window.grecaptcha.hasOwnProperty('render')) {
+            window.grecaptcha.render(element, {
+              sitekey: _this.sitekey,
+              callback: function(response) {
+                if (response) {
+                  let errorelem = document.querySelector('.g-recaptcha-error');
+                  errorelem.classList.remove('show');
+                }
+              }
+            });
+          } else {
+            if (--limit != 0) {
+              setTimeout(renderCaptcha, 1000);
+            } else {
+              element.querySelector('.g-recaptcha').innerHTML = getString('efb-google-recaptcha-not-loaded');
+            }
           }
         };
-        let renderCaptcha = new Function('element', 'key', 'hideError', 'grecaptcha.render(element, {sitekey: key, callback: hideError});');
-        setTimeout(renderCaptcha(element, this.sitekey, clickEvent), 100);
+        renderCaptcha();
       }
       if (elem.config.label && tag !== 'button') {
         let label;
@@ -638,11 +653,13 @@ class DOM {
    */
   checkValidity(element) {
     if (element.className == 'g-recaptcha') {
-      let recaptchaResponse = new Function('return grecaptcha.getResponse();');
-      let response = recaptchaResponse() != '';
+      let response = false;
       let errormessage = getString('recaptcha-error');
-      if (element.hasAttribute('validation')) {
-        errormessage = element.getAttribute('validation');
+      if (window.hasOwnProperty('grecaptcha')) {
+        response = window.grecaptcha.getResponse() != '';
+        if (element.hasAttribute('validation')) {
+          errormessage = element.getAttribute('validation');
+        }
       }
       if (response) {
         if (element.nextSibling) {

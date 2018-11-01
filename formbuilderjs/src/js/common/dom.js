@@ -319,9 +319,17 @@ class DOM {
       delete elem.className;
     }
 
+    if (elem.hasOwnProperty('attrs') && elem.attrs.hasOwnProperty('name') && elem.attrs.name.trim() == '') {
+      elem.attrs.name = elem.id;
+    }
     // Append Element Content
     if (elem.options) {
       let {options} = elem;
+      if (elem.tag == 'input' && (elem.attrs.type == 'radio' || elem.attrs.type == 'checkbox')) {
+        h.forEach(options, option => {
+          option.name = elem.attrs.name;
+        });
+      }
       options = this.processOptions(options, elem, isPreview);
       if (this.holdsContent(element) && tag !== 'button') {
         // mainly used for <select> tag
@@ -3355,7 +3363,7 @@ class DOM {
   filterFieldsSelectRadio(fields) {
     let filter = [];
     formData.fields.forEach(function(field, index) {
-      if (fields.includes(field.id) && (field.tag == 'select' || (field.tag == 'input' && field.attrs.type == 'radio'))) {
+      if (fields.includes(field.id) && (field.tag == 'select')) {
         filter.push(field);
       }
     });
