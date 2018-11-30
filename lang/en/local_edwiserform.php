@@ -21,39 +21,39 @@
  * @author      Yogesh Shirsath
  */
 
-$string['pluginname']="Edwiser Forms Free";
-$string['efb-heading-newform']="Add New Form";
-$string['efb-heading-editform']="Edit Form";
-$string['efb-heading-listforms']="View All Forms";
+$string['pluginname'] = "Edwiser Forms Free";
+$string['efb-heading-newform'] = "Add New Form";
+$string['efb-heading-editform'] = "Edit Form";
+$string['efb-heading-listforms'] = "View All Forms";
 $string["efb-heading-viewdata"] = "View data";
 $string['efb-heading-import'] = 'Import form(PRO)';
-$string['efb-settings']="Settings";
+$string['efb-settings'] = "Settings";
 $string['efb-header-settings'] = "Form Settings";
-$string['efb-genral-settings']="General Settings";
-$string['efb-enable-user-level-from-creation']="Allow teacher to create new form";
-$string['efb-des-enable-user-level-from-creation']="This will allow teacher to add the new form and view form submitted data.";
+$string['efb-genral-settings'] = "General Settings";
+$string['efb-enable-user-level-from-creation'] = "Allow teacher to create new form";
+$string['efb-des-enable-user-level-from-creation'] = "This will allow teacher to add the new form and view form submitted data.";
 $string['efb-google-recaptcha-sitekey'] = 'Google reCaptcha site key';
 $string['efb-desc-google-recaptcha-sitekey'] = 'Enter google reCaptcha sitekey to use reCaptcha in your form';
-$string['efb-invalid-page']="Invalid";
-$string['efb-btn-next']="Next";
-$string['efb-btn-previous']="Previous";
-$string['efb-btn-save']="Save Changes";
-$string['efb-lbl-form-setup']="Templates";
-$string['efb-lbl-form-settings']="Settings";
-$string['efb-lbl-form-builder']="Fields";
-$string['efb-lbl-form-preview']="Preview";
+$string['efb-invalid-page'] = "Invalid";
+$string['efb-btn-next'] = "Next";
+$string['efb-btn-previous'] = "Previous";
+$string['efb-btn-save'] = "Save Changes";
+$string['efb-lbl-form-setup'] = "Templates";
+$string['efb-lbl-form-settings'] = "Settings";
+$string['efb-lbl-form-builder'] = "Fields";
+$string['efb-lbl-form-preview'] = "Preview";
 $string['efb-form-builder-step'] = 'Build Form';
-$string['efb-lbl-title']="Title";
+$string['efb-lbl-title'] = "Title";
 $string["efb-lbl-title-warning"] = "Title cannot be empty.";
 $string["efb-lbl-courses-warning"] = "Please select at least 1 course.";
 $string["efb-lbl-empty-form-warning"] = "Please add fields in form.";
-$string['efb-lbl-description']="Description";
-$string['efb-lbl-description-warning']="Description cannot be empty.";
-$string['efb-lbl-allowedit']="Allow Data Edit";
+$string['efb-lbl-description'] = "Description";
+$string['efb-lbl-description-warning'] = "Description cannot be empty.";
+$string['efb-lbl-allowedit'] = "Allow Data Edit";
 $string['efb-lbl-allowedit-desc'] = "Allow user to edit submitted data.";
-$string['efb-lbl-event']="Select Event";
-$string['efb-lbl-courses-list']="Select Courses";
-$string['efb-lbl-notifi-email']="Recipient Email Address";
+$string['efb-lbl-event'] = "Select Event";
+$string['efb-lbl-courses-list'] = "Select Courses";
+$string['efb-lbl-notifi-email'] = "Recipient Email Address";
 $string['efb-lbl-notifi-email-warning'] = "Invalid email address.";
 $string['efb-lbl-notifi-email-duplicate'] = "Email is already present in the list.";
 $string['efb-cannot-create-form'] = "You are not allowed to create form.";
@@ -78,9 +78,7 @@ $string['hey-wait'] = 'Hey Wait';
 $string['efb-search-form'] = 'Search Forms:';
 $string['efb-form-enter-title'] = 'Please give a name to your form';
 
-/**
- * Template event string
- */
+ // Template event string
 $string['efb-event-blank-name'] = "Blank Form";
 $string['efb-event-blank-desc'] = "The blank form allows you to create any type of form using our drag & drop builder.";
 $string['efb-event-hover-text'] = "Select this form";
@@ -91,26 +89,25 @@ $string['efb-event-login-desc'] = 'Provides the login form. You can use this for
 $string['efb-event-registration-name'] = "User Registration Form";
 $string['efb-event-registration-desc'] = "Provides the registration form. Use this form to create user account.";
 $string['efb-pro-label'] = 'PRO';
-/**
- * Setup template strings start.
- */
-$string['efb-setup-msg-select-tmpl']="To speed up the process, you can select from one of our pre-made templates";
-$string['efb-lbl-form-setup-formname']="Form Name";
-$string['efb-lbl-form-setup-formname-placeholder']="Enter your form name here…";
-$string['efb-lbl-form-setup-formname-sub-heading']="Select a Template";
-$string['efb-setup-additional-title']="Additional Templates";
-$string['efb-setup-additional-desc']="txt1";
-$string['efb-setup-additional-title']="txt2";
-$string['efb-setup-btn-upgrade']="Upgrade";
-$string['efb-setup-need-more-template']="Need more templates";
+
+// Setup template strings start.
+$string['efb-setup-msg-select-tmpl'] = "To speed up the process, you can select from one of our pre-made templates";
+$string['efb-lbl-form-setup-formname'] = "Form Name";
+$string['efb-lbl-form-setup-formname-placeholder'] = "Enter your form name here…";
+$string['efb-lbl-form-setup-formname-sub-heading'] = "Select a Template";
+$string['efb-setup-additional-title'] = "Additional Templates";
+$string['efb-setup-additional-desc'] = "txt1";
+$string['efb-setup-additional-title'] = "txt2";
+$string['efb-setup-btn-upgrade'] = "Upgrade";
+$string['efb-setup-need-more-template'] = "Need more templates";
 $string['efb-setup-more-templates-message'] = "More templates are available in Edwiser Form PRO version";
 $string['efb-setup-msg-upgrade'] = "Unlock Pre-Made templates";
 $string['efb-setup-msg-upgrade-desc'] = "Edwiser Forms Free allows you to create Contact, Feedback, Support forms but there are other forms which have events on form submission. You can use those forms by unlocking our other pre-made form templates.";
-$string['efb-form-editing']="Now editing";
+$string['efb-form-editing'] = "Now editing";
 $string['efb-select-template-warning'] = 'Please select template before proceeding';
 $string["efb-template-not-found"] = "Template not found.";
 $string["efb-template-name-not-valid"] = "Template name is not valid";
-$string["efb-template-found"]="Template found";
+$string["efb-template-found"] = "Template found";
 $string["operation-failed"] = "Operation failed";
 $string["active"] = "SELECTED";
 $string["enrol-success"] = 'Enrollment of user {$a} in courses is successful';
@@ -120,20 +117,18 @@ $string["unenrol-success"] = 'Unenrollment of user {$a} in courses is unsuccessf
 $string["attention"] = "Attention";
 $string["efb-template-change-warning"] = "All fields from current form will be deleted. Are you sure you want to continue?";
 
-/**
- * Setup template strings end.
- */
+// Setup template strings end.
 
-$string["efb-tbl-heading-title"]="Title";
+$string["efb-tbl-heading-title"] = "Title";
 $string["efb-tbl-heading-type"] = "Type";
-$string["efb-tbl-heading-shortcode"]="Shortcode";
-$string["efb-tbl-heading-author"]="Author";
-$string["efb-tbl-heading-author2"]="Updated By";
-$string["efb-tbl-heading-created"]="Created On";
-$string["efb-tbl-heading-modified"]="Last Updated";
-$string["efb-tbl-heading-versions"]="Versions";
-$string["efb-tbl-heading-version"]="Version";
-$string["efb-tbl-heading-action"]="Manage";
+$string["efb-tbl-heading-shortcode"] = "Shortcode";
+$string["efb-tbl-heading-author"] = "Author";
+$string["efb-tbl-heading-author2"] = "Updated By";
+$string["efb-tbl-heading-created"] = "Created On";
+$string["efb-tbl-heading-modified"] = "Last Updated";
+$string["efb-tbl-heading-versions"] = "Versions";
+$string["efb-tbl-heading-version"] = "Version";
+$string["efb-tbl-heading-action"] = "Manage";
 $string["efb-form-action-edit-title"] = "Edit form";
 $string["efb-form-action-delete-title"] = "Delete";
 $string["efb-form-action-view-data-title"] = "View data";
@@ -144,15 +139,15 @@ $string["efb-form-action-enable-failed"] = "Form enable failed";
 $string["efb-form-action-disable-failed"] = "Form disable failed";
 $string["efb-form-action-enable-success"] = "Form enable success";
 $string["efb-form-action-disable-success"] = "Form disable success";
-$string["efb-form-setting-save-msg"]="Form saved successfuly. You will redirected to forms list. Click Ok to redirect manually.";
+$string["efb-form-setting-save-msg"] = "Form saved successfuly. You will redirected to forms list. Click Ok to redirect manually.";
 $string["efb-form-setting-saved"] = "Your form is already saved. You will redirected to forms list.";
-$string["efb-form-setting-save-fail-msg"]="Error while saving form definition.";
-$string["efb-form-def-save-fail-msg"]="Error while saving form definition.";
-$string["efb-form-def-update-fail-msg"]="Cannot overwrite form. User submissions present. Try to create new form.";
-$string["efb-form-setting-update-fail-msg"]="Unable to update form.";
-$string["efb-form-setting-update-msg"]="Form has been updated successfuly. Click Ok to redirect to forms list.";
-$string["efb-list-form-data-page-title"]="List Form Data.";
-$string["efb-msg-form-delete-success"]="Form deleted successfuly.";
+$string["efb-form-setting-save-fail-msg"] = "Error while saving form definition.";
+$string["efb-form-def-save-fail-msg"] = "Error while saving form definition.";
+$string["efb-form-def-update-fail-msg"] = "Cannot overwrite form. User submissions present. Try to create new form.";
+$string["efb-form-setting-update-fail-msg"] = "Unable to update form.";
+$string["efb-form-setting-update-msg"] = "Form has been updated successfuly. Click Ok to redirect to forms list.";
+$string["efb-list-form-data-page-title"] = "List Form Data.";
+$string["efb-msg-form-delete-success"] = "Form deleted successfuly.";
 $string["efb-msg-form-delete-fail"] = "Form deletion failed.";
 $string["efb-lbl-confirmation-msg"] = "Form confirmation message";
 $string["efb-valid-form-data"] = "Form data is valid";
@@ -160,9 +155,7 @@ $string["efb-invalid-form-data"] = "Form data is not valid";
 $string["efb-login-form-disable-different-form"] = "Cannot disable. Another login form is active";
 $string["exportcsv"] = "Export CSV(PRO)";
 
-/**
- * Import export form
- */
+// Import export form
 $string["efb-form-action-export-title"] = "Export form";
 $string['efb-form-import'] = 'Import form(PRO)';
 $string['efb-import-file'] = 'Select .xml file to import';
@@ -176,9 +169,7 @@ $string['efb-import-invalid-file-no-type'] = 'Form does not have form type';
 $string['efb-import-invalid-file-no-courses'] = 'Form does not have courses';
 /* End */
 
-/**
- * Form viewer strings
- */
+// Form viewer strings
 $string["efb-form-not-found"] = 'Form {$a} not found.';
 $string["efb-form-not-enabled"] = 'Form {$a} not enable.';
 $string["efb-form-data-heading-action"] = "Action";
@@ -225,7 +216,7 @@ $string["checkboxes"] = "Checkboxes";
 $string["checkboxGroup"] = "Checkbox Group";
 $string["clearstep"] = "Clear";
 $string["clearallsteps"] = "Clear steps";
-$string["clearform"] ="Clear form";
+$string["clearform"] = "Clear form";
 $string["confirmclearstep"] = "Are you sure you want to remove all fields from current step?";
 $string["confirmclearallsteps"] = "Are you sure you want to remove all fields from all steps?";
 $string["confirmclearform"] = "Are you sure you want to clear form?";

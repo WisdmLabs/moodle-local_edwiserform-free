@@ -26,9 +26,9 @@ define("EDWISERFORM_FILEAREA", "successmessage");
 define("UNAUTHORISED_USER", 1);
 define("ADMIN_PERMISSION", 2);
 
-function getArrVal($array,$key,$value=""){
-    if(isset($array[$key]) && !empty($array[$key])){
-        $value=$array[$key];
+function getarrayval($array, $key, $value="") {
+    if (isset($array[$key]) && !empty($array[$key])) {
+        $value = $array[$key];
     }
     return $value;
 }
@@ -62,17 +62,17 @@ function json_decode_level_2($json) {
 }
 
 function get_edwiserform_string($identifier) {
-	$string = get_string($identifier, "local_edwiserform");
-	if ($string == "[[".$identifier."]]") {
-		$string = str_replace("[[", "", $string);
-		$string = str_replace("]]", "", $string);
-		$string = str_replace("-", " ", $string);
-	}
-	return $string;
+    $string = get_string($identifier, "local_edwiserform");
+    if ($string == "[[".$identifier."]]") {
+        $string = str_replace("[[", "", $string);
+        $string = str_replace("]]", "", $string);
+        $string = str_replace("-", " ", $string);
+    }
+    return $string;
 }
 
 function generate_email_user($email, $name = '', $id = -99) {
-	$emailuser = new stdClass();
+    $emailuser = new stdClass();
     $emailuser->email = trim(filter_var($email, FILTER_SANITIZE_EMAIL));
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $emailuser->email = '';
@@ -91,48 +91,48 @@ function generate_email_user($email, $name = '', $id = -99) {
 }
 
 function send_email($from, $to, $subject, $messagehtml) {
-	global $PAGE;
-	$context = context_system::instance();
-	$PAGE->set_context($context);
-	$fromemail = generate_email_user($from);
-	$toemail = generate_email_user($to);
-	$messagetext = html_to_text($messagehtml);
-	return email_to_user($toemail, $fromemail, $subject, $messagetext, $messagehtml, '', '', true, $fromemail->email);
+    global $PAGE;
+    $context = context_system::instance();
+    $PAGE->set_context($context);
+    $fromemail = generate_email_user($from);
+    $toemail = generate_email_user($to);
+    $messagetext = html_to_text($messagehtml);
+    return email_to_user($toemail, $fromemail, $subject, $messagetext, $messagehtml, '', '', true, $fromemail->email);
 }
 
 function can_create_or_view_form($userid = false) {
-	global $USER, $DB;
-	if (!$userid) {
-		$userid = $USER->id;
-	}
-	if (!$userid) {
-		throw new moodle_exception('efb-cannot-create-form', 'local_edwiserform', new moodle_url('/my/'));
-	}
-	if (is_siteadmin($userid)) {
-		return;
-	}
-	$sql = "SELECT count(ra.id) teacher FROM {role_assignments} ra
-		      JOIN {role} r ON ra.roleid = r.id
-		     WHERE ra.userid = ?
-		       AND r.archetype REGEXP 'editingteacher|teacher'";
+    global $USER, $DB;
+    if (!$userid) {
+        $userid = $USER->id;
+    }
+    if (!$userid) {
+        throw new moodle_exception('efb-cannot-create-form', 'local_edwiserform', new moodle_url('/my/'));
+    }
+    if (is_siteadmin($userid)) {
+        return;
+    }
+    $sql = "SELECT count(ra.id) teacher FROM {role_assignments} ra
+              JOIN {role} r ON ra.roleid = r.id
+             WHERE ra.userid = ?
+               AND r.archetype REGEXP 'editingteacher|teacher'";
     $count = $DB->get_record_sql($sql, array($userid));
     if ($count->teacher == 0) {
-    	throw new moodle_exception('efb-cannot-create-form', 'local_edwiserform', new moodle_url('/my/'), null, get_edwiserform_string('efb-contact-admin'));
+        throw new moodle_exception('efb-cannot-create-form', 'local_edwiserform', new moodle_url('/my/'), null, get_edwiserform_string('efb-contact-admin'));
     }
     if (!get_config('local_edwiserform', 'enable_teacher_forms')) {
-    	throw new moodle_exception('efb-admin-disabled-teacher', 'local_edwiserform', new moodle_url('/my/'), null, get_edwiserform_string('efb-contact-admin'));
+        throw new moodle_exception('efb-admin-disabled-teacher', 'local_edwiserform', new moodle_url('/my/'), null, get_edwiserform_string('efb-contact-admin'));
     }
     return true;
 }
 
 function get_plugins() {
-	global $CFG;
+    global $CFG;
     require_once($CFG->dirroot . '/local/edwiserform/locallib.php');
     $edwiserform = new edwiserform();
     return $edwiserform->get_plugins();
 }
 function get_plugin($type) {
-	global $CFG;
+    global $CFG;
     require_once($CFG->dirroot . '/local/edwiserform/locallib.php');
     $edwiserform = new edwiserform();
     return $edwiserform->get_plugin($type);

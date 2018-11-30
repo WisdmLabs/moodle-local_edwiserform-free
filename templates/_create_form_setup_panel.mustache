@@ -19,17 +19,17 @@
         <span class="efb-form-title-heading">
             {{#str}} FormTitle, local_edwiserform {{/str}}
         </span>
-        <input type="text" class='form-control' id="efb-form-title" placeholder="{{#str}} efb-form-enter-title, local_edwiserform {{/str}}" value="{{panel_setup.title}}">
+        <input type="text" class='form-control' id="efb-form-title" placeholder="{{#str}} efb-form-enter-title, local_edwiserform {{/str}}" value="{{panelsetup.title}}">
     </div>
     <div class="efb-forms-setup-title">
-        <h2>{{panel_setup.heading}}</h2>
+        <h2>{{panelsetup.heading}}</h2>
         <p class="efb-forms-setup-desc core">
-            {{panel_setup.msg_select_tmpl}}
+            {{panelsetup.msg_select_tmpl}}
         </p>
     </div>
     <div id="efb-forms-setup-templates-core" class="efb-forms-setup-templates">
         <div class="efb-list">
-            {{#panel_setup.free}}
+            {{#panelsetup.free}}
                 <div class="efb-forms-template {{#active}}active{{/active}}" id="efb-forms-template-{{tmpl_id}}">
                     <div class="efb-forms-template-outer btn-primary">
                         <div class="efb-forms-template-inner">
@@ -49,18 +49,18 @@
                         </div>
                     </div>
                 </div>
-            {{/panel_setup.free}}
+            {{/panelsetup.free}}
         </div>
     </div>
     <div class="efb-forms-upgrade-link">
         <h2 class="efb-forms-upgrade-title">{{#str}} efb-setup-msg-upgrade , local_edwiserform {{/str}}<a class='btn-efb-form-upgrade' href="https://edwiser.org/edwiser-forms-pricing/?utm_source=inproduct&utm_medium=edwiserformsfree&utm_campaign=oct&utm_content=15" target="_blank" rel="noopener noreferrer">
-            {{panel_setup.btn_upgrade}}
+            {{panelsetup.btn_upgrade}}
         </a></h2>
         <h5>{{#str}} efb-setup-msg-upgrade-desc , local_edwiserform {{/str}}</h5>
     </div>
     <div id="efb-forms-setup-templates-pro" class="efb-forms-setup-templates pro">
         <div class="efb-list">
-            {{#panel_setup.pro}}
+            {{#panelsetup.pro}}
                 <div class="efb-forms-template pro" id="efb-forms-template-{{tmpl_id}}">
                     <div class="efb-forms-template-outer">
                         <div class="efb-forms-template-inner">
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                 </div>
-            {{/panel_setup.pro}}
+            {{/panelsetup.pro}}
         </div>
     </div>
 </div>

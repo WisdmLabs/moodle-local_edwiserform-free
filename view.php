@@ -21,9 +21,9 @@
  * @author      Yogesh Shirsath
  */
 
-require_once ('../../config.php');
+require_once('../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
-require_once ($CFG->dirroot . '/local/edwiserform/locallib.php');
+require_once($CFG->dirroot . '/local/edwiserform/locallib.php');
 
 
 global $CFG, $PAGE, $OUTPUT;
@@ -37,7 +37,7 @@ $page = optional_param('page', 'listforms', PARAM_TEXT);
 $urlparam = array('page' => $page);
 $formid = optional_param('formid', null, PARAM_INT);
 if ($formid) {
-	$urlparam['formid'] = $formid;
+    $urlparam['formid'] = $formid;
 }
 if ($page == 'newform') {
     $PAGE->set_pagelayout('popup');

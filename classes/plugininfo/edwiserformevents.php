@@ -23,6 +23,8 @@
 
 namespace local_edwiserform\plugininfo;
 
+defined('MOODLE_INTERNAL') || die();
+
 use core\plugininfo\base, core_plugin_manager, moodle_url;
 
 defined('MOODLE_INTERNAL') || die();

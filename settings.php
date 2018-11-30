@@ -25,9 +25,15 @@ defined('MOODLE_INTERNAL') || die();
 
 // Add admin menues
 $ADMIN->add('modules', new admin_category('edwiserform', new lang_string("pluginname", "local_edwiserform")));
-$ADMIN->add('edwiserform', new admin_externalpage('efbnewform', new lang_string("efb-heading-newform", "local_edwiserform"), "$CFG->wwwroot/local/edwiserform/view.php?page=newform"));
-$ADMIN->add('edwiserform', new admin_externalpage('efblistforms', new lang_string("efb-heading-listforms", "local_edwiserform"), "$CFG->wwwroot/local/edwiserform/view.php?page=listforms"));
-$ADMIN->add('edwiserform', new admin_externalpage('efbsettings', new lang_string("efb-settings", "local_edwiserform"), new moodle_url("/admin/settings.php?section=local_edwiserform")));
+$ADMIN->add('edwiserform',
+            new admin_externalpage('efbnewform', new lang_string("efb-heading-newform", "local_edwiserform"), "$CFG->wwwroot/local/edwiserform/view.php?page=newform")
+        );
+$ADMIN->add('edwiserform',
+            new admin_externalpage('efblistforms', new lang_string("efb-heading-listforms", "local_edwiserform"), "$CFG->wwwroot/local/edwiserform/view.php?page=listforms")
+        );
+$ADMIN->add('edwiserform',
+            new admin_externalpage('efbsettings', new lang_string("efb-settings", "local_edwiserform"), new moodle_url("/admin/settings.php?section=local_edwiserform"))
+        );
 
 // General settings
 $settings = new admin_settingpage('local_edwiserform', new lang_string('pluginname', 'local_edwiserform'));

@@ -55,21 +55,21 @@
                 <img class="efb-img" src="{{logo}}"/>
             </div>
         </div>
-        <div class="efb-editor-action {{^panel_setup.title}}efb-hide{{/panel_setup.title}}">
+        <div class="efb-editor-action {{^panelsetup.title}}efb-hide{{/panelsetup.title}}">
             <div class="efb-editor-action-title">
                 <label id="efb-form-cur-action">{{form_action}}</label>
-                <span class="efb-form-title">{{panel_setup.title}}</span>
+                <span class="efb-form-title">{{panelsetup.title}}</span>
             </div>
         </div>
         <div class="efb-editor-buttons">
             <!-- Adding id to identify buttons individually -->
-            {{#header_button}}
+            {{#headerbutton}}
             <div class="efb-editor-button {{class}}">
                 <a class="btn btn-primary efb-form-icon-btn" {{#id}}id="{{id}}"{{/id}} href="{{url}}">
                     <i class="fa fa-{{icon}}" aria-hidden="true"></i>{{label}}
                 </a>
             </div>
-            {{/header_button}}
+            {{/headerbutton}}
         </div>
     </div>
 
@@ -86,7 +86,7 @@
         <div class="efb-form-content">
             <div class="efb-forms-panel-heading">Setup</div>
             <div class="efb-forms-panels">
-                <div id="{{panel_setup.id}}" class="efb-tabcontent {{builder_active}}">
+                <div id="{{panelsetup.id}}" class="efb-tabcontent {{builderactive}}">
                     {{body}}
                     {{> local_edwiserform/_create_form_setup_panel }}
                 </div>

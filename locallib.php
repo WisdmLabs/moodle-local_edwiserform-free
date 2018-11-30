@@ -57,8 +57,7 @@ class edwiserform {
         }
     }
 
-    public function get_renderer()
-    {
+    public function get_renderer() {
         global $PAGE;
         if ($this->output) {
             return $this->output;
@@ -131,7 +130,7 @@ class edwiserform {
                 $out = $this->get_renderer()->render(new efb_list_form());
                 break;
             case 'viewdata':
-                $formid= optional_param('formid', null, PARAM_FLOAT);
+                $formid = optional_param('formid', null, PARAM_FLOAT);
                 $PAGE->requires->js_call_amd('local_edwiserform/form_data_list', 'init', array($formid));
                 $out = $this->get_renderer()->render(new efb_list_form_data($formid));
                 break;

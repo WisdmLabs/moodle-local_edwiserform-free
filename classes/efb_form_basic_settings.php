@@ -24,12 +24,10 @@
 
 class efb_form_basic_settings extends moodleform
 {
-    public function __construct($action = null, $customdata = null, $method = 'post', $target = '', $attributes = null, $editable = true, $ajaxformdata = null)
-    {
-        parent::__construct($action, $customdata, $method, $target, array("id"=>"efb-basic-form-settings"), $editable, $ajaxformdata);
+    public function __construct($action = null, $customdata = null, $method = 'post', $target = '', $attributes = null, $editable = true, $ajaxformdata = null) {
+        parent::__construct($action, $customdata, $method, $target, array("id" => "efb-basic-form-settings"), $editable, $ajaxformdata);
     }
-    protected function definition()
-    {
+    protected function definition() {
         global $PAGE, $CFG;
         $form           = $this->_form;
         $events = array(
@@ -39,7 +37,7 @@ class efb_form_basic_settings extends moodleform
         foreach (array_keys($plugins) as $plugin) {
             $events[$plugin] = get_string("efb-event-$plugin-name", "edwiserformevents_$plugin");
         }
-        $form->addElement("hidden", "id",null);
+        $form->addElement("hidden", "id", null);
         $form->setType("id", PARAM_INTEGER);
         $form->addElement("text", "title", get_string("efb-lbl-title", "local_edwiserform"), null);
         $form->addRule('title', get_string("efb-lbl-title-warning", "local_edwiserform"), "required", null, "client");
@@ -60,7 +58,11 @@ class efb_form_basic_settings extends moodleform
         ));
         $form->setType("confirmation_msg", PARAM_RAW);
         $buildform = html_writer::start_tag("div", array("class" => "text-center"));
-        $buildform .= html_writer::tag("button", get_string("efb-form-builder-step", "local_edwiserform"), array('class' => 'efb-form-step btn btn-primary', 'data-id' => 'efb-form-builder', 'type' => 'button'));
+        $buildform .= html_writer::tag(
+            "button",
+            get_string("efb-form-builder-step", "local_edwiserform"),
+            array('class' => 'efb-form-step btn btn-primary', 'data-id' => 'efb-form-builder', 'type' => 'button')
+        );
         $buildform .= html_writer::end_tag("div");
         $form->addElement("html", $buildform);
         foreach ($plugins as $plugin) {

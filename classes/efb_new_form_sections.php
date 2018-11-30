@@ -22,133 +22,115 @@
  * @author      Sudam
  */
 
-class efb_new_form_sections
-{
+defined('MOODLE_INTERNAL') || die();
 
-    private $nav_item;
+class efb_new_form_sections {
+
+    private $navitem;
     private $panels;
     private $logo;
-    private $form_title;
-    private $list_page_url;
+    private $formtitle;
+    private $listpageurl;
     private $formid;
-    private $form_action;
-    private $header_button;
-    private $section_data;
-    private $panel_setup;
-    private $builder_active;
+    private $formaction;
+    private $headerbutton;
+    private $sectiondata;
+    private $panelsetup;
+    private $builderactive;
 
-    public function get_form_section_data()
-    {
+    public function get_form_section_data() {
         $this->section_data = new stdClass();
-        $this->section_data->nav_item= $this->getNav_item();
-        $this->section_data->panels= $this->getPanels();
-        $this->section_data->logo= $this->getLogo();
-        $this->section_data->form_title= $this->getForm_title();
-        $this->section_data->list_page_url= $this->getList_page_url();
-        $this->section_data->formid= $this->getFormid();
-        $this->section_data->form_action= $this->getForm_action();
-        $this->section_data->header_button= $this->getHeader_button();
-        $this->section_data->panel_setup= $this->getPanel_setup();
-        $this->section_data->builder_active = $this->get_builder_active();
+        $this->section_data->nav_item = $this->get_nav_item();
+        $this->section_data->panels = $this->get_panels();
+        $this->section_data->logo = $this->get_logo();
+        $this->section_data->formtitle = $this->get_form_title();
+        $this->section_data->listpageurl = $this->get_list_page_url();
+        $this->section_data->formid = $this->get_formid();
+        $this->section_data->formaction = $this->get_form_action();
+        $this->section_data->headerbutton = $this->get_header_button();
+        $this->section_data->panelsetup = $this->get_panel_setup();
+        $this->section_data->builderactive = $this->get_builder_active();
         return $this->section_data;
     }
 
-    function getPanel_setup()
-    {
-        return $this->panel_setup;
+    public function get_panel_setup() {
+        return $this->panelsetup;
     }
 
-    function setPanel_setup($panel_setup)
-    {
-        $this->panel_setup = $panel_setup;
+    public function set_panel_setup($panelsetup) {
+        $this->panelsetup = $panelsetup;
     }
 
-        public function getNav_item()
-    {
+    public function get_nav_item() {
         return $this->nav_item;
     }
 
-    public function getPanels()
-    {
+    public function get_panels() {
         return $this->panels;
     }
 
-    public function getLogo()
-    {
+    public function get_logo() {
         return $this->logo;
     }
 
-    public function getForm_title()
-    {
-        return $this->form_title;
+    public function get_form_title() {
+        return $this->formtitle;
     }
 
-    public function getList_page_url()
-    {
-        return $this->list_page_url;
+    public function get_list_page_url() {
+        return $this->listpageurl;
     }
 
-    public function getFormid()
-    {
+    public function get_formid() {
         return $this->formid;
     }
 
-    public function getForm_action()
-    {
-        return $this->form_action;
+    public function get_form_action() {
+        return $this->formaction;
     }
 
-    public function getHeader_button()
-    {
-        return $this->header_button;
+    public function get_header_button() {
+        return $this->headerbutton;
     }
 
     public function get_builder_active() {
-        return $this->builder_active;
+        return $this->builderactive;
     }
 
-    public function setNav_item($nav_item)
-    {
-        $this->nav_item = $nav_item;
+    public function set_nav_item($navitem) {
+        $this->nav_item = $navitem;
     }
 
-    public function setPanels($panels)
-    {
+    public function set_panels($panels) {
         $this->panels = $panels;
     }
 
-    public function setLogo($logo)
-    {
+    public function set_logo($logo) {
         $this->logo = $logo;
     }
 
-    public function setForm_title($form_title)
-    {
-        $this->form_title = $form_title;
+    public function set_form_title($formtitle) {
+        $this->formtitle = $formtitle;
     }
 
-    public function setList_page_url($list_page_url)
-    {
-        $this->list_page_url = $list_page_url;
+    public function set_list_page_url($listpageurl) {
+        $this->listpageurl = $listpageurl;
     }
 
-    public function setFormid($formid)
-    {
+    public function set_formid($formid) {
         $this->formid = $formid;
     }
 
-    public function setForm_action($form_action)
-    {
-        $this->form_action = $form_action;
+    public function set_form_action($formaction) {
+        $this->formaction = $formaction;
     }
 
-    public function setHeader_button($header_button)
-    {
-        $this->header_button = $header_button;
+    public function set_header_button($headerbutton) {
+        $this->headerbutton = $headerbutton;
     }
 
-    public function set_builder_active($builder_active) {
-        $this->builder_active = $builder_active;
+    public function set_builder_active($builderactive) {
+        $this->builderactive = $builderactive;
     }
 
 }

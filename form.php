@@ -31,12 +31,12 @@ $form = $DB->get_record('efb_forms', array('id' => $formid));
 $out = "";
 $out .= html_writer::start_tag("div", array("class" => "form form-page"));
 if (!$form) {
-	$title = "Invalid form";
-	$out = "404. Form not found.";
+    $title = "Invalid form";
+    $out = "404. Form not found.";
 } else {
-	$title = $form->title;
-	$shortcode = "[edwiser-form id='$formid']";
-	$out .= format_text($shortcode);
+    $title = $form->title;
+    $shortcode = "[edwiser-form id='$formid']";
+    $out .= format_text($shortcode);
 }
 $out .= html_writer::end_tag("div");
 $url = new moodle_url('/local/edwiserform/form.php', $urlparams);

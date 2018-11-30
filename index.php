@@ -21,6 +21,6 @@
  * @author      Yogesh Shirsath
  */
 
-require_once ('../../config.php');
+require_once('../../config.php');
 global $CFG;
 redirect(new moodle_url($CFG->wwwroot . '/local/edwiserform/view.php', array('page' => 'listforms')));

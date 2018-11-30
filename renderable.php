@@ -23,6 +23,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 global $CFG;
-include_once ($CFG->dirroot . '/local/edwiserform/classes/renderables/efb_add_new_form.php');
-include_once ($CFG->dirroot . '/local/edwiserform/classes/renderables/efb_list_form.php');
-include_once ($CFG->dirroot . '/local/edwiserform/classes/renderables/efb_list_form_data.php');
+require_once($CFG->dirroot . '/local/edwiserform/classes/renderables/efb_add_new_form.php');
+require_once($CFG->dirroot . '/local/edwiserform/classes/renderables/efb_list_form.php');
+require_once($CFG->dirroot . '/local/edwiserform/classes/renderables/efb_list_form_data.php');
