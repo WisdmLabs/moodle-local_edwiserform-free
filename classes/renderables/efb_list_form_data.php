@@ -27,15 +27,14 @@ require_once($CFG->dirroot . "/local/edwiserform/lib.php");
 
 class efb_list_form_data implements renderable, templatable
 {
-	/**
+    /**
      *
      * @var Integer Form id, this will be the form id to edit or it can be the null in case of the new form creation.
      */
     private $formid         = null;
     private $plugin         = null;
 
-    public function __construct($formid = null)
-    {
+    public function __construct($formid = null) {
         global $DB;
         $this->formid = $formid;
         $this->form = $DB->get_record('efb_forms', array('id' => $this->formid));
@@ -44,8 +43,7 @@ class efb_list_form_data implements renderable, templatable
     }
 
 
-    public function export_for_template(\renderer_base $output)
-    {
+    public function export_for_template(\renderer_base $output) {
         global $DB, $CFG;
         $data = new stdClass();
         if (!$this->supportsubmission) {
@@ -61,8 +59,8 @@ class efb_list_form_data implements renderable, templatable
             $data->nodata = get_string("efb-form-data-no-data", "local_edwiserform");
             return $data;
         }
-        $supportActions = isset($this->plugin) && $this->plugin->support_form_data_list_actions();
-        if ($supportActions) {
+        $supportactions = isset($this->plugin) && $this->plugin->support_form_data_list_actions();
+        if ($supportactions) {
             $data->headings[] = get_string("efb-form-data-heading-action", "local_edwiserform");
         }
         if ($headings) {
@@ -76,13 +74,13 @@ class efb_list_form_data implements renderable, templatable
         return $data;
     }
 
-    public function get_submissions_list($limit = "", $searchText = "") {
+    public function get_submissions_list($limit = "", $searchtext = "") {
         global $DB;
         $headings = $this->get_headings();
-        $supportActions = isset($this->plugin) && $this->plugin->support_form_data_list_actions();
+        $supportactions = isset($this->plugin) && $this->plugin->support_form_data_list_actions();
         $stmt = "SELECT * FROM {efb_form_data} WHERE formid = " . $this->formid . " ";
-        if ($searchText) {
-            $stmt .= "and JSON_EXTRACT(submission, '$[*].value') REGEXP '" . $searchText . "' ";
+        if ($searchtext) {
+            $stmt .= "and JSON_EXTRACT(submission, '$[*].value') REGEXP '" . $searchtext . "' ";
         }
         $stmt .= $limit;
         $records = $DB->get_records_sql($stmt);
@@ -95,15 +93,19 @@ class efb_list_form_data implements renderable, templatable
             $sql = "SELECT id," . get_all_user_name_fields(true) . " FROM {user} WHERE id " . $usql;
             if ($user = $DB->get_record_sql($sql, $uparams)) {
                 $userlink = new moodle_url('/user/profile.php', array('id' => $record->userid));
-                $formdata[] = html_writer::tag('a', fullname($user), array('href' => $userlink, 'target' => '_blank', 'class' => 'formdata-user', 'data-userid' => $record->userid));
+                $formdata[] = html_writer::tag(
+                    'a',
+                    fullname($user),
+                    array('href' => $userlink, 'target' => '_blank', 'class' => 'formdata-user', 'data-userid' => $record->userid)
+                );
             } else {
                 $formdata[] = '-';
             }
-            if ($supportActions) {
+            if ($supportactions) {
                 $formdata[] = $this->plugin->form_data_list_actions($record);
             }
-            $submittedData = array_fill_keys($headings, null);
-            $formdata = array_merge($formdata, $submittedData);
+            $submitteddata = array_fill_keys($headings, null);
+            $formdata = array_merge($formdata, $submitteddata);
             foreach ($submission as $elem) {
                 $value = $elem->value;
                 if (isset($formdata[$elem->name])) {

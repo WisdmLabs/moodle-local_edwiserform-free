@@ -59,22 +59,21 @@ class efb_list_form implements renderable, templatable {
         return $actions;
     }
 
-    public function get_forms_list($limit = "", $searchText = "", $sortColumn = 0, $sortDir = "")
-    {
+    public function get_forms_list($limit = "", $searchtext = "", $sortcolumn = 0, $sortdir = "") {
         global $DB, $USER;
         $rows = array();
 
-        $colArray = array("0" => "title", "1" => "type", "3" => "author", "4" =>"created", "5" => "author2", "6" => "modified");
-        $searchQuery = " ";
-        $orderByQuery = " ";
-        if ($searchText) {
-            $searchQuery = " (title REGEXP '" . $searchText . "' OR  type REGEXP '" . $searchText."') and ";
+        $colarray = array("0" => "title", "1" => "type", "3" => "author", "4" => "created", "5" => "author2", "6" => "modified");
+        $searchquery = " ";
+        $orderbyquery = " ";
+        if ($searchtext) {
+            $searchquery = " (title REGEXP '" . $searchtext . "' OR  type REGEXP '" . $searchtext."') and ";
         }
-        if (!empty($sortDir) && array_key_exists($sortColumn, $colArray)) {
-            $orderByQuery = " ORDER BY ".$colArray[$sortColumn]. " ".$sortDir . " ";
+        if (!empty($sortdir) && array_key_exists($sortcolumn, $colarray)) {
+            $orderbyquery = " ORDER BY ".$colarray[$sortcolumn]. " ".$sortdir . " ";
         }
 
-        $stmt = "SELECT id, title, author, author2, type, enabled, deleted, created, modified FROM {efb_forms} WHERE" . $searchQuery . "deleted = '0'" . $orderByQuery . $limit;
+        $stmt = "SELECT id, title, author, author2, type, enabled, deleted, created, modified FROM {efb_forms} WHERE" . $searchquery . "deleted = '0'" . $orderbyquery . $limit;
         $param = [];
         if (!is_siteadmin()) {
             $stmt .= " author=?";
@@ -137,7 +136,7 @@ class efb_list_form implements renderable, templatable {
                 ["key" => "data-formid", "value" => $form->id]
             )
         );
-        $view_data = array(
+        $viewdata = array(
             "icon" => "icon fa fa-table fa-fw text-primary",
             "title" => get_string("efb-form-action-view-data-title", "local_edwiserform"),
             "attrs" => array(
@@ -151,7 +150,13 @@ class efb_list_form implements renderable, templatable {
         $enabletitle = get_string('efb-form-action-enable-title', 'local_edwiserform');
         $disabletitle = get_string('efb-form-action-disable-title', 'local_edwiserform');
         $enabledisable .= html_writer::start_tag('label', array('class' => 'efb-switch', 'title' => $enabled ? $disabletitle : $enabletitle));
-        $enabledisable .= html_writer::checkbox('efb-switch-input', '', $enabled, '', array('data-formid' => $form->id, 'data-enable-title' => $enabletitle, 'data-disable-title' => $disabletitle));
+        $enabledisable .= html_writer::checkbox(
+            'efb-switch-input',
+            '',
+            $enabled,
+            '',
+            array('data-formid' => $form->id, 'data-enable-title' => $enabletitle, 'data-disable-title' => $disabletitle)
+        );
         $enabledisable .= html_writer::start_tag('div', array('class' => 'switch-container efb-enable-disable-form'));
         $enabledisable .= html_writer::tag('div', '', array('class' => 'switch-background bg-success'));
         $enabledisable .= html_writer::tag('div', '', array('class' => 'switch-lever bg-success'));
@@ -159,11 +164,11 @@ class efb_list_form implements renderable, templatable {
         $enabledisable .= html_writer::end_tag('label');
         $actions["html"] = $enabledisable;
         if ($form->type == 'blank') {
-            $actions[] = $view_data;
+            $actions[] = $viewdata;
         } else {
             $plugin = get_plugin($form->type);
             if ($plugin->can_save_data()) {
-                $actions[] = $view_data;
+                $actions[] = $viewdata;
             }
         }
         switch ($form->type) {
@@ -178,16 +183,16 @@ class efb_list_form implements renderable, templatable {
 
         $html = " ";
 
-        foreach ($actions as $actionKey => $actionValue) {
-            if ($actionKey === "html") {
-                $html .= $actionValue;
+        foreach ($actions as $actionkey => $actionvalue) {
+            if ($actionkey === "html") {
+                $html .= $actionvalue;
             } else {
                 $html .= '<a ';
-                foreach ($actionValue["attrs"] as $key => $value) {
+                foreach ($actionvalue["attrs"] as $key => $value) {
                     $html .= $value["key"].'="'.$value["value"].'"';
                 }
                 $html .= '>
-                            <i class="'.$actionValue["icon"].'" aria-hidden="true" title="'.$actionValue["title"].'"  aria-label="'./*$actionValue["label"]*/ "aaaa".'">
+                            <i class="'.$actionvalue["icon"].'" aria-hidden="true" title="'.$actionvalue["title"].'"  aria-label="'. "aaaa".'">
                             </i>
                         </a>';
             }

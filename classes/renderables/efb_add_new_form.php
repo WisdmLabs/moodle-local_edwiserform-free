@@ -23,8 +23,8 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-include_once ($CFG->dirroot . '/local/edwiserform/classes/efb_form_basic_settings.php');
-include_once ($CFG->dirroot . '/local/edwiserform/classes/efb_new_form_sections.php');
+require_once($CFG->dirroot . '/local/edwiserform/classes/efb_form_basic_settings.php');
+require_once($CFG->dirroot . '/local/edwiserform/classes/efb_new_form_sections.php');
 
 class efb_add_new_form implements renderable, templatable
 {
@@ -34,13 +34,12 @@ class efb_add_new_form implements renderable, templatable
      * @var Integer Form id, this will be the form id to edit or it can be the null in case of the new form creation.
      */
     private $formid         = null;
-    private $form_sections = null;
+    private $formsections = null;
 
     // Plugins installed in events directory
     private $plugin = [];
 
-    public function __construct($formid = null)
-    {
+    public function __construct($formid = null) {
         $this->formid        = $formid;
         $this->plugins        = get_plugins();
         $this->form_sections = new efb_new_form_sections();
@@ -83,30 +82,29 @@ class efb_add_new_form implements renderable, templatable
     /**
      * Method provides the functionality to render the basic form template.
      */
-    public function export_for_template(\renderer_base $output)
-    {
+    public function export_for_template(\renderer_base $output) {
         global $PAGE;
-        $this->form_sections->setForm_action(get_string("efb-form-editing", "local_edwiserform"));
+        $this->form_sections->set_form_action(get_string("efb-form-editing", "local_edwiserform"));
         if ($this->form) {
             $PAGE->requires->data_for_js('formdefinition', $this->form->definition);
-            $this->form_sections->setFormid($this->formid);
+            $this->form_sections->set_formid($this->formid);
         }
         $logo = $output->get_logo_url();
         if (!$logo) {
             $logo = $output->image_url("edwiser-logoalternate", "local_edwiserform");
         }
-        $this->form_sections->setLogo($logo);
+        $this->form_sections->set_logo($logo);
         return $this->form_sections->get_form_section_data();
     }
 
-    private function set_default_section_data()
-    {
+    private function set_default_section_data() {
+        global $CFG;
         $settingsparam = array('plugins' => $this->plugins);
         $settingsparam['form'] = $this->form ? $this->form : null;
-        $form_settings = new efb_form_basic_settings(null, $settingsparam);
-        $form_data     = $this->get_form_settings();
-        $form_settings->set_data($form_data);
-        $header_button = array(
+        $formsettings = new efb_form_basic_settings(null, $settingsparam);
+        $formdata     = $this->get_form_settings();
+        $formsettings->set_data($formdata);
+        $headerbutton = array(
             array(
                 "id"    => "efb-heading-listforms",
                 "label" => get_string("efb-heading-listforms", "local_edwiserform"),
@@ -121,7 +119,7 @@ class efb_add_new_form implements renderable, templatable
                 "icon"  => "check"
             )
         );
-        $nav_item      = array(
+        $navitem      = array(
             array(
                 "id"      => "efb-form-setup",
                 "active"  => $this->form ? "" : "active",
@@ -153,14 +151,17 @@ class efb_add_new_form implements renderable, templatable
             array(
                 "id"      => "efb-cont-form-settings",
                 "heading" => get_string("efb-lbl-form-settings", "local_edwiserform"),
-                "body"    => "<div class='efb-form-settings'>".$form_settings->render()."</div>"
+                "body"    => "<div class='efb-form-settings'>".$formsettings->render()."</div>"
             ),
             array(
                 "id"      => "efb-cont-form-builder",
                 "active"  => $this->form ? "active" : "hide",
                 "heading" => get_string("efb-lbl-form-builder", "local_edwiserform"),
                 "body"    => "<form class='build-form'></form>",
-                "button"  => "<button class='efb-form-step efb-form-step-preview bg-primary fa fa-eye' data-id='efb-form-preview' title='" . get_string('efb-lbl-form-preview', 'local_edwiserform') . "'></button>"
+                "button"  => "<button class='efb-form-step efb-form-step-preview bg-primary fa fa-eye' data-id='efb-form-preview' title='" . get_string(
+                    'efb-lbl-form-preview',
+                    'local_edwiserform'
+                ) . "'></button>"
             ),
             array(
                 "id"      => "efb-cont-form-preview",
@@ -169,14 +170,13 @@ class efb_add_new_form implements renderable, templatable
             ),
         );
         $this->form_sections->set_builder_active($this->form ? "content-hide" : "content-active");
-        $this->form_sections->setNav_item($nav_item);
-        $this->form_sections->setPanels($panels);
-        $this->form_sections->setHeader_button($header_button);
-        $this->form_sections->setPanel_setup($this->setupData());
+        $this->form_sections->set_nav_item($navitem);
+        $this->form_sections->set_panels($panels);
+        $this->form_sections->set_header_button($headerbutton);
+        $this->form_sections->set_panel_setup($this->setup_data());
     }
 
-    private function setupData()
-    {
+    private function setup_data() {
         foreach (array_keys($this->plugins) as $pluginname) {
             $free[] = array(
                 "tmpl_id"        => $pluginname,
