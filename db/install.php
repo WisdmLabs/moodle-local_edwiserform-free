@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
  * @return bool
  */
 function xmldb_local_edwiserform_install() {
-	global $CFG, $DB;
+    global $CFG, $DB;
     // Moodle does not support timestamp datatype for column
     // Altering efb_forms and efb_form_data table column by running custom sql
     $alteration = array(
@@ -41,5 +41,5 @@ function xmldb_local_edwiserform_install() {
     foreach ($alteration as $alter) {
         $DB->execute($alter);
     }
-	return true;
+    return true;
 }

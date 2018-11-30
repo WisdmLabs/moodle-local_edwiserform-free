@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
  * @return bool
  */
 function xmldb_local_edwiserform_upgrade($oldversion) {
-	global $CFG, $DB;
+    global $CFG, $DB;
     if ($oldversion < 2018101501) {
         // Moodle does not support timestamp datatype for column
         // Altering efb_forms and efb_form_data table column by running custom sql
@@ -44,5 +44,5 @@ function xmldb_local_edwiserform_upgrade($oldversion) {
         }
         upgrade_plugin_savepoint(true, 2018101501, 'local', 'edwiserform');
     }
-	return true;
+    return true;
 }

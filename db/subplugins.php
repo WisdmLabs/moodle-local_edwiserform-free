@@ -21,6 +21,8 @@
  * @author      Yogesh Shirsath
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 $subplugins = array(
-    'edwiserformevents'       => 'local/edwiserform/events'
+    'edwiserformevents' => 'local/edwiserform/events'
 );
