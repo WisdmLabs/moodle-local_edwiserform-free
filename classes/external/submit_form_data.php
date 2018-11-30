@@ -61,6 +61,7 @@ trait submit_form_data {
         $submission = $DB->get_record("efb_form_data", array('formid' => $formid, 'userid' => $userid));
         if ($submission && ($form->type == 'blank' || ($form->type != 'blank' && $plugin->support_form_data_update()))) {
             $submission->submission = $data;
+            $submission->updated = date('Y-m-d H:i:s');
             $status = $DB->update_record("efb_form_data", $submission);
         } else {
             $submission = new \stdClass;
@@ -111,7 +112,7 @@ trait submit_form_data {
         $messagehtml = get_string('efb-notify-email-body', 'local_edwiserform', array('user' => $user, 'title' => $form->title, 'link' => $link));
         $messagehtml .= $eventmail;
         if ($form->notifi_email) {
-            $emails = explode(',',$form->notifi_email);
+            $emails = explode(',', $form->notifi_email);
             $status = true;
             foreach ($emails as $email) {
                 $status = $status && send_email(get_config("core", "smtpuser"), $email, $subject, $messagehtml);

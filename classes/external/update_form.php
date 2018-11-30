@@ -58,13 +58,13 @@ trait update_form {
             'status' => false,
             'msg' => get_string("efb-form-setting-update-fail-msg", "local_edwiserform"),
         );
-        $type = self::getArrVal($settings, "type");
-        $formid = self::getArrVal($settings, "id");
-        $eventsettings = self::getArrVal($settings, "eventsettings");
+        $type = self::getarrayval($settings, "type");
+        $formid = self::getarrayval($settings, "id");
+        $eventsettings = self::getarrayval($settings, "eventsettings");
         $params = self::validate_parameters(self::update_form_parameters(), array("setting" => $settings, "formdef" => $formdef));
-        $settings = self::getArrVal($params, 'setting');
-        $formid = self::getArrVal($settings, "id");
-        $formdefinition = self::getArrVal($params, 'formdef');
+        $settings = self::getarrayval($params, 'setting');
+        $formid = self::getarrayval($settings, "id");
+        $formdefinition = self::getarrayval($params, 'formdef');
         $responce["formid"] = $formid;
         $formsettings = self::get_form_settings($settings);
         $status = self::update_form_status($formid, $formdefinition, $formsettings);
@@ -82,22 +82,22 @@ trait update_form {
     private static function get_form_settings($setting) {
         global $DB, $USER, $CFG;
         $data = new \stdClass();
-        $data->id = self::getArrVal($setting, "id");
-        $data->title = self::getArrVal($setting, "title");
-        $data->description = self::getArrVal($setting, "description");
-        $data->type = self::getArrVal($setting, "type");
-        $data->notifi_email = self::getArrVal($setting, "notifi_email");
-        $data->data_edit = self::getArrVal($setting, "data_edit", false);
+        $data->id = self::getarrayval($setting, "id");
+        $data->title = self::getarrayval($setting, "title");
+        $data->description = self::getarrayval($setting, "description");
+        $data->type = self::getarrayval($setting, "type");
+        $data->notifi_email = self::getarrayval($setting, "notifi_email");
+        $data->data_edit = self::getarrayval($setting, "data_edit", false);
         $context = context_system::instance();
         require_once($CFG->libdir . "/filelib.php");
         $data->message = file_save_draft_area_files(
-            self::getArrVal($setting, "draftitemid", 0),
+            self::getarrayval($setting, "draftitemid", 0),
             $context->id,
             EDWISERFORM_COMPONENT,
             EDWISERFORM_FILEAREA,
             $data->id,
-            array('subdirs'=>false),
-            self::getArrVal($setting, "message", "")
+            array('subdirs' => false),
+            self::getarrayval($setting, "message", "")
         );
         $data->author2 = $USER->id;
         $data->modified = date('Y-m-d H:i:s');
@@ -121,8 +121,8 @@ trait update_form {
     private static function update_form_status($formid, $formdefinition, $formsettings) {
         global $DB;
         $submissions = $DB->count_records("efb_form_data", array("formid" => $formid));
-        $oldForm = $DB->get_field("efb_forms", "definition", array("id" => $formid));
-        $overwrite = self::compare_form_definition($formdefinition, $oldForm);
+        $oldform = $DB->get_field("efb_forms", "definition", array("id" => $formid));
+        $overwrite = self::compare_form_definition($formdefinition, $oldform);
         $formsettings->definition = $formdefinition;
         if (!$submissions || $overwrite) {
             $DB->update_record("efb_forms", $formsettings);

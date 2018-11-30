@@ -15,56 +15,59 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * Datatable ajax service for getting form submission records
+ * @package   local_edwiserform
+ * @copyright WisdmLabs 2018
+ * @author    Yogesh Shirsath
+ * @author    Krunal Kamble
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once('../../../../config.php');
 require_once($CFG->dirroot . "/local/edwiserform/lib.php");
 require_once($CFG->dirroot . "/local/edwiserform/classes/renderables/efb_list_form_data.php");
 
-function get_total_ebf_form_data_records($searchFlag, $searchText, $formid)
-{
+
+/**
+ * Returns total number of form data submitted by user in the XYZ form with search criteria
+ * @param  boolean $searchflag true if user is filtering data
+ * @param  string  $searchtext query string to search in the data
+ * @param  integet $formid The id of form
+ * @return integer count submission made in the form with filter result
+ * @since  Edwiser Form 1.0.0
+ */
+function get_total_ebf_form_data_records($searchflag, $searchtext, $formid) {
     global $DB, $USER;
     $stmt = "SELECT * FROM {efb_form_data} WHERE formid = ?";
-    if ($searchFlag) {
-        $stmt = "SELECT * FROM {efb_form_data} WHERE formid = ? AND JSON_EXTRACT(submission, '$[*].value') REGEXP '" . $searchText . "'";
+    if ($searchflag) {
+        $stmt = "SELECT * FROM {efb_form_data} WHERE formid = ? AND JSON_EXTRACT(submission, '$[*].value') REGEXP '" . $searchtext . "'";
     }
     $param = [$formid];
     $records = $DB->get_records_sql($stmt, $param);
     return count($records);
 }
+
+// Checking for limit to paginate data
 if (isset($_REQUEST['iDisplayStart']) && $_REQUEST['iDisplayLength'] != '-1') {
-    $wdmLimit = 'LIMIT '.intval($_REQUEST['iDisplayStart']).', '.
+    $wdmlimit = 'LIMIT '.intval($_REQUEST['iDisplayStart']).', '.
             intval($_REQUEST['iDisplayLength']);
 }
-$searchText = "";
-$searchFlag = 0;
+$searchtext = "";
+$searchflag = 0;
+
+// Check for search query and setting search flag
 if (isset($_REQUEST['sSearch']) && !empty($_REQUEST['sSearch'])) {
-    $searchText = $_REQUEST['sSearch'];
-    $searchFlag = 1;
+    $searchtext = $_REQUEST['sSearch'];
+    $searchflag = 1;
 }
 
-$sortColumn = 0;
-$sortDir = "";
-if (isset($_REQUEST['iSortCol_0'])) {
-    if ($_REQUEST['iSortCol_0'] == 0 && $_REQUEST['sSortDir_0'] === 'desc') {
-        $sortColumn = 0;
-        $sortDir = "desc";
-    } else {
-        $sortColumn = $_REQUEST['iSortCol_0'];
-        $sortDir = $_REQUEST['sSortDir_0'];
-    }
-}
 $formid = required_param('formid', PARAM_INT);
 $object = new \efb_list_form_data($formid);
-$rows = $object->get_submissions_list($wdmLimit, $searchText);
+$rows = $object->get_submissions_list($wdmlimit, $searchtext);
 $data = array(
             'sEcho' => intval($_REQUEST['sEcho']),
             'iTotalRecords' => count($rows),
-            'iTotalDisplayRecords' => get_total_ebf_form_data_records($searchFlag, $searchText, $formid),
+            'iTotalDisplayRecords' => get_total_ebf_form_data_records($searchflag, $searchtext, $formid),
         );
 $data["data"] = $rows;
 echo json_encode($data);

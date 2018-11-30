@@ -57,8 +57,8 @@ trait create_new_form {
             'msg' => get_string("efb-form-setting-save-fail-msg", "local_edwiserform"),
             'formid' => 0
         );
-        $type = self::getArrVal($settings, "type");
-        $eventsettings = self::getArrVal($settings, "eventsettings");
+        $type = self::getarrayval($settings, "type");
+        $eventsettings = self::getarrayval($settings, "eventsettings");
         $params = self::validate_parameters(self::create_new_form_parameters(), array("setting" => $settings, "formdef" => $formdef));
         $formid = self::save_form($params['setting'], $params['formdef']);
         if ($formid > 0) {
@@ -76,14 +76,14 @@ trait create_new_form {
     private static function save_form($setting, $definition) {
         global $DB, $USER, $CFG;
         $data = new \stdClass();
-        $data->title = self::getArrVal($setting, "title");
-        $data->description = self::getArrVal($setting, "description");
+        $data->title = self::getarrayval($setting, "title");
+        $data->description = self::getarrayval($setting, "description");
         $data->author = $USER->id;
-        $data->type = self::getArrVal($setting, "type");
-        $data->notifi_email = self::getArrVal($setting, "notifi_email");
-        $data->courses = self::getArrVal($setting, "courses", array());
-        $data->message = self::getArrVal($setting, "message", "");
-        $data->data_edit = self::getArrVal($setting, "data_edit");
+        $data->type = self::getarrayval($setting, "type");
+        $data->notifi_email = self::getarrayval($setting, "notifi_email");
+        $data->courses = self::getarrayval($setting, "courses", array());
+        $data->message = self::getarrayval($setting, "message", "");
+        $data->data_edit = self::getarrayval($setting, "data_edit");
         $data->definition = $definition;
         $data->enabled = 0;
         $data->deleted = 0;
@@ -94,13 +94,13 @@ trait create_new_form {
             $context = context_system::instance();
             require_once($CFG->libdir . "/filelib.php");
             $form->message = file_save_draft_area_files(
-                self::getArrVal($setting, "draftitemid", 0),
+                self::getarrayval($setting, "draftitemid", 0),
                 $context->id,
                 EDWISERFORM_COMPONENT,
                 EDWISERFORM_FILEAREA,
                 $result,
-                array('subdirs'=>false),
-                self::getArrVal($setting, "message", "")
+                array('subdirs' => false),
+                self::getarrayval($setting, "message", "")
             );
             $DB->update_record("efb_forms", $form);
         } catch (\Exception $ex) {
@@ -119,7 +119,7 @@ trait create_new_form {
         );
     }
 
-    public static function getArrVal($array, $key, $value = "") {
+    public static function getarrayval($array, $key, $value = "") {
         if (isset($array[$key]) && !empty($array[$key])) {
             $value = $array[$key];
         }

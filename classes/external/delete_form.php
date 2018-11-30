@@ -29,8 +29,7 @@ use external_value;
 trait delete_form
 {
 
-    public static function delete_form_parameters()
-    {
+    public static function delete_form_parameters() {
         return new external_function_parameters(
                 [
             'id' => new external_value(PARAM_INT, 'Form id', VALUE_REQUIRED),
@@ -38,8 +37,7 @@ trait delete_form
         );
     }
 
-    public static function delete_form($formid)
-    {
+    public static function delete_form($formid) {
         global $DB;
         $response = array("status" => false, "msg" => get_string("efb-msg-form-delete-fail", "local_edwiserform"));
         if (!$formid) {
@@ -55,8 +53,7 @@ trait delete_form
         return array("status" => $status, "msg" => $msg);
     }
 
-    public static function delete_form_returns()
-    {
+    public static function delete_form_returns() {
         return new \external_single_structure(
                 [
             'status' => new external_value(PARAM_BOOL, 'Form deletion status.'),

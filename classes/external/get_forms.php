@@ -15,59 +15,73 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
- * @author      Sudam
+ * Datatable ajax service for getting form records
+ * @package   local_edwiserform
+ * @copyright WisdmLabs 2018
+ * @author    Yogesh Shirsath
+ * @author    Krunal Kamble
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once('../../../../config.php');
 require_once($CFG->dirroot . "/local/edwiserform/lib.php");
 require_once($CFG->dirroot . "/local/edwiserform/classes/renderables/efb_list_form.php");
-function get_total_ebf_forms_records($searchFlag, $searchText)
-{
+
+/**
+ * Returns total number of form created by admin/teacher with search filter criteria
+ * @param  boolean $searchflag true if user is filtering data
+ * @param  string  $searchtext query string to search in the data
+ * @return integer count forms created
+ * @since  Edwiser Form 1.0.0
+ */
+function get_total_ebf_forms_records($searchflag, $searchtext) {
     global $DB, $USER;
     $stmt = "SELECT * FROM {efb_forms} WHERE deleted = 0 ";
-    if ($searchFlag) {
-        $stmt = "SELECT * FROM {efb_forms} WHERE (title REGEXP '" . $searchText . "' OR  type REGEXP '" . $searchText."') and deleted = 0";
+    if ($searchflag) {
+        $stmt = "SELECT * FROM {efb_forms} WHERE (title REGEXP '" . $searchtext . "' OR  type REGEXP '" . $searchtext."') and deleted = 0";
     }
     $param = [];
     if (!is_siteadmin()) {
-        $stmt .= " author=?";
-        $param[] = $USER->id;
+        $stmt .= " and author=?";
+        $param[] = can_create_or_view_form() ? $USER->id : 0;
     }
     $records = $DB->get_records_sql($stmt, $param);
     return count($records);
 }
+
+// Checking for limit to paginate data
 if (isset($_REQUEST['iDisplayStart']) && $_REQUEST['iDisplayLength'] != '-1') {
-    $wdmLimit = 'LIMIT '.intval($_REQUEST['iDisplayStart']).', '.
+    $wdmlimit = 'LIMIT '.intval($_REQUEST['iDisplayStart']).', '.
             intval($_REQUEST['iDisplayLength']);
 }
-$searchText = "";
-$searchFlag = 0;
+
+$searchtext = "";
+$searchflag = 0;
+
+// Check for search query and setting search flag
 if (isset($_REQUEST['sSearch']) && !empty($_REQUEST['sSearch'])) {
-    $searchText = $_REQUEST['sSearch'];
-    $searchFlag = 1;
+    $searchtext = $_REQUEST['sSearch'];
+    $searchflag = 1;
 }
 
-$sortColumn = 0;
-$sortDir = "";
+// Check for column with sorting flag
+$sortcolumn = 0;
+$sortdir = "";
 if (isset($_REQUEST['iSortCol_0'])) {
     if ($_REQUEST['iSortCol_0'] == 0 && $_REQUEST['sSortDir_0'] === 'desc') {
-        $sortColumn = 0;
-        $sortDir = "desc";
+        $sortcolumn = 0;
+        $sortdir = "desc";
     } else {
-        $sortColumn = $_REQUEST['iSortCol_0'];
-        $sortDir = $_REQUEST['sSortDir_0'];
+        $sortcolumn = $_REQUEST['iSortCol_0'];
+        $sortdir = $_REQUEST['sSortDir_0'];
     }
 }
 $object = new \efb_list_form();
-$rows = $object->get_forms_list($wdmLimit, $searchText, $sortColumn, $sortDir);
+$rows = $object->get_forms_list($wdmlimit, $searchtext, $sortcolumn, $sortdir);
 $data = array(
             'sEcho' => intval($_REQUEST['sEcho']),
             'iTotalRecords' => count($rows),
-            'iTotalDisplayRecords' => get_total_ebf_forms_records($searchFlag, $searchText),
+            'iTotalDisplayRecords' => get_total_ebf_forms_records($searchflag, $searchtext),
         );
 $data["data"] = $rows;
 echo json_encode($data);
