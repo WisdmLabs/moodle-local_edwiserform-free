@@ -37,22 +37,11 @@ input {
     display: block;
   }
 
-  &[type='checkbox'],
-  &[type='radio'] {
+  &[type='checkbox'] {
     @extend %checkbox;
   }
-
   &[type='radio'] {
-    + .checkable::before {
-      border-radius: 2em;
-    }
-
-    &:checked + .checkable::after {
-      content: '';
-      background: $gray;
-      transform: scale(0.5) translate(0, -100%);
-      border-radius: 50%;
-    }
+    @extend %radio;
   }
 }
 
@@ -61,7 +50,6 @@ textarea {
 
   height: auto;
 }
-
 
 .f-addon {
   @extend %input-style;

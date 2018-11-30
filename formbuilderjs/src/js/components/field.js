@@ -253,6 +253,24 @@ export default class Field {
   }
 
   /**
+   * Escaping the html pattern before saving to database
+   * @param {String} pattern
+   * @return {String} escaped html pattern
+   */
+  escapeRegExp(pattern) {
+    return pattern.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+  }
+
+  /**
+   * Unescaping the html pattern before saving to database
+   * @param {String} pattern
+   * @return {String} unescaped html pattern
+   */
+  unescapeRegExp(pattern) {
+    return pattern.replace(/[\\]/g, '\$&');
+  }
+
+  /**
    * Generate the inputs for an edit panel
    * @param  {String} prop      property name
    * @param  {String|Array} propVal   property value
@@ -365,7 +383,7 @@ export default class Field {
               attrs: typeAttrs(key, val, 'string'),
               action: {
                 change: evt => {
-                  h.set(fieldData, fMap, evt.target.value);
+                  h.set(fieldData, fMap, key == 'pattern' ? _this.escapeRegExp(evt.target.value) : evt.target.value);
                   _this.updatePreview();
                   data.save();
                 }
@@ -442,6 +460,10 @@ export default class Field {
             let inputs = [];
 
             for (let objProp in objVal) {
+              if (isOption && fieldData.tag == 'input' && objProp == 'name') {
+                delete objProp.name;
+                continue;
+              }
               if (objVal.hasOwnProperty(objProp)) {
                 inputs.push(processProperty(objProp, objVal[objProp]));
               }
@@ -530,6 +552,9 @@ export default class Field {
 
     if (typeof val === 'string' && h.inArray(val, ['true', 'false'])) {
       val = JSON.parse(val);
+      if (attr == 'pattern') {
+        val = _this.unescapeRegExp(val);
+      }
     }
 
     fieldData.attrs[safeAttr] = val;

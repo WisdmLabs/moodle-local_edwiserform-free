@@ -131,9 +131,8 @@ define(['jquery', 'core/ajax', 'local_edwiserform/formviewer'], function ($, aja
                     }]);
                     submitFormData[0].done(function(response) {
                         if (response.status) {
-                            formeo.dom.alert('success', response.msg, function() {
-                                $(form).html(response.msg);
-                            });
+                            $(form).html(response.msg);
+                            formeo.dom.alert('success', response.msg);
                             if (afterSubmit != null) {
                                 afterSubmit(form, formdata);
                             }

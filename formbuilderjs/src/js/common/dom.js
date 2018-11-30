@@ -243,6 +243,25 @@ class DOM {
   }
 
   /**
+   * Missing form-control class in input element
+   * @param  {Object} elem element config object
+   * @return {Object}
+   */
+  missingFormControlClass(elem) {
+    let tag = elem.tag;
+    let className = h.get(elem, 'attrs.className') || '';
+    if (['input', 'textarea', 'select'].indexOf(tag) != -1 && className.indexOf('form-control') == -1) {
+      if (Array.isArray(className)) {
+        className.push('form-control');
+      } else {
+        className += ' form-control';
+      }
+      h.set(elem, 'attrs.className', className);
+    }
+    return elem;
+  }
+
+  /**
    * Creates DOM elements
    * @param  {Object}  elem      element config object
    * @param  {Boolean} isPreview generating element for preview or render?
@@ -348,13 +367,13 @@ class DOM {
         if (typeof(wrap.className) == 'string') {
           wrap.className = [wrap.className];
         }
-        wrap.className.push = h.get(elem, 'attrs.className');
+
+        wrap.className.push(h.get(elem, 'attrs.className'));
 
 
         if (required) {
           wrap.attrs.required = required;
         }
-
         return this.create(wrap, isPreview);
       }
 
@@ -425,6 +444,8 @@ class DOM {
 
       processed.push('config');
     }
+
+    elem = this.missingFormControlClass(elem);
 
     // Set element attributes
     if (elem.attrs) {
@@ -627,11 +648,14 @@ class DOM {
           },
           action
         };
-        let checkable = {
+        let checkable = [{
           tag: 'span',
           className: 'checkable',
+        }, {
+          tag: 'span',
+          className: 'checkable-label',
           content: option.label
-        };
+        }];
         let optionLabel = {
           tag: 'label',
           attrs: {},
@@ -664,7 +688,7 @@ class DOM {
           input.fMap = `options[${i}].selected`;
           optionLabel.attrs.contenteditable = true;
           optionLabel.fMap = `options[${i}].label`;
-          checkable.content = undefined;
+          checkable[1].content = undefined;
           let checkableLabel = {
             tag: 'label',
             content: [input, checkable]

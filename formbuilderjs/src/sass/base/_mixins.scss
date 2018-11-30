@@ -118,9 +118,12 @@
   display: inline-block;
   height: auto;
 
+  ~ .checkable-label {
+    cursor: pointer;
+  }
+
   + .checkable {
     padding-left: 1.5em;
-    cursor: pointer;
     position: relative;
 
     &::before,
@@ -170,6 +173,66 @@
   }
 }
 
+%radio {
+  opacity: 0;
+  width: 0;
+  position: absolute;
+  display: inline-block;
+  height: auto;
+
+  ~ .checkable-label {
+    cursor: pointer;
+  }
+
+  + .checkable {
+    padding-left: 1.5em;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      display: inline-block;
+      left: 0;
+      top: 50%;
+      transform: translate(50%, -50%);
+      width: 0.5em;
+      height: 0.5em;
+      border-radius: 50%;
+    }
+    &::before {
+      content: '';
+      position: absolute;
+      display: inline-block;
+      left: 0;
+      top: 50%;
+      transform: translate(0, -50%);
+      font-size: 1em;
+      line-height: 1em;
+      color: transparent;
+      font-family: sans;
+      text-align: center;
+      width: 1em;
+      height: 1em;
+      border-radius: 50%;
+    }
+  }
+
+  + .checkable::before {
+    background: $white;
+    border: 1px solid $gray;
+  }
+
+  &:focus + .checkable::before {
+    border: 1px solid $input-focus;
+  }
+
+  &:checked + .checkable {
+    &::after {
+      background-color: black;
+    }
+  }
+}
+
 %element-tag {
   font-size: 12px;
   position: absolute;
@@ -210,11 +273,26 @@
   }
 
   button {
-    width: 100%;
-    text-align: left;
-    transition: transform .15s;
+    display: inline-block;
     position: relative;
+    text-align: left;
+    width: 100%;
+    font-weight: 400;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
     padding-left: 3rem;
+    font-size: .9375rem;
+    line-height: 1.5;
+    border-radius: 0;
+    -webkit-transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out, transform .15s;
+    -o-transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out, transform .15s;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out, transform .15s;
     &:hover {
       transform: scale(0.99);
     }
@@ -253,18 +331,22 @@
 
   svg {
     position: absolute;
-    left: 0.5rem;
-    top: 0.1rem;
+    left: 0.8rem;
+    top: 0.3rem;
   }
 
   .fa {
     position: absolute;
     left: 0;
+    line-height: 2.2rem;
     top: 0;
-    font-size: 2rem;
-    line-height: 2.4rem;
+    font-size: 1.5rem;
     width: 3rem;
     text-align: center;
+    &.fa-mobile {
+      font-size: 2.2rem;
+      line-height: 2.2rem;
+    }
   }
 
   [dir='rtl'] & {
