@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/local/edwiserform/events/events.php');
 
 class edwiserform_events_feedback extends edwiserform_events_plugin {
-     public function submission_email_message($form, $submission) {
+    public function submission_email_message($form, $submission) {
         return $this->common_submission_email_message($form, $submission);
     }
     /**
@@ -36,6 +36,6 @@ class edwiserform_events_feedback extends edwiserform_events_plugin {
      * @return object with attached event data
      */
     public function attach_data($form, $data) {
-    	return $this->attach_common_data($form, $data);
+        return $this->attach_common_data($form, $data);
     }
 }

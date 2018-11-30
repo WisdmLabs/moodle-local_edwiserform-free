@@ -25,7 +25,7 @@ function xmldb_edwiserformevents_subscription_uninstall() {
     global $DB;
     $record = $DB->get_record('efb_form_templates', array('name' => 'subscription'));
     if ($record) {
-    	$DB->delete_records('efb_form_templates', array('name' => 'subscription'));
+        $DB->delete_records('efb_form_templates', array('name' => 'subscription'));
     }
     return true;
 }

@@ -37,6 +37,6 @@ class edwiserform_events_support extends edwiserform_events_plugin {
      * @return object with attached event data
      */
     public function attach_data($form, $data) {
-    	return $this->attach_common_data($form, $data);
+        return $this->attach_common_data($form, $data);
     }
 }

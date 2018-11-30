@@ -25,7 +25,7 @@ function xmldb_edwiserformevents_contact_uninstall() {
     global $DB;
     $record = $DB->get_record('efb_form_templates', array('name' => 'contact'));
     if ($record) {
-    	$DB->delete_records('efb_form_templates', array('name' => 'contact'));
+        $DB->delete_records('efb_form_templates', array('name' => 'contact'));
     }
     return true;
 }

@@ -25,7 +25,7 @@ function xmldb_edwiserformevents_feedback_uninstall() {
     global $DB;
     $record = $DB->get_record('efb_form_templates', array('name' => 'feedback'));
     if ($record) {
-    	$DB->delete_records('efb_form_templates', array('name' => 'feedback'));
+        $DB->delete_records('efb_form_templates', array('name' => 'feedback'));
     }
     return true;
 }
