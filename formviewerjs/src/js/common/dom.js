@@ -46,6 +46,46 @@ class DOM {
   }
 
   /**
+   * Check for standard element
+   * @param  {Object}  elem      element config object
+   * @return {Boolean}            true | false
+   */
+  getWrapperClass(elem) {
+    if (elem.hasOwnProperty('className') && elem.className == 'g-recaptcha') {
+      return 'g-recaptcha-wrapper';
+    }
+    if (elem.tag == 'textarea' || elem.tag == 'select') {
+      return elem.tag + '-wrapper';
+    }
+    if (elem.tag == 'input') {
+      if (elem.attrs.type == 'radio' || elem.attrs.type == 'checkbox') {
+        return '';
+      }
+      return 'input-' + elem.attrs.type + '-wrapper';
+    }
+    return '';
+  }
+
+  /**
+   * Missing form-control class in input element
+   * @param  {Object} elem element config object
+   * @return {Object}
+   */
+  missingFormControlClass(elem) {
+    let tag = elem.tag;
+    let className = h.get(elem, 'attrs.className') || '';
+    if (['input', 'textarea', 'select'].indexOf(tag) != -1 && className.indexOf('form-control') == -1) {
+      if (Array.isArray(className)) {
+        className.push('form-control');
+      } else {
+        className += ' form-control';
+      }
+      h.set(elem, 'attrs.className', className);
+    }
+    return elem;
+  }
+
+  /**
    * Creates DOM elements
    * @param  {Object}  elem      element config object
    * @return {Object}            DOM Object
@@ -128,6 +168,10 @@ class DOM {
       elem.id = elem.attrs.id;
     }
 
+    if (elem.hasOwnProperty('attrs') && elem.attrs.hasOwnProperty('name') && (elem.attrs.name == undefined || elem.attrs.name.trim() == '')) {
+      elem.attrs.name = elem.id;
+    }
+
     // Append Element Content
     if (elem.options) {
       let {options} = elem;
@@ -148,7 +192,7 @@ class DOM {
           wrap.className = [wrap.className];
         }
         wrap.config = Object.assign({}, elem.config);
-        wrap.className.push = h.get(elem, 'attrs.className');
+        wrap.className.push(h.get(elem, 'attrs.className'));
 
 
         if (required) {
@@ -219,6 +263,8 @@ class DOM {
 
       processed.push('config');
     }
+
+    elem = this.missingFormControlClass(elem);
 
     // Set element attributes
     if (elem.attrs) {
