@@ -23,6 +23,8 @@
 
 namespace local_edwiserform\external;
 
+defined('MOODLE_INTERNAL') || die();
+
 use external_function_parameters;
 use external_value;
 use context_system;

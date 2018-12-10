@@ -25,7 +25,7 @@ function xmldb_edwiserformevents_support_uninstall() {
     global $DB;
     $record = $DB->get_record('efb_form_templates', array('name' => 'support'));
     if ($record) {
-    	$DB->delete_records('efb_form_templates', array('name' => 'support'));
+        $DB->delete_records('efb_form_templates', array('name' => 'support'));
     }
     return true;
 }

@@ -25,6 +25,7 @@
 namespace local_edwiserform\external;
 
 defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->libdir . '/externallib.php');
 require_once($CFG->dirroot . "/local/edwiserform/lib.php");
 use external_api;

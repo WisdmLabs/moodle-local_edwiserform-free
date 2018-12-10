@@ -22,8 +22,9 @@
  * @author      Sudam
  */
 
-class efb_form_basic_settings extends moodleform
-{
+defined('MOODLE_INTERNAL') || die();
+
+class efb_form_basic_settings extends moodleform {
     public function __construct($action = null, $customdata = null, $method = 'post', $target = '', $attributes = null, $editable = true, $ajaxformdata = null) {
         parent::__construct($action, $customdata, $method, $target, array("id" => "efb-basic-form-settings"), $editable, $ajaxformdata);
     }
