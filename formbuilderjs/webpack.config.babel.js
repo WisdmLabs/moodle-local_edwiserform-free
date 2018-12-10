@@ -2,7 +2,7 @@ const pkg = require('./package.json');
 const {resolve} = require('path');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
+// const CompressionPlugin = require('compression-webpack-plugin');
 const BannerWebpackPlugin = require('banner-webpack-plugin');
 const BabiliPlugin = require('babili-webpack-plugin');
 
@@ -48,7 +48,7 @@ const webpackConfig = {
   output: {
     path: resolve(__dirname, 'dist/'),
     publicPath: '/',
-    filename: 'formbuilder.min.js'
+    filename: 'formbuilder.js'
   },
   module: {
     rules: [

@@ -3,43 +3,14 @@
  * Version: 0.1.0
  * Author: Yogesh Shirsath
  */
-require(['jquery', 'core/ajax'], function ($, ajax) {
-    $(document).ready(function (e) {
-        $.getScript(M.cfg.wwwroot + '/local/edwiserform/amd/src/formviewer.min.js', function() {
-            if (typeof definition != 'undefined') {
+require(['jquery', 'core/ajax', 'local_edwiserform/formviewer'], function ($, ajax) {
+    return {
+        init: function(title, sitekey) {
+            $(document).ready(function (e) {
                 let formeoOpts = {
-                  container: '',
-                  // allowEdit: false,
-                  controls: {
-                    sortable: false,
-                    groupOrder: [
-                      'common',
-                      'html',
-                    ],
-                    elements: [
-                    ],
-                    elementOrder: {
-                      common: [
-                      'button',
-                      'checkbox',
-                      'date-input',
-                      'hidden',
-                      'upload',
-                      'number',
-                      'radio',
-                      'select',
-                      'text-input',
-                      'textarea',
-                      ]
-                    }
-                  },
-                  events: {
-                    // onUpdate: console.log,
-                    // onSave: console.log
-                  },
-                  sitekey: sitekey,
-                  localStorage: false, //Changed from session storage to local storage
-                  editPanelOrder: ['attrs', 'options']
+                    container: '',
+                    sitekey: sitekey,
+                    localStorage: false, // Changed from session storage to local storage.
                 };
                 var formeo;
                 var form = $('#preview-form')[0]
@@ -47,7 +18,7 @@ require(['jquery', 'core/ajax'], function ($, ajax) {
                 formeo = new Formeo(formeoOpts, definition);
                 formeo.render(form);
                 $(form).prepend(`<h2>${title}</h2>`);
-            }
-        });
-    });
+            });
+        }
+    };
 });

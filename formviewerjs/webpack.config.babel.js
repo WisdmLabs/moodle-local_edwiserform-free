@@ -46,7 +46,7 @@ const webpackConfig = {
   output: {
     path: resolve(__dirname, 'dist/'),
     publicPath: '/',
-    filename: 'formviewer.min.js'
+    filename: 'formviewer.js'
   },
   module: {
     rules: [
