@@ -3,13 +3,13 @@
  * Version: 0.1.0
  * Author: Yogesh Shirsath
  */
-require(['jquery', 'core/ajax', 'local_edwiserform/formviewer'], function ($, ajax) {
+define(['jquery', 'core/ajax', 'local_edwiserform/formviewer'], function ($, ajax) {
     return {
         init: function(sitekey) {
             $(document).ready(function (e) {
                 let formeoOpts = {
                     container: '',
-                    sitekey,
+                    sitekey: sitekey,
                     localStorage: false, // Changed from session storage to local storage.
                 };
                 var formeo = [];

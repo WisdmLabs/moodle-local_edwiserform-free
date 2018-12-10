@@ -3,7 +3,7 @@
  * Version: 0.1.0
  * Author: Yogesh Shirsath
  */
-require([
+define([
    'jquery',
    'core/ajax',
    'local_edwiserform/jszip',
@@ -97,7 +97,7 @@ require([
                     var reqDeleteForm = ajax.call([{
                         methodname: 'edwiserform_delete_form',
                         args: {
-                            id
+                            id: id
                         }
                     }]);
                     reqDeleteForm[0].done(function(response) {
@@ -118,7 +118,7 @@ require([
                     var message = M.util.get_string('export-pro-message', 'local_edwiserform');
                     message = M.util.get_string('profeaturemessage', 'local_edwiserform', {
                         type: string,
-                        message
+                        message: message
                     });
                     $('#efb-modal #efb-modal-body').html(`<h5>${message}</h5>`);
                     $('#efb-modal').addClass('show pro').removeClass('delete deleted');

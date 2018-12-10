@@ -3,7 +3,7 @@
  * Version: 0.1.0
  * Author: Yogesh Shirsath
  */
-require(['jquery', 'core/ajax', 'local_edwiserform/efb_form_basic_settings', 'local_edwiserform/formbuilder'], function ($, ajax) {
+define(['jquery', 'core/ajax', 'local_edwiserform/efb_form_basic_settings', 'local_edwiserform/formbuilder'], function ($, ajax) {
     return {
         init: function(sitekey) {
             $(document).ready(function (e) {
@@ -21,7 +21,7 @@ require(['jquery', 'core/ajax', 'local_edwiserform/efb_form_basic_settings', 'lo
                 var events = [];
                 let formeoOpts = {
                     container: container,
-                    sitekey,
+                    sitekey: sitekey,
                     prourl: 'https://edwiser.org/edwiser-forms-pricing/',
                     svgSprite: M.cfg.wwwroot + '/local/edwiserform/pix/formeo-sprite.svg',
                     localStorage: false,

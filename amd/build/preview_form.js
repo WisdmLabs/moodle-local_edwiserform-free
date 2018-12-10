@@ -1,1 +1,1 @@
-define(["jquery","core/ajax","local_edwiserform/formviewer"],function(e,r){return{init:function(r,n){e(document).ready(function(o){let i={container:"",sitekey:n,localStorage:!1};var t=e("#preview-form")[0];i.container=t,new Formeo(i,definition).render(t),e(t).prepend(`<h2>${r}</h2>`)})}}});
+define(["jquery","core/ajax","local_edwiserform/formviewer"],function(e,r){return{init:function(r,n){e(document).ready(function(o){var i=e("#preview-form")[0];new Formeo({container:i,sitekey:n,localStorage:!1},definition).render(i),e(i).prepend(`<h2>${r}</h2>`)})}}});

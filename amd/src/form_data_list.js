@@ -3,7 +3,7 @@
  * Version: 0.1.0
  * Author: Yogesh Shirsath
  */
-require([
+define([
     'jquery',
     'local_edwiserform/jszip',
     'local_edwiserform/jquery.dataTables',

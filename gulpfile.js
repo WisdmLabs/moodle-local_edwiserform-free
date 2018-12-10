@@ -1,6 +1,5 @@
 const gulp = require('gulp');
 const minify = require('gulp-minify');
-const replace = require('gulp-replace');
 
 gulp.task('compress', function() {
   gulp.src('amd/src/*.js')
@@ -11,6 +10,9 @@ gulp.task('compress', function() {
         noSource: true,
         ignoreFiles: ['*/formbuilder.js', '*/formviewer.js']
     }))
-    .pipe(replace('require','define'))
     .pipe(gulp.dest('amd/build'))
 });
+gulp.task('watch', function() {
+    gulp.watch('amd/src/*.js', ['compress']);
+});
+gulp.task('default', ['watch', 'compress']);
