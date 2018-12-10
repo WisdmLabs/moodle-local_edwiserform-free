@@ -177,3 +177,16 @@ function local_edwiserform_pluginfile($course, $cm, $context, $filearea, array $
     // Download MUST be forced - security!
     send_stored_file($file, 0, 0, $forcedownload, $options);
 }
+/**
+ * Delete area files of edwiserform
+ *
+ * @param  integer $itemid to delete files
+ * @since  Edwiser Form 1.1.0
+ */
+function delete_edwiserform_files($filearea, $itemid) {
+    if ($itemid < 1) {
+        return;
+    }
+    $fs = get_file_storage();
+    $fs->delete_area_files(context_system::instance()->id, EDWISERFORM_COMPONENT, $filearea, $itemid);
+}
