@@ -34,9 +34,9 @@ function xmldb_local_edwiserform_install() {
     // Altering efb_forms and efb_form_data table column by running custom sql
     $alteration = array(
         'ALTER TABLE {efb_forms} CHANGE created created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
-        'ALTER TABLE {efb_forms} CHANGE modified modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
+        'ALTER TABLE {efb_forms} CHANGE modified modified TIMESTAMP NULL DEFAULT NULL',
         'ALTER TABLE {efb_form_data} CHANGE `date` `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
-        'ALTER TABLE {efb_form_data} CHANGE updated updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP'
+        'ALTER TABLE {efb_form_data} CHANGE updated updated TIMESTAMP NULL DEFAULT NULL'
     );
     foreach ($alteration as $alter) {
         $DB->execute($alter);
