@@ -630,6 +630,12 @@ and open the template in the editor.
 .efb-table a .icon{
     color: #76838f;
 }
+.efb-table.dataTable thead .header:after, .efb-table.dataTable thead .header:before {
+    margin-top: 0;
+}
+.efb-table.dataTable thead .header {
+    padding-right: 2rem!important;
+}
 .text-left {
     text-align: left;
 }

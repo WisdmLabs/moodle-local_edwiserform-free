@@ -30,6 +30,9 @@ define([
                         { text: M.util.get_string('exportcsv', 'local_edwiserform'), className: 'btn btn-primary efb-csv-export' }
                     ],
                     drawCallback: function( settings ) {
+                        $('.efb-table thead th').addClass('header').each(function(index, el) {
+                            $(el).addClass('c' + index);
+                        });
                         $('.efb-csv-export').removeClass('dt-button').off();
                         $('.efb-shortcode-copy-note').html(M.util.get_string('clickonshortcode', 'local_edwiserform'));
                     }

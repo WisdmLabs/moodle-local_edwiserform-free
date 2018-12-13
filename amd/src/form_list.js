@@ -54,6 +54,9 @@ define([
                             $('td:eq(5)', nRow).addClass( "efb-tbl-col-action-list" );
                         },
                         drawCallback: function( settings ) {
+                            $('.efb-table thead th').addClass('header').each(function(index, el) {
+                                $(el).addClass('c' + index);
+                            });
                             $('.efb-csv-export').removeClass('dt-button').off();
                             $('.efb-shortcode-copy-note').html(M.util.get_string('clickonshortcode', 'local_edwiserform'));
                         }
