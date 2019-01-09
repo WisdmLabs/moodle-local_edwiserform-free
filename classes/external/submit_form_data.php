@@ -98,7 +98,7 @@ trait submit_form_data {
         $submission = json_decode($submission);
         $context = context_system::instance();
         $messagehtml = file_rewrite_pluginfile_urls($form->message, 'pluginfile.php', $context->id, EDWISERFORM_COMPONENT, EDWISERFORM_FILEAREA, $form->id);
-        if (send_email(get_config("core", "smtpuser"), $email, get_string('efb-form-data-submission-successful', 'local_edwiserform'), $messagehtml)) {
+        if (edwiserform_send_email(get_config("core", "smtpuser"), $email, get_string('efb-form-data-submission-successful', 'local_edwiserform'), $messagehtml)) {
             return get_string('efb-confirmation-email-success', 'local_edwiserform');
         }
         return get_string('efb-confirmation-email-failed', 'local_edwiserform');
@@ -117,7 +117,7 @@ trait submit_form_data {
             $emails = explode(',', $form->notifi_email);
             $status = true;
             foreach ($emails as $email) {
-                $status = $status && send_email(get_config("core", "smtpuser"), $email, $subject, $messagehtml);
+                $status = $status && edwiserform_send_email(get_config("core", "smtpuser"), $email, $subject, $messagehtml);
             }
             if ($status != true) {
                 return get_string('efb-notify-email-failed', 'local_edwiserform');

@@ -90,7 +90,7 @@ function generate_email_user($email, $name = '', $id = -99) {
     return $emailuser;
 }
 
-function send_email($from, $to, $subject, $messagehtml) {
+function edwiserform_send_email($from, $to, $subject, $messagehtml) {
     global $PAGE;
     $context = context_system::instance();
     $PAGE->set_context($context);

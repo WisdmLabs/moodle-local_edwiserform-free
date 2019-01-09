@@ -38,6 +38,9 @@ if (!$form) {
     $out .= html_writer::start_tag('form', array('id' => 'preview-form', 'class' => 'edwiserform-container', 'method' => 'post'));
     $out .= html_writer::end_tag('form');
     $sitekey = get_config('local_edwiserform', 'google_recaptcha_sitekey');
+    if (trim($sitekey) == '') {
+        $sitekey = 'null';
+    }
     $stringmanager = get_string_manager();
     $strings = $stringmanager->load_component_strings('local_edwiserform', 'en');
     $PAGE->requires->strings_for_js(array_keys($strings), 'local_edwiserform');

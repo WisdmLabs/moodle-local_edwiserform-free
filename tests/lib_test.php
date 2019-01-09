@@ -39,11 +39,11 @@ class local_edwiserform_lib_testcase extends local_edwiserform_base_testcase {
         $this->assertEquals(1, $emailuser->id);
     }
 
-    public function test_send_email() {
+    public function test_edwiserform_send_email() {
         $subject = "PHPUnit Test";
         $messagehtml = "<p>This is sample PHPUnit test";
         $sink = $this->redirectEmails();
-        $status = send_email('test.sender@gmail.com', 'test.receiver@gmail.com', $subject, $messagehtml);
+        $status = edwiserform_send_email('test.sender@gmail.com', 'test.receiver@gmail.com', $subject, $messagehtml);
         $messages = $sink->get_messages();
         $this->assertEquals(true, $status, 'Email sent successfully.');
     }

@@ -117,6 +117,9 @@ class edwiserform {
         switch ($page) {
             case 'newform':
                 $sitekey = get_config('local_edwiserform', 'google_recaptcha_sitekey');
+                if (trim($sitekey) == '') {
+                    $sitekey = 'null';
+                }
                 $PAGE->requires->js_call_amd('local_edwiserform/new_form_main', 'init', array($sitekey));
                 $PAGE->requires->data_for_js('sitekey', $sitekey);
                 $formid = optional_param('formid', null, PARAM_FLOAT);
