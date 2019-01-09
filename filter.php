@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
 class filter_edwiserformlink extends moodle_text_filter {
     private function filter_tags($tags) {
         $forms = [];
-        for($i = 0; $i < count($tags[0]); $i++) {
+        for ($i = 0; $i < count($tags[0]); $i++) {
             $form = new stdClass;
             $form->tag = $tags[0][$i];
             $form->id = $tags[1][$i];
@@ -50,6 +50,9 @@ class filter_edwiserformlink extends moodle_text_filter {
         if ($tags[0]) {
             global $PAGE, $CFG;
             $sitekey = get_config('local_edwiserform', 'google_recaptcha_sitekey');
+            if (trim($sitekey) == '') {
+                $sitekey = 'null';
+            }
             $stringmanager = get_string_manager();
             $strings = $stringmanager->load_component_strings('local_edwiserform', 'en');
             $PAGE->requires->strings_for_js(array_keys($strings), 'local_edwiserform');
