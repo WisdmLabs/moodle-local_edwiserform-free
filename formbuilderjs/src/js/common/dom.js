@@ -108,24 +108,6 @@ class DOM {
       }
     });
 
-    // let removeStage = h.merge(Object.assign({}, btnTemplate), {
-    //   content: icon('remove'),
-    //   attrs: {
-    //     className: ['item-remove'],
-    //   },
-    //   meta: {
-    //     id: 'removestage'
-    //   },
-    //   action: {
-    //     click: (evt, id) => {
-    //       const element = closestFtype(evt.target);
-    //       animate.slideUp(element, 250, elem => {
-    //         data.deleteStage(element.id);
-    //       });
-    //     }
-    //   }
-    // });
-
     let cloneItem = h.merge(Object.assign({}, btnTemplate), {
       content: icon('copy'),
       attrs: {
@@ -871,179 +853,6 @@ class DOM {
   }
 
   /**
-   * Return stage tabs
-   * @param {Object} stage object having stage details
-   * @return {Object} stage tab
-   */
-  addStageTabItem(stage) {
-    return {
-      tag: 'li',
-      className: 'stage-tab wfb-tab',
-      id: 'for-' + stage.id,
-      content: stage.title,
-      action: {
-        click: event => {
-          if (!event.target.classList.contains('active')) {
-            let container = closest(event.target, 'stage-tabs-wrapper');
-            let selectedStage = container.parentElement.querySelector('.stage-wrap[id="' + stage.id + '"]');
-            let activeStage = container.parentElement.querySelector('.stage-wrap.active');
-            activeStage.classList.remove('active');
-            activeStage.classList.remove('show');
-            selectedStage.classList.add('active');
-            selectedStage.classList.add('show');
-            let activeTab = event.target.parentElement.querySelector('.active');
-            activeTab.classList.remove('active');
-            event.target.classList.add('active');
-            dom.activeStage = selectedStage.querySelector('.stage'); // Changing active stage to newly added stage
-            dom.toggleFormDeleteAction();
-          }
-        }
-      }
-    };
-  }
-
-  /**
-   * Return stage tabs
-   * @return {Object} stage tabs
-   */
-  getStageTabs() {
-    let _this = this;
-    let tabs = [];
-    formData.stages.forEach(function(stage) {
-      tabs.push(_this.addStageTabItem(stage));
-    });
-    tabs[0].className += ' active';
-    return tabs;
-  }
-
-  /**
-   * Remove stage from tab list
-   * @param {DOM} element
-   * @param {string} stageID
-   */
-  removeStage(element, stageID) {
-    let _this = this;
-    let container = closest(element, 'stage-tabs-wrapper');
-    let lastStage;
-    let remove = (stage, button, listItem) => {
-      let parent = stage.parentElement;
-      switch (formData.stages.size) {
-        case 1:
-          return false;
-        case 2:
-          container.remove();
-          showControl('layout-tab-control');
-          stage.remove();
-          parent.querySelector('.stage-wrap').classList.add('active');
-          parent.querySelector('.stage-wrap').classList.add('show');
-          dom.activeStage = parent.querySelector('.stage-wrap').querySelector('.stage');
-          lastStage = formData.stages.get(dom.activeStage.id);
-          lastStage.title = 'Stage 1';
-          formData.stages.set(dom.activeStage.id, lastStage);
-          return true;
-        default:
-          stageButton.remove();
-          animate.slideUp(listItem, 666, function() {
-            _this.resizeTabContainer(listItem);
-            listItem.remove();
-          });
-          stage.remove();
-          dom.activeStage = parent.querySelector('.stage-wrap.active').querySelector('.stage');
-          return true;
-      }
-    };
-    let listItem = closest(element, 'stage-tab-wrap');
-    let stageButton = container.querySelector('[id="for-' + stageID + '"]');
-    let stage = container.parentElement.querySelector('[id="' + stageID + '"]');
-    let viewingStage = container.parentElement.querySelector('.stage-wrap.active');
-    let status = false;
-    if (stage.id == viewingStage.id) {
-      let newStage;
-      if (stage.nextSibling) {
-        newStage = stage.nextSibling;
-      } else {
-        newStage = stage.previousSibling;
-      }
-      newStage.classList.add('active');
-      newStage.classList.add('show');
-      let newId = newStage.id;
-      let newButton = container.querySelector('[id="for-' + newId + '"]');
-      newButton.classList.add('active');
-      status = remove(stage, stageButton, listItem);
-    } else {
-      status = remove(stage, stageButton, listItem);
-    }
-    if (status == true) {
-      formData.stages.delete(stageID);
-    }
-    _this.toggleFormDeleteAction();
-    data.save();
-  }
-
-  /**
-   * Return stage tabs
-   * @param {Object} stage details
-   * @return {Object} stage tabs
-   */
-  addStageTabListItem(stage) {
-    let _this = this;
-    let input = {
-      tag: 'input',
-      attrs: {
-        type: 'text',
-        id: 'title-for-' + stage.id,
-        value: stage.title,
-        className: 'form-control'
-      },
-      action: {
-        change: event => {
-          let element = event.target;
-          let newTitle = element.value;
-          let parent = closest(element, 'stage-tabs-wrapper');
-          let button = parent.querySelector('[id="for-' + stage.id + '"]');
-          button.innerText = newTitle;
-          data.updateStageTitle(stage.id, newTitle);
-        }
-      }
-    };
-    let controls = [{
-      tag: 'button',
-      attrs: {
-        type: 'button',
-        className: 'btn btn-primary prop-order prop-control',
-      },
-      content: _this.icon('move-vertical'),
-    }, {
-      tag: 'button',
-      attrs: {
-        type: 'button',
-        id: 'remove-stage-' + stage.id,
-        className: 'btn btn-danger prop-remove prop-control'
-      },
-      content: _this.icon('remove'),
-      action: {
-        click: event => {
-          _this.removeStage(event.target, stage.id);
-        }
-      }
-    }];
-    let tab = {
-      tag: 'li',
-      className: 'stage-tab-wrap prop-wrap control-count-2',
-      content: [{
-        tag: 'div',
-        className: 'prop-controls',
-        content: controls
-      }, {
-        tag: 'div',
-        className: 'prop-input',
-        content: [input]
-      }]
-    };
-    return tab;
-  }
-
-  /**
    * Repositioning tabbed panels when panel container's width change
    * @param {String} container class of form editor
    */
@@ -1069,105 +878,6 @@ class DOM {
       let parentStyles = container.parentElement.style;
       parentStyles.height = 'auto';
     }
-  }
-
-  /**
-   * Return stage tabs controls
-   * @return {Object} stage tabs
-   */
-  getStageTabList() {
-    let _this = this;
-    let tabs = {
-      tag: 'ul',
-      className: 'field-edit-group field-edit-tab',
-      content: []
-    };
-    formData.stages.forEach(function(stage) {
-      tabs.content.push(_this.addStageTabListItem(stage));
-    });
-    let tabActions = {
-      tag: 'div',
-      className: 'panel-action-buttons',
-      content: [{
-        tag: 'button',
-        attrs: {
-          type: 'button',
-          className: 'add-tab btn btn-primary'
-        },
-        content: getString('panelEditButtons.tabs'),
-        action: {
-          click: event => {
-            let stageID = data.addStage();
-            let element = event.target;
-            let tabListContainer = closest(element, 'panel-tab-list').querySelector('.field-edit-tab');
-            let formContainer = closest(element, 'form-container');
-            let stage = formContainer.querySelector('.stage-wrap.active').querySelector('.stage');
-            dom.activeStage = stage;
-            let tabsWrapper = closest(element, 'stage-tabs-wrapper');
-            let tabContainer = tabsWrapper.querySelector('.stage-tabs-preview');
-            stage = formData.stages.get(stageID);
-            let tabListItem = _this.addStageTabListItem(stage);
-            let tabItem = _this.addStageTabItem(stage);
-            tabListContainer.appendChild(dom.create(tabListItem));
-            tabContainer.appendChild(dom.create(tabItem));
-            _this.resizeTabContainer(event.target);
-            data.save();
-            _this.toggleFormDeleteAction();
-          }
-        }
-      }]
-    };
-    return [{
-      tag: 'div',
-      className: 'f-panel-wrap',
-      content: tabs
-    }, tabActions];
-  }
-
-  /**
-   * Reorder tab buttons
-   */
-  reorderTabButtons() {
-    let container = document.querySelector('.stage-tabs-wrapper');
-    let list = container.querySelector('.field-edit-group');
-    let buttons = container.querySelector('.stage-tabs-preview');
-    let button;
-    let sorted = [];
-    let stageid;
-    list.childNodes.forEach(stage => {
-      stage = stage.querySelector('input');
-      stageid = stage.id;
-      stageid = stageid.replace('title-', '');
-      button = buttons.querySelector('[id="' + stageid + '"]');
-      sorted.push(button);
-    });
-    sorted.forEach(button => {
-      buttons.appendChild(button);
-    });
-  }
-
-  /**
-   * Sorting of tabs
-   */
-  tabSorting() {
-    let container = document.querySelector('.stage-tabs-wrapper');
-    let list = container.querySelector('.field-edit-group');
-    Sortable.create(list, {
-      animation: 150,
-      group: {
-        name: 'stage-sort',
-        pull: true, put: true
-      },
-      sort: true,
-      draggable: '.stage-tab-wrap',
-      handle: '.prop-order',
-      ghostClass: 'sortable-ghost',
-      chosenClass: 'sortable-chosen',
-      dragClass: 'sortable-drag',
-      onSort: evt => {
-        data.saveStageOrder(list.childNodes);
-      }
-    });
   }
 
   /**
@@ -1449,124 +1159,6 @@ class DOM {
   }
 
   /**
-   * Returning the default configuration for steps
-   * @return {Object} stepConfiguration
-   */
-  getTabDefaultConfigs() {
-    let generalStepConfig = {
-      'class': {
-        title: getString('class'),
-        id: 'class',
-        type: 'text',
-        value: 'wfb-step'
-      },
-      'background-color': {
-        title: getString('backgroundcolor'),
-        id: 'background-color',
-        type: 'color',
-        value: '#838b8e'
-      },
-      // Removed extra settings
-      'border-color': {
-        title: getString('bordercolor'),
-        id: 'border-color',
-        type: 'color',
-        value: '#838b8e'
-      },
-      'color': {
-        title: getString('textcolor'),
-        id: 'color',
-        type: 'color',
-        value: '#ffffff' // Removed extra settings
-      }
-    };
-    let completeStepConfig = {
-      'class': {
-        title: getString('class'),
-        id: 'class',
-        type: 'text',
-        value: 'wfb-step completed'
-      },
-      'border-color': {
-        title: getString('bordercolor'),
-        id: 'border-color',
-        type: 'color',
-        value: '#46be8a'
-      },
-      'background-color': {
-        title: getString('backgroundcolor'),
-        id: 'background-color',
-        type: 'color',
-        value: '#46be8a'
-      },
-      'color': {
-        title: getString('textcolor'),
-        id: 'color',
-        type: 'color',
-        value: '#ffffff'
-      }
-    };
-    let activeStepConfig = {
-      'class': {
-        title: getString('class'),
-        id: 'class',
-        type: 'text',
-        value: 'wfb-step active'
-      },
-      'border-color': {
-        title: getString('bordercolor'),
-        id: 'border-color',
-        type: 'color',
-        value: '#62a8ea'
-      },
-      'background-color': {
-        title: getString('backgroundcolor'),
-        id: 'background-color',
-        type: 'color',
-        value: '#62a8ea'
-      },
-      'color': {
-        title: getString('textcolor'),
-        id: 'color',
-        type: 'color',
-        value: '#ffffff'
-      }
-    };
-    let dangerStepConfig = {
-      'class': {
-        title: getString('class'),
-        id: 'class',
-        type: 'text',
-        value: 'wfb-step danger'
-      },
-      'border-color': {
-        title: getString('bordercolor'),
-        id: 'border-color',
-        type: 'color',
-        value: '#d9534f'
-      },
-      'background-color': {
-        title: getString('backgroundcolor'),
-        id: 'background-color',
-        type: 'color',
-        value: '#d9534f'
-      },
-      'color': {
-        title: getString('textcolor'),
-        id: 'color',
-        type: 'color',
-        value: '#ffffff'
-      }
-    };
-    return {
-      default: generalStepConfig,
-      complete: completeStepConfig,
-      active: activeStepConfig,
-      danger: dangerStepConfig
-    };
-  }
-
-  /**
     * Create stage tab configuration category container
     * @param {String} category type stage tabs configuration
     * @param {Boolean} resize does container need to resized after toggling settings
@@ -1623,34 +1215,6 @@ class DOM {
   }
 
   /**
-    * Return stage tab configuration
-    * @return {Object} stage tabs configuration
-    */
-  getTabConfigs() {
-    let _this = this;
-    let tabConfig = _this.getTabDefaultConfigs();
-    let tabSettings = formData.settings.get('tabSettings');
-    let tabConfigElement = [];
-    for (let [category, group] of Object.entries(tabSettings)) {
-      let container = _this.getConfigContainer(category);
-      for (let [id, config] of Object.entries(group)) {
-        container.content[1].content.push(_this.getSettingItem(id, config, tabConfig[category][id], 'tabSettings', 'stage-config', category));
-      }
-      tabConfigElement.push(container);
-    }
-    return {
-      tag: 'div',
-      attrs: {
-        className: 'f-panel-wrap'
-      },
-      content: [{
-        tag: 'ul',
-        className: 'field-edit-group',
-        content: tabConfigElement
-      }]
-    };
-  }
-  /**
     * Return stage tab container
     * @return {Object} stage tabs wrapper
     */
@@ -1705,35 +1269,11 @@ class DOM {
           let stages = editor.querySelectorAll('.stage-wrap:not(.active)');
           stages.forEach(stage => {
             let stageRemoveButton = editor.querySelector('.prop-remove[id="remove-stage-' + stage.id + '"]');
-            dom.removeStage(stageRemoveButton, stage.id);
+            this.clearStep(evt);
           });
         }
       }
     };
-    let tabListPanel = {
-      tag: 'div',
-      config: {
-        label: 'Tab list'
-      },
-      attrs: {
-        className: 'f-panel panel-tab-list'
-      },
-      content: [_this.getStageTabList()]
-    };
-    let tabConfigPanel = {
-      tag: 'div',
-      config: {
-        label: 'Tab config'
-      },
-      attrs: {
-        className: 'f-panel panel-tab-config'
-      },
-      content: [_this.getTabConfigs()]
-    };
-    let tabPanels = new panels({
-      id: 'stage-tab-panel',
-      panels: [tabListPanel, tabConfigPanel]
-    });
     let stageControlWrap = {
       tag: 'div',
       className: 'stage-tabs-wrapper wfb-tabs-view',
@@ -1746,22 +1286,6 @@ class DOM {
           className: 'action-btn-wrap',
           content: [remove, edit]
         }]
-      }, {
-        tag: 'div',
-        className: 'stage-tabs-edit field-edit',
-        content: [{
-          tag: 'div',
-          attrs: {
-            className: 'tab-edit panels-wrap tabbed-panels',
-          },
-          content: tabPanels.content,
-          nav: tabPanels.nav,
-          action: tabPanels.action
-        }]
-      }, {
-        tag: 'ul',
-        className: 'stage-tabs-preview wfb-tabs',
-        content: [_this.getStageTabs()]
       }],
       action: {
         mouseenter: event => {
@@ -2331,206 +1855,6 @@ class DOM {
   }
 
   /**
-   * @param {Integer} next step
-   * @param {Integer} count Maximum number of steps
-   * @param {Object} classes
-   * @param {Boolean} valid is current step elements are valid or not
-   */
-  updateStageSteps(next, count, classes, valid = true) {
-    let steps =document.querySelectorAll('.efb-steps .' + classes.step);
-    for (let i = 0; i < next; i++) {
-      steps[i].className = classes.complete;
-    }
-    if (next < count) {
-      steps[next].className = valid ? classes.active : classes.danger;
-      for (let i = next + 1; i < count; i++) {
-        steps[i].className = classes.step;
-      }
-    }
-  }
-
-  /**
-   * @param {Event} event Cliking event of next and previous button
-   * @param {Dom} renderTarget rendering target dom element
-   * @param {Object} classes
-   * @param {Integer} action Eigther change to next stage or previous
-   */
-  changeStep(event, renderTarget, classes, action) {
-    let activeStage = document.getElementsByClassName('f-stage active')[0];
-    let stageDiv = renderTarget.getElementsByClassName('formeo-render')[0];
-    let stages = Array.prototype.slice.call(stageDiv.children);
-    let current = stages.indexOf(activeStage);
-    let next = current + action;
-    let count = stages.length;
-    let valid = false;
-    if (next >= 0 && next < count) {
-      valid = this.checkValidity(stages[current]);
-      if (next < current || valid) {
-        this.updateStageSteps(next, count, classes);
-        stages[next].classList.add('active');
-        stages[next].classList.remove('d-none');
-        stages[current].classList.remove('active');
-        stages[current].classList.add('d-none');
-        if (next > 0) {
-          document.getElementById('previous-step').classList.remove('d-none');
-        } else {
-          document.getElementById('previous-step').classList.add('d-none');
-        }
-        if (next < count - 1) {
-          document.getElementById('next-step').classList.remove('d-none');
-          document.getElementById('submit-form').classList.add('d-none');
-        } else {
-          document.getElementById('next-step').classList.add('d-none');
-          document.getElementById('submit-form').classList.remove('d-none');
-        }
-      } else if (!valid) {
-        this.updateStageSteps(current, count, classes, false);
-      }
-      event.preventDefault();
-    }
-    if (next == count) {
-      this.updateStageSteps(next, count, classes);
-    }
-  }
-
-  /**
-   * Return stage tabs
-   * @param {Object} stage object having stage details
-   * @param {string} stepClass
-   * @return {Object} stage tab
-   */
-  addStepItem(stage, stepClass) {
-    return {
-      tag: 'li',
-      attrs: {
-        id: 'for-' + stage.id,
-        className: stepClass
-      },
-      content: stage.title,
-    };
-  }
-
-  /**
-   * Return stage tabs
-   * @param {Object} classes
-   * @return {Object} stage tabs
-   */
-  getSteps(classes) {
-    let _this = this;
-    let steps = {
-      tag: 'ul',
-      attrs: {
-        className: 'efb-steps p-0'
-      },
-      content: []
-    };
-    formData.stages.forEach(function(stage) {
-      steps.content.push(_this.addStepItem(stage, classes.step));
-    });
-    steps.content[0].attrs.className = classes.active;
-    return steps;
-  }
-
-  /**
-   * extrastyle for tabs
-   * @param {String} type of step
-   * @param {String} composedClass
-   * @param {Object} obj
-   * @return {String} extra styles
-   */
-  getExtraStyles(type, composedClass, obj) {
-    let style = '';
-    // Applying background color as border color because arrow's start and end have only border
-    let backgroundColor = obj[type]['background-color'].value;
-    switch (type) {
-      case 'active':
-        style += '} ';
-        style += composedClass + ':before {';
-        style += 'border-color: ' + backgroundColor + ';';
-        style += 'border-left-color: transparent; }';
-        style += composedClass + ':after {';
-        style += 'border-left-color: ' + backgroundColor + '; ';
-        break;
-      case 'complete':
-        style += '} ';
-        style += composedClass + ':before {';
-        style += 'border-color: ' + backgroundColor + ';';
-        style += 'border-left-color: transparent; }';
-        style += composedClass + ':after { border-color: transparent;';
-        style += 'border-left-color: ' + backgroundColor + '; ';
-        break;
-      default:
-        style += 'border-width: 2px; display: inline-block; text-align: center; font-size: 1rem; font-weight: 300; line-height: 1.571429; padding: .429rem 1rem; margin: 1px; vertical-align: middle; position:relative; margin-left:25px;}';
-        style += composedClass + ':before { content: ""; position:absolute; left:-1.2rem; top:0px; border-width:1.21rem; border-style:solid; border-right-width:1px; ';
-        style += 'border-color:' + backgroundColor + ';';
-        style += ' border-left-color:transparent; }';
-        style += composedClass + ':after { content: ""; position: absolute; right: -2.39rem; top: 0px; border-width: 1.2rem; border-style: solid; border-color: transparent; ';
-        style += 'border-left-color: ' + backgroundColor + ';';
-        style += '}';
-        style += composedClass + ':first-child { border-top-left-radius: .215rem; border-bottom-left-radius: .215rem}';
-        style += composedClass + ':last-child { border-top-right-radius: .215rem; border-bottom-right-radius: .215rem}';
-        break;
-    }
-    return style;
-  }
-
-  /**
-   * returning the step classes for general|active|completed step
-   * @param {String} type of step
-   * @param {Object} obj
-   */
-  processStepClasses(type, obj) {
-    let _this = this;
-    let style = '';
-    let styles = document.getElementById('wfb-styles-for-' + type);
-    let classes = obj[type].class.value.trim();
-    classes = classes.split(' ');
-    let composedClass = '';
-    classes.forEach(function(singleClass) {
-      if (singleClass.trim() != '') {
-        composedClass += '.' + singleClass;
-      }
-    });
-    style += composedClass + ' {';
-    for (let [id, conf] of Object.entries(obj[type])) {
-      if (id == 'class') {
-        continue;
-      }
-      style += id + ': ' + conf.value + ';';
-    }
-    style += _this.getExtraStyles(type, composedClass, obj);
-    style += '}';
-    if (styles == null) {
-      let styles = {
-        tag: 'style',
-        attrs: {
-          id: 'wfb-styles-for-' + type
-        },
-        content: style
-      };
-      let body = document.getElementsByTagName('body');
-      body[0].append(_this.create(styles));
-      return;
-    }
-    styles.innerHTML = style;
-  }
-
-  /**
-   * returning the step classes for general|active|completed step
-   * @param {String} type of step
-   * @param {Object} obj1
-   * @param {Object} obj2
-   * @return {String} step class
-   */
-  getStepClass(type, obj1, obj2) {
-    let _this = this;
-    let defaultValue = obj1[type].class.value;
-    let newValue = obj2[type].class.value;
-    _this.processStepClasses(type, obj2); // Processing class every time to override own styles
-    return defaultValue == newValue ? defaultValue : newValue;
-  }
-
-  /**
    * Returning object of form submit button
    * @param {String} extraClass for submit button
    * @return {Object} submit button object
@@ -2565,90 +1889,6 @@ class DOM {
     let position = formSettings.submit['position'].value;
     position = position ? position : 'center';
     return 'text-' + position;
-  }
-
-  /**
-   * @param {Object} stages json object containing stages configuration
-   * @param {Dom} renderTarget dom element to indentify rendering target
-   * @return {Object} json object for creating navigation
-   */
-  prepareStageNavigation(stages, renderTarget) {
-    let _this = this;
-    if (formData.stages.size < 2) {
-      return null;
-    }
-    let defaultConfig = _this.getTabDefaultConfigs();
-    let tabSettings = formData.settings.get('tabSettings');
-    if (typeof tabSettings == 'undefined') {
-      tabSettings = defaultConfig;
-    }
-    let classes = {
-      step: _this.getStepClass('default', defaultConfig, tabSettings),
-      active: _this.getStepClass('active', defaultConfig, tabSettings),
-      complete: _this.getStepClass('complete', defaultConfig, tabSettings),
-      danger: _this.getStepClass('danger', defaultConfig, tabSettings)
-    };
-    let navigation = {
-      tag: 'div',
-      attrs: {
-        className: ['form-submit', 'step-navigation', this.getSubmitButtonPosition()]
-      },
-      content: [{
-        tag: 'button',
-        attrs: {
-          id: 'previous-step',
-          className: 'btn btn-secondary d-none',
-          type: 'button'
-        },
-        action: {
-          click: evt => {
-            _this.changeStep(evt, renderTarget, classes, -1);
-            return;
-          }
-        },
-        content: getString('efb-btn-previous')
-      }, _this.getFormSubmitButton(' ml-2 d-none'), {
-        tag: 'button',
-        attrs: {
-          id: 'next-step',
-          className: 'btn btn-primary ml-2',
-          type: 'button'
-        },
-        action: {
-          click: evt => {
-            _this.changeStep(evt, renderTarget, classes, 1);
-            return;
-          }
-        },
-        content: getString('efb-btn-next')
-      }]
-    };
-    let stageNavigation = {
-      navigation: navigation,
-      steps: _this.getSteps(classes)
-    };
-    return stageNavigation;
-  }
-
-  /**
-   * Creating designer container for the tab view
-   * @param {Object} item droped item
-   */
-  createTabContainer(item) {
-    let _this = this;
-    data.addStage();
-    let formWrapper = this.container.querySelector('.form-container');
-    dom.activeStage = formWrapper.querySelector('.stage-wrap.active').querySelector('.stage');
-    let stageTabControl = dom.getStageControl();
-    let stageTabs = dom.create(stageTabControl);
-    formWrapper.prepend(stageTabs);
-    dom.remove(item);
-    let tabControl = document.querySelector('.layout-tab-control');
-    if (tabControl) {
-      hideControl('layout-tab-control');
-    }
-    dom.tabSorting();
-    _this.toggleFormDeleteAction();
   }
 
   /**
@@ -3026,7 +2266,6 @@ class DOM {
     this.renderTarget = renderTarget;
     let renderData = data.prepData;
     let renderCount = document.getElementsByClassName('formeo-render').length;
-    let stageNavigation = this.prepareStageNavigation(renderData.stages, renderTarget);
     let first = true;
     let content = Object.values(renderData.stages).map(stageData => {
       let {rows, ...stage} = stageData;
@@ -3121,17 +2360,11 @@ class DOM {
     };
 
     renderTarget.appendChild(this.create(config));
-    if (stageNavigation != null) {
-      renderTarget.append(this.create(stageNavigation.navigation));
-      renderTarget.prepend(this.create(stageNavigation.steps));
-    } else {
-      let stageNavigation = {
-        tag: 'div',
-        className: ['form-submit', this.getSubmitButtonPosition()],
-        content: [dom.getFormSubmitButton()]
-      };
-      renderTarget.append(this.create(stageNavigation));
-    }
+    renderTarget.append(this.create({
+      tag: 'div',
+      className: ['form-submit', this.getSubmitButtonPosition()],
+      content: [dom.getFormSubmitButton()]
+    }));
     dom.applyConditions(formData.rows);
     dom.processFormSettings(renderTarget);
   }
@@ -3143,27 +2376,6 @@ class DOM {
   clearStep(evt) {
     this.clearStage(dom.activeStage);
     // this.stages.forEach(dStage => this.clearStage(dStage.stage));
-  }
-
-  /**
-   * Clears the editor
-   * @param  {Object} evt
-   */
-  clearAllSteps(evt) {
-    this.stages.forEach(dStage => this.clearStage(dStage.stage));
-  }
-  /**
-   * Clears the editor
-   * @param  {Object} evt
-   */
-  clearForm(evt) {
-    dom.clearStep(evt);
-    let editor = document.getElementById('efb-cont-form-builder');
-    let stages = editor.querySelectorAll('.stage-wrap:not(.active)');
-    stages.forEach(stage => {
-      let stageRemoveButton = editor.querySelector('.prop-remove[id="remove-stage-' + stage.id + '"]');
-      dom.removeStage(stageRemoveButton, stage.id);
-    });
   }
 
   /**

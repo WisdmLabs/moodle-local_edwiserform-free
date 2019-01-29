@@ -745,302 +745,6 @@ class DOM {
   }
 
   /**
-   * @param {Integer} next step
-   * @param {Integer} count Maximum number of steps
-   * @param {Object} classes
-   * @param {Boolean} valid is current step elements are valid or not
-   */
-  updateStageSteps(next, count, classes, valid = true) {
-    let steps =document.querySelectorAll('.wfb-steps .' + classes.step);
-    for (let i = 0; i < next; i++) {
-      steps[i].className = classes.complete;
-    }
-    if (next < count) {
-      steps[next].className = valid ? classes.active : classes.danger;
-      for (let i = next + 1; i < count; i++) {
-        steps[i].className = classes.step;
-      }
-    }
-  }
-
-  /**
-   * @param {Event} event Cliking event of next and previous button
-   * @param {Dom} renderTarget rendering target dom element
-   * @param {Object} classes
-   * @param {Integer} action Eigther change to next stage or previous
-   */
-  changeStep(event, renderTarget, classes, action) {
-    let activeStage = document.getElementsByClassName('f-stage active')[0];
-    let stageDiv = renderTarget.getElementsByClassName('formeo-render')[0];
-    let stages = Array.prototype.slice.call(stageDiv.children);
-    let current = stages.indexOf(activeStage);
-    let next = current + action;
-    let count = stages.length;
-    let valid = false;
-    if (next >= 0 && next < count) {
-      valid = this.checkValidity(stages[current]);
-      if (next < current || valid) {
-        this.updateStageSteps(next, count, classes);
-        stages[next].classList.add('active');
-        stages[next].classList.remove('d-none');
-        stages[current].classList.remove('active');
-        stages[current].classList.add('d-none');
-        if (next > 0) {
-          document.getElementById('previous-step').classList.remove('d-none');
-        } else {
-          document.getElementById('previous-step').classList.add('d-none');
-        }
-        if (next < count - 1) {
-          document.getElementById('next-step').classList.remove('d-none');
-          document.getElementById('submit-form').classList.add('d-none');
-        } else {
-          document.getElementById('next-step').classList.add('d-none');
-          document.getElementById('submit-form').classList.remove('d-none');
-        }
-      } else if (!valid) {
-        this.updateStageSteps(current, count, classes, false);
-      }
-      event.preventDefault();
-    }
-    if (next == count) {
-      this.updateStageSteps(next, count, classes);
-    }
-  }
-
-  /**
-   * Returning the default configuration for steps
-   * @return {Object} stepConfiguration
-   */
-  getTabDefaultConfigs() {
-    let generalStepConfig = {
-      'class': {
-        title: getString('class'),
-        id: 'class',
-        type: 'text',
-        value: 'wfb-step'
-      },
-      'background-color': {
-        title: getString('backgroundcolor'),
-        id: 'background-color',
-        type: 'color',
-        value: '#838b8e'
-      },
-      'border-color': {
-        title: getString('bordercolor'),
-        id: 'border-color',
-        type: 'color',
-        value: '#838b8e'
-      },
-      'color': {
-        title: getString('textcolor'),
-        id: 'color',
-        type: 'color',
-        value: '#ffffff' // Removed extra settings
-      }
-    };
-    let completeStepConfig = {
-      'class': {
-        title: getString('class'),
-        id: 'class',
-        type: 'text',
-        value: 'wfb-step completed'
-      },
-      'border-color': {
-        title: getString('bordercolor'),
-        id: 'border-color',
-        type: 'color',
-        value: '#46be8a'
-      },
-      'background-color': {
-        title: getString('backgroundcolor'),
-        id: 'background-color',
-        type: 'color',
-        value: '#46be8a'
-      },
-      'color': {
-        title: getString('textcolor'),
-        id: 'color',
-        type: 'color',
-        value: '#ffffff'
-      }
-    };
-    let activeStepConfig = {
-      'class': {
-        title: getString('class'),
-        id: 'class',
-        type: 'text',
-        value: 'wfb-step active'
-      },
-      'border-color': {
-        title: getString('bordercolor'),
-        id: 'border-color',
-        type: 'color',
-        value: '#62a8ea'
-      },
-      'background-color': {
-        title: getString('backgroundcolor'),
-        id: 'background-color',
-        type: 'color',
-        value: '#62a8ea'
-      },
-      'color': {
-        title: getString('textcolor'),
-        id: 'color',
-        type: 'color',
-        value: '#ffffff'
-      }
-    };
-    let dangerStepConfig = {
-      'class': {
-        title: getString('class'),
-        id: 'class',
-        type: 'text',
-        value: 'wfb-step danger'
-      },
-      'border-color': {
-        title: getString('bordercolor'),
-        id: 'border-color',
-        type: 'color',
-        value: '#d9534f'
-      },
-      'background-color': {
-        title: getString('backgroundcolor'),
-        id: 'background-color',
-        type: 'color',
-        value: '#d9534f'
-      },
-      'color': {
-        title: getString('textcolor'),
-        id: 'color',
-        type: 'color',
-        value: '#ffffff'
-      }
-    };
-    return {
-      default: generalStepConfig,
-      complete: completeStepConfig,
-      active: activeStepConfig,
-      danger: dangerStepConfig
-    };
-  }
-
-  /**
-   * extrastyle for tabs
-   * @param {String} type of step
-   * @param {String} composedClass
-   * @param {Object} obj
-   * @return {String} extra styles
-   */
-  getExtraStyles(type, composedClass, obj) {
-    let style = '';
-    // Applying background color as border color because arrow's start and end have only border
-    let backgroundColor = obj[type]['background-color'].value;
-    switch (type) {
-      case 'active':
-        style += '} ';
-        style += composedClass + ':before {';
-        style += 'border-color: ' + backgroundColor + ';';
-        style += 'border-left-color: transparent; }';
-        style += composedClass + ':after {';
-        style += 'border-left-color: ' + backgroundColor + '; ';
-        break;
-      case 'complete':
-        style += '} ';
-        style += composedClass + ':before {';
-        style += 'border-color: ' + backgroundColor + ';';
-        style += 'border-left-color: transparent; }';
-        style += composedClass + ':after { border-color: transparent;';
-        style += 'border-left-color: ' + backgroundColor + '; ';
-        break;
-      default:
-        style += 'border-width: 2px; display: inline-block; text-align: center; font-size: 1rem; font-weight: 300; line-height: 1.571429; padding: .429rem 1rem; margin: 1px; vertical-align: middle; position:relative; margin-left:25px;}';
-        style += composedClass + ':before { content: ""; position:absolute; left:-1.2rem; top:0px; border-width:1.21rem; border-style:solid; border-right-width:1px; ';
-        style += 'border-color:' + backgroundColor + ';';
-        style += ' border-left-color:transparent; }';
-        style += composedClass + ':after { content: ""; position: absolute; right: -2.39rem; top: 0px; border-width: 1.2rem; border-style: solid; border-color: transparent; ';
-        style += 'border-left-color: ' + backgroundColor + ';';
-        style += '}';
-        style += composedClass + ':first-child { border-top-left-radius: .215rem; border-bottom-left-radius: .215rem}';
-        style += composedClass + ':last-child { border-top-right-radius: .215rem; border-bottom-right-radius: .215rem}';
-        break;
-    }
-    return style;
-  }
-
-  /**
-   * returning the step classes for general|active|completed step
-   * @param {String} type of step
-   * @param {Object} obj
-   */
-  processStepClasses(type, obj) {
-    let _this = this;
-    let style = '';
-    let styles = document.getElementById('wfb-styles-for-' + type);
-    let classes = obj[type].class.value.trim();
-    classes = classes.split(' ');
-    let composedClass = '';
-    classes.forEach(function(singleClass) {
-      if (singleClass.trim() != '') {
-        composedClass += '.' + singleClass;
-      }
-    });
-    style += composedClass + ' {';
-    for (let [id, conf] of Object.entries(obj[type])) {
-      if (id == 'class') {
-        continue;
-      }
-      style += id + ': ' + conf.value + ';';
-    }
-    style += _this.getExtraStyles(type, composedClass, obj);
-    style += '}';
-    if (styles == null) {
-      let styles = {
-        tag: 'style',
-        attrs: {
-          id: 'wfb-styles-for-' + type
-        },
-        content: style
-      };
-      let body = document.getElementsByTagName('body');
-      body[0].append(_this.create(styles));
-      return;
-    }
-    styles.innerHTML = style;
-  }
-
-  /**
-   * returning the step classes for general|active|completed step
-   * @param {String} type of step
-   * @param {Object} obj1
-   * @param {Object} obj2
-   * @return {String} step class
-   */
-  getStepClass(type, obj1, obj2) {
-    let _this = this;
-    let defaultValue = obj1[type].class.value;
-    let newValue = obj2[type].class.value;
-    _this.processStepClasses(type, obj2);
-    return defaultValue == newValue ? defaultValue : newValue;
-  }
-
-  /**
-   * Return stage tabs
-   * @param {Object} stage object having stage details
-   * @param {string} stepClass
-   * @return {Object} stage tab
-   */
-  addStepItem(stage, stepClass) {
-    return {
-      tag: 'li',
-      attrs: {
-        id: 'for-' + stage.id,
-        className: stepClass
-      },
-      content: stage.title,
-    };
-  }
-
-  /**
    * Return form settings with selected language packs
    * @return {Object} formSettings with replaced labels
    */
@@ -1049,26 +753,6 @@ class DOM {
     return typeof formSettings != 'undefined' ? formSettings : this.getFormDefaultSettings();
   }
 
-  /**
-   * Return stage tabs
-   * @param {Object} classes
-   * @return {Object} stage tabs
-   */
-  getSteps(classes) {
-    let _this = this;
-    let steps = {
-      tag: 'ul',
-      attrs: {
-        className: 'wfb-steps'
-      },
-      content: []
-    };
-    formData.stages.forEach(function(stage) {
-      steps.content.push(_this.addStepItem(stage, classes.step));
-    });
-    steps.content[0].attrs.className = classes.active;
-    return steps;
-  }
 
   /**
    * Returning object of form submit button
@@ -1104,67 +788,6 @@ class DOM {
     let position = formSettings.submit['position'].value;
     position = position ? position : 'center';
     return 'text-' + position;
-  }
-
-  /**
-   * @param {Object} stages json object containing stages configuration
-   * @param {Dom} renderTarget dom element to indentify rendering target
-   * @return {Object} json object for creating navigation
-   */
-  prepareStageNavigation(stages, renderTarget) {
-    let _this = this;
-    if (formData.stages.size < 2) {// Returning null is stages count is less than 2
-      return null;
-    }
-    let defaultConfig = _this.getTabDefaultConfigs();
-    let tabSettings = formData.settings.get('tabSettings');
-    let mergedConfig = h.merge(defaultConfig, tabSettings);
-    let classes = {
-      step: _this.getStepClass('default', defaultConfig, mergedConfig),
-      active: _this.getStepClass('active', defaultConfig, mergedConfig),
-      complete: _this.getStepClass('complete', defaultConfig, mergedConfig),
-      danger: _this.getStepClass('danger', defaultConfig, mergedConfig)
-    };
-    let navigation = {
-      tag: 'div',
-      attrs: {
-        className: ['form-submit', 'step-navigation', this.getSubmitButtonPosition()]
-      },
-      content: [{
-        tag: 'button',
-        attrs: {
-          id: 'previous-step',
-          className: 'btn btn-secondary d-none',
-          type: 'button'
-        },
-        action: {
-          click: evt => {
-            _this.changeStep(evt, renderTarget, classes, -1);
-            return;
-          }
-        },
-        content: 'Previous'
-      }, _this.getFormSubmitButton(' ml-2 d-none'), {
-        tag: 'button',
-        attrs: {
-          id: 'next-step',
-          className: 'btn btn-primary ml-2',
-          type: 'button'
-        },
-        action: {
-          click: evt => {
-            _this.changeStep(evt, renderTarget, classes, 1);
-            return;
-          }
-        },
-        content: 'Next'
-      }]
-    };
-    let stageNavigation = {
-      navigation: navigation,
-      steps: _this.getSteps(classes)
-    };
-    return stageNavigation;
   }
 
   /**
@@ -1544,7 +1167,6 @@ class DOM {
     this.empty(renderTarget);
     let renderData = data.prepData;
     let renderCount = document.getElementsByClassName('formeo-render').length;
-    let stageNavigation = this.prepareStageNavigation(renderData.stages, renderTarget);
     let first = true;
     let content = Object.values(renderData.stages).map(stageData => {
       let {rows, ...stage} = stageData;
@@ -1639,21 +1261,15 @@ class DOM {
     };
 
     renderTarget.appendChild(this.create(config));
-    if (stageNavigation != null) {
-      renderTarget.append(this.create(stageNavigation.navigation));
-      renderTarget.prepend(this.create(stageNavigation.steps));
-    } else {
-      let navigation = {
-        tag: 'div',
-        attrs: {
-          className: ['form-submit', this.getSubmitButtonPosition()],
-        },
-        content: [dom.getFormSubmitButton()]
-      };
-      renderTarget.append(this.create(navigation));
-      dom.applyConditions(formData.rows);
-      dom.processFormSettings(renderTarget);
-    }
+    renderTarget.append(this.create({
+      tag: 'div',
+      attrs: {
+        className: ['form-submit', this.getSubmitButtonPosition()],
+      },
+      content: [dom.getFormSubmitButton()]
+    }));
+    dom.applyConditions(formData.rows);
+    dom.processFormSettings(renderTarget);
   }
 
   /**

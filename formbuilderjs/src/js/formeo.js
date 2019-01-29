@@ -258,11 +258,6 @@ class Formeo {
     let _this = this;
     let controls = formeo.controls.element;
     let content = [];
-    let hideTabControl = false;
-    if (formData.stages.size > 1) {
-      hideTabControl = true;
-      content.push(dom.getStageControl());
-    }
     content.push(_this.stages);
     let elemConfig = {
       tag: 'div',
@@ -296,12 +291,6 @@ class Formeo {
         formeo: formeo
       }
     });
-    if (formData.stages.size > 1) {
-      dom.tabSorting();
-    }
-    if (hideTabControl) {
-      hideControl('layout-tab-control');
-    }
     document.dispatchEvent(events.formeoLoaded);
     dom.toggleFormDeleteAction();
     dom.checkSingle();

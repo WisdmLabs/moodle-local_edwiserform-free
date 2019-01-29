@@ -64,21 +64,6 @@ let data = {
     formData = newData;
   },
 
-  saveStageOrder: stages => {
-    let stageOrder = {};
-    let stageid;
-    stages.forEach(stage => {
-      stage = stage.querySelector('input');
-      stageid = stage.id;
-      stageid = stageid.replace('title-for-', '');
-      stageOrder[stageid] = formData.stages.get(stageid);
-    });
-    stageOrder = objToStrMap(stageOrder);
-    formData.stages = stageOrder;
-    dom.reorderTabButtons();
-    data.save();
-  },
-
 
   saveColumnOrder: row => {
     let columns = row.getElementsByClassName('stage-columns');
