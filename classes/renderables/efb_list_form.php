@@ -63,7 +63,14 @@ class efb_list_form implements renderable, templatable {
         global $DB, $USER;
         $rows = array();
 
-        $colarray = array("0" => "title", "1" => "type", "3" => "author", "4" => "created", "5" => "author2", "6" => "modified");
+        $colarray = array(
+            "0" => "title",
+            "1" => "type",
+            "3" => "author",
+            "4" => "created",
+            "5" => "author2",
+            "6" => "modified"
+        );
         $searchquery = " ";
         $orderbyquery = " ";
         if ($searchtext) {
@@ -73,12 +80,14 @@ class efb_list_form implements renderable, templatable {
             $orderbyquery = " ORDER BY ".$colarray[$sortcolumn]. " ".$sortdir . " ";
         }
 
-        $stmt = "SELECT id, title, author, author2, type, enabled, deleted, created, modified FROM {efb_forms} WHERE" . $searchquery . "deleted = '0'" . $orderbyquery . $limit;
+        $stmt = "SELECT id, title, author, author2, type, enabled, deleted, created, modified
+                   FROM {efb_forms} WHERE" . $searchquery . "deleted = '0'";
         $param = [];
         if (!is_siteadmin()) {
-            $stmt .= " author=?";
-            $param[] = $USER->id;
+            $stmt .= " and author=? ";
+            $param[] = can_create_or_view_form() ? $USER->id : 0;
         }
+        $stmt .= $orderbyquery . $limit;
         $records = $DB->get_records_sql($stmt, $param);
         foreach ($records as $record) {
             $data = array(
@@ -96,114 +105,148 @@ class efb_list_form implements renderable, templatable {
         return $rows;
     }
 
-
-    private function get_form_actions($form) {
-        global $DB, $CFG;
-        $edit = array(
-            "icon" => "icon fa fa-edit fa-fw text-primary",
-            "title" => get_string("efb-form-action-edit-title", "local_edwiserform"),
-            "attrs" => array(
-                ["key" => "class", "value" => "efb-form-edit"],
-                ["key" => "target", "value" => "_blank"],
-                ["key" => "href", "value" => new moodle_url("/local/edwiserform/view.php", array("page" => "newform", "formid" => $form->id))]
-            )
-        );
-        $preview = array(
-            "icon" => "icon fa fa-eye fa-fw text-primary",
-            "title" => get_string("efb-form-action-preview-title", "local_edwiserform"),
-            "attrs" => array(
-                ["key" => "class", "value" => "efb-form-preview"],
-                ["key" => "target", "value" => "_blank"],
-                ["key" => "href", "value" => new moodle_url("/local/edwiserform/preview.php", array("id" => $form->id))]
-            )
-        );
-        $export = array(
-            "icon" => "icon fa fa-share-square-o fa-fw text-primary",
-            "title" => get_string("efb-form-action-export-title", "local_edwiserform"),
-            "attrs" => array(
-                ["key" => "class", "value" => "efb-form-export"],
-                ["key" => "target", "value" => "_blank"],
-                ["key" => "href", "value" => new moodle_url("/local/edwiserform/export.php", array("id" => $form->id))]
-            )
-        );
-        $delete = array(
-            "icon" => "icon fa fa-trash fa-fw text-primary",
-            "title" => get_string("efb-form-action-delete-title", "local_edwiserform"),
-            "attrs" => array(
-                ["key" => "class", "value" => "efb-form-delete"],
-                ["key" => "target", "value" => "_blank"],
-                ["key" => "href", "value" => "#"],
-                ["key" => "data-formid", "value" => $form->id]
-            )
-        );
-        $viewdata = array(
-            "icon" => "icon fa fa-table fa-fw text-primary",
-            "title" => get_string("efb-form-action-view-data-title", "local_edwiserform"),
-            "attrs" => array(
-                ["key" => "class", "value" => "efb-form-view-data"],
-                ["key" => "target", "value" => "_blank"],
-                ["key" => "href", "value" => new moodle_url("/local/edwiserform/view.php", array("page" => "viewdata", "formid" => $form->id))]
-            )
-        );
-        $enabled = $form->type == "login" ? get_config("core", "alternateloginurl") : $form->enabled;
-        $enabledisable = "";
+    /**
+     * Get html string form action Enable-Disable
+     *
+     * @param int  $id      form id
+     * @param bool $enabled does form is enabled or disabled
+     *
+     * @return string html format string containing enable-disable action
+     * @since  Edwiser Form 1.2.0
+     */
+    private function get_enable_disable_button($id, $enabled) {
+        $html = "";
         $enabletitle = get_string('efb-form-action-enable-title', 'local_edwiserform');
         $disabletitle = get_string('efb-form-action-disable-title', 'local_edwiserform');
-        $enabledisable .= html_writer::start_tag('label', array('class' => 'efb-switch', 'title' => $enabled ? $disabletitle : $enabletitle));
-        $enabledisable .= html_writer::checkbox(
+        $html .= html_writer::start_tag('label', array('class' => 'efb-switch', 'title' => $enabled ? $disabletitle : $enabletitle));
+        $html .= html_writer::checkbox(
             'efb-switch-input',
             '',
             $enabled,
             '',
-            array('data-formid' => $form->id, 'data-enable-title' => $enabletitle, 'data-disable-title' => $disabletitle)
+            array('data-formid' => $id, 'data-enable-title' => $enabletitle, 'data-disable-title' => $disabletitle)
         );
-        $enabledisable .= html_writer::start_tag('div', array('class' => 'switch-container efb-enable-disable-form'));
-        $enabledisable .= html_writer::tag('div', '', array('class' => 'switch-background bg-success'));
-        $enabledisable .= html_writer::tag('div', '', array('class' => 'switch-lever bg-success'));
-        $enabledisable .= html_writer::end_tag('div');
-        $enabledisable .= html_writer::end_tag('label');
-        $actions["html"] = $enabledisable;
-        if ($form->type == 'blank') {
-            $actions[] = $viewdata;
-        } else {
-            $plugin = get_plugin($form->type);
-            if ($plugin->can_save_data()) {
-                $actions[] = $viewdata;
-            }
-        }
-        switch ($form->type) {
-            case "blank":
-            case "contact":
-            case "enrolment";
-        }
-        $actions["preview"] = $preview;
-        $actions["edit"] = $edit;
-        $actions["export"] = $export;
-        $actions["delete"] = $delete;
+        $html .= html_writer::start_tag('div', array('class' => 'switch-container efb-enable-disable-form'));
+        $html .= html_writer::tag('div', '', array('class' => 'switch-background bg-success'));
+        $html .= html_writer::tag('div', '', array('class' => 'switch-lever bg-success'));
+        $html .= html_writer::end_tag('div');
+        $html .= html_writer::end_tag('label');
+        return $html;
+    }
 
-        $html = " ";
 
-        foreach ($actions as $actionkey => $actionvalue) {
-            if ($actionkey === "html") {
-                $html .= $actionvalue;
-            } else {
-                $html .= '<a ';
-                foreach ($actionvalue["attrs"] as $key => $value) {
-                    $html .= $value["key"].'="'.$value["value"].'"';
-                }
-                $html .= '>
-                            <i class="'.$actionvalue["icon"].'" aria-hidden="true" title="'.$actionvalue["title"].'"  aria-label="'. "aaaa".'">
-                            </i>
-                        </a>';
+    /**
+     * Get html string for form actions like Enable-Disable, View data, Preview form, Edit form,
+     * Export form definition delete form
+     *
+     * @param stdClass $form form object with settings
+     *
+     * @return string html format string containing actions
+     * @since  Edwiser Form 1.2.0
+     */
+    private function get_form_actions($form) {
+        global $DB, $CFG;
+
+        // Enable disable form toggle
+        $actions[] = $this->get_enable_disable_button($form->id, $form->enabled);
+
+        // View form data link
+        $actions[] = array(
+            "icon" => "icon fa fa-table fa-fw text-primary",
+            "title" => get_string("efb-form-action-view-data-title", "local_edwiserform"),
+            "attrs" => array(
+                "class" => "efb-form-view-data",
+                "target" => "_blank",
+                "href" => new moodle_url("/local/edwiserform/view.php", array("page" => "viewdata", "formid" => $form->id))
+            )
+        );
+
+        // Form live demo link
+        $actions[] = array(
+            "icon" => "icon fa fa-file-text-o fa-fw text-primary",
+            "title" => get_string("efb-form-action-live-demo-title", "local_edwiserform"),
+            "attrs" => array(
+                "class" => "efb-form-live-demo",
+                "target" => "_blank",
+                "href" => new moodle_url("/local/edwiserform/form.php", array("id" => $form->id))
+            )
+        );
+
+        // Preview form link
+        $actions[] = array(
+            "icon" => "icon fa fa-eye fa-fw text-primary",
+            "title" => get_string("efb-form-action-preview-title", "local_edwiserform"),
+            "attrs" => array(
+                "class" => "efb-form-preview",
+                "target" => "_blank",
+                "href" => new moodle_url("/local/edwiserform/preview.php", array("id" => $form->id))
+            )
+        );
+
+        // Edit form link
+        $actions[] = array(
+            "icon" => "icon fa fa-edit fa-fw text-primary",
+            "title" => get_string("efb-form-action-edit-title", "local_edwiserform"),
+            "attrs" => array(
+                "class" => "efb-form-edit",
+                "target" => "_blank",
+                "href" => new moodle_url("/local/edwiserform/view.php", array("page" => "newform", "formid" => $form->id))
+            )
+        );
+
+        // Export form definition link
+        $actions[] = array(
+            "icon" => "icon fa fa-share-square-o fa-fw text-primary",
+            "title" => get_string("efb-form-action-export-title", "local_edwiserform"),
+            "attrs" => array(
+                "class" => "efb-form-export",
+                "target" => "_blank",
+            )
+        );
+
+        // Delete form link
+        $actions[] = array(
+            "icon" => "icon fa fa-trash fa-fw text-primary",
+            "title" => get_string("efb-form-action-delete-title", "local_edwiserform"),
+            "attrs" => array(
+                "class" => "efb-form-delete",
+                "target" => "_blank",
+                "href" => "#",
+                "data-formid" => $form->id
+            )
+        );
+
+        $html = "";
+        foreach ($actions as $action) {
+            if (is_string($action)) {
+                $html .= $action;
+                continue;
             }
+            $icon = html_writer::tag(
+                'i',
+                '',
+                array(
+                    'class' => $action['icon'],
+                    'aria-hidden' => 'true',
+                    'title' => $action['title']
+                )
+            );
+            $html .= html_writer::tag('a', $icon, $action['attrs']);
         }
         return $html;
     }
 
+    /**
+     * Return name of user
+     *
+     * @param  integer $userid id of user
+     * @return string name of user by concatenation of firstname and last name
+     * @since  Edwiser Form 1.1.0
+     */
     private function get_user_name($userid) {
         global $DB;
-        $user = $DB->get_record("user", array("id" => $userid), "username");
-        return \ucfirst($user->username);
+        $user = $DB->get_record("user", array("id" => $userid));
+        return $user->firstname . ' ' . $user->lastname;
     }
 
 }
