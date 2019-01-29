@@ -25,6 +25,7 @@ define("EDWISERFORM_COMPONENT", "local_edwiserform");
 define("EDWISERFORM_FILEAREA", "successmessage");
 define("UNAUTHORISED_USER", 1);
 define("ADMIN_PERMISSION", 2);
+define("PRO_URL", "https://edwiser.org/forms/edwiser-forms-pricing");
 
 function getarrayval($array, $key, $value="") {
     if (isset($array[$key]) && !empty($array[$key])) {

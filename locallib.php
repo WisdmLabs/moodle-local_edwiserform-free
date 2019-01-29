@@ -120,7 +120,7 @@ class edwiserform {
                 if (trim($sitekey) == '') {
                     $sitekey = 'null';
                 }
-                $PAGE->requires->js_call_amd('local_edwiserform/new_form_main', 'init', array($sitekey));
+                $PAGE->requires->js_call_amd('local_edwiserform/new_form_main', 'init', array($sitekey, PRO_URL));
                 $PAGE->requires->data_for_js('sitekey', $sitekey);
                 $formid = optional_param('formid', null, PARAM_FLOAT);
                 $out = $this->get_renderer()->render(new efb_add_new_form($formid));

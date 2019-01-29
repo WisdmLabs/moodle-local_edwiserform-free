@@ -2729,7 +2729,7 @@ class DOM {
         title: getString('upgrade'),
         type: 'efb-form-upgrade',
         action: function() {
-          window.open('https://edwiser.org/edwiser-forms-pricing/?utm_source=inproduct&utm_medium=edwiserformsfree&utm_campaign=oct&utm_content=15');
+          window.open(this.prourl);
         }
       }, {
         title: getString('later'),

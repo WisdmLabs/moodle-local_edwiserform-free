@@ -5,7 +5,7 @@
  */
 define(['jquery', 'core/ajax', 'local_edwiserform/efb_form_basic_settings', 'local_edwiserform/formbuilder'], function ($, ajax) {
     return {
-        init: function(sitekey) {
+        init: function(sitekey, prourl) {
             $(document).ready(function (e) {
                 function can_save_form() {
                     var status = check_template() && check_title(false) && !empty_form_definition();
@@ -22,7 +22,7 @@ define(['jquery', 'core/ajax', 'local_edwiserform/efb_form_basic_settings', 'loc
                 let formeoOpts = {
                     container: container,
                     sitekey: sitekey,
-                    prourl: 'https://edwiser.org/edwiser-forms-pricing/',
+                    prourl: prourl,
                     svgSprite: M.cfg.wwwroot + '/local/edwiserform/pix/formeo-sprite.svg',
                     localStorage: false,
                 };
