@@ -195,7 +195,7 @@ class edwiserform_events_plugin {
     public function has_field($formdata, $fieldname) {
         if (!is_null($formdata)) {
             foreach ($formdata as $field) {
-                if ((is_object($field) && $field->name == $field) || (is_array($field) && $field['name'] == $field)) {
+                if ((is_object($field) && $field->name == $fieldname) || (is_array($field) && $field['name'] == $fieldname)) {
                     return true;
                 }
             }
