@@ -101,28 +101,56 @@ function edwiserform_send_email($from, $to, $subject, $messagehtml) {
     return email_to_user($toemail, $fromemail, $subject, $messagetext, $messagehtml, '', '', true, $fromemail->email);
 }
 
-function can_create_or_view_form($userid = false) {
+/**
+ * Check whether user can create, view form list or form data.
+ *
+ * @param  integer $userid id of user
+ * @param  boolean $return true if return wheather user can create form
+ * @return boolean
+ * @since Edwiser Form 1.0.0
+ */
+function can_create_or_view_form($userid = false, $return = false) {
     global $USER, $DB;
     if (!$userid) {
         $userid = $USER->id;
     }
+    // User is not logged in so not allowed
     if (!$userid) {
+        if ($return) {
+            return false;
+        }
         throw new moodle_exception('efb-cannot-create-form', 'local_edwiserform', new moodle_url('/my/'));
     }
+
+    // User is site admin so allowed
     if (is_siteadmin($userid)) {
-        return;
+        return true;
     }
     $sql = "SELECT count(ra.id) teacher FROM {role_assignments} ra
               JOIN {role} r ON ra.roleid = r.id
              WHERE ra.userid = ?
                AND r.archetype REGEXP 'editingteacher|teacher'";
     $count = $DB->get_record_sql($sql, array($userid));
+
+    // User is not teacher so not allowed
     if ($count->teacher == 0) {
-        throw new moodle_exception('efb-cannot-create-form', 'local_edwiserform', new moodle_url('/my/'), null, get_edwiserform_string('efb-contact-admin'));
+        if ($return) {
+            return false;
+        }
+        throw new moodle_exception('efb-cannot-create-form', 'local_edwiserform', new moodle_url('/my/'), null, get_string('efb-contact-admin', 'local_edwiserform'));
     }
+
+    // User is teacher
     if (!get_config('local_edwiserform', 'enable_teacher_forms')) {
-        throw new moodle_exception('efb-admin-disabled-teacher', 'local_edwiserform', new moodle_url('/my/'), null, get_edwiserform_string('efb-contact-admin'));
+
+        // Admin disallowed teacher from creating/viewing form
+        if ($return) {
+            return false;
+        }
+        throw new moodle_exception('efb-admin-disabled-teacher', 'local_edwiserform', new moodle_url('/my/'), null, get_string('efb-contact-admin', 'local_edwiserform'));
     }
+
+    // User is teacher and admin allowing teacher to create/view form
     return true;
 }
 
@@ -190,4 +218,37 @@ function delete_edwiserform_files($filearea, $itemid) {
     }
     $fs = get_file_storage();
     $fs->delete_area_files(context_system::instance()->id, EDWISERFORM_COMPONENT, $filearea, $itemid);
+}
+
+/**
+ * Adding edwiser form list link in sidebar for admin and teacher
+ *
+ * @param navigation_node $nav navigation node
+ *
+ * @since Edwiser Form 1.2.0
+ */
+function local_edwiserform_extend_navigation(navigation_node $nav) {
+    global $CFG, $PAGE, $OUTPUT;
+    $can = can_create_or_view_form(false, true);
+    if ($can != true) {
+        return;
+    }
+    if ($PAGE->theme->resolve_image_location('icon', 'local_edwiserform', null)) {
+        $icon = new pix_icon('icon', '', 'local_edwiserform', array('class' => 'icon pluginicon'));
+    } else {
+        $icon = new pix_icon('spacer', '', 'moodle', array(
+            'class' => 'spacer',
+            'width' => 1,
+            'height' => 1
+        ));
+    }
+    $node = $nav->add(
+        get_string('pluginname', 'local_edwiserform'),
+        new moodle_url($CFG->wwwroot . '/local/edwiserform/view.php'),
+        navigation_node::TYPE_CUSTOM,
+        null,
+        'local_edwiserform-list',
+        $icon
+    );
+    $node->showinflatnavigation = true;
 }
