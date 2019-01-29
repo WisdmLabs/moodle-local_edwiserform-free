@@ -351,6 +351,7 @@ $string["remove"] = "Remove";
 $string["removeMessage"] = "Remove Element";
 $string["required"] = "Required";
 $string["reset"] = "Reset";
+$string['restore-previous'] = 'Restore previous';
 $string["reCaptcha"] = "ReCaptcha";
 $string["richText"] = "Rich Text Editor";
 $string["roles"] = "Access";

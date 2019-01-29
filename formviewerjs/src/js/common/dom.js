@@ -1327,6 +1327,13 @@ class DOM {
       tag: 'div',
       className: 'modal-header bg-' + type,
       content: [{
+        tag: 'h4',
+        attrs: {
+          className: 'modal-title',
+          id: 'modal-' + id
+        },
+        content: getString(type)
+      }, {
         tag: 'button',
         attrs: {
           type: 'button',
@@ -1351,13 +1358,6 @@ class DOM {
             _this.removeModal(id);
           }
         }
-      }, {
-        tag: 'h4',
-        attrs: {
-          className: 'modal-title',
-          id: 'modal-' + id
-        },
-        content: getString(type)
       }]
     };
     let body = {

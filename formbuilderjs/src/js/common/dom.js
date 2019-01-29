@@ -1083,7 +1083,7 @@ class DOM {
           class: classPrefix + '-default setting-default btn',
           type: 'button',
           'data-key': config.value,
-          title: 'Restore default'
+          title: getString('restore-previous')
         },
         action: {
           click: event => {
@@ -2800,6 +2800,13 @@ class DOM {
       tag: 'div',
       className: 'modal-header bg-' + type,
       content: [{
+        tag: 'h4',
+        attrs: {
+          className: 'modal-title',
+          id: 'modal-' + id
+        },
+        content: title
+      }, {
         tag: 'button',
         attrs: {
           type: 'button',
@@ -2816,13 +2823,6 @@ class DOM {
           action: action
         }],
         action: action
-      }, {
-        tag: 'h4',
-        attrs: {
-          className: 'modal-title',
-          id: 'modal-' + id
-        },
-        content: title
       }]
     };
   }
