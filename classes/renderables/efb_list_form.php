@@ -40,6 +40,7 @@ class efb_list_form implements renderable, templatable {
             get_string("efb-tbl-heading-action", "local_edwiserform"),
         );
         $data->pageactions = $this->get_page_actions();
+        $data->upgradeurl = PRO_URL;
         if (!empty($formslist)) {
             $data->rows = $formslist;
         } else {

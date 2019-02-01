@@ -179,6 +179,10 @@ define([
                     temp.remove();
                     show_toaster(M.util.get_string('shortcodecoppied', 'local_edwiserform', shortcode));
                 });
+
+                $('body').on('click', '.efb-modal-upgrade-pro', function() {
+                    window.open($('#upgrade-url').val());
+                });
             });
         }
     };
