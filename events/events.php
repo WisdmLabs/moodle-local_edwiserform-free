@@ -219,4 +219,14 @@ class edwiserform_events_plugin {
         }
         return json_encode($data);
     }
+
+    /**
+     * Returns does plugin support multiple submissions for single user
+     *
+     * @return bool
+     * @since  Edwiser Form 1.2
+     */
+    public function support_multiple_submissions() {
+        return false;
+    }
 }

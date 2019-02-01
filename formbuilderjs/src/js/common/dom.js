@@ -2889,6 +2889,44 @@ class DOM {
   }
 
   /**
+   * Display loading effect
+   */
+  loading() {
+    let _this = this;
+    let id = 'efb-modal-loading';
+    let modal = {
+      tag: 'div',
+      id: id,
+      attrs: {
+        className: 'efb-modal modal fade',
+        role: 'dialog',
+        'aria-hidden': true
+      },
+      content: {
+        tag: 'div',
+        attrs: {
+          className: 'modal-wrap',
+          role: 'wrap'
+        },
+        content: {
+          tag: 'div',
+          className: 'efb-modal-loader'
+        }
+      }
+    };
+    _this.addModal(modal);
+  }
+
+  /**
+   * Display loading effect
+   */
+  loadingClose() {
+    let _this = this;
+    let id = 'efb-modal-loading';
+    _this.removeModal(id);
+  }
+
+  /**
    * @param {String} type of prompt window
    * @param {String} msg for prompt window
    * @param {function} action to apply after pressing ok button

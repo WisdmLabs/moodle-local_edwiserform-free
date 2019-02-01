@@ -8,7 +8,7 @@ let defaults = {
   onUpdate: evt => {
   },
   onSave: evt => {},
-  confirmClearAll: evt => {
+  confirmReset: evt => {
     dom.multiActions(
       'warning',
       getString('attention'),
@@ -17,7 +17,7 @@ let defaults = {
         title: M.util.get_string('proceed', 'local_edwiserform'),
         type: 'warning',
         action: function() {
-          evt.clearAllAction(evt);
+          evt.resetAction(evt);
         }
       }, {
         title: M.util.get_string('cancel', 'local_edwiserform'),
@@ -49,17 +49,17 @@ document.addEventListener('formeoUpdated', function(evt) {
   events.opts.onUpdate(evtData);
 });
 
-document.addEventListener('confirmClearAll', function(evt) {
-  evt = {
+document.addEventListener('confirmReset', function(evt) {
+  let evtData = {
     timeStamp: evt.timeStamp,
     type: evt.type,
     rowCount: evt.detail.rows.length,
     confirmationMessage: evt.detail.confirmationMessage,
-    clearAllAction: evt.detail.clearAllAction,
+    resetAction: evt.detail.resetAction,
     btnCoords: evt.detail.btnCoords
   };
 
-  events.opts.confirmClearAll(evt);
+  events.opts.confirmReset(evtData);
 });
 
 document.addEventListener('formeoSaved', evt => {

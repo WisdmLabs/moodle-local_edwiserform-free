@@ -61,7 +61,7 @@ trait submit_form_data {
             $userid = 0;
         }
         $submission = $DB->get_record("efb_form_data", array('formid' => $formid, 'userid' => $userid));
-        if ($submission && ($form->type == 'blank' || ($form->type != 'blank' && $plugin->support_form_data_update()))) {
+        if (self::should_update_submission($form, $submission, $plugin)) {
             $submission->submission = $data;
             $submission->updated = date('Y-m-d H:i:s');
             $status = $DB->update_record("efb_form_data", $submission);
@@ -85,6 +85,22 @@ trait submit_form_data {
             }
         }
         return $responce;
+    }
+
+    public static function should_update_submission($form, $submission, $plugin) {
+        if (!$submission) {
+            return false;
+        }
+        if ($form->type == 'blank') {
+            return true;
+        }
+        if ($plugin->support_multiple_submissions()) {
+            return false;
+        }
+        if ($plugin->support_form_data_update()) {
+            return true;
+        }
+        return false;
     }
     public static function confirmation($form, $submission) {
         global $USER;

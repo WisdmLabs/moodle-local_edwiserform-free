@@ -54,6 +54,7 @@ class Formeo {
     dom.container = _this.container;
     dom.sitekey = options.sitekey || '';
     dom.prourl = options.prourl || '';
+    this.resetForm = options.resetForm || false;
     if (typeof _this.container === 'string') {
       _this.container = document.querySelector(_this.container);
     }
@@ -168,27 +169,27 @@ class Formeo {
         }
       }
     };
-    let deleteform = {
+    let resetform = {
       tag: 'button',
       content: [{
         tag: 'i',
         attrs: {
-          className: 'fa fa-trash',
+          className: 'fa fa-repeat',
           'aria-hidden': true
         }
       }],
       attrs: {
-        className: 'btn btn-danger item-delete-form',
+        className: 'btn btn-warning item-reset-form',
         type: 'button'
       },
       action: {
         click: evt => {
           if (formData.rows.size || formData.stages.size) {
-            let confirmClearAll = new CustomEvent('confirmClearAll', {
+            let confirmClearAll = new CustomEvent('confirmReset', {
               detail: {
-                confirmationMessage: getString('confirmclearform'),
-                clearAllAction: dom.clearForm.bind(dom),
-                btnCoords: dom.coords(evt.target),
+                confirmationMessage: getString('confirmresetform'),
+                resetAction: this.resetForm,
+                btnCoFrds: dom.coords(evt.target),
                 rows: dom.rows,
                 rowCount: dom.rows.size
               }
@@ -209,7 +210,7 @@ class Formeo {
       content: [{
         tag: 'div',
         className: 'action-btn-wrap',
-        content: [deleteform, edit]
+        content: [resetform, edit]
       }]
     };
   }

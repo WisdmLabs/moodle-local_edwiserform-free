@@ -122,6 +122,9 @@ trait get_form_definition {
         if ($USER->id == 0) {
             return $responce;
         }
+        if ($plugin != null && $plugin->support_multiple_submissions()) {
+            return $responce;
+        }
         $formid = $form->id;
         $sql = "SELECT f.type, f.data_edit, fd.submission FROM {efb_forms} f
                   JOIN {efb_form_data} fd ON f.id = fd.formid

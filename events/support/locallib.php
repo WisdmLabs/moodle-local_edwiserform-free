@@ -39,4 +39,14 @@ class edwiserform_events_support extends edwiserform_events_plugin {
     public function attach_data($form, $data) {
         return $this->attach_common_data($form, $data);
     }
+
+    /**
+     * Returns does plugin support multiple submissions for single user
+     *
+     * @return bool
+     * @since  Edwiser Form 1.2
+     */
+    public function support_multiple_submissions() {
+        return true;
+    }
 }

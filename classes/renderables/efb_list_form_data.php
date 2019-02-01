@@ -53,7 +53,10 @@ class efb_list_form_data implements renderable, templatable
         $data->formid = $this->formid;
         $headings = $this->get_headings();
         $data->heading = $this->form->title;
-        $data->headings = array(get_string("efb-form-data-heading-user", "local_edwiserform"));
+        $data->headings = array(
+            get_string("efb-form-data-heading-user", "local_edwiserform"),
+            get_string("efb-tbl-heading-created", "local_edwiserform")
+        );
         $data->pageactions = $this->get_page_actions();
         if (empty($headings)) {
             $data->nodata = get_string("efb-form-data-no-data", "local_edwiserform");
@@ -105,6 +108,7 @@ class efb_list_form_data implements renderable, templatable
                 $formdata[] = $this->plugin->form_data_list_actions($record);
             }
             $submitteddata = array_fill_keys($headings, null);
+            $formdata[] = $record->date;
             $formdata = array_merge($formdata, $submitteddata);
             foreach ($submission as $elem) {
                 $value = $elem->value;

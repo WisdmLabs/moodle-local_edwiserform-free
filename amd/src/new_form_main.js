@@ -26,6 +26,28 @@ define(['jquery', 'core/ajax', 'local_edwiserform/efb_form_basic_settings', 'loc
                     svgSprite: M.cfg.wwwroot + '/local/edwiserform/pix/formeo-sprite.svg',
                     localStorage: false,
                 };
+                var reset_form = function() {
+                    formeo.dom.loading();
+                    var formtype = $("#id_type").val();
+                    var templateRequest = ajax.call([{
+                        methodname: 'edwiserform_get_template',
+                        args: {
+                            name: formtype
+                        }
+                    }]);
+                    templateRequest[0].done(function(response) {
+                        formeo.dom.loadingClose();
+                        if (response.status == true) {
+                            formeoOpts.container = container;
+                            formeo = new Formeo(formeoOpts, response.definition);
+                            return;
+                        }
+                    }).fail(function(ex) {
+                        formeo.dom.loadingClose();
+                        formeo.dom.alert('danger', ex.message);
+                    });
+                };
+                formeoOpts.resetForm = reset_form;
                 if (typeof formdefinition != 'undefined') {
                     formeo = new Formeo(formeoOpts, formdefinition);
                 } else {
