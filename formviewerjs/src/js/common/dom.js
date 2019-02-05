@@ -1325,11 +1325,11 @@ class DOM {
     };
     let header = {
       tag: 'div',
-      className: 'modal-header bg-' + type,
+      className: 'efb-modal-header bg-' + type,
       content: [{
         tag: 'h4',
         attrs: {
-          className: 'modal-title',
+          className: 'efb-modal-title text-white',
           id: 'modal-' + id
         },
         content: getString(type)
@@ -1337,7 +1337,7 @@ class DOM {
         tag: 'button',
         attrs: {
           type: 'button',
-          className: 'close',
+          className: 'close efb-modal-close text-white',
           'data-dismiss': id,
           'aria-label': getString('close')
         },
@@ -1362,7 +1362,7 @@ class DOM {
     };
     let body = {
       tag: 'div',
-      className: 'modal-body',
+      className: 'efb-modal-body',
       content: [{
         tag: 'h5',
         content: msg
@@ -1370,7 +1370,7 @@ class DOM {
     };
     let footer = {
       tag: 'div',
-      className: 'modal-footer',
+      className: 'efb-modal-footer',
       content: [{
         tag: 'button',
         attrs: {
@@ -1392,7 +1392,7 @@ class DOM {
     let dialog = {
       tag: 'div',
       attrs: {
-        className: 'modal-dialog',
+        className: 'efb-modal-dialog',
         role: 'document'
       },
       content: [header, body, footer]
@@ -1401,18 +1401,11 @@ class DOM {
       tag: 'div',
       id: id,
       attrs: {
-        className: 'efb-modal modal fade',
+        className: 'efb-modal fade',
         role: 'dialog',
         'aria-hidden': true
       },
-      content: [{
-        tag: 'div',
-        attrs: {
-          className: 'modal-wrap',
-          role: 'wrap'
-        },
-        content: dialog
-      }],
+      content: dialog,
       action: {
         keyup: keyup
       }

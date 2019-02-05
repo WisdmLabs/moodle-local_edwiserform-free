@@ -34,25 +34,23 @@
             </tr>
         </thead>
     </table>
-    <div class="efb-modal modal fade" role="dialog" aria-hidden="true" id="efb-modal">
-        <div class="modal-wrap" role="wrap">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header" id="efb-modal-header">
-                        <h4 class="modal-title"></h4>
-                        <button type="button" class="close efb-modal-close" data-dismiss="efb-modal" aria-label="Close">
-                            <span aria-hidden="true">x</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="efb-modal-body">
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-danger efb-modal-delete-form" type="button">{{#str}} proceed, local_edwiserform {{/str}}</button>
-                        <button class="btn btn-success efb-modal-upgrade-pro" type="button">{{#str}} efb-setup-btn-upgrade, local_edwiserform {{/str}}</button>
-                        <button class="btn btn-success efb-modal-close efb-modal-delete-close" type="button">{{#str}} cancel, local_edwiserform {{/str}}</button>
-                        <button class="btn btn-danger efb-modal-close efb-modal-upgrade-close" type="button">{{#str}} cancel, local_edwiserform {{/str}}</button>
-                        <button class="btn btn-success efb-modal-close efb-modal-deleted-close" type="button">{{#str}} ok, local_edwiserform {{/str}}</button>
-                    </div>
+    <div class="efb-modal" id="efb-modal" data-region="modal-container" aria-hidden="false" role="dialog">
+        <div class="efb-modal-dialog " role="document" data-region="efb-modal" aria-labelledby="17-modal-title">
+            <div class="efb-modal-content">
+                <div class="efb-modal-header" data-region="header">
+                    <h4 id="efb-modal-title" class="efb-modal-title text-white" data-region="title" tabindex="0"></h4>
+                    <button type="button" class="close efb-modal-close text-white" data-action="hide" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="efb-modal-body" data-region="body">
+                </div>
+                <div class="efb-modal-footer" data-region="footer">
+                    <button class="btn btn-danger efb-modal-delete-form" type="button">{{#str}} proceed, local_edwiserform {{/str}}</button>
+                    <button class="btn btn-success efb-modal-upgrade-pro" type="button">{{#str}} efb-setup-btn-upgrade, local_edwiserform {{/str}}</button>
+                    <button class="btn btn-success efb-modal-close efb-modal-delete-close" type="button">{{#str}} cancel, local_edwiserform {{/str}}</button>
+                    <button class="btn btn-danger efb-modal-close efb-modal-upgrade-close" type="button">{{#str}} cancel, local_edwiserform {{/str}}</button>
+                    <button class="btn btn-success efb-modal-close efb-modal-deleted-close" type="button">{{#str}} ok, local_edwiserform {{/str}}</button>
                 </div>
             </div>
         </div>

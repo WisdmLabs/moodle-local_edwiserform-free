@@ -647,64 +647,152 @@ and open the template in the editor.
 }
 
 /* Modal css starts */
-.efb-modal.modal {
+.efb-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1700;
     display: none;
+    overflow: hidden;
+    outline: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.efb-modal.show {
+    display: block;
+}
+.efb-modal.show .efb-modal-dialog {
+    -webkit-transform: translate(0,0);
+    transform: translate(0,0);
+}
+@media (min-width: 768px) {
+    .efb-modal-dialog {
+        width: auto;
+        margin: 30px auto;
+    }
+}
+@media (min-width: 480px) {
+    .efb-modal-dialog {
+        max-width: 600px;
+        margin: 30px auto;
+    }
+}
+.efb-modal-dialog {
+    position: relative;
+    width: auto;
+    margin: 30px auto;
+}
+
+.efb-modal-content {
+    border: none;
+}
+
+@media (min-width: 480px) {
+    .efb-modal-content {
+        box-shadow: 0 2px 12px rgba(0,0,0,.2);
+    }
+}
+.efb-modal-content {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-.efb-modal.modal.show {
-    display: table !important;
-}
-.efb-modal.modal.fade.show {
-    opacity: 1;
-}
-.efb-modal.modal.fade.show .modal-dialog {
-    transform: translate(0);
-}
-.efb-modal.modal .modal-wrap {
-    display: table-cell;
-    vertical-align: middle;
-}
-.efb-modal.modal .modal-wrap .modal-dialog {
-    background-color: white;
     pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid transparent;
+    border-radius: .286rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,.2);
+    outline: 0;
 }
-.efb-modal.modal .modal-wrap .modal-dialog .modal-header {
+
+.efb-modal-header {
+    padding: 15px 20px;
+    padding-right: 40px;
     border-bottom: none;
-}
-.efb-modal.modal .modal-wrap .modal-dialog .modal-header h1, .efb-modal.modal .modal-wrap .modal-dialog .modal-header h2, .efb-modal.modal .modal-wrap .modal-dialog .modal-header h3, .efb-modal.modal .modal-wrap .modal-dialog .modal-header h4, .efb-modal.modal .modal-wrap .modal-dialog .modal-header h5, .efb-modal.modal .modal-wrap .modal-dialog .modal-header h6 {
-    word-break: break-all;
+    display: -ms-flexbox;
     color: white;
-    font-weight: 600;
+    display: flex;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    border-bottom: 1px solid #e4eaec;
+    border-top-left-radius: .286rem;
+    border-top-right-radius: .286rem;
 }
-.efb-modal.modal .modal-wrap .modal-dialog .modal-header button {
-    color: white;
-    outline: none;
+
+.efb-modal-header .close {
+    -ms-flex-order: 2;
+    order: 2;
+    margin-top: 1px;
+    padding: 0;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    -webkit-appearance: none;
     float: right;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: none;
+    opacity: .5;
 }
-.efb-modal.modal .modal-wrap .modal-dialog .modal-footer {
-    border-top: 1px solid #e9ecef;
+
+.efb-modal-header .efb-modal-title {
+    -ms-flex-order: 1;
+    word-break: break-all;
+    font-weight: 600;
+    order: 1;
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 1.57142857;
 }
-.efb-modal.modal .modal-wrap .modal-dialog .modal-footer > :not(:first-child) {
-    margin-left: 0.25rem;
+
+.efb-modal-body {
+    padding: 1rem;
+    background: white;
 }
-.efb-modal.modal .modal-wrap .modal-dialog .modal-footer > :not(:last-child) {
-    margin-right: 0.25rem;
+
+.efb-modal-footer {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    background: white;
+    padding: 10px;
+    border-top: 1px solid #e4eaec;
 }
-.efb-modal.modal .modal-wrap .modal-dialog .modal-footer button {
-    pointer-events: auto;
+.efb-modal-footer>:not(:last-child) {
+    margin-right: .25rem;
 }
-.efb-modal.modal.pro .efb-modal-delete-form,
-.efb-modal.modal.pro .efb-modal-delete-close,
-.efb-modal.modal.pro .efb-modal-deleted-close,
-.efb-modal.modal.delete .efb-modal-upgrade-pro,
-.efb-modal.modal.delete .efb-modal-upgrade-close,
-.efb-modal.modal.delete .efb-modal-deleted-close,
-.efb-modal.modal.deleted .efb-modal-delete-form,
-.efb-modal.modal.deleted .efb-modal-upgrade-pro,
-.efb-modal.modal.deleted .efb-modal-delete-close,
-.efb-modal.modal.deleted .efb-modal-upgrade-close {
+
+.modal-footer>:not(:first-child) {
+    margin-left: .25rem;
+}
+
+
+.efb-modal .modal-content .modal-body table td {
+    vertical-align: top;
+}
+
+.efb-modal.pro .efb-modal-delete-form,
+.efb-modal.pro .efb-modal-delete-close,
+.efb-modal.pro .efb-modal-deleted-close,
+.efb-modal.delete .efb-modal-upgrade-pro,
+.efb-modal.delete .efb-modal-upgrade-close,
+.efb-modal.delete .efb-modal-deleted-close,
+.efb-modal.deleted .efb-modal-delete-form,
+.efb-modal.deleted .efb-modal-upgrade-pro,
+.efb-modal.deleted .efb-modal-delete-close,
+.efb-modal.deleted .efb-modal-upgrade-close {
   display: none;
 }
 /* Modal css ends */

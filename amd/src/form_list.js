@@ -70,8 +70,9 @@ define([
                     var id = $(this).data('formid');
                     var row = $(this).parents('tr');
                     var title = $(row).children('.efb-tbl-col-title').text();
-                    $('#efb-modal #efb-modal-header').removeClass('bg-success').addClass('bg-warning').children('.modal-title').html(M.util.get_string('warning', 'local_edwiserform'));
-                    $('#efb-modal #efb-modal-body').html(`<h5>${M.util.get_string('efb-delete-form-and-data', 'local_edwiserform', {title, id})}</h5>`);
+                    $('#efb-modal .efb-modal-header').removeClass('bg-success').addClass('bg-warning');
+                    $('#efb-modal .efb-modal-title').html(M.util.get_string('warning', 'local_edwiserform'));
+                    $('#efb-modal .efb-modal-body').html(`<h5>${M.util.get_string('efb-delete-form-and-data', 'local_edwiserform', {title, id})}</h5>`);
                     $('#efb-modal').addClass('show delete').removeClass('pro deleted');
                     $('#efb-modal .efb-modal-delete-form').data('formid', id);
                     return;
@@ -88,8 +89,9 @@ define([
                         addClass = 'bg-danger';
                         header = M.util.get_string('danger', 'local_edwiserform');
                     }
-                    $('#efb-modal #efb-modal-header').removeClass(removeClass).addClass(addClass).children('.modal-title').html(header);
-                    $('#efb-modal #efb-modal-body').html(`<h5>${message}</h5>`);
+                    $('#efb-modal .efb-modal-header').removeClass(removeClass).addClass(addClass);
+                    $('#efb-modal .efb-modal-title').html(header);
+                    $('#efb-modal .efb-modal-body').html(`<h5>${message}</h5>`);
                     $('#efb-modal').addClass('show deleted').removeClass('pro delete');
                 }
                 $('body').on('click', '.efb-modal-delete-form', function(event) {
@@ -116,14 +118,16 @@ define([
                 });
                 $('body').on('click', '.efb-form-export', function(event) {
                     event.preventDefault();
-                    $('#efb-modal #efb-modal-header').addClass('bg-success').removeClass('bg-warning').children('.modal-title').html(M.util.get_string('upgrade', 'local_edwiserform'));
+                    $('#efb-modal .efb-modal-header').removeClass('bg-success').addClass('bg-warning');
+                    $('#efb-modal .efb-modal-title').html(M.util.get_string('upgrade', 'local_edwiserform'));
                     var string = M.util.get_string('hey-wait', 'local_edwiserform');
+                    var exporttitle = M.util.get_string('efb-form-action-export-title', 'local_edwiserform');
                     var message = M.util.get_string('export-pro-message', 'local_edwiserform');
                     message = M.util.get_string('profeaturemessage', 'local_edwiserform', {
-                        type: string,
+                        type: string + '! <b>' + exporttitle + '</b>',
                         message: message
                     });
-                    $('#efb-modal #efb-modal-body').html(`<h5>${message}</h5>`);
+                    $('#efb-modal .efb-modal-body').html(`<h5>${message}</h5>`);
                     $('#efb-modal').addClass('show pro').removeClass('delete deleted');
                 });
 
