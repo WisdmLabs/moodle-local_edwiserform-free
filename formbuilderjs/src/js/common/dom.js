@@ -1415,6 +1415,7 @@ class DOM {
         dataClone.fields = [];
         const newColumn = _this.addColumn(parent.id, dataClone.id);
         parent.insertBefore(newColumn, parent.childNodes[newIndex]);
+        data.saveColumnOrder(parent);
         let fields = elem.getElementsByClassName('stage-fields');
 
         if (noParent) {
@@ -1426,6 +1427,7 @@ class DOM {
       fields: () => {
         const newField = _this.addField(parent.id, dataClone.id, 'clone');
         parent.insertBefore(newField, parent.childNodes[newIndex]);
+        data.saveFieldOrder(parent);
         return newField;
       }
     };
