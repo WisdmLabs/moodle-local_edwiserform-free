@@ -226,10 +226,21 @@ define(['jquery', 'core/ajax', 'local_edwiserform/efb_form_basic_settings', 'loc
                         var form_update_action = function (response) {
                             if (response.status == true) {
                                 window.onbeforeunload = null;
-                                formeo.dom.alert('success', response.msg, function() {
-                                    formeo.reset();
-                                    $(location).attr('href', M.cfg.wwwroot + "/local/edwiserform/view.php?page=listforms");
-                                });
+                                formeo.dom.multiActions(
+                                    'success',
+                                    M.util.get_string("success", "local_edwiserform"),
+                                    response.msg,
+                                    [{
+                                        title: M.util.get_string("efb-heading-listforms", "local_edwiserform"),
+                                        type: 'success',
+                                        action: function() {
+                                            $(location).attr('href', M.cfg.wwwroot + "/local/edwiserform/view.php?page=listforms");
+                                        }
+                                    }, {
+                                        title: M.util.get_string("close", "local_edwiserform"),
+                                        type: 'success'
+                                    }]
+                                );
                             } else {
                                 formeo.dom.alert('danger', response.msg);
                             }
