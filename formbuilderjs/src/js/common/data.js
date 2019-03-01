@@ -372,7 +372,12 @@ let data = {
       const storage = window.localStorage;
 
       if (storage && _data.opts.localStorage) {
-        storage.setItem('formData', data.json);
+        try {
+          storage.setItem('formData', data.json);
+        } catch (ex) {
+          storage.clear();
+          storage.setItem('formData', data.json);
+        }
       }
 
       events.formeoSaved = new CustomEvent('formeoSaved', {
