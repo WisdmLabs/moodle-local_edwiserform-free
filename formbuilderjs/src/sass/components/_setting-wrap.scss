@@ -42,66 +42,6 @@
             &.range-group:last-child {
                 width: 16%;
             }
-            &.toggle-group[type="checkbox"] {
-                display: none;
-            }
-            &.toggle-group[type="checkbox"] {
-                & + .setting-input-label {
-                    &.toggle-group-wrap {
-                        .setting-input {
-                            width: max-content;
-                            vertical-align: middle;
-                            text-align: center;
-                            padding: 0 10px;
-                            &.setting-toggle-icon {
-                                width: -webkit-fill-available;
-                                position: relative;
-                                border-radius: 2em;
-                                border: 2px solid #ccc;
-                                background: #ccc;
-                            }
-                            .toggle-off {
-                                position: relative;
-                                left: 0.7em;
-                            }
-                            .toggle-on {
-                                position: relative;
-                                right: 0.7em;
-                            }
-                        }
-                    }
-                }
-                &:checked {
-                    & + .setting-input-label {
-                        &.toggle-group-wrap {
-                            .setting-input {
-                                .toggle-on {
-                                    background: white;
-                                    border-radius: 2em;
-                                }
-                                .toggle-off {
-                                    padding-left: 0;
-                                }
-                            }
-                        }
-                    }
-                }
-                &:not(:checked) {
-                    & + .setting-input-label {
-                        &.toggle-group-wrap {
-                            .setting-input {
-                                .toggle-on {
-                                    padding-right: 0;
-                                }
-                                .toggle-off {
-                                    background: white;
-                                    border-radius: 2em;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
     .setting-control {
