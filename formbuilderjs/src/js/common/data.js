@@ -7,7 +7,8 @@ import {
   strMapToObj,
   objToStrMap,
   uuid,
-  remove
+  remove,
+  getString
 } from './utils';
 // Object map of fields on the stage
 const _data = {};
@@ -375,8 +376,19 @@ let data = {
         try {
           storage.setItem('formData', data.json);
         } catch (ex) {
-          storage.clear();
-          storage.setItem('formData', data.json);
+          let confirmClearAll = new CustomEvent('confirmClearStorage', {
+            detail: {
+              confirmationMessage: getString('clearstoragemessage'),
+              clearStorageAction: () => {
+                storage.clear();
+                storage.setItem('formData', data.json);
+              },
+              clearStorageManualAction: () => {
+                window.open('https://www.google.com/search?q=how+to+clear+browser+local+storage');
+              }
+            }
+          });
+          document.dispatchEvent(confirmClearAll);
         }
       }
 

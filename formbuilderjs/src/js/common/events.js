@@ -24,6 +24,26 @@ let defaults = {
         type: 'success'
       }]
     );
+  },
+  confirmClearStorage: evt => {
+    dom.multiActions(
+      'danger',
+      getString('danger'),
+      evt.confirmationMessage,
+      [{
+        title: getString('clearstorageautomatic'),
+        type: 'warning',
+        action: function() {
+          evt.clearStorageAction(evt);
+        }
+      }, {
+        title: getString('clearstoragemanually'),
+        type: 'success',
+        action: function() {
+          evt.clearStorageManualAction(evt);
+        }
+      }]
+    );
   }
 };
 
@@ -69,6 +89,18 @@ document.addEventListener('formeoSaved', evt => {
     formData: evt.detail.formData
   };
   events.opts.onSave(evt);
+});
+
+document.addEventListener('confirmClearStorage', function(evt) {
+  let evtData = {
+    timeStamp: evt.timeStamp,
+    type: evt.type,
+    confirmationMessage: evt.detail.confirmationMessage,
+    clearStorageAction: evt.detail.clearStorageAction,
+    clearStorageManualAction: evt.detail.clearStorageManualAction,
+  };
+
+  events.opts.confirmClearStorage(evtData);
 });
 
 document.addEventListener('formeoLoaded', function(evt) {
