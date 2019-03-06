@@ -1,4 +1,3 @@
-import Sortable from 'sortablejs';
 import h from './helpers';
 import events from './events';
 import Row from '../components/row';
@@ -7,7 +6,6 @@ import Field from '../components/field';
 import animate from './animation';
 import {data, formData} from './data';
 import {uuid, clone, getString, hideControl, showControl, numToPercent, remove, closest, closestFtype, elementTagType} from './utils';
-import panels from '../components/panels';
 import defaultElements from '../components/controls';
 
 /**
@@ -1268,7 +1266,6 @@ class DOM {
           let editor = document.getElementById('efb-cont-form-builder');
           let stages = editor.querySelectorAll('.stage-wrap:not(.active)');
           stages.forEach(stage => {
-            let stageRemoveButton = editor.querySelector('.prop-remove[id="remove-stage-' + stage.id + '"]');
             this.clearStep(evt);
           });
         }
@@ -2713,6 +2710,7 @@ class DOM {
    * @param {String} msg for warning
    */
   proWarning(msg = null) {
+    let _this = this;
     if (typeof msg == 'object') {
       msg = getString('profeaturemessage', msg);
     } else {
@@ -2731,7 +2729,7 @@ class DOM {
         title: getString('upgrade'),
         type: 'efb-form-upgrade',
         action: function() {
-          window.open(this.prourl);
+          window.open(_this.prourl);
         }
       }, {
         title: getString('later'),

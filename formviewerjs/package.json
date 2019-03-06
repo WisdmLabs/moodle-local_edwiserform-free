@@ -64,7 +64,7 @@
   "scripts": {
     "analyze": "webpack --json | webpack-bundle-size-analyzer",
     "clean": "rm -rf ../amd/src/formviewer.min.js",
-    "build": "npm run clean && webpack -p --progress && npm run copy",
+    "build": "npm run clean && webpack -p --progress && npm run copy && php /var/www/html/m35/admin/cli/purge_caches.php",
     "webpack": "webpack -p --progress",
     "copy": "cp dist/formviewer.js ../amd/build/",
     "lint": "eslint ./src/js --ext .js || true",

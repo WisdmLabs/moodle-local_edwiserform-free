@@ -2,7 +2,7 @@
 import '../sass/formeo.scss';
 import animate from './common/animation';
 import h from './common/helpers';
-import {closest, hideControl, getString} from './common/utils';
+import {closest, getString} from './common/utils';
 import {data, formData} from './common/data';
 import events from './common/events';
 import actions from './common/actions';
@@ -77,6 +77,7 @@ class Formeo {
         formeo.edit = _this.init.bind(_this);
         _this.init.call(_this);
       }
+      return;
     }).catch(error => {
       dom.alert('danger', error.message);
     });
