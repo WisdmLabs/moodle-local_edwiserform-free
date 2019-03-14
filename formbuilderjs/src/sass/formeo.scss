@@ -5,7 +5,7 @@
 @import 'components/positioning';
 .formeo {
   * {
-    box-sizing: inherit;
+    box-sizing: border-box;
   }
   /* added for only those buttons which is inside formbuilder */
 

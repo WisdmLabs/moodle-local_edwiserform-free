@@ -1,0 +1,205 @@
+.efb-form-title-container {
+    border-bottom: 1px solid #d6d6d6;
+    .efb-form-title-heading {
+        display: inline-block;
+        font-size: 16px;
+        height: 65px;
+        float: left;
+        border-right: 1px solid #d6d6d6;
+        line-height: 70px;
+        padding: 0 30px;
+        i {
+            padding-left: 0.5rem;
+            cursor: help;
+        }
+    }
+    #efb-form-title {
+        float: left;
+        margin: 12px 0 13px 18px;
+        height: 40px;
+        box-shadow: none;
+        font-size: 18px;
+        width: 420px;
+        padding: 0 20px;
+    }
+    .efb-form-title-warning {
+        font-size: 1rem;
+        height: 90px;
+        float: left;
+        line-height: 90px;
+        padding: 0 20px;
+    }
+    &:not(.has-danger) {
+        #efb-form-title {
+            border: 1px solid #d6d6d6;
+        }
+        .efb-form-title-warning {
+            display: none;
+        }
+    }
+}
+.efb-forms-setup-title {
+    padding: 30px;
+    .efb-forms-setup-desc {
+        color: #666;
+        font-size: 16px;
+        margin: 0;
+    }
+}
+
+.efb-forms-setup-templates {
+    padding: 0 15px 0 15px;
+    margin-top: 30px;
+    .efb-list {
+        display: flex;
+        flex-wrap: wrap;
+        .efb-forms-template {
+            display: inline-flex;
+            float: left;
+            padding: 10px;
+            transition: width 0.5s;
+            &:not(.active) {
+                .efb-forms-template-active {
+                    display: none !important;
+                }
+                .efb-forms-template-outer {
+                    background: white !important;
+                }
+            }
+        }
+        .efb-forms-template-outer {
+            color: #4a4a4a !important;
+            width: 100%;
+            padding: 0;
+        }
+        .efb-forms-template-inner {
+            background-color: rgba(255,255,255,0.8);
+            border: 1px solid #d6d6d6;
+            padding: 20px;
+            position: relative;
+            height: 100%;
+            .efb-forms-template-name {
+                font-size: 18px;
+                line-height: 1.3;
+                margin: 0;
+                .efb-forms-template-active {
+                    color: #FFFFFF;
+                    transform: scale(.7);
+                    padding: .1em 0.3em;
+                    width: max-content;
+                    display: inline-block;
+                }
+                .efb-forms-pro-label {
+                    color: #fff;
+                    background-color: #46be8a;
+                    border-color: #46be8a;
+                    transform: scale(.7);
+                    padding: .1em 0.3em;
+                    width: max-content;
+                    display: inline-block;
+                }
+            }
+            .efb-forms-template-details {
+                margin: 10px 0 0;
+            }
+            .efb-forms-template-overlay {
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 100%;
+                background-color: rgba(0,0,0,0.85);
+                display: -webkit-box;
+                display: -moz-box;
+                display: -ms-flexbox;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-align-items: center;
+                -ms-align-items: center;
+                align-items: center;
+                -webkit-justify-content: center;
+                -ms-justify-content: center;
+                justify-content: center;
+                text-align: center;
+                padding: 10px;
+                opacity: 0;
+                -webkit-transition: all 0.3s ease-in-out;
+                -moz-transition: all 0.3s ease-in-out;
+                -ms-transition: all 0.3s ease-in-out;
+                -o-transition: all 0.3s ease-in-out;
+                transition: all 0.3s ease-in-out;
+
+                .efb-forms-template-select {
+                    background-color: #55a1a5;
+                    border: 1px solid #29666a;
+                    color: #fff;
+                    border-radius: 3px;
+                    font-size: 15px;
+                    font-weight: 500;
+                    display: inline-block;
+                    padding: 10px;
+                    text-decoration: none;
+                    position: relative;
+                    &:hover, &:active, &:focus {
+                        background-color: #29666a;
+                        text-decoration: none;
+                        color: white;
+                    }
+                }
+                &.loading {
+                    opacity: 1;
+                    .efb-forms-template-select {
+                        display: none;
+                    }
+                }
+                .efb-forms-template-loading {
+                    color: white;
+                    font-size: 3rem;
+                }
+                &:not(.loading) .efb-forms-template-loading {
+                    display: none;
+                }
+                &:hover {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+    &.pro .efb-forms-template-inner {
+        opacity: 0.7;
+    }
+    &.pro {
+        margin-top: 0;
+    }
+}
+/* Medium devices (landscape tablets, 768px and 1023px) */
+@media only screen and (max-width: 799px) {
+    .efb-forms-setup-templates .efb-list .efb-forms-template {
+        width: 50%;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1024px and up) */
+@media only screen and (min-width: 800px) {
+    .efb-forms-setup-templates .efb-list .efb-forms-template {
+        width: 33.333333%;
+    }
+}
+.efb-forms-upgrade-link {
+    .efb-forms-upgrade-title {
+        margin-top: 4rem;
+        font-size: 2rem;
+    }
+    a {
+        font-weight: 500;
+        padding: 10px;
+        position: relative;
+        border-radius: 3px;
+        padding: 8px 15px;
+        font-size: 15px;
+        margin-left: 1rem;
+        display: inline-block;
+        color: #fff;
+        text-decoration: none;
+    }
+}

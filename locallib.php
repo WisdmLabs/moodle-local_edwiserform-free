@@ -114,6 +114,7 @@ class edwiserform {
         $out = "";
         can_create_or_view_form($USER->id);
         $js = [new moodle_url('https://www.google.com/recaptcha/api.js')];
+        $css = [new moodle_url($CFG->wwwroot .'/local/edwiserform/style/dataTables.bootstrap4.css')];
         switch ($page) {
             case 'newform':
                 $sitekey = get_config('local_edwiserform', 'google_recaptcha_sitekey');
@@ -127,6 +128,8 @@ class edwiserform {
                 if ($formid) {
                     $page = 'editform';
                 }
+                $css = [new moodle_url($CFG->wwwroot .'/local/edwiserform/style/formedit.css')];
+                $css[] = new moodle_url($CFG->wwwroot .'/local/edwiserform/style/bootstrap-grid.css');
                 break;
             case 'listforms':
                 $PAGE->requires->js_call_amd('local_edwiserform/form_list', 'init');
@@ -141,7 +144,9 @@ class edwiserform {
         foreach ($js as $jsfile) {
             $PAGE->requires->js($jsfile);
         }
-        $PAGE->requires->css(new moodle_url($CFG->wwwroot .'/local/edwiserform/style/dataTables.bootstrap4.min.css'));
+        foreach ($css as $cssfile) {
+            $PAGE->requires->css($cssfile);
+        }
         return $out;
     }
 }

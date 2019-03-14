@@ -1,0 +1,342 @@
+/* Modal css starts */
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 5 Apr, 2018, 6:47:25 PM
+    Author     : sudam
+*/
+
+/* Style the tab */
+.efb-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1700;
+    display: none;
+    overflow: hidden;
+    outline: 0;
+    background: rgba(0, 0, 0, 0.5);
+
+    &.fade.show {
+        opacity: 1;
+    }
+
+    &.show {
+        display: block;
+        .efb-modal-dialog {
+            -webkit-transform: translate(0,0);
+            transform: translate(0,0);
+        }
+    }
+    @media (min-width: 768px) {
+        .efb-modal-dialog {
+            width: auto;
+            margin: 30px auto;
+        }
+    }
+    @media (min-width: 480px) {
+        .efb-modal-dialog {
+            max-width: 600px;
+            margin: 30px auto;
+        }
+    }
+    .efb-modal-dialog {
+        position: relative;
+        width: auto;
+        margin: 30px auto;
+
+        .efb-modal-content {
+            position: relative;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            width: 100%;
+            pointer-events: auto;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: none;
+            border-radius: .286rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,.2);
+            outline: 0;
+        }
+        .efb-modal-header {
+            padding: 15px 20px;
+            padding-right: 40px;
+            border-bottom: none;
+            display: -ms-flexbox;
+            color: white;
+            display: flex;
+            -ms-flex-align: start;
+            align-items: flex-start;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            border-bottom: 1px solid #e4eaec;
+            border-top-left-radius: .286rem;
+            border-top-right-radius: .286rem;
+
+            .efb-modal-title {
+                -ms-flex-order: 1;
+                word-break: break-all;
+                font-weight: 600;
+                order: 1;
+                margin-top: 0;
+                margin-bottom: 0;
+                line-height: 1.57142857;
+            }
+
+            .close {
+                -ms-flex-order: 2;
+                order: 2;
+                margin-top: 1px;
+                padding: 0;
+                cursor: pointer;
+                background-color: transparent;
+                border: 0;
+                -webkit-appearance: none;
+                float: right;
+                font-size: 21px;
+                font-weight: 700;
+                line-height: 1;
+                color: #000;
+                text-shadow: none;
+                opacity: .5;
+            }
+        }
+        .efb-modal-body {
+            padding: 1rem;
+            background: white;
+            table td {
+                vertical-align: top;
+            }
+        }
+        .efb-modal-footer {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            -ms-flex-pack: end;
+            justify-content: flex-end;
+            background: white;
+            padding: 10px;
+            border-top: 1px solid #e4eaec;
+            &>:not(:last-child) {
+                margin-right: .25rem;
+            }
+            &>:not(:first-child) {
+                margin-left: .25rem;
+            }
+        }
+    }
+    &.pro {
+        .efb-modal-delete-form,
+        .efb-modal-delete-close,
+        .efb-modal-deleted-close,
+        .efb-modal-deleted-close,
+        .efb-modal-delete-form,
+        .efb-modal-delete-close {
+            display: none;
+        }
+    }
+    &.delete {
+        .efb-modal-deleted-close,
+        .efb-modal-upgrade-pro,
+        .efb-modal-upgrade-close,
+        .efb-modal-deleted-close,
+        .efb-modal-upgrade-pro,
+        .efb-modal-upgrade-close {
+            display: none;
+        }
+    }
+    &.deleted {
+        .efb-modal-delete-form,
+        .efb-modal-delete-close,
+        .efb-modal-upgrade-pro,
+        .efb-modal-upgrade-close,
+        .efb-modal-delete-form,
+        .efb-modal-upgrade-pro,
+        .efb-modal-delete-close,
+        .efb-modal-upgrade-close {
+            display: none;
+        }
+    }
+    .btn-success, .bg-success {
+        color: #fff;
+        background-color: #46be8a;
+        border-color: #46be8a;
+    }
+}
+/* Modal css ends */
+
+/* Toater Code Starts Here */
+.efb-toaster.toaster-container {
+    position: fixed;
+    width: 100%;
+    top: 1vw;
+    left: 0;
+    opacity: 0;
+    text-align: center;
+    transition: top 0.3s linear, opacity 0.3s linear;
+    display: none;
+    &.fade {
+      top: 6vw;
+      opacity: 1 !important;
+    }
+    &.show {
+        display: block;
+    }
+    .toaster-message {
+        padding: 1rem 2rem;
+        color: white;
+        border-radius: 2px;
+        background-color: #424242;
+    }
+}
+/* Toaster Code Ends Here */
+
+/* Switch Code Starts Here */
+.efb-switch {
+    height: 1rem;
+    width: 2rem;
+    margin-bottom: 0;
+    cursor: pointer;
+    input {
+        display: none;
+        &:checked + .switch-container .switch-lever {
+            left: 1rem;
+        }
+        &:not(:checked) + .switch-container {
+            .switch-background {
+                background-color: #000000 !important;
+            }
+            .switch-lever {
+                left: 0;
+                background-color: white !important;
+            }
+        }
+    }
+    .switch-container {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        .switch-background {
+            height: 0.8rem;
+            width: inherit;
+            border-radius: 1rem;
+            opacity: 0.5;
+            margin: 0.35rem 0;
+            transition: background-color 0.2s linear;
+        }
+        .switch-lever {
+            position: absolute;
+            height: 1rem;
+            width: 1rem;
+            border-radius: 50%;
+            top: -0.1rem;
+            box-shadow: grey 0px 0px 1px 0px;
+            transition: left 0.2s linear, background-color 0.2s linear;
+        }
+    }
+}
+/* Switch Code Ends Here */
+.efb-wrap-list {
+    .efb-bottom .efb-list-pagination {
+        float: right;
+    }
+    .efb-top {
+        .efb-listing, .efb-form-list-info {
+            float: left;
+        }
+    }
+    .efb-csv-export {
+        pointer-events: none;
+    }
+    .efb-wrap-list-form-data table.dataTable tbody th {
+        font-weight: 600;
+    }
+}
+.efb-shortcode-copy-note {
+    clear: both;
+}
+.efb-table {
+    .icon {
+        font-size: 1.3rem;
+    }
+    a .icon {
+        color: #76838f;
+    }
+    .dataTable thead {
+        .header {
+            padding-right: 2rem!important;
+            :after, :before {
+                margin-top: 0;
+            }
+        }
+    }
+}
+.text-left {
+    text-align: left;
+}
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: right;
+}
+.form-page {
+    .edwiserform-root-container {
+        padding:  2em;
+    }
+    .edwiserform-container {
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+        &.empty {
+            box-shadow: none;
+        }
+    }
+}
+
+.efb-list-buttons .btn {
+    text-transform: uppercase;
+    font-weight: 700;
+}
+.efb-list-buttons .efb-form-icon-btn i {
+    padding: 0 7%;
+}
+.efb-form-icon-btn.btn {
+    position: relative;
+    padding-left: 3.5rem;
+}
+.efb-form-icon-btn.btn i {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    line-height: 2.6rem;
+    height: 105%;
+    padding: 0 8%;
+    border-radius: inherit;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    background: rgba(0,0,0,.2);
+}
+.btn-efb-form-upgrade {
+    color: #fff !important;
+    background-color: #F86935 !important;
+    border-color: #F86935 !important;
+    text-decoration: none !important;
+    &:hover, &:focus, &:active {
+        color: #fff;
+        background-color: #f74100;
+    }
+}
+.efb-tbl-col-shortcode,
+.efb-tbl-col-title{
+    font-weight: bold;
+}
+.efb-tbl-col-shortcode {
+    cursor: copy;
+}

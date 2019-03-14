@@ -1,0 +1,35 @@
+#efb-basic-form-settings {
+    .form-control-feedback {
+        width: 100%;
+    }
+    .form-control {
+        display: block;
+        width: 70%;
+    }
+    .editor_atto .form-control {
+        width: 100%;
+    }
+    .notifi-email-group {
+        width: 100%;
+        .notifi-email-group-input, .notifi-email-group-edit {
+            outline-width: 0px;
+            width: 100%;
+        }
+        .email-tag {
+            color: white;
+            margin: 0 2px 2px 0;
+            font-size: 1rem;
+            padding: 0px 7px;
+            &:hover {
+                color: white;
+            }
+            .email-tag-delete {
+                margin-left: 4px;
+                font-size: 90%;
+            }
+        }
+    }
+    input {
+        box-sizing: unset;
+    }
+}
