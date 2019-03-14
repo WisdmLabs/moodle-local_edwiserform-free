@@ -67,6 +67,9 @@ and open the template in the editor.
     height: 100%;
     margin: 0;
 }
+#efb-cont-form-settings.efb-tabcontent {
+    padding: 15px;
+}
 .efb-tabcontent .efb-form-settings {
     height: 100%;
     background: white;
@@ -85,6 +88,7 @@ and open the template in the editor.
     outline: unset;
     box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.5);
     transition: right .5s;
+    padding: 0;
 }
 .efb-form-step.efb-form-step-preview.collapsed {
     right: 25px;
@@ -212,6 +216,7 @@ and open the template in the editor.
     text-transform: uppercase;
     font-weight: 700;
     padding-left: 4rem;
+    overflow: hidden;
 }
 .efb-editor-toolbar > .efb-editor-buttons > .efb-editor-button > .btn i, .efb-form-save.efb-form-step.btn i {
     padding: 0% 8%;
@@ -243,6 +248,8 @@ and open the template in the editor.
     border: none;
     border-bottom: 1px solid #ddd;
     padding: 10px 10px 10px 0;
+    margin: 0;
+    border-radius: 0 !important;
 }
 .efb-panel-btn:not(.panel-active):not(:hover) {
     background-color: transparent !important;
@@ -512,6 +519,8 @@ and open the template in the editor.
     color: #FFFFFF;
     transform: scale(.7);
     padding: .1em 0.3em;
+    width: max-content;
+    display: inline-block;
 }
 .efb-forms-template .efb-forms-template-inner .efb-forms-template-name .efb-forms-pro-label {
     color: #fff;
@@ -519,6 +528,8 @@ and open the template in the editor.
     border-color: #46be8a;
     transform: scale(.7);
     padding: .1em 0.3em;
+    width: max-content;
+    display: inline-block;
 }
 .efb-forms-template:not(.active) .efb-forms-template-inner .efb-forms-template-name .efb-forms-template-active {
     display: none;
@@ -531,6 +542,7 @@ and open the template in the editor.
     border-style: solid;
     color: #4a4a4a !important;
     width: 100%;
+    padding: 0;
 }
 .efb-forms-template:not(.active) .efb-forms-template-outer {
     background: white !important;
@@ -581,6 +593,9 @@ and open the template in the editor.
 }
 #efb-basic-form-settings .editor_atto .form-control {
     width: 100%;
+}
+#efb-basic-form-settings input {
+    box-sizing: unset;
 }
 .efb-table .icon {
     font-size: 1.3rem;
@@ -662,6 +677,9 @@ and open the template in the editor.
 
 .efb-modal.show {
     display: block;
+}
+.efb-modal.fade.show {
+    opacity: 1;
 }
 .efb-modal.show .efb-modal-dialog {
     -webkit-transform: translate(0,0);

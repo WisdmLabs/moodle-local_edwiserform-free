@@ -53,7 +53,7 @@ class DOM {
     let handle = h.merge(Object.assign({}, btnTemplate), {
       content: [icon('move'), icon('handle')],
       attrs: {
-        className: ['btn-secondary', 'item-handle'],
+        className: ['btn-default', 'item-handle'],
       },
       meta: {
         id: 'handle'
@@ -2208,15 +2208,16 @@ class DOM {
     let prop;
     let val;
     let styleString = '';
+    let index;
     styles = styles.trim();
     if (styles != '') {
       styles = styles.split(';');
       h.forEach(styles, function(style, i) {
         style = style.trim();
         if (style != '') {
-          style = style.split(':');
-          prop = style[0].trim();
-          val = style[1].trim();
+          index = style.indexOf(':');
+          prop = style.substring(0, index).trim();
+          val = style.substring(index + 1).trim();
           if (prop != '' && val != '') {
             stylesObj[prop] = val;
           }

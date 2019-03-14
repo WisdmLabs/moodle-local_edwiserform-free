@@ -158,7 +158,7 @@ class efb_add_new_form implements renderable, templatable
                 "active"  => $this->form ? "active" : "hide",
                 "heading" => get_string("efb-lbl-form-builder", "local_edwiserform"),
                 "body"    => "<form class='build-form'></form>",
-                "button"  => "<button class='efb-form-step efb-form-step-preview bg-primary fa fa-eye' data-id='efb-form-preview' title='" . get_string(
+                "button"  => "<button class='efb-form-step efb-form-step-preview btn-primary fa fa-eye' data-id='efb-form-preview' title='" . get_string(
                     'efb-lbl-form-preview',
                     'local_edwiserform'
                 ) . "'></button>"

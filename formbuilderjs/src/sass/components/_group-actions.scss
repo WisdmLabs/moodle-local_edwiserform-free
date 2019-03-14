@@ -21,6 +21,7 @@
     overflow: hidden;
     border-radius: 50%;
     opacity: 0.5;
+    margin: 0;
     &:hover {
       opacity: 1;
     }
@@ -29,6 +30,12 @@
       border: 0 none;
       outline: 0 none;
       box-shadow: none;
+    }
+    &.btn-default {
+      background: #ccc;
+    }
+    &.btn-danger {
+      background: #ff4c52;
     }
   }
 
