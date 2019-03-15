@@ -205,6 +205,7 @@ and open the template in the editor.
     width: 2rem;
     margin-bottom: 0;
     cursor: pointer;
+    display: inline-block;
     input {
         display: none;
         &:checked + .switch-container .switch-lever {
@@ -252,6 +253,10 @@ and open the template in the editor.
         .efb-listing, .efb-form-list-info {
             float: left;
         }
+        .dataTables_filter {
+            float: right;
+            text-align: right;
+        }
     }
     .efb-csv-export {
         pointer-events: none;
@@ -270,10 +275,10 @@ and open the template in the editor.
     a .icon {
         color: #76838f;
     }
-    .dataTable thead {
+    &.dataTable thead {
         .header {
             padding-right: 2rem!important;
-            :after, :before {
+            &:after, &:before {
                 margin-top: 0;
             }
         }
@@ -310,6 +315,7 @@ and open the template in the editor.
 .efb-form-icon-btn.btn {
     position: relative;
     padding-left: 3.5rem;
+    overflow: hidden;
 }
 .efb-form-icon-btn.btn i {
     position: absolute;
@@ -339,4 +345,49 @@ and open the template in the editor.
 }
 .efb-tbl-col-shortcode {
     cursor: copy;
+}
+.dataTables_wrapper .dataTables_paginate {
+    .paginate_button {
+        display: inline-block;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        min-width: 1.5em;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none!important;
+        color: #333!important;
+        cursor: hand;
+        &.disabled, &.disabled:active, &.disabled:hover {
+            cursor: default;
+            color: #666!important;
+            background: 0 0;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+    }
+}
+.page-link {
+    -webkit-transition: background .2s ease-out,border-color 0s ease-out,color .2s ease-out;
+    -o-transition: background .2s ease-out,border-color 0s ease-out,color .2s ease-out;
+    transition: background .2s ease-out,border-color 0s ease-out,color .2s ease-out;
+}
+.page-link {
+    line-height: 1.571429;
+    position: relative;
+    display: block;
+    margin-left: -1px;
+    padding: .643rem 1.072rem;
+    color: #76838f;
+    border: 1px solid #e4eaec;
+    background-color: transparent;
+}
+.page-item.active .page-link {
+    z-index: 3;
+}
+.page-item.active .page-link {
+    z-index: 2;
+    color: #fff;
+    border-color: #62a8ea;
+    background-color: #62a8ea;
 }
