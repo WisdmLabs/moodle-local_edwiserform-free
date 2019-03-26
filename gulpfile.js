@@ -3,6 +3,7 @@ const minify = require('gulp-minify');
 const exec = require('gulp-exec');
 const notify = require("gulp-notify");
 const sass = require("gulp-sass");
+const babel = require('gulp-babel');
 const clean = require("gulp-clean");
 const replace = require("gulp-batch-replace");
 const concat = require("gulp-concat");
@@ -29,6 +30,7 @@ gulp.task('purgelang', function() {
 
 gulp.task('compress', function() {
     return gulp.src('amd/src/*.js')
+    .pipe(babel({ presets: [["@babel/preset-env"]] }))
     .pipe(minify({
         ext:{
             min:'.js'
