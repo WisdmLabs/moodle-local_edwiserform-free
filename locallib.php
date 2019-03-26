@@ -114,7 +114,7 @@ class edwiserform {
         $out = "";
         can_create_or_view_form($USER->id);
         $js = [new moodle_url('https://www.google.com/recaptcha/api.js')];
-        $css = [new moodle_url($CFG->wwwroot .'/local/edwiserform/style/dataTables.bootstrap4.css')];
+        $css = [new moodle_url($CFG->wwwroot .'/local/edwiserform/style/datatables.css')];
         switch ($page) {
             case 'newform':
                 $sitekey = get_config('local_edwiserform', 'google_recaptcha_sitekey');

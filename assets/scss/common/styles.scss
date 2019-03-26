@@ -203,9 +203,9 @@ and open the template in the editor.
 .efb-switch {
     height: 1rem;
     width: 2rem;
-    margin-bottom: 0;
+    margin: 0 auto 5px auto;
     cursor: pointer;
-    display: inline-block;
+    display: block;
     input {
         display: none;
         &:checked + .switch-container .switch-lever {
@@ -275,15 +275,18 @@ and open the template in the editor.
     a .icon {
         color: #76838f;
     }
-    &.dataTable thead {
-        .header {
+    &.dataTable {
+        background: white !important;
+        thead .header {
             padding-right: 2rem!important;
             &:after, &:before {
                 margin-top: 0;
+                bottom: 1rem !important;
             }
         }
     }
 }
+
 .text-left {
     text-align: left;
 }

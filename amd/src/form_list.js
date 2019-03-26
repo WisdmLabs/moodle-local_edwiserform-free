@@ -4,13 +4,11 @@
  * Author: Yogesh Shirsath
  */
 define([
-   'jquery',
-   'core/ajax',
-   'local_edwiserform/jszip',
-   'local_edwiserform/jquery.dataTables',
-   'local_edwiserform/dataTables.bootstrap4',
-   'local_edwiserform/dataTables.buttons',
-   'local_edwiserform/buttons.html5'
+    'jquery',
+    'core/ajax',
+    'local_edwiserform/jquery.dataTables',
+    'local_edwiserform/dataTables.bootstrap4',
+    'local_edwiserform/fixedColumns.bootstrap4'
 ], function ($, ajax) {
     return {
         init: function() {
@@ -24,23 +22,30 @@ define([
                 if ($(".efb-wrap-list").data("sesskey") != 0) {
                     var sesskey = $(".efb-wrap-list").data("sesskey");
                     var forms = $("#efb-forms").DataTable({
-                        "paging":   true,
-                        "ordering": true,
-                        "bProcessing": true,
-                        "bServerSide": true,
-                        "rowId": 'DT_RowId',
-                        "bDeferRender": true,
-                        "sAjaxSource": M.cfg.wwwroot + "/local/edwiserform/classes/external/get_forms.php",
+                        paging          :   true,
+                        ordering        : true,
+                        bProcessing     : true,
+                        bServerSide     : true,
+                        rowId           : 'DT_RowId',
+                        bDeferRender    : true,
+                        sAjaxSource     : M.cfg.wwwroot + "/local/edwiserform/classes/external/get_forms.php",
+                        scrollY         : "400px",
+                        scrollX         : true,
+                        scrollCollapse  : true,
+                        fixedColumns    : {
+                            leftColumns     : 1,
+                            rightColumns    : 1
+                        },
                         dom: '<"efb-top"<"efb-listing"l><"efb-list-filtering"f>>t<"efb-bottom"<"efb-form-list-info"i><"efb-list-pagination"p>><"efb-shortcode-copy-note">',
-                        "columns": [
-                            { "data": "title" },
-                            { "data": "type" },
-                            { "data": "id" , "orderable" : false},
-                            { "data": "author" },
-                            { "data": "created" },
-                            { "data": "author2" },
-                            { "data": "modified" },
-                            { "data": "actions" , "orderable" : false}
+                        columns: [
+                            { data: "title" },
+                            { data: "type" },
+                            { data: "id" , orderable : false},
+                            { data: "author" },
+                            { data: "created" },
+                            { data: "author2" },
+                            { data: "modified" },
+                            { data: "actions" , orderable : false}
                         ],
                         language: {
                             sSearch: M.util.get_string('efb-search-form', 'local_edwiserform')
@@ -54,9 +59,6 @@ define([
                             $('td:eq(5)', nRow).addClass( "efb-tbl-col-action-list" );
                         },
                         drawCallback: function( settings ) {
-                            $('.efb-table thead th').addClass('header').each(function(index, el) {
-                                $(el).addClass('c' + index);
-                            });
                             $('.efb-csv-export').removeClass('dt-button').off();
                             $('.efb-shortcode-copy-note').html(M.util.get_string('clickonshortcode', 'local_edwiserform'));
                         }
