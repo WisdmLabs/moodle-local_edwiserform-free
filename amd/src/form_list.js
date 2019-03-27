@@ -36,6 +36,9 @@ define([
                             leftColumns     : 1,
                             rightColumns    : 1
                         },
+                        classes: {
+                            sScrollHeadInner: 'efb_dataTables_scrollHeadInner'
+                        },
                         dom: '<"efb-top"<"efb-listing"l><"efb-list-filtering"f>>t<"efb-bottom"<"efb-form-list-info"i><"efb-list-pagination"p>><"efb-shortcode-copy-note">',
                         columns: [
                             { data: "title" },

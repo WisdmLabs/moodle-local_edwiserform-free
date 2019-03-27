@@ -27,6 +27,9 @@ define([
                     fixedColumns    : {
                         leftColumns     : 2,
                     },
+                    classes: {
+                        sScrollHeadInner: 'efb_dataTables_scrollHeadInner'
+                    },
                     dom         : '<"efb-top"<"efb-listing"l><"efb-list-filtering"f>>t<"efb-bottom"<"efb-list-pagination"p><"efb-export"B>>i',
                     language: {
                         sSearch: M.util.get_string('efb-search-form', 'local_edwiserform')
