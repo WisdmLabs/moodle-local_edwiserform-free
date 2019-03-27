@@ -54,6 +54,9 @@ class Formeo {
     dom.container = _this.container;
     dom.sitekey = options.sitekey || '';
     dom.prourl = options.prourl || '';
+    dom.get_pro_demo_url = options.get_pro_demo_url || function() {
+      return 'https://www.youtube.com/embed/skkRW4ZOo18';
+    };
     this.resetForm = options.resetForm || false;
     if (typeof _this.container === 'string') {
       _this.container = document.querySelector(_this.container);

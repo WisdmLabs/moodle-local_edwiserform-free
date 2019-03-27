@@ -476,9 +476,11 @@ export default class Row {
         dom.addColumn(to.id);
       }
     } else if(fromControls) {
-      let text = evt.item.firstChild.lastChild.wholeText;
-      text = getString('dragndrop', text);
-      dom.proWarning(text);
+      dom.proWarning({
+        type: evt.item.firstChild.lastChild.wholeText,
+        video: 'dragndrop',
+        message: ''
+      });
     }
 
     if (fromColumn || fromControls) {

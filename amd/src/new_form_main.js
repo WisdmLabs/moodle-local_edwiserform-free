@@ -26,6 +26,13 @@ define(['jquery', 'core/ajax', 'local_edwiserform/efb_form_basic_settings', 'loc
                     svgSprite: M.cfg.wwwroot + '/local/edwiserform/pix/formeo-sprite.svg',
                     localStorage: false,
                 };
+                var get_pro_demo_url = (video) => {
+                    console.log(video);
+                    if (videotypes.hasOwnProperty(video)) {
+                        return videotypes[video];
+                    }
+                    return 'https://www.youtube.com/embed/skkRW4ZOo18';
+                }
                 var reset_form = function() {
                     formeo.dom.loading();
                     var formtype = $("#id_type").val();
@@ -48,6 +55,7 @@ define(['jquery', 'core/ajax', 'local_edwiserform/efb_form_basic_settings', 'loc
                     });
                 };
                 formeoOpts.resetForm = reset_form;
+                formeoOpts.get_pro_demo_url = get_pro_demo_url;
                 if (typeof formdefinition != 'undefined') {
                     formeo = new Formeo(formeoOpts, formdefinition);
                 } else {
@@ -318,9 +326,11 @@ define(['jquery', 'core/ajax', 'local_edwiserform/efb_form_basic_settings', 'loc
                     $("#efb-form-settings").trigger('click');
                 }
                 $(".efb-forms-template.pro").click(function() {
-                    var type = $(this).find('.efb-forms-template-name').text();
-                    var message = $(this).find('.efb-forms-template-details .desc').text();
-                    formeo.dom.proWarning({type,message});
+                    formeo.dom.proWarning({
+                        type: $(this).find('.efb-forms-template-name').text(),
+                        video: $(this).data('template'),
+                        message: $(this).find('.efb-forms-template-details .desc').text()
+                    });
                 });
                 $(".efb-forms-template-select").click(function(event){
                     var _this = this;

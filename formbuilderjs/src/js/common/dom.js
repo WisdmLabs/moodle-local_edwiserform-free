@@ -2712,8 +2712,15 @@ class DOM {
    */
   proWarning(msg = null) {
     let _this = this;
-    if (typeof msg == 'object') {
+    let video = '';
+    if (typeof msg == 'object' && msg != null) {
+      if (msg.hasOwnProperty('video')) {
+        video += `
+        <div><iframe class="demo" src="${this.get_pro_demo_url(msg.video)}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+        </iframe></div>`;
+      }
       msg = getString('profeaturemessage', msg);
+      msg += video;
     } else {
       msg = getString('profeature', msg);
     }

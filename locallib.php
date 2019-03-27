@@ -109,6 +109,20 @@ class edwiserform {
         return $result;
     }
 
+    private function get_video_types() {
+        return array(
+            'blank' => 'https://www.youtube.com/embed/skkRW4ZOo18',
+            'enrolment' => 'https://www.youtube.com/embed/skkRW4ZOo18',
+            'login' => 'https://www.youtube.com/embed/skkRW4ZOo18',
+            'registration' => 'https://www.youtube.com/embed/skkRW4ZOo18',
+            'layout' => 'https://www.youtube.com/embed/skkRW4ZOo18',
+            'standard' => 'https://www.youtube.com/embed/skkRW4ZOo18',
+            'advance' => 'https://www.youtube.com/embed/skkRW4ZOo18',
+            'html' => 'https://www.youtube.com/embed/skkRW4ZOo18',
+            'dragndrop' => 'https://www.youtube.com/embed/skkRW4ZOo18'
+        );
+    }
+
     public function view($page) {
         global $USER, $CFG, $PAGE;
         $out = "";
@@ -123,6 +137,7 @@ class edwiserform {
                 }
                 $PAGE->requires->js_call_amd('local_edwiserform/new_form_main', 'init', array($sitekey, PRO_URL));
                 $PAGE->requires->data_for_js('sitekey', $sitekey);
+                $PAGE->requires->data_for_js('videotypes', $this->get_video_types());
                 $formid = optional_param('formid', null, PARAM_FLOAT);
                 $out = $this->get_renderer()->render(new efb_add_new_form($formid));
                 if ($formid) {

@@ -131,9 +131,11 @@ export default class Column {
     let fromColumn = from.fType === 'columns';
     let fromControl = from.fType === 'controlGroup';
     if (fromControl) {
-      let text = evt.item.firstChild.lastChild.wholeText;
-      text = getString('dragndrop', text);
-      dom.proWarning(text);
+      dom.proWarning({
+        type: evt.item.firstChild.lastChild.wholeText,
+        video: 'dragndrop',
+        message: ''
+      });
       dom.remove(item);
     }
 

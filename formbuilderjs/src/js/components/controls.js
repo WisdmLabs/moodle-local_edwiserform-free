@@ -636,8 +636,11 @@ export class Controls {
       //     _this.panels.nav.refresh(h.indexOfNode(currentGroup));
       //   },
       click: evt => {
-        let text = evt.target.lastChild.wholeText;
-        dom.proWarning(text);
+        dom.proWarning({
+          type: evt.target.lastChild.wholeText,
+          video: evt.target.getAttribute('data-control-type'),
+          message: ''
+        });
       }
       // mousedown: evt => {
       //   let position = _this.cPosition;
@@ -685,7 +688,8 @@ export class Controls {
       tag: 'button',
       attrs: {
         className: 'btn btn-primary',
-        type: 'button'
+        type: 'button',
+        'data-control-type': elem.meta.group
       },
       content: [elem.config.label],
       action: _this.controlEvents,
@@ -911,7 +915,13 @@ export class Controls {
     this.currentGroup = groups[0];
 
     this.actions = {
-      addElement: dom.proWarning,
+      addElement: (evt) => {
+        dom.proWarning({
+          type: evt.target.lastChild.wholeText,
+          video: evt.target.getAttribute('data-control-type'),
+          message: ''
+        });
+      },
       addGroup: (group) => console.log(group)
     };
 
