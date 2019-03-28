@@ -26,13 +26,16 @@ define(['jquery', 'core/ajax', 'local_edwiserform/efb_form_basic_settings', 'loc
                     svgSprite: M.cfg.wwwroot + '/local/edwiserform/pix/formeo-sprite.svg',
                     localStorage: false,
                 };
+
+                /**
+                 * Get pro feature demo url of youtube video
+                 * @param  {string} video type of feature
+                 * @return {string}       Youtube embed video url
+                 */
                 var get_pro_demo_url = (video) => {
-                    console.log(video);
-                    if (videotypes.hasOwnProperty(video)) {
-                        return videotypes[video];
-                    }
-                    return 'https://www.youtube.com/embed/skkRW4ZOo18';
+                    return videotypes.hasOwnProperty(video) ? videotypes[video] : videotypes['default'];
                 }
+
                 var reset_form = function() {
                     formeo.dom.loading();
                     var formtype = $("#id_type").val();

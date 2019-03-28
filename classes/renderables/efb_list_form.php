@@ -201,6 +201,7 @@ class efb_list_form implements renderable, templatable {
             "title" => get_string("efb-form-action-export-title", "local_edwiserform"),
             "attrs" => array(
                 "class" => "efb-form-export",
+                "href" => "#",
                 "target" => "_blank",
             )
         );

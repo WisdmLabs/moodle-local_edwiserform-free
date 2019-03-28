@@ -121,6 +121,16 @@ define([
                         delete_form_response(false, ex.msg);
                     });
                 });
+
+                /**
+                 * Get pro feature demo url of youtube video
+                 * @param  {string} video type of feature
+                 * @return {string}       Youtube embed video url
+                 */
+                var get_pro_demo_url = (video) => {
+                    return videotypes.hasOwnProperty(video) ? videotypes[video] : videotypes['default'];
+                }
+
                 $('body').on('click', '.efb-form-export', function(event) {
                     event.preventDefault();
                     $('#efb-modal .efb-modal-header').removeClass('bg-success').addClass('bg-warning');
@@ -132,7 +142,11 @@ define([
                         type: string + '! <b>' + exporttitle + '</b>',
                         message: message
                     });
-                    $('#efb-modal .efb-modal-body').html(`<h5>${message}</h5>`);
+                    $('#efb-modal .efb-modal-body').html(`
+                        <h5>${message}</h5>
+                        <div><iframe class="demo" src="${get_pro_demo_url('export')}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                        </iframe></div>
+                    `);
                     $('#efb-modal').addClass('show pro').removeClass('delete deleted');
                 });
 

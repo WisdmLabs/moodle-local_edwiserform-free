@@ -111,15 +111,17 @@ class edwiserform {
 
     private function get_video_types() {
         return array(
-            'blank' => 'https://www.youtube.com/embed/skkRW4ZOo18',
-            'enrolment' => 'https://www.youtube.com/embed/skkRW4ZOo18',
-            'login' => 'https://www.youtube.com/embed/skkRW4ZOo18',
-            'registration' => 'https://www.youtube.com/embed/skkRW4ZOo18',
-            'layout' => 'https://www.youtube.com/embed/skkRW4ZOo18',
-            'standard' => 'https://www.youtube.com/embed/skkRW4ZOo18',
-            'advance' => 'https://www.youtube.com/embed/skkRW4ZOo18',
-            'html' => 'https://www.youtube.com/embed/skkRW4ZOo18',
-            'dragndrop' => 'https://www.youtube.com/embed/skkRW4ZOo18'
+            'blank'         => 'https://www.youtube.com/embed/2_Yc-Qz-fY8',
+            'enrolment'     => 'https://www.youtube.com/embed/yn4DzsUuIYU',
+            'login'         => 'https://www.youtube.com/embed/dfsReQwnkA0',
+            'registration'  => 'https://www.youtube.com/embed/eJqYmJw-llk',
+            'layout'        => 'https://www.youtube.com/embed/6egUFUZRtpQ',
+            'standard'      => 'https://www.youtube.com/embed/p12XKbBBMfc',
+            'advance'       => 'https://www.youtube.com/embed/3I7dCMEyhmc',
+            'html'          => 'https://www.youtube.com/embed/z2d2PnCryCg',
+            'dragndrop'     => 'https://www.youtube.com/embed/M_fS36z6gAs',
+            'export'        => 'https://www.youtube.com/embed/qPGxS7T2LJI',
+            'default'       => 'https://www.youtube.com/embed/skkRW4ZOo18'
         );
     }
 
@@ -127,6 +129,7 @@ class edwiserform {
         global $USER, $CFG, $PAGE;
         $out = "";
         can_create_or_view_form($USER->id);
+        $PAGE->requires->data_for_js('videotypes', $this->get_video_types());
         $js = [new moodle_url('https://www.google.com/recaptcha/api.js')];
         $css = [new moodle_url($CFG->wwwroot .'/local/edwiserform/style/datatables.css')];
         switch ($page) {
@@ -137,7 +140,6 @@ class edwiserform {
                 }
                 $PAGE->requires->js_call_amd('local_edwiserform/new_form_main', 'init', array($sitekey, PRO_URL));
                 $PAGE->requires->data_for_js('sitekey', $sitekey);
-                $PAGE->requires->data_for_js('videotypes', $this->get_video_types());
                 $formid = optional_param('formid', null, PARAM_FLOAT);
                 $out = $this->get_renderer()->render(new efb_add_new_form($formid));
                 if ($formid) {
