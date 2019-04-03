@@ -109,18 +109,22 @@ class edwiserform {
         return $result;
     }
 
+    /**
+     * Get pro feature video type links
+     * @return array Video type links array
+     */
     private function get_video_types() {
         return array(
-            'blank'         => 'https://www.youtube.com/embed/2_Yc-Qz-fY8',
-            'enrolment'     => 'https://www.youtube.com/embed/yn4DzsUuIYU',
-            'login'         => 'https://www.youtube.com/embed/dfsReQwnkA0',
-            'registration'  => 'https://www.youtube.com/embed/eJqYmJw-llk',
-            'layout'        => 'https://www.youtube.com/embed/6egUFUZRtpQ',
-            'standard'      => 'https://www.youtube.com/embed/p12XKbBBMfc',
-            'advance'       => 'https://www.youtube.com/embed/3I7dCMEyhmc',
-            'html'          => 'https://www.youtube.com/embed/z2d2PnCryCg',
-            'dragndrop'     => 'https://www.youtube.com/embed/M_fS36z6gAs',
-            'export'        => 'https://www.youtube.com/embed/qPGxS7T2LJI',
+            'blank'         => 'https://www.youtube.com/embed/kS4e4DvSK44',
+            'enrolment'     => 'https://www.youtube.com/embed/a23TPY-p_OM',
+            'login'         => 'https://www.youtube.com/embed/7opeETo_KRY',
+            'registration'  => 'https://www.youtube.com/embed/jwfGSu_wvm4',
+            'layout'        => 'https://www.youtube.com/embed/IrWVYJgA6bU',
+            'standard'      => 'https://www.youtube.com/embed/6OXDSR1XUN8',
+            'advance'       => 'https://www.youtube.com/embed/rNs7l3EtvqU',
+            'html'          => 'https://www.youtube.com/embed/ghVUmGCtJU4',
+            'dragndrop'     => 'https://www.youtube.com/embed/kS4e4DvSK44',
+            'export'        => 'https://www.youtube.com/embed/Qd-KlDFGaNU',
             'default'       => 'https://www.youtube.com/embed/skkRW4ZOo18'
         );
     }
