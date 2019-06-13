@@ -82,3 +82,13 @@
   flex-direction: column;
   flex: auto;
 }
+
+@include breakpoint(phone-lrg) {
+  .f-row {
+    display: block !important;
+  }
+  .f-render-column {
+    margin-top: 1em;
+    width: 100% !important;
+  }
+}

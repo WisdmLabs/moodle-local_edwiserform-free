@@ -38,18 +38,21 @@ $urlparam = array('page' => $page);
 $formid = optional_param('formid', null, PARAM_INT);
 if ($formid) {
     $urlparam['formid'] = $formid;
+    // Switching between layout of new form and list form/formdata
 }
+$title = $page;
 if ($page == 'newform') {
+    if ($formid != null) {
+        $title = 'editform';
+    }
     $PAGE->set_pagelayout('popup');
 } else {
     $PAGE->set_pagelayout('admin');
 }
-$efbpagetitle = get_string('efb-heading-'.$page, 'local_edwiserform');
+$efbpagetitle = get_string('efb-heading-' . $title, 'local_edwiserform');
 $PAGE->set_title($efbpagetitle);
 $PAGE->set_heading($efbpagetitle);
 $PAGE->set_url(new moodle_url("/local/edwiserform/view.php", $urlparam));
-$PAGE->set_title($efbpagetitle);
-$PAGE->set_heading($efbpagetitle);
 $edwiserform = new edwiserform();
 $out = $edwiserform->view($page);
 $out = $OUTPUT->header() . $out;

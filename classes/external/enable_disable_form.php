@@ -36,6 +36,11 @@ use external_value;
 trait enable_disable_form
 {
 
+    /**
+     * Describes the parameters for enable disable form
+     * @return external_function_parameters
+     * @since  Edwiser Forms 1.0.0
+     */
     public static function enable_disable_form_parameters() {
         return new external_function_parameters(
             [
@@ -45,6 +50,13 @@ trait enable_disable_form
         );
     }
 
+    /**
+     * Enable or disable form
+     * @param  interger $id of form
+     * @param  boolean  $action to perform [true - enable|false - disable]
+     * @return array    [status|msg]
+     * @since  Edwiser Form 1.0.0
+     */
     public static function enable_disable_form($id, $action) {
         global $DB, $CFG;
         $action = $action ? "enable" : "disable";
@@ -60,14 +72,15 @@ trait enable_disable_form
                 "status" => true,
                 "msg" => get_string("efb-form-action-" . $action . "-success", "local_edwiserform")
             );
-            $plugin = get_plugin($form->type);
-            if ($plugin != null) {
-                $responce = $plugin->enable_disable_form($form, $action, $responce);
-            }
         }
         return $responce;
     }
 
+    /**
+     * Returns description of method parameters for enable disable form
+     * @return external_single_structure
+     * @since  Edwiser Form 1.0.0
+     */
     public static function enable_disable_form_returns() {
         return new external_single_structure(
             [

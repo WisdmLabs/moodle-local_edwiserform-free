@@ -17,15 +17,12 @@ and open the template in the editor.
     bottom: 0;
     left: 0;
     z-index: 1700;
-    display: none;
-    overflow-y: auto;
+    overflow: hidden;
     outline: 0;
     background: rgba(0, 0, 0, 0.5);
-
-    &.fade.show {
-        opacity: 1;
+    &:not(.show) {
+        visibility: hidden;
     }
-
     &.show {
         display: block;
         .efb-modal-dialog {
@@ -33,108 +30,86 @@ and open the template in the editor.
             transform: translate(0,0);
         }
     }
-    @media (min-width: 768px) {
-        .efb-modal-dialog {
-            width: auto;
-            margin: 30px auto;
-        }
-    }
-    @media (min-width: 480px) {
-        .efb-modal-dialog {
-            max-width: 600px;
-            margin: 30px auto;
+    &.fade {
+        opacity: 0;
+        transition: opacity 150ms ease-in-out;
+        &.show {
+            opacity: 1;
         }
     }
     .efb-modal-dialog {
+        transition: transform 150ms ease-in-out;
+        -webkit-transform: translate(0, -100%);
+        transform: translate(0, -100%);
         position: relative;
         width: auto;
         margin: 30px auto;
-
-        .efb-modal-content {
-            position: relative;
-            display: -ms-flexbox;
-            display: flex;
-            -ms-flex-direction: column;
-            flex-direction: column;
-            width: 100%;
-            pointer-events: auto;
-            background-color: #fff;
-            background-clip: padding-box;
-            border: none;
-            border-radius: .286rem;
-            box-shadow: 0 2px 12px rgba(0,0,0,.2);
-            outline: 0;
-        }
-        .efb-modal-header {
-            padding: 15px 20px;
-            padding-right: 40px;
-            border-bottom: none;
-            display: -ms-flexbox;
+    }
+    .efb-modal-header {
+        padding: 15px 20px;
+        padding-right: 20px;
+        border-bottom: none;
+        display: -ms-flexbox;
+        color: white;
+        display: flex;
+        -ms-flex-align: start;
+        align-items: flex-start;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        border-bottom: 1px solid #e4eaec;
+        border-top-left-radius: .286rem;
+        border-top-right-radius: .286rem;
+        .close {
+            -ms-flex-order: 2;
+            order: 2;
+            margin-top: 1px;
+            padding: 0;
+            cursor: pointer;
+            background-color: transparent;
+            border: 0;
+            -webkit-appearance: none;
+            float: right;
+            font-size: 21px;
+            font-weight: 700;
+            line-height: 1;
             color: white;
-            display: flex;
-            -ms-flex-align: start;
-            align-items: flex-start;
-            -ms-flex-pack: justify;
-            justify-content: space-between;
-            border-bottom: 1px solid #e4eaec;
-            border-top-left-radius: .286rem;
-            border-top-right-radius: .286rem;
-
-            .efb-modal-title {
-                -ms-flex-order: 1;
-                word-break: break-all;
-                font-weight: 600;
-                order: 1;
-                margin-top: 0;
-                margin-bottom: 0;
-                line-height: 1.57142857;
-            }
-
-            .close {
-                -ms-flex-order: 2;
-                order: 2;
-                margin-top: 1px;
-                padding: 0;
-                cursor: pointer;
-                background-color: transparent;
-                border: 0;
-                -webkit-appearance: none;
-                float: right;
-                font-size: 21px;
-                font-weight: 700;
-                line-height: 1;
-                color: #000;
-                text-shadow: none;
-                opacity: .5;
-            }
+            text-shadow: none;
+            opacity: 1;
         }
-        .efb-modal-body {
-            padding: 1rem;
-            background: white;
-            table td {
-                vertical-align: top;
-            }
-            .demo {
-                width: 100%;
-                height: 320px;
-            }
+        .efb-modal-title {
+            -ms-flex-order: 1;
+            word-break: break-all;
+            font-weight: 600;
+            order: 1;
+            margin-top: 0;
+            margin-bottom: 0;
+            line-height: 1.57142857;
         }
-        .efb-modal-footer {
-            display: -ms-flexbox;
-            display: flex;
-            -ms-flex-align: center;
-            align-items: center;
-            -ms-flex-pack: end;
-            justify-content: flex-end;
-            background: white;
-            padding: 10px;
-            border-top: 1px solid #e4eaec;
-            &>:not(:last-child) {
-                margin-right: .25rem;
-            }
-            &>:not(:first-child) {
-                margin-left: .25rem;
-            }
+    }
+    .efb-modal-body {
+        padding: 1rem;
+        background: white;
+        table td {
+            vertical-align: top;
+        }
+    }
+
+    .efb-modal-footer {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: end;
+        justify-content: flex-end;
+        background: white;
+        padding: 10px;
+        border-top: 1px solid #e4eaec;
+        &>:not(:last-child) {
+            margin-right: .25rem;
+        }
+
+        &>:not(:first-child) {
+            margin-left: .25rem;
         }
     }
     &.pro {
@@ -173,6 +148,21 @@ and open the template in the editor.
         color: #fff;
         background-color: #46be8a;
         border-color: #46be8a;
+    }
+}
+@media (min-width: 768px) {
+    .efb-modal-dialog {
+        width: auto;
+        margin: 30px auto;
+    }
+}
+@media (min-width: 480px) {
+    .efb-modal-dialog {
+        max-width: 600px;
+        margin: 30px auto;
+    }
+    .efb-modal-content {
+        box-shadow: 0 2px 12px rgba(0,0,0,.2);
     }
 }
 /* Modal css ends */
@@ -407,4 +397,28 @@ and open the template in the editor.
     color: #fff;
     border-color: #62a8ea;
     background-color: #62a8ea;
+}
+.edwiserform-root-container {
+    display: flex;
+}
+.edwiserform-container.empty {
+    width: 100%;
+    text-align: center;
+}
+// smartphones, Android phones, landscape iPhone
+@media (max-width: 481px) {
+    #edwiserform-fullpage + div #edwiserform-background-cover {
+        background: white !important;
+    }
+    #edwiserform-fullpage + div form.edwiserform-container:not(.empty) {
+        margin: 0 auto !important;
+        width: 100% !important;
+    }
+}
+
+// smartphones, Android phones, landscape iPhone
+@media (min-width: 482px) {
+    #edwiserform-fullpage + div form.edwiserform-container:not(.empty) {
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.7);
+    }
 }

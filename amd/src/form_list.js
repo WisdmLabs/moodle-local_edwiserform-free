@@ -6,19 +6,14 @@
 define([
     'jquery',
     'core/ajax',
+    'core/notification',
     'local_edwiserform/jquery.dataTables',
     'local_edwiserform/dataTables.bootstrap4',
     'local_edwiserform/fixedColumns.bootstrap4'
-], function ($, ajax) {
+], function ($, ajax, notification) {
     return {
         init: function() {
             $(document).ready(function (e) {
-                function guid() {
-                    function s4() {
-                        return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-                    }
-                    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-                }
                 if ($(".efb-wrap-list").data("sesskey") != 0) {
                     var sesskey = $(".efb-wrap-list").data("sesskey");
                     var forms = $("#efb-forms").DataTable({
@@ -50,8 +45,19 @@ define([
                             { data: "modified" },
                             { data: "actions" , orderable : false}
                         ],
-                        language: {
-                            sSearch: M.util.get_string('efb-search-form', 'local_edwiserform')
+                        language        : {
+                            sSearch: M.util.get_string('efb-search-form', 'local_edwiserform'),
+                            emptyTable: M.util.get_string('efb-heading-listforms-empty', 'local_edwiserform'),
+                            info: M.util.get_string('efb-heading-listforms-showing', 'local_edwiserform', {
+                                'start': '_START_',
+                                'end': '_END_',
+                                'total': '_TOTAL_',
+                            }),
+                            infoEmpty: M.util.get_string('efb-heading-listforms-showing', 'local_edwiserform', {
+                                'start': '0',
+                                'end': '0',
+                                'total': '0',
+                            }),
                         },
                         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
                             $('td:eq(0)', nRow).addClass( "efb-tbl-col-title" );
@@ -83,22 +89,6 @@ define([
                     return;
                 });
 
-                function delete_form_response(status, message) {
-                    var removeClass, addClass, header;
-                    if (status) {
-                        removeClass = 'bg-warning bg-danger';
-                        addClass = 'bg-success';
-                        header = M.util.get_string('success', 'local_edwiserform');
-                    } else {
-                        removeClass = 'bg-success bg-warning';
-                        addClass = 'bg-danger';
-                        header = M.util.get_string('danger', 'local_edwiserform');
-                    }
-                    $('#efb-modal .efb-modal-header').removeClass(removeClass).addClass(addClass);
-                    $('#efb-modal .efb-modal-title').html(header);
-                    $('#efb-modal .efb-modal-body').html(`<h5>${message}</h5>`);
-                    $('#efb-modal').addClass('show deleted').removeClass('pro delete');
-                }
                 $('body').on('click', '.efb-modal-delete-form', function(event) {
                     event.preventDefault();
                     var id = $(this).data('formid');
@@ -111,15 +101,11 @@ define([
                         }
                     }]);
                     reqDeleteForm[0].done(function(response) {
-                        $('.efb-modal-close').click();
                         if (response.status == true) {
                             forms.row(row).remove().draw();
                         }
-                        delete_form_response(response.status, response.msg);
-                    }).fail(function(ex) {
-                        $('.efb-modal-close').click();
-                        delete_form_response(false, ex.msg);
-                    });
+                    }).fail(notification.exception);
+                    $('.efb-modal-close').click();
                 });
 
                 /**
@@ -177,8 +163,7 @@ define([
                 });
 
                 function show_toaster(msg) {
-                    var id= guid();
-                    var toast = $(`<div id='${id}' class='efb-toaster toaster-container'>
+                    var toast = $(`<div class='efb-toaster toaster-container'>
                       <lable class='toaster-message'>${msg}</lable>
                     </div>`);
                     $('body').append(toast);

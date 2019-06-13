@@ -25,6 +25,8 @@ $string['pluginname'] = "Edwiser Forms Free";
 $string['efb-heading-newform'] = "Add New Form";
 $string['efb-heading-editform'] = "Edit Form";
 $string['efb-heading-listforms'] = "View All Forms";
+$string['efb-heading-listforms-empty'] = "You don't have any form. Click on Add New Form to create one.";
+$string["efb-heading-listforms-showing"] = 'Showing {$a->start} to {$a->end} of {$a->total} entries';
 $string["efb-heading-viewdata"] = "View data";
 $string['efb-heading-import'] = 'Import form(PRO)';
 $string['efb-settings'] = "Settings";
@@ -34,6 +36,8 @@ $string['efb-enable-user-level-from-creation'] = "Allow teacher to create new fo
 $string['efb-des-enable-user-level-from-creation'] = "This will allow teacher to add the new form and view form submitted data.";
 $string['efb-google-recaptcha-sitekey'] = 'Google reCaptcha site key';
 $string['efb-desc-google-recaptcha-sitekey'] = 'Enter google reCaptcha sitekey to use reCaptcha in your form';
+$string['efb-enable-site-navigation'] = 'Enable navigation using sidebar';
+$string['efb-desc-enable-site-navigation'] = 'Enable this to add navigation links in sidebar.';
 $string['efb-invalid-page'] = "Invalid";
 $string['efb-btn-next'] = "Next";
 $string['efb-btn-previous'] = "Previous";
@@ -65,8 +69,8 @@ $string['efb-admin-disabled-teacher'] = "You are not allowed to create form. Con
 $string['efb-contact-admin'] = "Please contact Site Admin.";
 $string['efb-notify-email-subject'] = '{$a->site}: New user submission in {$a->title}.';
 $string['efb-notify-email-body'] = '{$a->user} has made submission in {$a->title} form. To see all submissions please <a href="{$a->link}">click</a> here.';
-$string['efb-notify-email-failed'] = "<p>Unable to send email</p>";
-$string['efb-notify-email-success'] = "<p>Notified successfully</p>";
+$string['efb-notify-email-failed'] = "<p>Unable to send email.</p>";
+$string['efb-notify-email-success'] = "<p>Notified successfully.</p>";
 $string['efb-confirmation-email-failed'] = "<p>Unable to send confirmation email.</p>";
 $string['efb-confirmation-email-success'] = "<p>Confirmation email sent successfully.</p>";
 $string['efb-notify-email-failed'] = "<p>Unable to notify author.</p>";
@@ -76,7 +80,10 @@ $string['clickonshortcode'] = 'Note: Click on shortcode to copy';
 $string['shortcodecoppied'] = '{$a} copied to clipboard';
 $string['hey-wait'] = 'Hey Wait';
 $string['efb-search-form'] = 'Search Forms:';
+$string['efb-missing-name-attribute-field'] = 'Please provide name in the: <strong>{$a}</strong>. This is important to run form properly.';
 $string['efb-form-enter-title'] = 'Please give a name to your form';
+$string['fullpage-link-message'] = '<a class="efb-view-fullpage" href="#">Click here</a> to view form in new tab.';
+$string['fullpage-link-clicked'] = 'Form is opened in another tab.';
 
  // Template event string
 $string['efb-event-blank-name'] = "Blank Form";
@@ -110,10 +117,10 @@ $string["efb-template-name-not-valid"] = "Template name is not valid";
 $string["efb-template-found"] = "Template found";
 $string["operation-failed"] = "Operation failed";
 $string["active"] = "SELECTED";
-$string["enrol-success"] = 'Enrollment of user {$a} in courses is successful';
-$string["unenrol-success"] = 'Unenrollment of user {$a} in courses is successful';
-$string["enrol-success"] = 'Enrollment of user {$a} in courses is unsuccessful';
-$string["unenrol-success"] = 'Unenrollment of user {$a} in courses is unsuccessful';
+$string["enrol-success"] = 'Enrollment of user {$a} in courses is successful.';
+$string["unenrol-success"] = 'Unenrollment of user {$a} in courses is successful.';
+$string["enrol-success"] = 'Enrollment of user {$a} in courses is unsuccessful.';
+$string["unenrol-success"] = 'Unenrollment of user {$a} in courses is unsuccessful.';
 $string["attention"] = "Attention";
 $string["efb-template-change-warning"] = "All fields from current form will be deleted. Are you sure you want to continue?";
 
@@ -151,7 +158,7 @@ $string["efb-form-setting-update-msg"] = "Form has been updated successfuly. Cli
 $string["efb-list-form-data-page-title"] = "List Form Data.";
 $string["efb-msg-form-delete-success"] = "Form deleted successfuly.";
 $string["efb-msg-form-delete-fail"] = "Form deletion failed.";
-$string["efb-lbl-confirmation-msg"] = "Form confirmation message";
+$string["efb-lbl-confirmation-msg"] = "Form Confirmation Email Message";
 $string["efb-valid-form-data"] = "Form data is valid";
 $string["efb-invalid-form-data"] = "Form data is not valid";
 $string["efb-login-form-disable-different-form"] = "Cannot disable. Another login form is active";
@@ -176,11 +183,12 @@ $string["efb-form-not-found"] = 'Form {$a} not found.';
 $string["efb-form-not-enabled"] = 'Form {$a} not enable.';
 $string["efb-form-data-heading-action"] = "Action";
 $string["efb-form-data-heading-user"] = "User";
-$string["efb-form-data-submission-successful"] = "Form submited successfully";
+$string["efb-form-data-submission-successful"] = '<p>Form submitted successfully. <a href="{$a}">Click</a> here to visit homepage.</p>';
 $string["efb-form-data-submission-failed"] = "Form data submission failed";
 $string["efb-form-data-submission-not-supported"] = "This form type does not support form submission";
 $string["efb-form-data-action-no-action"] = "No actions";
 $string["efb-form-data-no-data"] = "Found empty form definition. Nothing to display.";
+$string["efb-form-submission-found"] = 'You already submitted response. You are not allowed to edit or submit response. <a href="{$a}">Click</a> here to visit homepage.</p>';
 $string["efb-form-cannot-submit"] = "You are not allowed to submit data";
 $string["efb-unknown-error"] = "Unknown error";
 $string["efb-form-definition-found"] = "Form definition found";
@@ -222,9 +230,7 @@ $string["clearstoragemessage"] = "Local storage is full. Please clear it to proc
 $string["clearstorageautomatic"] = "Clear Automatically";
 $string["clearstoragemanually"] = "Clear Manually";
 $string["clearform"] = "Clear form";
-$string["confirmclearstep"] = "Are you sure you want to remove all fields from current step?";
-$string["confirmclearallsteps"] = "Are you sure you want to remove all fields from all steps?";
-$string["confirmclearform"] = "Are you sure you want to clear form?";
+$string['condition-choose-source'] = "Choose source";
 $string["confirmresetform"] = "Are you sure you want to reset form? All fileds will be removed and selected template's fields will be added. ";
 $string["close"] = "Close";
 $string["column"] = "Column";
@@ -257,6 +263,7 @@ $string["display-label-off"] = "No label";
 $string["display-label-top"] = "Top";
 $string["display-label-left"] = "Left";
 $string["editing.row"] = "Editing Row";
+$string['page-background-opacity'] = 'Page background opacity';
 $string["editNames"] = "Edit Names";
 $string["editorTitle"] = "Form Elements";
 $string["editXML"] = "Edit XML";
@@ -326,7 +333,7 @@ $string["paragraph"] = "Paragraph";
 $string["preview"] = "Preview";
 $string["primary"] = "Primary";
 $string["placeholder"] = "Placeholder";
-$string["placeholder.className"] = "space separated classes";
+$string["placeholder.className"] = $string["placeholder.class"] = "Space separated classes";
 $string["placeholder.email"] = "Enter you email";
 $string["placeholder.label"] = "Label";
 $string["placeholder.password"] = "Enter your password";
@@ -409,6 +416,47 @@ $string["warning"] = "Warning";
 $string["website"] = "Website";
 $string["yes"] = "Yes";
 
+// Tooltips for Form editor
+$string['row-move'] = 'Order row';
+$string['row-edit'] = 'Edit row, column, conditional logic properties';
+$string['row-clone'] = 'Duplicate row with its columns and fields';
+$string['row-remove'] = 'Remove row along with columns and fields';
+
+$string['column-remove'] = 'Remove column along with fields';
+$string['column-clone'] = 'Duplicate column with all fields inside it';
+$string['column-move'] = 'Move/Order column in any row';
+
+$string['field-move'] = 'Move field in any row/column';
+$string['field-edit'] = 'Edit field properties/options';
+$string['field-clone'] = 'Duplicate field and its properties';
+$string['field-remove'] = 'Remove field';
+
+$string['delete-form'] = 'Delete everything';
+$string['reset-form'] = 'Reset form to default';
+$string['edit-form'] = 'Edit form settings';
+
+$string['remove-attrs'] = 'Remove attribute';
+$string['remove-options'] = 'Remove option';
+$string['remove-configs'] = 'Remove config';
+$string['remove-condition'] = 'Remove condition';
+$string['order-option'] = 'Order option';
+
+// Editing panel heading
+$string['select-options-label'] = 'Option Label';
+$string['select-options-value'] = 'Option Value';
+$string['input-radio-options-label'] = 'Radio Label';
+$string['input-radio-options-value'] = 'Radio Value';
+$string['input-checkbox-options-label'] = 'Checkbox Label';
+$string['input-checkbox-options-value'] = 'Checkbox Value';
+$string['input-radio-options-selected'] = $string['input-checkbox-options-selected'] = $string['select-options-selected'] = '';
+
+// Validator Strings
+$string['input-invalid-type'] = 'Invalid input type in <strong>{$a}</strong>';
+$string['select-option-invalid'] = 'Invalid option in <strong>{$a}</strong>.';
+$string['input-radio-option-invalid'] = 'Invalid radio option in <strong>{$a}</strong>';
+$string['input-checkbox-option-invalid'] = 'Invalid checkbox option in <strong>{$a}</strong>';
+$string['input-all-option-invalid'] = $string['select-option-invalid'];
+
 /* Tab configuration strings for designer */
 $string["untitled"] = "Untitled";
 $string["stepindex"] = "Step {{index}}";
@@ -417,6 +465,7 @@ $string["category-container-default"] = "Default steps";
 $string["category-container-complete"] = "Completed steps";
 $string["category-container-active"] = "Active step";
 $string["category-container-danger"] = "Warning step";
+$string['category-container-page'] = "Page settings";
 $string["category-container-form"] = "Form settings";
 $string["category-container-submit"] = "Submit button settings";
 $string["backgroundcolor"] = 'Background color';

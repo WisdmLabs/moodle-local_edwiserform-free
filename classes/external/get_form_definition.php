@@ -32,6 +32,11 @@ use moodle_url;
 
 trait get_form_definition {
 
+    /**
+     * Describes the parameters for get form definition
+     * @return external_function_parameters
+     * @since  Edwiser Forms 1.0.0
+     */
     public static function get_form_definition_parameters() {
         return new external_function_parameters(
                 array(
@@ -40,6 +45,12 @@ trait get_form_definition {
         );
     }
 
+    /**
+     * Fetch form definition from database attach user's submission, common profile data and send it in response
+     * @param  integer $formid if of the form
+     * @return array   [status, title, definition, formtype, style, action, data, msg]
+     * @since  Edwiser Form 1.0.0
+     */
     public static function get_form_definition($formid) {
         global $DB, $CFG, $USER;
         $responce = array(
@@ -53,9 +64,13 @@ trait get_form_definition {
         );
         if ($formid > 0) {
             $form = $DB->get_record('efb_forms', array('id' => $formid));
+
+            // If form id is invalid then returning false response
             if (!$form || $form->deleted) {
                 return $responce;
             }
+
+            // If form is not enabled then returning response with form not enabled message
             if (!$form->enabled) {
                 $responce['msg'] = get_string("efb-form-not-enabled", "local_edwiserform", ''.$form->title);
                 return $responce;
@@ -67,12 +82,18 @@ trait get_form_definition {
                 $plugin = get_plugin($form->type);
             }
             if (empty($USER->id)) {
+
+                // Checking whether selected form type XYZ can be viewed while user is not logged in
+                // If no then returning response with login to use form
                 if ($form->type == 'blank' || $plugin->login_required()) {
-                    $link = html_writer::link(new moodle_url($CFG->wwroot . "/login/index.php"), get_string("efb-form-loggedin-required-click", "local_edwiserform"));
+                    $link = html_writer::link(new moodle_url($CFG->wwwroot . "/login/index.php"), get_string("efb-form-loggedin-required-click", "local_edwiserform"));
                     $responce["msg"] = get_string("efb-form-loggedin-required", "local_edwiserform", $link);
                     return $responce;
                 }
             } else {
+
+                // Checking whether selected form type XYZ can be viewed while user is logged in
+                // If no then returning response with not allowed while logged in
                 if ($form->type != 'blank' && !$plugin->login_allowed()) {
                     $responce["msg"] = get_string("efb-form-loggedin-not-allowed", "local_edwiserform");
                     return $responce;
@@ -82,26 +103,35 @@ trait get_form_definition {
             $responce["title"] = $form->title;
             self::validate_form($form, $plugin, $responce);
             if ($form->type != 'blank') {
+
+                // This feature is going to add in future update. Whether form is going to submit data to external url
                 $responce['action']  = $plugin->get_action_url();
             }
         }
         return $responce;
     }
 
-    public static function is_form_deleted($formid) {
-        global $DB;
-        return $DB->get_field('efb_forms', 'deleted', array('id' => $formid));
-    }
-
+    /**
+     * Validate whether whether user can submit data into form and attach previously submitted data
+     * @param  stdClass $form standard class object of form with main settings
+     * @param  object   $plugin object of selected form type
+     * @param  array    $response reference array with [status, title, definition, formtype, action, data, msg]
+     * @return array    [status, title, definition, formtype, action, data, msg]
+     * @since  Edwiser Form 1.0.0
+     */
     public static function validate_form($form, $plugin, &$responce) {
+        global $CFG;
         $canuser = self::can_save_data($form, $plugin);
         switch ($canuser['status']) {
             case 0:
-                $responce["msg"] = get_string("efb-form-cannot-submit", "local_edwiserform");
+                // User previously submitted data into form but admin disabled user from re-submitting data
+                $responce["msg"] = get_string("efb-form-submission-found", "local_edwiserform", $CFG->wwwroot);
                 break;
             case 2:
+                // User previously submitted data into form and can re-submit data to edit previous submission
                 $responce["data"] = $canuser["data"];
             case 1:
+                // User can submit data into form
                 $responce["definition"] = $form->definition;
                 $responce["msg"] = get_string("efb-form-definition-found", "local_edwiserform");
                 $responce["status"] = true;
@@ -111,11 +141,23 @@ trait get_form_definition {
                 break;
         }
         if ($form->type != 'blank') {
+            // Attaching extra data to the form data
             $responce['data'] = $plugin->attach_data($form, $responce["data"]);
+        } else {
+            $events = get_events_base_plugin();
+            $responce['data'] = $events->attach_common_data($form, $responce["data"]);
         }
         return $responce;
     }
 
+    /**
+     * Check whether user can save data into form
+     * @param  stdClass $form object of form with definition and settings
+     * @param  object   $plugin object of selected event
+     * @return array    [status 0-cannot submit but have data|1-can submit|2-can submit and have data,
+     *                   data previous submitted data]
+     * @since  Edwiser Form 1.0.0
+     */
     public static function can_save_data($form, $plugin) {
         global $DB, $USER;
         $responce = ['status' => 1];
@@ -142,6 +184,11 @@ trait get_form_definition {
         return $responce;
     }
 
+    /**
+     * Returns description of method parameters for get form definition
+     * @return external_single_structure
+     * @since  Edwiser Form 1.0.0
+     */
     public static function get_form_definition_returns() {
         return new \external_single_structure(
             [

@@ -18,6 +18,9 @@
   &.formeo-render {
     @import 'render';
     @import 'base/display-label';
+    @include breakpoint(phone-lrg) {
+      margin-bottom: 1em;
+    }
   }
 }
 .d-none {

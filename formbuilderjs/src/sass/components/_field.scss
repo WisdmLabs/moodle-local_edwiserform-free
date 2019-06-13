@@ -22,6 +22,7 @@
     transition: border-color 250ms;
     border-bottom: 1px dashed $gray-lighter;
     user-select: text;
+    cursor: text;
 
     &:focus {
       border: 1px solid $input-focus;

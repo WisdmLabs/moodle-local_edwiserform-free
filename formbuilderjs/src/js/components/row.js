@@ -102,7 +102,10 @@ export default class Row {
     let _this = this;
     return {
       tag: 'button',
-      className: 'condition-delete condition-control btn-danger',
+      attrs: {
+        className: 'condition-delete condition-control btn-danger',
+        title: getString('remove-condition')
+      },
       content: dom.icon('remove'),
       action: {
         click: event => {
@@ -167,6 +170,46 @@ export default class Row {
     return condition;
   }
 
+   /**
+   * Filter fields and choose only select and radio fields
+   * @param {Array} fields
+   * @return {Array} fields
+   */
+  filterFieldsSelectRadio(fields) {
+    let filter = [];
+    formData.fields.forEach(function(field, index) {
+      if (fields.includes(field.id) && (field.tag == 'select' || (field.tag == 'input' && field.attrs.type == 'radio'))) {
+        filter.push(field);
+      }
+    });
+    return filter;
+  }
+
+  /**
+   * Filter all fields and only those which can be added in current rows conditions
+   * @param {String} currentRow id
+   * @return {Object} fields
+   */
+  getConditionValidFields(currentRow) {
+    let fields = [];
+    let columns = [];
+    formData.rows.forEach(function(row, index) {
+      if (row.id != currentRow) {
+        columns = columns.concat(row.columns);
+      }
+    });
+    if (columns.length) {
+      formData.columns.forEach(function(column, index) {
+        if (columns.includes(column.id)) {
+          fields = fields.concat(column.fields);
+        }
+      });
+    }
+    fields = this.filterFieldsSelectRadio(fields);
+    return fields;
+  }
+
+
   /**
    * Code to add logics
    * @param {String} row id
@@ -174,9 +217,9 @@ export default class Row {
    */
   addCondition(row, container) {
     let _this = this;
-    let fields = dom.getValidFields(row);
+    let fields = this.getConditionValidFields(row);
     let options = [{
-      label: 'Choose source',
+      label: getString('condition-choose-source'),
       value: 'choose',
       selected: true
     }];

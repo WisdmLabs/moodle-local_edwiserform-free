@@ -86,6 +86,15 @@
     }
   }
 
+  .prop-heading-wrap {
+    [class*="options-label"], [class*="options-value"] {
+      width: 50%;
+      text-align: center;
+      margin: 0px;
+      margin-top: 10px;
+    }
+  }
+
   .prop-wrap {
     position: relative;
     margin-bottom: 10px;

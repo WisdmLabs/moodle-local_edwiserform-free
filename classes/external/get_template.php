@@ -25,11 +25,17 @@ namespace local_edwiserform\external;
 
 defined('MOODLE_INTERNAL') || die();
 
+use external_single_structure;
 use external_function_parameters;
 use external_value;
 
 trait get_template {
 
+    /**
+     * Describes the parameters for get template
+     * @return external_function_parameters
+     * @since  Edwiser Forms 1.0.0
+     */
     public static function get_template_parameters() {
         return new external_function_parameters(
                 array(
@@ -38,6 +44,12 @@ trait get_template {
         );
     }
 
+    /**
+     * Fetch the template definition by the name
+     * @param  string $name of the template
+     * @return array  [status, definition, msg]
+     * @since  Edwiser Form 1.0.0
+     */
     public static function get_template($name) {
         global $DB;
         $responce = array(
@@ -45,10 +57,14 @@ trait get_template {
             'definition' => '',
             'msg'        => get_string("efb-template-not-found", "local_edwiserform")
         );
+
+        // Checking for empty form template
         if (trim($name) == '') {
             $responce['msg'] = get_string("efb-template-name-not-valid", "local_edwiserform");
             return $responce;
         }
+
+        // If template is part of pro version and license status is inactive then returning error
         $template = $DB->get_record("efb_form_templates", array("name" => $name));
         if ($template) {
             $responce['status'] = true;
@@ -58,8 +74,13 @@ trait get_template {
         return $responce;
     }
 
+    /**
+     * Returns description of method parameters for get templates
+     * @return external_single_structure
+     * @since  Edwiser Form 1.0.0
+     */
     public static function get_template_returns() {
-        return new \external_single_structure(
+        return new external_single_structure(
             [
                 'status'     => new external_value(PARAM_BOOL, 'Template responce status.'),
                 'definition' => new external_value(PARAM_TEXT, 'Template definition'),

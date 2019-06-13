@@ -5,7 +5,7 @@ import Column from '../components/column';
 import Field from '../components/field';
 import animate from './animation';
 import {data, formData} from './data';
-import {uuid, clone, getString, hideControl, showControl, numToPercent, remove, closest, closestFtype, elementTagType} from './utils';
+import {uuid, clone, addTitle, getString, hideControl, showControl, numToPercent, remove, closest, closestFtype, elementTagType} from './utils';
 import defaultElements from '../components/controls';
 
 /**
@@ -124,41 +124,41 @@ class DOM {
 
     let defaultConfig = {
         rows: {
-          actionButtons: {
-            buttons: [
-              clone(handle),
-              edit,
-              cloneItem,
-              remove
-            ],
-            order: [],
-            disabled: []
-          }
-        },
-        columns: {
-          actionButtons: {
-            buttons: [
-              clone(handle),
-              clone(cloneItem),
-              remove
-            ],
-            order: [],
-            disabled: []
-          }
-        },
-        fields: {
-          actionButtons: {
-            buttons: [
-              handle,
-              edit,
-              cloneItem,
-              remove
-            ],
-            order: [],
-            disabled: []
-          }
-        },
-      };
+        actionButtons: {
+          buttons: [
+            addTitle(handle, 'row-move'),
+            addTitle(edit, 'row-edit'),
+            addTitle(cloneItem, 'row-clone'),
+            addTitle(remove, 'row-remove')
+          ],
+          order: [],
+          disabled: []
+        }
+      },
+      columns: {
+        actionButtons: {
+          buttons: [
+            addTitle(handle, 'column-move'),
+            addTitle(cloneItem, 'column-clone'),
+            addTitle(remove, 'column-remove')
+          ],
+          order: [],
+          disabled: []
+        }
+      },
+      fields: {
+        actionButtons: {
+          buttons: [
+            addTitle(handle, 'field-move'),
+            addTitle(edit, 'field-edit'),
+            addTitle(cloneItem, 'field-clone'),
+            addTitle(remove, 'field-remove')
+          ],
+          order: [],
+          disabled: []
+        }
+      },
+    };
 
     defaultConfig.rows.actionButtons.buttons[0].content = [
       icon('move-vertical'),
@@ -318,9 +318,6 @@ class DOM {
       delete elem.className;
     }
 
-    if (elem.hasOwnProperty('attrs') && elem.attrs.hasOwnProperty('name') && elem.attrs.name.trim() == '') {
-      elem.attrs.name = elem.id;
-    }
     // Append Element Content
     if (elem.options) {
       let {options} = elem;
@@ -1911,7 +1908,7 @@ class DOM {
           break;
         }
       }
-      sourceSelected = _this.renderTarget.querySelectorAll('[id="' + sourceSelected + '"]');
+      sourceSelected = _this.renderTarget.querySelectorAll('[id*="' + sourceSelected + '"]');
     }
     if (value.length > 0) {
       valueSelected = value[0].value;
@@ -2182,19 +2179,50 @@ class DOM {
         value: ''
       }
     };
+    let pageSetting = {
+      'class': {
+        title: getString('class'),
+        id: 'class',
+        type: 'text',
+        value: ''
+      },
+      'background-opacity': {
+        title: getString('page-background-opacity'),
+        id: 'background-opacity',
+        type: 'range',
+        value: '0',
+        attrs: {
+          step: '0.1',
+          min: '0',
+          max: '1'
+        }
+      },
+      'style': {
+        title: getString('customcssstyle'),
+        id: 'style',
+        type: 'textarea',
+        value: ''
+      }
+    };
     return {
+      page: pageSetting,
       form: formSettings,
-      submit: submitButtonSetting
+      submit: submitButtonSetting,
     };
   }
 
   /**
-   * Return form settings with selected language packs
+   * Return form settings
    * @return {Object} formSettings with replaced labels
    */
   getFormSettings() {
-    let formSettings = formData.settings.get('formSettings');
-    return typeof formSettings != 'undefined' ? formSettings : this.getFormDefaultSettings();
+    let formSettings = this.getFormDefaultSettings();
+    if (formData.settings.get('formSettings') != undefined) {
+      for (let [category] of Object.entries(formSettings)) {
+        Object.assign(formSettings[category], formData.settings.get('formSettings')[category]);
+      }
+    }
+    return formSettings;
   }
 
   /**
@@ -2343,6 +2371,7 @@ class DOM {
       stage.tag = 'div';
       stage.content = rows;
       stage.className = 'f-stage';
+      stage.title = '';
       if (first) {
         first = false;
         stage.className += ' active';
@@ -2592,21 +2621,6 @@ class DOM {
   }
 
   /**
-   * Filter fields and choose only select and radio fields
-   * @param {Array} fields
-   * @return {Array} fields
-   */
-  filterFieldsSelectRadio(fields) {
-    let filter = [];
-    formData.fields.forEach(function(field, index) {
-      if (fields.includes(field.id) && (field.tag == 'select')) {
-        filter.push(field);
-      }
-    });
-    return filter;
-  }
-
-  /**
    * Return condition position, input position from conditions container and row container
    * @param {Event} event
    * @param {String} type of element being changed add|delete|source|value|operator
@@ -2666,30 +2680,6 @@ class DOM {
   }
 
   /**
-   * Filter all fields and only those which can be added in current rows conditions
-   * @param {String} currentRow id
-   * @return {Object} fields
-   */
-  getValidFields(currentRow) {
-    let fields = [];
-    let columns = [];
-    formData.rows.forEach(function(row, index) {
-      if (row.id != currentRow) {
-        columns = columns.concat(row.columns);
-      }
-    });
-    if (columns.length) {
-      formData.columns.forEach(function(column, index) {
-        if (columns.includes(column.id)) {
-          fields = fields.concat(column.fields);
-        }
-      });
-    }
-    fields = this.filterFieldsSelectRadio(fields);
-    return fields;
-  }
-
-  /**
    * Checking is there control which can be added only once
    */
   checkSingle() {
@@ -2735,7 +2725,7 @@ class DOM {
       warning,
       [{
         title: getString('upgrade'),
-        type: 'efb-form-upgrade',
+        type: 'success',
         action: function() {
           window.open(_this.prourl);
         }

@@ -31,8 +31,19 @@ define([
                         sScrollHeadInner: 'efb_dataTables_scrollHeadInner'
                     },
                     dom         : '<"efb-top"<"efb-listing"l><"efb-list-filtering"f>>t<"efb-bottom"<"efb-list-pagination"p><"efb-export"B>>i',
-                    language: {
-                        sSearch: M.util.get_string('efb-search-form', 'local_edwiserform')
+                    language        : {
+                        sSearch: M.util.get_string('efb-search-form', 'local_edwiserform'),
+                        emptyTable: M.util.get_string('efb-heading-listforms-empty', 'local_edwiserform'),
+                        info: M.util.get_string('efb-heading-listforms-showing', 'local_edwiserform', {
+                            'start': '_START_',
+                            'end': '_END_',
+                            'total': '_TOTAL_',
+                        }),
+                        infoEmpty: M.util.get_string('efb-heading-listforms-showing', 'local_edwiserform', {
+                            'start': '0',
+                            'end': '0',
+                            'total': '0',
+                        }),
                     },
                     buttons: [
                         { text: M.util.get_string('exportcsv', 'local_edwiserform'), className: 'btn btn-primary efb-csv-export' }

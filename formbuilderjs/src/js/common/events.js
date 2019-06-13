@@ -15,13 +15,13 @@ let defaults = {
       evt.confirmationMessage,
       [{
         title: M.util.get_string('proceed', 'local_edwiserform'),
-        type: 'warning',
+        type: 'primary',
         action: function() {
           evt.resetAction(evt);
         }
       }, {
         title: M.util.get_string('cancel', 'local_edwiserform'),
-        type: 'success'
+        type: 'default'
       }]
     );
   },
@@ -32,13 +32,13 @@ let defaults = {
       evt.confirmationMessage,
       [{
         title: getString('clearstorageautomatic'),
-        type: 'warning',
+        type: 'primary',
         action: function() {
           evt.clearStorageAction(evt);
         }
       }, {
         title: getString('clearstoragemanually'),
-        type: 'success',
+        type: 'default',
         action: function() {
           evt.clearStorageManualAction(evt);
         }

@@ -191,6 +191,10 @@ class edwiserform_events_plugin {
     }
     /**
      * Has field value in form data
+     * @param array   $formdata
+     * @param string  $field
+     * @return boolean
+     * @since Edwiser Form 1.0.0
      */
     public function has_field($formdata, $fieldname) {
         if (!is_null($formdata)) {

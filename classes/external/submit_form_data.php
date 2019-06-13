@@ -25,12 +25,19 @@ namespace local_edwiserform\external;
 
 defined('MOODLE_INTERNAL') || die();
 
+use external_single_structure;
 use external_function_parameters;
 use external_value;
 use context_system;
+use stdClass;
 
 trait submit_form_data {
 
+    /**
+     * Describes the parameters for submit for data
+     * @return external_function_parameters
+     * @since  Edwiser Forms 1.0.0
+     */
     public static function submit_form_data_parameters() {
         return new external_function_parameters(
             array(
@@ -40,6 +47,13 @@ trait submit_form_data {
         );
     }
 
+    /**
+     * Save usr's submitted form data, process events, send confirmation and notification email
+     * @param  integer $formid The form id
+     * @param  string  $data json string of user's submission data
+     * @param  array   [status, msg, errors(encodded errors array)]
+     * @since  Edwiser Form 1.0.0
+     */
     public static function submit_form_data($formid, $data) {
         global $DB, $USER, $CFG;
         $responce = array(
@@ -57,16 +71,17 @@ trait submit_form_data {
         }
         if (isloggedin()) {
             $userid = $USER->id;
+            $submission = $DB->get_record("efb_form_data", array('formid' => $formid, 'userid' => $userid));
         } else {
             $userid = 0;
+            $submission = false;
         }
-        $submission = $DB->get_record("efb_form_data", array('formid' => $formid, 'userid' => $userid));
         if (self::should_update_submission($form, $submission, $plugin)) {
             $submission->submission = $data;
             $submission->updated = date('Y-m-d H:i:s');
             $status = $DB->update_record("efb_form_data", $submission);
         } else {
-            $submission = new \stdClass;
+            $submission = new stdClass;
             $submission->formid = $formid;
             $submission->userid = $userid;
             $submission->submission = $data;
@@ -79,14 +94,23 @@ trait submit_form_data {
             if ($form->type != 'blank') {
                 $eventmail = $plugin->submission_email_message($form, $submission);
             }
-            $responce['msg'] .= self::notify($form, $data, $eventmail);
             if ($form->message) {
                 $responce['msg'] .= self::confirmation($form, $submission->submission);
+            }
+            if ($form->notifi_email) {
+                $responce['msg'] .= self::notify($form, $data, $eventmail);
             }
         }
         return $responce;
     }
 
+    /**
+     * Check whether form can update form data
+     * @param  Object  $form       form object
+     * @param  Array   $submission previous submission
+     * @param  Object  $plugin     plugin object
+     * @return Boolean             true if update possible
+     */
     public static function should_update_submission($form, $submission, $plugin) {
         if (!$submission) {
             return false;
@@ -102,9 +126,60 @@ trait submit_form_data {
         }
         return false;
     }
+
+    /**
+     * Get value from submission using field name
+     * @param  array  $submission Submitted data
+     * @param  string $name       Name of field
+     * @return string             Value of submitted field
+     * @since  Edwiser Form 1.0.0
+     */
+    public static function submission_get_value_from_name($submission, $name) {
+        foreach ($submission as $input) {
+            if ($input->name == $name) {
+                return $input->value;
+            }
+        }
+        return "";
+    }
+
+    /**
+     * Get email from form definition and submission
+     * @param  array  $definition Form definition
+     * @param  array  $submission Data submitted in the form
+     * @return string             Email id if present in form and submission else blank
+     * @since  Edwiser Form 1.0.5
+     */
+    public static function email_from_form($definition, $submission) {
+        $definition = json_decode($definition, true);
+        $fields = $definition['fields'];
+        foreach ($fields as $field) {
+            if ($field['tag'] = 'input' &&
+                isset($field['attrs']['type']) &&
+                isset($field['attrs']['name']) &&
+                $field['attrs']['type'] == 'email'
+            ) {
+                if ($value = self::submission_get_value_from_name($submission, $field['attrs']['name'])) {
+                    return $value;
+                }
+            }
+        }
+        return "";
+    }
+
+    /**
+     * Sending confirmation email to user who submitted form
+     * @param  stdClass $form       The form object with definition and settings
+     * @param  array    $submission Data submitted by user through form
+     * @return string               success message when email sent succussful or failed message
+     * @since  Edwiser Form 1.0.0
+     */
     public static function confirmation($form, $submission) {
         global $USER;
         $email = "";
+        if ($USER->id == 0) {
+            $email = self::email_from_form($form->definition, $submission);
+        }
         if ($USER->id != 0 && !empty($USER->email)) {
             $email = $USER->email;
         }
@@ -120,6 +195,14 @@ trait submit_form_data {
         return get_string('efb-confirmation-email-failed', 'local_edwiserform');
     }
 
+    /**
+     * Sending notification email to admin/emails from form settings
+     * @param  stdClass $form       The form object with definition and settings
+     * @param  array    $submission Data submitted by user through form
+     * @param  string   $eventmail  Email content from email
+     * @return string               success message when email sent succussful or failed message or empty if no email found
+     * @since  Edwiser Form 1.0.0
+     */
     public static function notify($form, $submission, $eventmail = '') {
         global $CFG, $COURSE, $USER;
         $submission = json_decode($submission);
@@ -129,23 +212,24 @@ trait submit_form_data {
         $link = $CFG->wwwroot . "/local/edwiserform/view.php?page=viewdata&formid=" .$form->id;
         $messagehtml = get_string('efb-notify-email-body', 'local_edwiserform', array('user' => $user, 'title' => $form->title, 'link' => $link));
         $messagehtml .= $eventmail;
-        if ($form->notifi_email) {
-            $emails = explode(',', $form->notifi_email);
-            $status = true;
-            foreach ($emails as $email) {
-                $status = $status && edwiserform_send_email(get_config("core", "smtpuser"), $email, $subject, $messagehtml);
-            }
-            if ($status != true) {
-                return get_string('efb-notify-email-failed', 'local_edwiserform');
-            }
-            return get_string('efb-notify-email-success', 'local_edwiserform');
+        $emails = explode(',', $form->notifi_email);
+        $status = true;
+        foreach ($emails as $email) {
+            $status = $status && edwiserform_send_email(get_config("core", "smtpuser"), $email, $subject, $messagehtml);
         }
-        return '';
+        if ($status != true) {
+            return get_string('efb-notify-email-failed', 'local_edwiserform');
+        }
+        return get_string('efb-notify-email-success', 'local_edwiserform');
     }
 
-
+    /**
+     * Returns description of method parameters for submit form data
+     * @return external_single_structure
+     * @since  Edwiser Form 1.0.0
+     */
     public static function submit_form_data_returns() {
-        return new \external_single_structure(
+        return new external_single_structure(
             array(
                 'status' => new external_value(PARAM_BOOL, 'Form data submission status.'),
                 'msg' => new external_value(PARAM_RAW, 'Form data submission message'),

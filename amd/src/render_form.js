@@ -41,6 +41,8 @@ define(['jquery', 'core/ajax', 'local_edwiserform/formviewer'], function ($, aja
                                                         if (elem.value == attr.value) {
                                                             $(elem).prop('checked', true);
                                                         }
+                                                        var changeEvent = new CustomEvent("click", {target: $(elem)[0]});
+                                                        $(elem)[0].dispatchEvent(changeEvent);
                                                         break;
                                                     case 'checkbox':
                                                         if (elem.value == attr.value) {
@@ -85,6 +87,13 @@ define(['jquery', 'core/ajax', 'local_edwiserform/formviewer'], function ($, aja
                 });
                 $('.step-navigation #next-step').click(function() {
                     return;
+                });
+
+                $('body').on('click', '.efb-view-fullpage', function() {
+                    // View form on full page
+                    var id = $(this).closest('.edwiserform-container').find('input[class="id"]').val();
+                    window.open(M.cfg.wwwroot + '/local/edwiserform/form.php?id=' + id);
+                    $(this).closest('.edwiserform-container').html(M.util.get_string('fullpage-link-clicked', 'local_edwiserform'));
                 });
 
                 function apply_action(form, action) {
@@ -161,5 +170,4 @@ define(['jquery', 'core/ajax', 'local_edwiserform/formviewer'], function ($, aja
             });
         }
     }
-
 });

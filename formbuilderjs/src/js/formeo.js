@@ -2,13 +2,14 @@
 import '../sass/formeo.scss';
 import animate from './common/animation';
 import h from './common/helpers';
-import {closest, getString} from './common/utils';
+import {closest, getString, clone} from './common/utils';
 import {data, formData} from './common/data';
 import events from './common/events';
 import actions from './common/actions';
 import dom from './common/dom';
 import {Controls} from './components/controls';
 import Stage from './components/stage';
+import validator from './components/validator';
 
 // Simple object config for the main part of formeo
 const formeo = {
@@ -72,6 +73,7 @@ class Formeo {
     actions.init(opts.actions);
     formeo.dom = dom;
     formeo.reset = data.reset;
+    formeo.validator = validator;
     // Load remote resources such as css and svg sprite
     _this.loadResources().then(() => {
       dom.setConfig = opts.config;
@@ -113,9 +115,11 @@ class Formeo {
    */
   getFormSettings() {
     let defaultSettings = dom.getFormDefaultSettings();
-    let formSettings = formData.settings.get('formSettings');
-    if (typeof formSettings == 'undefined') {
-      formSettings = defaultSettings;
+    let formSettings = clone(defaultSettings);
+    if (formData.settings.get('formSettings') != undefined) {
+      for (let [category] of Object.entries(formSettings)) {
+        Object.assign(formSettings[category], formData.settings.get('formSettings')[category]);
+      }
     }
     formData.settings.set('formSettings', formSettings);
     data.save();
@@ -146,7 +150,8 @@ class Formeo {
       content: dom.icon('edit'),
       attrs: {
         className: ['btn btn-primary item-edit-toggle'],
-        type: 'button'
+        type: 'button',
+        title: getString('edit-form')
       },
       meta: {
         id: 'edit'
@@ -184,12 +189,13 @@ class Formeo {
       }],
       attrs: {
         className: 'btn btn-warning item-reset-form',
-        type: 'button'
+        type: 'button',
+        title: getString('reset-form')
       },
       action: {
         click: evt => {
           if (formData.rows.size || formData.stages.size) {
-            let confirmClearAll = new CustomEvent('confirmReset', {
+            let confirmReset = new CustomEvent('confirmReset', {
               detail: {
                 confirmationMessage: getString('confirmresetform'),
                 resetAction: this.resetForm,
@@ -198,7 +204,7 @@ class Formeo {
                 rowCount: dom.rows.size
               }
             });
-            document.dispatchEvent(confirmClearAll);
+            document.dispatchEvent(confirmReset);
           } else {
             dom.alert('info', getString('nofields'));
           }

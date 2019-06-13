@@ -117,41 +117,20 @@ export default class Field {
       };
       propType = dom.contentType(fieldData[panelType]);
 
-      panelWrap.content.push(panel);
 
       let panelArray;
       if (propType === 'array') {
-        // let props = Object.keys(fieldData[panelType][0]);
-        // let panelLabels = {
-        //   tag: 'div',
-        //   className: 'input-group',
-        //   content: props.map((elem) => {
-        //     let label = {
-        //       tag: 'label',
-        //       className: ['prop-label-' + elem],
-        //       content: h.capitalize(elem)
-        //     };
-
-        //     if (typeof fieldData[panelType][0][elem] === 'boolean') {
-        //       label.tag = 'span';
-        //       label.className.push('input-group-addon');
-        //     }
-
-        //     return label;
-        //   })
-        // };
-        // let labelWrap = {
-        //   tag: 'header',
-        //   content: panelLabels,
-        //   className: 'prop-labels'
-        // };
-        // removing labels until find a better way to handle them.
-        // panelWrap.content.unshift(labelWrap);
         panelArray = fieldData[panelType];
+        panelWrap.content.push(_this.panelHeading({
+          panelArray,
+          panelType,
+          fieldData
+        }));
       } else {
         panelArray = Object.keys(fieldData[panelType]);
       }
 
+      panelWrap.content.push(panel);
       h.forEach(panelArray, (dataProp, i) => {
         if (this.isAllowedAttr(dataProp)) {
           let args = {
@@ -167,6 +146,32 @@ export default class Field {
     }
 
     return panelWrap;
+  }
+
+   /**
+   * Field panel heading for options
+   * @param  {Object} args
+   * @return {Object} heading
+   */
+  panelHeading(args) {
+    let heading = {
+      tag: 'div',
+      className: 'prop-heading-wrap',
+      content: []
+    };
+    for (let [name] of Object.entries(args.panelArray[0])) {
+      let label = args.fieldData.tag.toLowerCase();
+      if (args.fieldData.attrs != undefined && args.fieldData.attrs.type != undefined) {
+        label += '-' + args.fieldData.attrs.type.toLowerCase();
+      }
+      label += '-' + args.panelType + '-' + name;
+      heading.content.push({
+        tag: 'label',
+        className: label,
+        content: getString(label)
+      });
+    }
+    return heading;
   }
 
   /**
@@ -197,6 +202,7 @@ export default class Field {
       attrs: {
         type: 'button',
         className: 'btn btn-primary prop-order prop-control',
+        title: getString('order-option')
       },
       content: dom.icon('move-vertical')
     };
@@ -205,6 +211,7 @@ export default class Field {
       attrs: {
         type: 'button',
         className: 'btn btn-danger prop-remove prop-control',
+        title: getString('remove-' + panelType)
       },
       action: {
         click: (evt) => {
@@ -304,6 +311,9 @@ export default class Field {
             boolean: {
               get type() {
                 let boolType = 'checkbox';
+                if (_this.fieldData.tag === 'select' && key === 'selected') {
+                  boolType = 'radio';
+                }
                 if (_this.fieldData.attrs) {
                   let attrType = _this.fieldData.attrs.type;
                   if (attrType === 'radio' && key === 'selected') {
@@ -367,6 +377,10 @@ export default class Field {
 
                   let index = values.indexOf(evt.target.value);
                   newValue[index].selected = true;
+                  if (isOption) {
+                    prop = h.indexOfNode(evt.target.closest('.prop-wrap'));
+                    fMap = `${panelType}[${prop}].${key}`;
+                  }
                   h.set(fieldData, fMap, newValue);
                   data.save();
                   _this.updatePreview();
@@ -383,9 +397,13 @@ export default class Field {
               attrs: typeAttrs(key, val, 'string'),
               action: {
                 change: evt => {
+                  if (isOption) {
+                    prop = h.indexOfNode(evt.target.closest('.prop-wrap'));
+                    fMap = `${panelType}[${prop}].${key}`;
+                  }
                   h.set(fieldData, fMap, key == 'pattern' ? _this.escapeRegExp(evt.target.value) : evt.target.value);
-                  _this.updatePreview();
                   data.save();
+                  _this.updatePreview();
                 }
               },
             };
@@ -407,9 +425,13 @@ export default class Field {
               content: val,
               action: {
                 change: evt => {
+                  if (isOption) {
+                    prop = h.indexOfNode(evt.target.closest('.prop-wrap'));
+                    fMap = `${panelType}[${prop}].${key}`;
+                  }
                   h.set(fieldData, fMap, evt.target.value);
-                  _this.updatePreview();
                   data.save();
+                  _this.updatePreview();
                 }
               },
             };
@@ -429,9 +451,16 @@ export default class Field {
               name: _this.fieldID + '-selected',
               action: {
                 change: evt => {
+                  if (fieldData.tag == 'select' || (fieldData.attrs.type && fieldData.attrs.type == 'radio')) {
+                    fieldData.options.forEach(option => option.selected = false);
+                  }
+                  if (isOption) {
+                    prop = h.indexOfNode(evt.target.closest('.prop-wrap'));
+                    fMap = `${panelType}[${prop}].${key}`;
+                  }
                   h.set(fieldData, fMap, evt.target.checked);
-                  _this.updatePreview();
                   data.save();// Saving attributes value when toggle checkbox
+                  _this.updatePreview();
                 }
               }
             };

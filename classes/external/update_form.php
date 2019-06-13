@@ -32,27 +32,23 @@ use context_system;
 
 trait update_form {
 
+    /**
+     * Describes the parameters for update form
+     * @return external_function_parameters
+     * @since  Edwiser Forms 1.0.5
+     */
     public static function update_form_parameters() {
-        return new external_function_parameters(
-            array(
-                "setting" => new \external_single_structure(
-                    array(
-                        'id' => new external_value(PARAM_INT, 'Form id', VALUE_REQUIRED),
-                        'title' => new external_value(PARAM_TEXT, 'Form title', VALUE_REQUIRED),
-                        'description' => new external_value(PARAM_TEXT, 'Form description.', VALUE_OPTIONAL),
-                        'data_edit' => new external_value(PARAM_BOOL, 'Is form editable. Boolean true/flase', VALUE_REQUIRED),
-                        'type' => new external_value(PARAM_TEXT, 'Type of the form', VALUE_REQUIRED),
-                        'notifi_email' => new external_value(PARAM_TEXT, 'Notification email address. This value is required if the form type is contact us', VALUE_OPTIONAL),
-                        'message' => new external_value(PARAM_RAW, 'Message to show after successfull submission', VALUE_OPTIONAL),
-                        "draftitemid" => new external_value(PARAM_INT, 'Draft item id form message', VALUE_OPTIONAL),
-                        'eventsettings' => new external_value(PARAM_RAW, 'Event settings', VALUE_OPTIONAL)
-                    )
-                ),
-                'formdef' => new external_value(PARAM_RAW, 'Form signuture in json format.', VALUE_REQUIRED),
-            )
-        );
+        return self::get_create_update_form_parameters(true);
     }
 
+    /**
+     * Creating new form using form definition and settings.
+     * @param  array $settings The settings of form including id, title, description, data_edit, type,
+     *                         notifi_email, message, draftitemid
+     * @param  string $formdef json string of form definition
+     * @return array  [status, msg, formid] of form creation process
+     * @since  Edwiser Form 1.0.0
+     */
     public static function update_form($settings, $formdef) {
         global $CFG;
         require_once($CFG->dirroot . "/local/edwiserform/lib.php");
@@ -81,6 +77,13 @@ trait update_form {
         return $responce;
     }
 
+    /**
+     * Getting form settings from setting array and copying that in data standard class object.
+     * Also saving files from email body template to plugin area and return data object
+     * @param  array $setting of form admin want to update
+     * @return stdClass data
+     * @since  Edwiser Form 1.0.0
+     */
     private static function get_form_settings($setting) {
         global $DB, $USER, $CFG;
         $data = new \stdClass();
@@ -106,6 +109,13 @@ trait update_form {
         return $data;
     }
 
+    /**
+     * Comparing form definition for the change in settings, stage, row, column or fields
+     * @param  string $def1 previous form definition in json format
+     * @param  string $def2 new form definition in json format
+     * @return boolean true if form definition is same
+     * @since  Edwiser Form 1.0.0
+     */
     private static function compare_form_definition($def1, $def2) {
         if ($def1 != $def2) {
             $def1 = json_decode_level_2($def1);
@@ -119,7 +129,14 @@ trait update_form {
         return true;
     }
 
-
+    /**
+     * Updating form definition if new definition is different than previous
+     * @param  integer $formid The form id
+     * @param  $formdefinition Form definition in json format
+     * @param  $formsettings Form object with settings and form definition
+     * @return boolean true if form definition is updated
+     * @since  Edwiser Form 1.0.0
+     */
     private static function update_form_status($formid, $formdefinition, $formsettings) {
         global $DB;
         $submissions = $DB->count_records("efb_form_data", array("formid" => $formid));
@@ -133,14 +150,12 @@ trait update_form {
         return false;
     }
 
+    /**
+     * Returns description of method parameters for update form
+     * @return external_single_structure
+     * @since  Edwiser Form 1.0.0
+     */
     public static function update_form_returns() {
-        return new \external_single_structure(
-                array(
-            'status' => new external_value(PARAM_BOOL, 'Form deletion status.'),
-            'formid' => new external_value(PARAM_INT, 'Form id.'),
-            'msg' => new external_value(PARAM_RAW, 'Form deletion message.')
-                )
-        );
+        return self::get_create_update_form_returns();
     }
-
 }
