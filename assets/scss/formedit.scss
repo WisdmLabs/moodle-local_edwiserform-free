@@ -306,3 +306,28 @@ and open the template in the editor.
 .item-handle .svg-icon {
     fill: black;
 }
+#efb-cont-form-preview {
+    #edwiserform-background-cover {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        top: 0;
+        right: 0;
+        overflow: auto;
+        width: auto;
+        padding: 15px;
+        transition: right .5s;
+        background: rgba(0,0,0,0.5);
+    }
+}
+.preview-form .preview-form-container {
+    position: fixed;
+    left: 110px;
+    bottom: 0;
+    top: 100px;
+    right: 0;
+    overflow: auto;
+    width: auto;
+    padding: 15px;
+    transition: right .5s;
+}

@@ -2285,6 +2285,38 @@ class DOM {
     styles = this.mergeStyles(settings, styles);
     renderTarget.setAttribute('style', styles);
   }
+
+    /**
+   * Processing form settings
+   * @param {DOM} renderTarget
+   */
+  processPageSettings(renderTarget) {
+    let formSettings = this.getFormSettings();
+    // Getting form setting like classname, style
+    let className = formSettings.page['class'] ? formSettings.page['class'].value : '';
+    let styles = formSettings.page['style'] ? formSettings.page['style'].value : '';
+    let backgroundopacity = formSettings.page['background-opacity'] ? formSettings.page['background-opacity'].value : '0';
+    if (!document.getElementById('edwiserform-background-cover')) {
+      renderTarget.parentElement.before(this.create({
+        tag: 'div',
+        attrs: {
+          id: 'edwiserform-background-cover',
+          style: `position: fixed; width: 100%; height: 100%; background: rgba(0,0,0,${backgroundopacity});`
+        }
+      }));
+    }
+    let preview = document.getElementById('efb-cont-form-preview');
+    let elem = renderTarget.parentElement;
+    // Adding page class in body element
+    if (className != '') {
+      preview.classList.add(className);
+    }
+    // Applying custom style to preview element
+    if (styles != '') {
+      preview.setAttribute('style', styles);
+    }
+  }
+
   /**
    * Renders currently loaded formData to the renderTarget
    * @param {Object} renderTarget
@@ -2396,6 +2428,11 @@ class DOM {
     }));
     dom.applyConditions(formData.rows);
     dom.processFormSettings(renderTarget);
+    dom.processPageSettings(renderTarget);
+    renderTarget.prepend(this.create({
+      tag: 'h2',
+      content: document.getElementById('id_title').value
+    }));
   }
 
   /**

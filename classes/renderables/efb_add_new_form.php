@@ -166,7 +166,11 @@ class efb_add_new_form implements renderable, templatable
             array(
                 "id"      => "efb-cont-form-preview",
                 "heading" => get_string("efb-lbl-form-preview", "local_edwiserform"),
-                "body"    => "<form class='render-form'></form>"
+                "body"    => '<div class="preview-form">
+                        <div class="preview-form-container">
+                            <form class="render-form"></form>
+                        </div>
+                    </div>'
             ),
         );
         $this->form_sections->set_builder_active($this->form ? "content-hide" : "content-active");
