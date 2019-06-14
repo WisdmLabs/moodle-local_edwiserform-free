@@ -258,6 +258,9 @@ and open the template in the editor.
     .dataTables_scrollBody {
         border-bottom: 0!important;
     }
+    .dataTables_scrollHead {
+        margin-bottom: 0!important;
+    }
     .efb-wrap-list-form-data table.dataTable tbody th {
         font-weight: 600;
     }
@@ -284,6 +287,9 @@ and open the template in the editor.
                 margin-top: 0;
                 bottom: 1rem !important;
             }
+        }
+        .DTFC_NoData {
+            display: none;
         }
     }
 }
