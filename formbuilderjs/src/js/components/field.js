@@ -223,7 +223,7 @@ export default class Field {
             if (Array.isArray(fieldPanelData)) {
               fieldPanelData.splice(dataProp, 1);
             } else {
-              fieldPanelData[dataProp] = undefined;
+              delete fieldPanelData[dataProp];
             }
             data.save(panelType, parent);
             dom.empty(_this.preview);
