@@ -1160,6 +1160,58 @@ class DOM {
     return styleString;
   }
 
+  /**
+   * Get max column count
+   * @return {Number} Max column
+   */
+  getMaxColumnCount() {
+    if (formData.rows.size == 0) {
+      return 0;
+    }
+    let maxColumns = 0;
+    formData.rows.forEach(function(row) {
+      if (row.columns.length > maxColumns) {
+        maxColumns = row.columns.length;
+      }
+    });
+    return maxColumns;
+  }
+
+  /**
+   * Manage form width according to width available in preview page
+   * @param {Boolean} fullpage Is for opened in full page or embedded
+   */
+  manageFormWidth(fullpage) {
+    let formSettings = this.getFormSettings();
+    let maxColumns = this.getMaxColumnCount();
+    let toggleClass = status => {
+      this.renderTarget.classList.toggle('edwiser-inline-form', status);
+    };
+    if (fullpage && formSettings.form['responsive'].value == false) {
+      toggleClass(false);
+      return;
+    }
+    let availableWidth = document.getElementById(`formeo-rendered-${document.getElementsByClassName('formeo-render').length - 1}`).offsetWidth;
+    switch (maxColumns) {
+      case 0:
+      case 1:
+        toggleClass(false);
+        break;
+      case 2:
+        toggleClass(availableWidth < 360);
+        break;
+      case 3:
+        toggleClass(availableWidth < 480);
+        break;
+      case 4:
+        toggleClass(availableWidth < 640);
+        break;
+      default:
+        toggleClass(availableWidth < 800);
+        break;
+    }
+  }
+
 
   /**
    * Processing form settings
@@ -1199,6 +1251,7 @@ class DOM {
     }
     styles = this.mergeStyles(settings, styles);
     renderTarget.setAttribute('style', styles);
+    this.manageFormWidth(fullpage);
   }
 
   /**
@@ -1251,6 +1304,7 @@ class DOM {
    */
   renderForm(renderTarget) {
     this.empty(renderTarget);
+    this.renderTarget = renderTarget;
     let renderData = data.prepData;
     let renderCount = document.getElementsByClassName('formeo-render').length;
     let first = true;

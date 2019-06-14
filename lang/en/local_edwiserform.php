@@ -271,6 +271,7 @@ $string["en-US"] = "English";
 $string["email"] = "Email";
 $string["field"] = "Field";
 $string["form-width"] = "Width(%)";
+$string["form-responsive"] = "Form responsive";
 $string["form-padding"] = "Padding(px)";
 $string["fieldNonEditable"] = "This field cannot be edited.";
 $string["fieldRemoveWarning"] = "Are you sure you want to remove this field?";

@@ -905,23 +905,25 @@ class DOM {
       },
       content: []
     };
+    let uid = uuid();
     let inputControl = {
       tag: 'input',
       attrs: {
+        id: uid,
         className: classPrefix + '-input setting-input',
         value: config.value
       },
       action: {
         change: event => {
           let setting = formData.settings.get(settingName);
-          let inputTagType = elementTagType(input);
+          let inputTagType = elementTagType(event.target);
           let target = event.target;
           let value = target.value;
           switch (inputTagType.tag) {
             case 'INPUT':
               switch (inputTagType.type) {
                 case 'checkbox':
-                  setting[category][id].value = input.checked ? 'on' : 'off';
+                  setting[category][id].value = target.checked;
                   break;
                 default:
                   if (category != null) {
@@ -1005,7 +1007,7 @@ class DOM {
         inputControl.attrs.className += ' toggle-group';
         inputControl.tag = 'input';
         inputControl.type = 'checkbox';
-        inputControl.checked = config.value == 'on';
+        inputControl.checked = config.value;
         break;
       default:
         inputControl.attrs.type = 'text';
@@ -1033,37 +1035,11 @@ class DOM {
         break;
       case 'toggle':
         input.content.push({
-          tag: 'div',
-          className: classPrefix + '-input-label setting-input-label toggle-group-wrap',
-          content: [{
-            tag: 'span',
-            className: classPrefix + '-input setting-input setting-toggle-icon',
-            action: {
-              click: event => {
-                let target = event.target;
-                if (target.tagName == 'LABEL') {
-                  target = target.parentElement;
-                }
-                let input = target.parentElement.previousSibling;
-                input.checked = input.checked ? false : true;
-                let evt = new CustomEvent('change', {target: input});
-                input.dispatchEvent(evt);
-              }
-            },
-            content: [{
-              tag: 'label',
-              attrs: {
-                className: classPrefix + '-input setting-input toggle-on',
-              },
-              content: config.options.on
-            }, {
-              tag: 'label',
-              attrs: {
-                className: classPrefix + '-input setting-input toggle-off',
-              },
-              content: config.options.off
-            }]
-          }]
+          tag: 'label',
+          attrs: {
+            className: 'bg-primary',
+            for: uid
+          }
         });
         break;
     }
@@ -2090,6 +2066,12 @@ class DOM {
           max: '100'
         }
       },
+      'responsive': {
+        title: getString('form-responsive'),
+        id: 'responsive',
+        type: 'toggle',
+        value: true,
+      },
       'padding': {
         title: getString('form-padding'),
         id: 'padding',
@@ -2259,6 +2241,59 @@ class DOM {
     return styleString;
   }
 
+  /**
+   * Get max column count
+   * @return {Number} Max column
+   */
+  getMaxColumnCount() {
+    if (formData.rows.size == 0) {
+      return 0;
+    }
+    let maxColumns = 0;
+    formData.rows.forEach(function(row) {
+      if (row.columns.length > maxColumns) {
+        maxColumns = row.columns.length;
+      }
+    });
+    return maxColumns;
+  }
+
+  /**
+   * Manage form width according to width available in preview page
+   * @param {Boolean} fullpage Is for opened in full page or embedded
+   */
+  manageFormWidth(fullpage) {
+    let formSettings = this.getFormSettings();
+    let maxColumns = this.getMaxColumnCount();
+    let width = formSettings.form['width'] ? formSettings.form['width'].value : '100';
+    this.renderTarget.style.width = width + '%';
+    let toggleClass = status => {
+      this.renderTarget.classList.toggle('edwiser-inline-form', status);
+    };
+    if (formSettings.form['responsive'].value == false) {
+      toggleClass(false);
+      return;
+    }
+    let availableWidth = document.getElementById(`formeo-rendered-${document.getElementsByClassName('formeo-render').length - 1}`).offsetWidth;
+    switch (maxColumns) {
+      case 0:
+      case 1:
+        toggleClass(false);
+        break;
+      case 2:
+        toggleClass(availableWidth < 360);
+        break;
+      case 3:
+        toggleClass(availableWidth < 480);
+        break;
+      case 4:
+        toggleClass(availableWidth < 640);
+        break;
+      default:
+        toggleClass(availableWidth < 800);
+        break;
+    }
+  }
 
   /**
    * Processing form settings
@@ -2270,13 +2305,11 @@ class DOM {
     let className = formSettings.form['class'] ? formSettings.form['class'].value : '';
     let color = formSettings.form['color'] ? formSettings.form['color'].value : 'inherit';
     let backgroundColor = formSettings.form['background-color'] ? formSettings.form['background-color'].value : 'inherit';
-    let width = formSettings.form['width'] ? formSettings.form['width'].value : '100%';
     let padding = formSettings.form['padding'] ? formSettings.form['padding'].value : '25';
     let styles = formSettings.form['style'] ? formSettings.form['style'].value : '';
     renderTarget.classList.add(className);
     // Adding form class in renderTarget to apply settings
     let settings = {
-      width: width + '%',
       color: color,
       'background-color': backgroundColor,
       margin: '0 auto',
@@ -2284,6 +2317,7 @@ class DOM {
     };
     styles = this.mergeStyles(settings, styles);
     renderTarget.setAttribute('style', styles);
+    this.manageFormWidth();
   }
 
     /**
@@ -2306,7 +2340,6 @@ class DOM {
       }));
     }
     let preview = document.getElementById('efb-cont-form-preview');
-    let elem = renderTarget.parentElement;
     // Adding page class in body element
     if (className != '') {
       preview.classList.add(className);

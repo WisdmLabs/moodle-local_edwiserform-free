@@ -14,6 +14,60 @@ define(['jquery', 'core/ajax', 'local_edwiserform/formviewer'], function ($, aja
                 };
                 var formeo = [];
                 var forms = $('.edwiserform-container');
+                var fullpage = $('#edwiserform-fullpage') && $('#edwiserform-fullpage').val();
+
+                /**
+                 * Load data to form fields and trigger events
+                 * @param  {DOM} form DOM form object
+                 * @param  {Object} data Previously + Default data of user
+                 */
+                function load_form_data(form, data) {
+                    var formData = JSON.parse(data);
+                    $.each(formData, function(index, attr) {
+                        $.each($(form).find(`[name="${attr.name}"]`), function(i, elem) {
+                            switch (elem.tagName) {
+                                case 'INPUT':
+                                    switch (elem.type) {
+                                        case 'radio':
+                                            if (elem.value == attr.value) {
+                                                $(elem).prop('checked', true);
+                                            }
+                                            var changeEvent = new CustomEvent("click", {target: $(elem)[0]});
+                                            $(elem)[0].dispatchEvent(changeEvent);
+                                            break;
+                                        case 'checkbox':
+                                            if (elem.value == attr.value) {
+                                                $(elem).prop('checked', true);
+                                            }
+                                            break;
+                                        default:
+                                            $(elem).val(attr.value);
+                                            break;
+                                    }
+                                    break;
+                                case 'SELECT':
+                                    if ($(elem).is('[multiple="true"]')) {
+                                        let value = $(elem).val();
+                                        value.push(attr.value);
+                                        attr.value = value;
+                                    }
+                                case 'TEXTAREA':
+                                    $(elem).val(attr.value);
+                                    break;
+                            }
+                            var changeEvent = new CustomEvent("change", {target: $(elem)[0]});
+                            $(elem)[0].dispatchEvent(changeEvent);
+                        });
+                    });
+                }
+
+                // Handle form field arrangement on resize
+                $(window).resize(function() {
+                    $.each(forms, function(index) {
+                        formeo[index].dom.manageFormWidth(fullpage);
+                    });
+                });
+
                 $.each(forms, function(index, form) {
                     var idElement = $(form).children('.id');
                     var id = idElement.val();
@@ -31,38 +85,7 @@ define(['jquery', 'core/ajax', 'local_edwiserform/formviewer'], function ($, aja
                             $(form).prepend(`<h2>${response.title}</h2>`);
                             $(form).prepend(idElement);
                             if (response.data) {
-                                var formData = JSON.parse(response.data);
-                                $.each(formData, function(index, attr) {
-                                    $.each($(`[name="${attr.name}"]`), function(i, elem) {
-                                        switch (elem.tagName) {
-                                            case 'INPUT':
-                                                switch (elem.type) {
-                                                    case 'radio':
-                                                        if (elem.value == attr.value) {
-                                                            $(elem).prop('checked', true);
-                                                        }
-                                                        var changeEvent = new CustomEvent("click", {target: $(elem)[0]});
-                                                        $(elem)[0].dispatchEvent(changeEvent);
-                                                        break;
-                                                    case 'checkbox':
-                                                        if (elem.value == attr.value) {
-                                                            $(elem).prop('checked', true);
-                                                        }
-                                                        break;
-                                                    default:
-                                                        $(elem).val(attr.value);
-                                                        break;
-                                                }
-                                                break;
-                                            case 'SELECT':
-                                            case 'TEXTAREA':
-                                                $(elem).val(attr.value);
-                                                break;
-                                        }
-                                        var changeEvent = new CustomEvent("change", {target: $(elem)[0]});
-                                        $(elem)[0].dispatchEvent(changeEvent);
-                                    });
-                                });
+                                load_form_data(form, response.data);
                             }
                             if (response.action && response.action != '') {
                                 apply_action(form, response.action);

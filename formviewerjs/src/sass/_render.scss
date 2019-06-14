@@ -1,5 +1,4 @@
 .f-row {
-  margin-bottom: 1em;
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: nowrap;
@@ -88,7 +87,6 @@
     display: block !important;
   }
   .f-render-column {
-    margin-top: 1em;
     width: 100% !important;
   }
 }

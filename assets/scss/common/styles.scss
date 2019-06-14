@@ -422,3 +422,11 @@ and open the template in the editor.
         box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.7);
     }
 }
+.edwiser-inline-form {
+    .f-row {
+        display: block !important;
+    }
+    .f-render-column {
+        width: 100% !important;
+    }
+}
