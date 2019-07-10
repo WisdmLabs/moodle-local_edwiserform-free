@@ -218,26 +218,29 @@ and open the template in the editor.
             }
         }
     }
+    .efb-form-step {
+        &.efb-form-step-builder, &.efb-form-step-preview {
+            position: absolute;
+            bottom: 25px;
+            border: 0;
+            border-radius: 50%;
+            height: 3rem;
+            width: 3rem;
+            color: white;
+            outline: unset;
+            box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.5);
+            transition: right .5s;
+            padding: 0;
+            cursor: pointer;
+            right: 275px;
+        }
+    }
+    .build-form.hidden-controls + .efb-form-step.efb-form-step-preview, .preview-form + .efb-form-step-builder {
+        right: 25px;
+    }
 }
 
 /* Style the tab content */
-.efb-form-step.efb-form-step-preview {
-    position: absolute;
-    bottom: 25px;
-    right: 275px;
-    border: 0;
-    border-radius: 50%;
-    height: 3rem;
-    width: 3rem;
-    color: white;
-    outline: unset;
-    box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.5);
-    transition: right .5s;
-    padding: 0;
-}
-.efb-form-step.efb-form-step-preview.collapsed {
-    right: 25px;
-}
 .efb-hide{
     display: none !important;
 }

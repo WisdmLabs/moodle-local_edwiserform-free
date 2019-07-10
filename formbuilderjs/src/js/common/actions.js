@@ -8,7 +8,7 @@ import dom from './dom';
 const defaultActions = {
   add: {
     attr: evt => {
-      dom.prompt('primary', evt.message.attr, evt.addAction);
+      dom.addAttributePrompt('primary', evt.message.attr, evt.addAction);
     },
     option: evt => {
       evt.addAction();

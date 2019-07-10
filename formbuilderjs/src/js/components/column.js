@@ -77,7 +77,7 @@ export default class Column {
     let sortable = this.sortable = Sortable.create(column, {
       animation: 150,
       fallbackClass: 'field-moving',
-      forceFallback: true,
+      forceFallback: h.isFireFoxEdge(),
       group: {
         name: 'columns',
         pull: true,
@@ -89,7 +89,8 @@ export default class Column {
       onAdd: _this.onAdd,
       onSort: _this.onSort,
       onRemove: _this.onRemove,
-      draggable: '.stage-fields'
+      draggable: '.stage-fields',
+      handle: '.item-handle',
     });
 
     dom.columns.set(columnID, {column, sortable});

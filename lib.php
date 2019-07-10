@@ -316,20 +316,9 @@ function local_edwiserform_extend_navigation(navigation_node $nav) {
             'height' => 1
         ));
     }
-    // Root node
-    $edwiserform = $nav->add(
-        'Edwiser Forms',
-        null,
-        navigation_node::TYPE_ROOTNODE,
-        null,
-        'local_edwiserform-parent',
-        $icon
-    );
-    $edwiserform->showinflatnavigation = true;
-    $edwiserform->isexpandable = true;
 
     // Archieve page node
-    $archieve = $edwiserform->create(
+    $archieve = $nav->add(
         'Form List',
         new moodle_url($CFG->wwwroot . '/local/edwiserform/view.php'),
         navigation_node::NODETYPE_BRANCH,
@@ -338,11 +327,9 @@ function local_edwiserform_extend_navigation(navigation_node $nav) {
         $icon
     );
     $archieve->showinflatnavigation = true;
-    $archieve = new flat_navigation_node($archieve, 1);
-    $edwiserform->add_node($archieve);
 
     // Add new form page node
-    $addnew = $edwiserform->create(
+    $addnew = $nav->add(
         'Add new form',
         new moodle_url($CFG->wwwroot . '/local/edwiserform/view.php', array('page' => 'newform')),
         navigation_node::NODETYPE_BRANCH,
@@ -351,6 +338,4 @@ function local_edwiserform_extend_navigation(navigation_node $nav) {
         $icon
     );
     $addnew->showinflatnavigation = true;
-    $addnew = new flat_navigation_node($addnew, 1);
-    $edwiserform->add_node($addnew);
 }

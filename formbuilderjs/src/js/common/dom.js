@@ -242,6 +242,27 @@ class DOM {
   }
 
   /**
+   * Process class attribute
+   * @param  {Object} elem Element object
+   * @return {Object}      Element object
+   */
+  processClass(elem) {
+    if (typeof elem.attrs != 'undefined' && typeof elem.attrs.class != 'undefined') {
+      if (typeof elem.attrs.className != 'undefined') {
+        if (Array.isArray(elem.attrs.className)) {
+          elem.attrs.className.push(clone(elem.attrs.class));
+        } else {
+          elem.attrs.className += ' ' + clone(elem.attrs.class);
+        }
+      } else {
+        elem.attrs.className = clone(elem.attrs.class);
+      }
+      delete elem.attrs.class;
+    }
+    return elem;
+  }
+
+  /**
    * Creates DOM elements
    * @param  {Object}  elem      element config object
    * @param  {Boolean} isPreview generating element for preview or render?
@@ -249,6 +270,7 @@ class DOM {
    */
   create(elem, isPreview = false) {
     let _this = this;
+    elem = _this.processClass(elem);
     elem = _this.processTagName(elem);
     let contentType;
     let {tag} = elem;
@@ -336,17 +358,7 @@ class DOM {
           wrap.content.push(_this.create(option, isPreview));
         });
 
-        if (elem.attrs.className) {
-          wrap.className = elem.attrs.className;
-        }
-
         wrap.config = Object.assign({}, elem.config);
-        if (typeof(wrap.className) == 'string') {
-          wrap.className = [wrap.className];
-        }
-
-        wrap.className.push(h.get(elem, 'attrs.className'));
-
 
         if (required) {
           wrap.attrs.required = required;
@@ -372,15 +384,14 @@ class DOM {
         if (isPreview) {
             label = _this.label(elem, 'config.label');
         } else {
-            if (displayLabel == 'off') {
+            if (typeof elem.attrs.placeholder == 'undefined') {
               elem.attrs.placeholder = 'label' in elem.config ? elem.config.label : '';
             }
             label = _this.label(elem);
         }
-        if (displayLabel != 'off' && required && !isPreview) {
-          label.innerHTML = label.innerHTML + dom.create(requiredMark).outerHTML;
+        if (required) {
+          label = [label, requiredMark];
         }
-
         if (!elem.config.hideLabel) {
           if (_this.labelAfter(elem)) {
             // add check for inline checkbox
@@ -389,31 +400,18 @@ class DOM {
             wrap.content.push(label);
           } else {
             wrap.content.push(label);
-            if(displayLabel == 'off' || isPreview && required) {
-              wrap.content.push(requiredMark);
-            }
             wrap.content.push(element);
           }
         } else if (editablePreview) {
           element.contentEditable = true;
-          // Show label only while editing form - Yogesh
-          if(elem.config.showLabelEdit) {
-            if (_this.labelAfter(elem)) {
-                wrap.className = `f-${elem.attrs.type}`;
-                label.insertBefore(element, label.firstChild);
-                wrap.content.push(label);
-                if(displayLabel == 'off' || isPreview && required) {
-                  wrap.content.push(requiredMark);
-                }
-            } else {
+          if (_this.labelAfter(elem)) {
+              wrap.className = `f-${elem.attrs.type}`;
+              label.insertBefore(element, label.firstChild);
               wrap.content.push(label);
-              if(displayLabel == 'off' || isPreview && required) {
-                wrap.content.push(requiredMark);
-              }
-              wrap.content.push(element);
-            }
+          } else {
+            wrap.content.push(label);
+            wrap.content.push(element);
           }
-          // Custom code ends here
         }
       } else if (editablePreview) {
         element.contentEditable = true;
@@ -533,7 +531,6 @@ class DOM {
    */
   processAttrs(elem, element, isPreview) {
     let {attrs = {}} = elem;
-    delete attrs.tag;
     if (!isPreview) {
       if (!attrs.name && this.isInput(elem.tag)) {
         element.setAttribute('name', uuid(elem));
@@ -543,6 +540,9 @@ class DOM {
     // Set element attributes
     Object.keys(attrs).forEach(attr => {
       let name = h.safeAttrName(attr);
+      if (name == 'tag') {
+        return;
+      }
       let value = attrs[attr] || '';
       if (Array.isArray(value)) {
         if (typeof value[0] === 'object') {
@@ -617,14 +617,13 @@ class DOM {
       const defaultInput = () => {
         let input = {
           tag: 'input',
-          attrs: {
-            id: id + '-' + i,
-            name: attrs.name,
-            type: fieldType,
-            value: option.value || ''
-          },
+          attrs: clone(attrs),
           action
         };
+        delete input.attrs.className;
+        input.attrs.id = id + '-' + i;
+        input.attrs.type = fieldType;
+        input.attrs.value = option.value || '';
         let checkable = [{
           tag: 'span',
           className: 'checkable',
@@ -653,6 +652,8 @@ class DOM {
 
         if (elem.config.inline) {
           inputWrap.className.push('f-${fieldType}-inline');
+        } else {
+          elem.config.inputWrap = `f-${fieldType}-group`;
         }
 
         if (option.selected) {
@@ -1183,93 +1184,6 @@ class DOM {
       className: 'category-container-' + category,
       content: [label, settings]
     };
-  }
-
-  /**
-    * Return stage tab container
-    * @return {Object} stage tabs wrapper
-    */
-  getStageControl() {
-    let _this = this;
-    let edit = {
-      tag: 'button',
-      content: _this.icon('edit'),
-      attrs: {
-        className: ['btn btn-primary item-edit-toggle'],
-        type: 'button'
-      },
-      meta: {
-        id: 'edit'
-      },
-      action: {
-        click: evt => {
-          const element = closest(evt.target, 'stage-tabs-wrapper');
-          let fType = 'stage-tabs';
-          let editClass = 'editing-' + fType;
-          let editWindow = element.querySelector(`.${fType}-edit`);
-          if (element.classList.contains(editClass)) {
-            animate.slideUp(editWindow, 666, function() {
-              animate.slideDown(editWindow.nextSibling, 333, function() {
-                element.classList.remove(editClass);
-              });
-            });
-          } else {
-            animate.slideUp(editWindow.nextSibling, 333, function() {
-              animate.slideDown(editWindow, 666, function() {
-                element.classList.add(editClass);
-              });
-            });
-          }
-        }
-      }
-    };
-
-    let remove = {
-      tag: 'button',
-      content: [_this.icon('handle'), _this.icon('remove')],
-      attrs: {
-        className: ['btn btn-danger item-remove'],
-        type: 'button'
-      },
-      meta: {
-        id: 'remove'
-      },
-      action: {
-        click: (evt) => {
-          let editor = document.getElementById('efb-cont-form-builder');
-          let stages = editor.querySelectorAll('.stage-wrap:not(.active)');
-          stages.forEach(stage => {
-            this.clearStep(evt);
-          });
-        }
-      }
-    };
-    let stageControlWrap = {
-      tag: 'div',
-      className: 'stage-tabs-wrapper wfb-tabs-view',
-      id: 'stage-tab-panel',
-      content: [{
-        tag: 'div',
-        className: 'stage-tabs-actions group-actions',
-        content: [{
-          tag: 'div',
-          className: 'action-btn-wrap',
-          content: [remove, edit]
-        }]
-      }],
-      action: {
-        mouseenter: event => {
-          event.target.classList.add('hovering-stage-tabs');
-        },
-        mouseleave: evnt => {
-          event.target.classList.remove('hovering-stage-tabs');
-        }
-      }
-    };
-    setTimeout(function() { // Activate first tab as active step when multiple steps presents
-      dom.activeStage = document.querySelector('.stage-wrap.active .stage');
-    }, 666);
-    return stageControlWrap;
   }
 
   /**
@@ -1871,7 +1785,17 @@ class DOM {
   getElementFromCondition(condition) {
     let _this = this;
     let source = condition.content[0].options;
+    if (source.length < 2) {
+      return {
+        status: false
+      };
+    }
     let value = condition.content[1].options;
+    if (value.length == 0) {
+      return {
+        status: false
+      };
+    }
     let operator = condition.content[2].options;
     let sourceSelected = null;
     let valueSelected = null;
@@ -1885,6 +1809,11 @@ class DOM {
         }
       }
       sourceSelected = _this.renderTarget.querySelectorAll('[id*="' + sourceSelected + '"]');
+      if (sourceSelected.length == 0) {
+        return {
+          status: false
+        };
+      }
     }
     if (value.length > 0) {
       valueSelected = value[0].value;
@@ -1905,6 +1834,7 @@ class DOM {
       }
     }
     return {
+      status: true,
       source: sourceSelected,
       value: valueSelected,
       operator: operatorSelected
@@ -1998,7 +1928,12 @@ class DOM {
     for (let i = 0; i < conditions.length; i++) {
       condition = conditions[i];
       element = _this.getElementFromCondition(condition);
-      elements.push(element);
+      if (element.status == true) {
+        elements.push(element);
+      }
+    }
+    if (elements.length != 0) {
+      container.style.display = 'none';
     }
     for (let i= 0; i < elements.length; i++) {
       element = elements[i];
@@ -2032,7 +1967,6 @@ class DOM {
       let id = row.id;
       if (row.conditions.length > 0) {
         let DOMrow = _this.renderTarget.querySelector('[id="' + id + '"]');
-        DOMrow.style.display = 'none';
         _this.processEachCondition(row.conditions, DOMrow);
       }
     });
@@ -2330,14 +2264,19 @@ class DOM {
     let className = formSettings.page['class'] ? formSettings.page['class'].value : '';
     let styles = formSettings.page['style'] ? formSettings.page['style'].value : '';
     let backgroundopacity = formSettings.page['background-opacity'] ? formSettings.page['background-opacity'].value : '0';
-    if (!document.getElementById('edwiserform-background-cover')) {
+    let id = 'edwiserform-background-cover';
+    let style = `position: fixed; width: 100%; height: 100%; background: rgba(0,0,0,${backgroundopacity});`;
+    let cover = document.getElementById(id);
+    if (!cover) {
       renderTarget.parentElement.before(this.create({
         tag: 'div',
         attrs: {
-          id: 'edwiserform-background-cover',
-          style: `position: fixed; width: 100%; height: 100%; background: rgba(0,0,0,${backgroundopacity});`
+          id: id,
+          style: style
         }
       }));
+    } else {
+      cover.setAttribute('style', style);
     }
     let preview = document.getElementById('efb-cont-form-preview');
     // Adding page class in body element
@@ -3148,7 +3087,7 @@ class DOM {
    * @param {String} title for prompt window
    * @param {function} addAction function
    */
-  prompt(type, title, addAction) {
+  addAttributePrompt(type, title, addAction) {
     let _this = this;
     let id = uuid();
     let applied = false;
@@ -3174,6 +3113,9 @@ class DOM {
       tag: 'div',
       className: 'efb-modal-body',
       content: [{
+        tag: 'div',
+        content: getString('attribute-help')
+      }, {
         tag: 'input',
         attrs: {
           id: 'attr-' + id,

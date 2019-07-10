@@ -60,6 +60,7 @@ $string['efb-lbl-courses-list'] = "Select Courses";
 $string['efb-lbl-notifi-email'] = "Recipient Email Address";
 $string['efb-lbl-notifi-email-warning'] = "Invalid email address.";
 $string['efb-lbl-notifi-email-duplicate'] = "Email is already present in the list.";
+$string['efb-lbl-multiplesubmission'] = 'Note: Selected template supports multiple submission';
 $string['efb-cannot-create-form'] = "You are not allowed to create form.";
 $string['efb-forms-get-title-desc'] = 'Please enter title and description';
 $string['efb-forms-update-confirm'] = "Do you want to create new form or overwrite existing?";
@@ -76,7 +77,8 @@ $string['efb-confirmation-email-success'] = "<p>Confirmation email sent successf
 $string['efb-notify-email-failed'] = "<p>Unable to notify author.</p>";
 
 $string['efb-delete-form-and-data'] = '{$a->title} form with ID({$a->id}) will be deleted along with its submissions. Are you sure you want to delete this form?';
-$string['clickonshortcode'] = 'Note: Click on shortcode to copy';
+$string['note'] = 'Note:';
+$string['clickonshortcode'] = 'Click on shortcode to copy';
 $string['shortcodecoppied'] = '{$a} copied to clipboard';
 $string['hey-wait'] = 'Hey Wait';
 $string['efb-search-form'] = 'Search Forms:';
@@ -198,6 +200,7 @@ $string["efb-form-loggedin-not-allowed"] = "Form cannot be shown while you logge
 
 /* JS Strings */
 $string["action.add.attrs.attr"] = "What attribute would you like to add?";
+$string['attribute-help'] = 'What is attribute? <a target="_blank" href="https://www.google.com/search?q=what+is+html+form+field+attributes&oq=what+is+html+form+field+attr">Click here for help.</a>';
 $string["action.add.attrs.value"] = "Default Value";
 $string["address"] = "Address";
 $string["allFieldsRemoved"] = "All fields were removed.";
@@ -209,6 +212,7 @@ $string["attrs.required"] = "Required";
 $string["attrs.type"] = "Type";
 $string["attrs.id"] = "Id";
 $string["attrs.title"] = "Title";
+$string['attrs.list'] = 'List';
 $string["attrs.style"] = "Style";
 $string["attrs.dir"] = "Direction";
 $string["attrs.placeholder"] = "Placeholder";
@@ -334,9 +338,11 @@ $string["paragraph"] = "Paragraph";
 $string["preview"] = "Preview";
 $string["primary"] = "Primary";
 $string["placeholder"] = "Placeholder";
+$string["placeholder.id"] = "Id";
 $string["placeholder.className"] = $string["placeholder.class"] = "Space separated classes";
 $string["placeholder.email"] = "Enter you email";
 $string["placeholder.label"] = "Label";
+$string["placeholder.list"] = 'List';
 $string["placeholder.password"] = "Enter your password";
 $string["placeholder.placeholder"] = "Placeholder";
 $string["placeholder.text"] = "Enter some Text";
@@ -445,11 +451,14 @@ $string['order-option'] = 'Order option';
 // Editing panel heading
 $string['select-options-label'] = 'Option Label';
 $string['select-options-value'] = 'Option Value';
+$string['input-radio-options-name'] = 'Radio Name';
 $string['input-radio-options-label'] = 'Radio Label';
 $string['input-radio-options-value'] = 'Radio Value';
+$string['input-checkbox-options-name'] = 'Checkbox Name';
 $string['input-checkbox-options-label'] = 'Checkbox Label';
 $string['input-checkbox-options-value'] = 'Checkbox Value';
 $string['input-radio-options-selected'] = $string['input-checkbox-options-selected'] = $string['select-options-selected'] = '';
+$string['datalist-options-value'] = 'List option value';
 
 // Validator Strings
 $string['input-invalid-type'] = 'Invalid input type in <strong>{$a}</strong>';

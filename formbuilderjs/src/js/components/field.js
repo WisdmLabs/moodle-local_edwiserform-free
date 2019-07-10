@@ -401,7 +401,12 @@ export default class Field {
                     prop = h.indexOfNode(evt.target.closest('.prop-wrap'));
                     fMap = `${panelType}[${prop}].${key}`;
                   }
-                  h.set(fieldData, fMap, key == 'pattern' ? _this.escapeRegExp(evt.target.value) : evt.target.value);
+                  let value = evt.target.value;
+                  if (h.isHtml(value)) {
+                    evt.target.value = h.stripHtml(value);
+                    return;
+                  }
+                  h.set(fieldData, fMap, key == 'pattern' ? _this.escapeRegExp(value) : value);
                   data.save();
                   _this.updatePreview();
                 }
@@ -791,19 +796,19 @@ export default class Field {
   fieldPreview() {
     let _this = this;
     let fieldData = clone(formData.fields.get(_this.fieldID));
-    const field = dom.fields.get(_this.fieldID).field;
-    const togglePreviewEdit = evt => {
-      const column = field.parentElement;
-      if (evt.target.contentEditable === 'true') {
-        if (h.inArray(evt.type, ['focus', 'blur'])) {
-          let isActive = document.activeElement === evt.target;
-          column.classList.toggle('editing-field-preview', isActive);
-          dom.toggleSortable(field.parentElement, (evt.type === 'focus'));
-        } else if(h.inArray(evt.type, ['mousedown', 'mouseup'])) {
-          dom.toggleSortable(field.parentElement, (evt.type === 'mousedown'));
-        }
-      }
-    };
+    // const field = dom.fields.get(_this.fieldID).field;
+    // const togglePreviewEdit = evt => {
+    //   const column = field.parentElement;
+    //   if (evt.target.contentEditable === 'true') {
+    //     if (h.inArray(evt.type, ['focus', 'blur'])) {
+    //       let isActive = document.activeElement === evt.target;
+    //       column.classList.toggle('editing-field-preview', isActive);
+    //       dom.toggleSortable(field.parentElement, (evt.type === 'focus'));
+    //     } else if(h.inArray(evt.type, ['mousedown', 'mouseup'])) {
+    //       dom.toggleSortable(field.parentElement, (evt.type === 'mousedown'));
+    //     }
+    //   }
+    // };
 
     fieldData.id = 'prev-' + _this.fieldID;
 
@@ -814,10 +819,10 @@ export default class Field {
       },
       content: dom.create(fieldData, true),
       action: {
-        focus: togglePreviewEdit,
-        blur: togglePreviewEdit,
-        mousedown: togglePreviewEdit,
-        mouseup: togglePreviewEdit,
+        // focus: togglePreviewEdit,
+        // blur: togglePreviewEdit,
+        // mousedown: togglePreviewEdit,
+        // mouseup: togglePreviewEdit,
         change: evt => {
           let {target} = evt;
           if (target.fMap) {
@@ -849,6 +854,12 @@ export default class Field {
           }
           let setData = () => {
             if (evt.target.contentEditable === 'true') {
+              if (prop == 'config.label' && h.isHtml(evt.target.innerHTML)) {
+                evt.target.innerHTML = h.stripHtml(evt.target.innerHTML);
+                evt.target.focus();
+                document.execCommand('selectAll', false, null);
+                document.getSelection().collapseToEnd();
+              }
               if (evt.target.innerHTML == '') {
                 evt.target.innerHTML = ' ';
               }

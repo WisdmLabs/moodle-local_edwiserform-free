@@ -87,8 +87,11 @@ export default class Stage {
     let stageWrap = this.dom;
     const sortable = Sortable.create(stageWrap.childNodes[0], {
       animation: 150,
+      scroll: true,
+      scrollSensitivity: 1000,
+      direction: 'horizontal',
       fallbackClass: 'row-moving',
-      forceFallback: true,
+      forceFallback: h.isFireFoxEdge(),
       fallbackTolerance: 0,
       group: {name: 'stages', pull: true, put: [
         'controls',

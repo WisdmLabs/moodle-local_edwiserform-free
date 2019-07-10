@@ -88,6 +88,7 @@ export default class Row {
       onAdd: _this.onAdd,
       onSort: _this.onSort,
       draggable: '.stage-columns',
+      handle: '.item-handle',
       filter: '.resize-x-handle'
     });
 

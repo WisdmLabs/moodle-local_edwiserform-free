@@ -62,14 +62,14 @@ define([
                         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
                             $('td:eq(0)', nRow).addClass( "efb-tbl-col-title" );
                             $('td:eq(1)', nRow).addClass( "efb-tbl-col-type" );
-                            $('td:eq(2)', nRow).addClass( "efb-tbl-col-shortcode" );
+                            $('td:eq(2)', nRow).addClass( "efb-tbl-col-shortcode").attr('title', M.util.get_string('clickonshortcode', 'local_edwiserform'));
                             $('td:eq(3)', nRow).addClass( "efb-tbl-col-create" );
                             $('td:eq(4)', nRow).addClass( "efb-tbl-col-modified" );
                             $('td:eq(5)', nRow).addClass( "efb-tbl-col-action-list" );
                         },
                         drawCallback: function( settings ) {
                             $('.efb-csv-export').removeClass('dt-button').off();
-                            $('.efb-shortcode-copy-note').html(M.util.get_string('clickonshortcode', 'local_edwiserform'));
+                            $('.efb-shortcode-copy-note').html(M.util.get_string('note', 'local_edwiserform') + ' ' + M.util.get_string('clickonshortcode', 'local_edwiserform'));
                         }
                     });
                 }

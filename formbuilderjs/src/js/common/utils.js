@@ -157,16 +157,17 @@ export const clone = obj => {
 
   // Handle Object
   if (obj instanceof Object) {
-    copy = {};
-    for (let attr in obj) {
-      if (obj.hasOwnProperty(attr)) {
-        copy[attr] = clone(obj[attr]);
-      }
-    }
+    copy = Object.assign({}, obj);
     return copy;
   }
 
   throw new Error('Unable to copy Object, type not supported.');
+};
+
+export const strip = html => {
+  let temp = document.createElement('DIV');
+  temp.innerHTML = html;
+  return temp.textContent || temp.innerText || '';
 };
 
 /**

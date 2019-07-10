@@ -170,7 +170,8 @@ class efb_add_new_form implements renderable, templatable
                         <div class="preview-form-container">
                             <form class="render-form"></form>
                         </div>
-                    </div>'
+                    </div>',
+                "button"  => "<button class='efb-form-step efb-form-step-builder btn-primary fa fa-eye-slash' data-id='efb-form-builder'></button>"
             ),
         );
         $this->form_sections->set_builder_active($this->form ? "content-hide" : "content-active");
