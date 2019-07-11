@@ -6,11 +6,17 @@
   transition: background-color 125ms ease-in-out;
   position: relative;
   clear: both;
-  margin-left: 0;
+  margin-left: 1rem;
   margin-bottom: 6px;
   background-color: $white;
   padding: 5px;
   min-height: 34px;
+  &:first-child {
+    margin-top: 1rem;
+  }
+  &:last-child {
+    margin-bottom: 5rem;
+  }
   &:hover {
     box-shadow: 0 0 0 1px $gray-lighter inset;
     .group-actions {
