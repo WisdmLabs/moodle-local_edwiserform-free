@@ -31,6 +31,8 @@ defined('MOODLE_INTERNAL') || die();
 function xmldb_local_edwiserform_upgrade($oldversion) {
     global $CFG, $DB;
 
+    $dbman = $DB->get_manager();
+
     if ($oldversion < 2019061800) {
         // Updated data type of efb_forms table
         $table = new xmldb_table('efb_forms');
