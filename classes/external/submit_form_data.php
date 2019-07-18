@@ -78,13 +78,14 @@ trait submit_form_data {
         }
         if (self::should_update_submission($form, $submission, $plugin)) {
             $submission->submission = $data;
-            $submission->updated = date('Y-m-d H:i:s');
+            $submission->updated = time();
             $status = $DB->update_record("efb_form_data", $submission);
         } else {
             $submission = new stdClass;
             $submission->formid = $formid;
             $submission->userid = $userid;
             $submission->submission = $data;
+            $submission->date = time();
             $status = $DB->insert_record("efb_form_data", $submission);
         }
         if ($status) {

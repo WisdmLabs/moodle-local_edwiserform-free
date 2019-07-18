@@ -96,9 +96,9 @@ class efb_list_form implements renderable, templatable {
                 "title" => $record->title,
                 "type" => $record->type,
                 "author" => $this->get_user_name($record->author),
-                "created" => $record->created,
+                "created" => date('d-m-Y H:i:s', $record->created),
                 "author2" => $record->author2 ? $this->get_user_name($record->author2) : '-',
-                "modified" => empty($record->modified) ? $record->created : $record->modified,
+                "modified" => date('d-m-Y H:i:s', empty($record->modified) ? $record->created : $record->modified),
                 "actions" => $this->get_form_actions($record)
             );
             $rows[] = $data;

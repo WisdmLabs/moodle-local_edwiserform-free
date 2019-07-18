@@ -43,6 +43,14 @@ class efb_list_form_data implements renderable, templatable
     }
 
 
+    /**
+     * Function to export the renderer data in a format that is suitable for a
+     * mustache template.
+     *
+     * @param renderer_base $output Used to do a final render of any components that need to be rendered for export.
+     * @return stdClass|array
+     * @since  Edwiser Form 1.0.1
+     */
     public function export_for_template(\renderer_base $output) {
         global $DB, $CFG;
         $data = new stdClass();
@@ -77,6 +85,16 @@ class efb_list_form_data implements renderable, templatable
         return $data;
     }
 
+    /**
+     * Fetch and return form submissions based on search and sort criteria from data table
+     *
+     * @param  string $limit number of rows to select
+     * @param  string $searchtext query parameter to search in columns
+     * @param  boolean $returnheader header row added at first index of rows if true
+     * @param  boolean $skipfirst skip user name column if true
+     * @return array rows
+     * @since  Edwiser Form 1.0.2
+     */
     public function get_submissions_list($limit = "", $searchtext = "") {
         global $DB;
         $headings = $this->get_headings();
@@ -108,7 +126,7 @@ class efb_list_form_data implements renderable, templatable
                 $formdata[] = $this->plugin->form_data_list_actions($record);
             }
             $submitteddata = array_fill_keys($headings, null);
-            $formdata[] = $record->date;
+            $formdata[] = date('d-m-Y H:i:s', $record->date);
             $formdata = array_merge($formdata, $submitteddata);
             foreach ($submission as $elem) {
                 $value = $elem->value;
@@ -136,6 +154,12 @@ class efb_list_form_data implements renderable, templatable
         return $rows;
     }
 
+    /**
+     * Return array having field name and index and it's label as value
+     *
+     * @return array map of fields name->label
+     * @since Edwiser Form 1.0.0
+     */
     private function get_name_label_map() {
         global $DB;
         $def = $this->form->definition;
@@ -153,6 +177,12 @@ class efb_list_form_data implements renderable, templatable
         return $map;
     }
 
+    /**
+     * Get column heading of form based on form fileds and there arrangement
+     *
+     * @return array heading
+     * @since Edwiser Form 1.0.4
+     */
     public function get_headings() {
         global $DB;
         $def = $this->form->definition;
@@ -160,30 +190,82 @@ class efb_list_form_data implements renderable, templatable
             return false;
         }
         $def = json_decode($def, true);
-        $stages = $def["stages"];
-        $rows = $def["rows"];
         $headings = [];
-        foreach ($stages as $stage) {
-            $rows = $stage["rows"];
-            foreach ($rows as $row) {
-                $columns = $def["rows"][$row]["columns"];
-                foreach ($columns as $column) {
-                    $fields = $def["columns"][$column]["fields"];
-                    foreach ($fields as $field) {
-                        $field = $def["fields"][$field];
-                        switch ($field["tag"]) {
-                            case "input":
-                            case "select":
-                            case "textarea":
-                                $headings[] = $field["attrs"]["name"];
-                                break;
-                        }
-                    }
-                }
-            }
+        foreach ($def["stages"] as $stage) {
+            $headings = $this->get_stage($def, $stage, $headings);
         }
         if (!count($headings)) {
             return false;
+        }
+        return $headings;
+    }
+
+    /**
+     * Get fields from stage
+     *
+     * @param array $def form definition
+     * @param array $stage data of stage containing rows
+     * @param array $headings
+     * @return array headings
+     * @since Edwiser Form 1.0.4
+     */
+    private function get_stage(&$def, $stage, $headings) {
+        foreach ($stage["rows"] as $row) {
+            $headings = $this->get_row($def, $def["rows"][$row], $headings);
+        }
+        return $headings;
+    }
+
+    /**
+     * Get fields from row
+     *
+     * @param array $def form definition
+     * @param array $row data of row containing columns
+     * @param array $headings
+     * @return array headings
+     * @since Edwiser Form 1.0.4
+     */
+    private function get_row(&$def, $row, $headings) {
+        foreach ($row["columns"] as $column) {
+            $headings = $this->get_column($def, $def["columns"][$column], $headings);
+        }
+        return $headings;
+    }
+
+    /**
+     * Get fields from column
+     *
+     * @param array $def form definition
+     * @param array $column data of column containing fileds
+     * @param array $headings
+     * @return array headings
+     * @since Edwiser Form 1.0.4
+     */
+    private function get_column(&$def, $column, $headings) {
+        foreach ($column["fields"] as $field) {
+            $headings = $this->get_field($def["fields"][$field], $headings);
+        }
+        return $headings;
+    }
+
+    /**
+     * Add field name into headings array and return
+     *
+     * @param array $field data
+     * @param array $headings
+     * @return array headings
+     * @since Edwiser Form 1.0.4
+     */
+    private function get_field($field, $headings) {
+        switch ($field["tag"]) {
+            case "input":
+                if ($field["attrs"]["type"] == "password") {
+                    break;
+                }
+            case "select":
+            case "textarea":
+                $headings[] = strip_tags($field["attrs"]["name"]);
+                break;
         }
         return $headings;
     }

@@ -105,7 +105,7 @@ trait update_form {
             self::getarrayval($setting, "message", "")
         );
         $data->author2 = $USER->id;
-        $data->modified = date('Y-m-d H:i:s');
+        $data->modified = time();
         return $data;
     }
 

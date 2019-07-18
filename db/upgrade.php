@@ -30,19 +30,73 @@ defined('MOODLE_INTERNAL') || die();
  */
 function xmldb_local_edwiserform_upgrade($oldversion) {
     global $CFG, $DB;
-    if ($oldversion < 2018101501) {
-        // Moodle does not support timestamp datatype for column
-        // Altering efb_forms and efb_form_data table column by running custom sql
-        $alteration = array(
-            'ALTER TABLE {efb_forms} CHANGE created created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
-            'ALTER TABLE {efb_forms} CHANGE modified modified TIMESTAMP NULL',
-            'ALTER TABLE {efb_form_data} CHANGE `date` `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
-            'ALTER TABLE {efb_form_data} CHANGE updated updated TIMESTAMP NULL'
-        );
-        foreach ($alteration as $alter) {
-            $DB->execute($alter);
+
+    if ($oldversion < 2019061800) {
+        // Updated data type of efb_forms table
+        $table = new xmldb_table('efb_forms');
+        $field = new xmldb_field('created', XMLDB_TYPE_CHAR, 50, null, false, false);
+        $dbman->change_field_type($table, $field);
+
+        $field = new xmldb_field('modified', XMLDB_TYPE_CHAR, 50, null, false, false);
+        $dbman->change_field_type($table, $field);
+
+        $forms = $DB->get_records('efb_forms', [], '', 'id, created, modified');
+        if (!empty($forms)) {
+            foreach ($forms as $id => $form) {
+                $modify = false;
+                if ($form->created != '' && $form->created != null && !is_numeric($form->created)) {
+                    $modify = true;
+                    $form->created = strtotime($form->created);
+                }
+                if ($form->modified != '' && $form->modified != null && !is_numeric($form->modified)) {
+                    $modify = true;
+                    $form->modified = strtotime($form->modified);
+                }
+                if ($modify == true) {
+                    $DB->update_record('efb_forms', $form);
+                }
+            }
         }
-        upgrade_plugin_savepoint(true, 2018101501, 'local', 'edwiserform');
+
+        $field = new xmldb_field('created', XMLDB_TYPE_INTEGER, 10);
+        $dbman->change_field_type($table, $field);
+
+        $field = new xmldb_field('modified', XMLDB_TYPE_INTEGER, 10);
+        $dbman->change_field_type($table, $field);
+
+        // Updated data type of efb_form_data table
+        $table = new xmldb_table('efb_form_data');
+        $field = new xmldb_field('date', XMLDB_TYPE_CHAR, 50, null, false, false);
+        $dbman->change_field_type($table, $field);
+
+        $field = new xmldb_field('updated', XMLDB_TYPE_CHAR, 50, null, false, false);
+        $dbman->change_field_type($table, $field);
+
+        $forms = $DB->get_records('efb_form_data', [], '', 'id, date, updated');
+        if (!empty($forms)) {
+            foreach ($forms as $id => $form) {
+                $modify = false;
+                if ($form->date != '' && $form->date != null && !is_numeric($form->date)) {
+                    $modify = true;
+                    $form->date = strtotime($form->date);
+                }
+                if ($form->updated != '' && $form->updated != null && !is_numeric($form->updated)) {
+                    $modify = true;
+                    $form->updated = strtotime($form->updated);
+                }
+                if ($modify == true) {
+                    $DB->update_record('efb_form_data', $form);
+                }
+            }
+        }
+
+        $field = new xmldb_field('date', XMLDB_TYPE_INTEGER, 10);
+        $dbman->change_field_type($table, $field);
+
+        $field = new xmldb_field('updated', XMLDB_TYPE_INTEGER, 10);
+        $dbman->change_field_type($table, $field);
+
+        upgrade_plugin_savepoint(true, 2019061800, 'local', 'edwiserform');
     }
     return true;
 }

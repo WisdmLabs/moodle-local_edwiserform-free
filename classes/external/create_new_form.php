@@ -136,6 +136,7 @@ trait create_new_form {
         $data->message = self::getarrayval($setting, "message", "");
         $data->data_edit = self::getarrayval($setting, "data_edit");
         $data->definition = $definition;
+        $data->created = time();
         $data->enabled = 0;
         $data->deleted = 0;
         try {

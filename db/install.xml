@@ -16,8 +16,8 @@
                 <FIELD NAME="message" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Message when user successfully submit form data"/>
                 <FIELD NAME="enabled" TYPE="binary"  NOTNULL="true" SEQUENCE="false" COMMENT="The form active status."/>
                 <FIELD NAME="deleted" TYPE="binary"  NOTNULL="true" SEQUENCE="false" COMMENT="If the value is true then it will represent the form is deleted."/>
-                <FIELD NAME="created" TYPE="text"  NOTNULL="false" SEQUENCE="false" COMMENT="The form creation datetime"/>
-                <FIELD NAME="modified" TYPE="text"  NOTNULL="false" SEQUENCE="false" COMMENT="The form creation datetime"/>
+                <FIELD NAME="created" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The form creation datetime"/>
+                <FIELD NAME="modified" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The form creation datetime"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="The unique id for Country"/>
@@ -31,8 +31,8 @@
                 <FIELD NAME="formid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
                 <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
                 <FIELD NAME="submission" TYPE="char" LENGTH="1000" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="date" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-                <FIELD NAME="updated" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+                <FIELD NAME="date" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+                <FIELD NAME="updated" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="The unique id for the city."/>
