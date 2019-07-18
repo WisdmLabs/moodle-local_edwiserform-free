@@ -101,7 +101,7 @@ class efb_list_form_data implements renderable, templatable
         $supportactions = isset($this->plugin) && $this->plugin->support_form_data_list_actions();
         $stmt = "SELECT * FROM {efb_form_data} WHERE formid = " . $this->formid . " ";
         if ($searchtext) {
-            $stmt .= "and JSON_EXTRACT(submission, '$[*].value') REGEXP '" . $searchtext . "' ";
+            $stmt .= "and submission REGEXP '" . $searchtext . "' ";
         }
         $stmt .= $limit;
         $records = $DB->get_records_sql($stmt);
