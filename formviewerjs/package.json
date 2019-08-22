@@ -64,9 +64,7 @@
   "scripts": {
     "analyze": "webpack --json | webpack-bundle-size-analyzer",
     "clean": "rm -rf ../amd/src/formviewer.min.js",
-    "build": "npm run clean && webpack -p --progress && npm run copy && php /var/www/html/m35/admin/cli/purge_caches.php",
-    "webpack": "webpack -p --progress",
-    "copy": "cp dist/formviewer.js ../amd/build/",
+    "build": "npm run clean && webpack -p --progress",
     "lint": "eslint ./src/js --ext .js || true",
     "tag": "node ./node_modules/babel-cli/bin/babel-node.js -- tools/run tag",
     "release:patch": "npm run tag patch && npm run deploy",

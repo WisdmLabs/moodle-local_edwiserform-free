@@ -1,19 +1,19 @@
-/*! DataTables Bootstrap 3 integration
- * ©2011-2015 SpryMedia Ltd - jquery.dataTables/license
+/*! DataTables Bootstrap 4 integration
+ * ©2011-2017 SpryMedia Ltd - datatables.net/license
  */
 
 /**
- * DataTables integration for Bootstrap 3. This requires Bootstrap 3 and
+ * DataTables integration for Bootstrap 4. This requires Bootstrap 4 and
  * DataTables 1.10 or newer.
  *
  * This file sets the defaults and adds options to DataTables to style its
- * controls using Bootstrap. See http://jquery.dataTables/manual/styling/bootstrap
+ * controls using Bootstrap. See http://datatables.net/manual/styling/bootstrap
  * for further information.
  */
 (function( factory ){
 	if ( typeof define === 'function' && define.amd ) {
 		// AMD
-		define( ['jquery'], function ( $ ) {
+		define( ['jquery', 'local_edwiserform/jquery.dataTables'], function ( $ ) {
 			return factory( $, window, document );
 		} );
 	}
@@ -28,7 +28,7 @@
 				// Require DataTables, which attaches to jQuery, including
 				// jQuery if needed and have a $ property so we can access the
 				// jQuery object that is used
-				$ = require('jquery.dataTables')(root, $).$;
+				$ = require('local_edwiserform/jquery.dataTables')(root, $).$;
 			}
 
 			return factory( $, root, root.document );
@@ -55,9 +55,9 @@ $.extend( true, DataTable.defaults, {
 
 /* Default class modification */
 $.extend( DataTable.ext.classes, {
-	sWrapper:      "dataTables_wrapper container-fluid dt-bootstrap4",
+	sWrapper:      "dataTables_wrapper dt-bootstrap4",
 	sFilterInput:  "form-control form-control-sm",
-	sLengthSelect: "form-control form-control-sm",
+	sLengthSelect: "custom-select custom-select-sm form-control form-control-sm",
 	sProcessing:   "dataTables_processing card",
 	sPageButton:   "paginate_button page-item"
 } );
@@ -157,7 +157,7 @@ DataTable.ext.renderer.pageButton.bootstrap = function ( settings, host, idx, bu
 	};
 
 	// IE9 throws an 'unknown error' if document.activeElement is used
-	// inside an iframe or frame.
+	// inside an iframe or frame. 
 	var activeEl;
 
 	try {

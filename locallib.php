@@ -109,11 +109,33 @@ class edwiserform {
         return $result;
     }
 
+    /**
+     * Get pro feature video type links
+     * @return array Video type links array
+     */
+    private function get_video_types() {
+        return array(
+            'blank'         => 'https://www.youtube.com/embed/kS4e4DvSK44',
+            'enrolment'     => 'https://www.youtube.com/embed/a23TPY-p_OM',
+            'login'         => 'https://www.youtube.com/embed/7opeETo_KRY',
+            'registration'  => 'https://www.youtube.com/embed/jwfGSu_wvm4',
+            'layout'        => 'https://www.youtube.com/embed/IrWVYJgA6bU',
+            'standard'      => 'https://www.youtube.com/embed/6OXDSR1XUN8',
+            'advance'       => 'https://www.youtube.com/embed/rNs7l3EtvqU',
+            'html'          => 'https://www.youtube.com/embed/ghVUmGCtJU4',
+            'dragndrop'     => 'https://www.youtube.com/embed/kS4e4DvSK44',
+            'export'        => 'https://www.youtube.com/embed/Qd-KlDFGaNU',
+            'default'       => 'https://www.youtube.com/embed/skkRW4ZOo18'
+        );
+    }
+
     public function view($page) {
         global $USER, $CFG, $PAGE;
         $out = "";
         can_create_or_view_form($USER->id);
+        $PAGE->requires->data_for_js('videotypes', $this->get_video_types());
         $js = [new moodle_url('https://www.google.com/recaptcha/api.js')];
+        $css = [new moodle_url($CFG->wwwroot .'/local/edwiserform/style/datatables.css')];
         switch ($page) {
             case 'newform':
                 $sitekey = get_config('local_edwiserform', 'google_recaptcha_sitekey');
@@ -127,6 +149,8 @@ class edwiserform {
                 if ($formid) {
                     $page = 'editform';
                 }
+                $css = [new moodle_url($CFG->wwwroot .'/local/edwiserform/style/formedit.css')];
+                $css[] = new moodle_url($CFG->wwwroot .'/local/edwiserform/style/bootstrap-grid.css');
                 break;
             case 'listforms':
                 $PAGE->requires->js_call_amd('local_edwiserform/form_list', 'init');
@@ -141,7 +165,9 @@ class edwiserform {
         foreach ($js as $jsfile) {
             $PAGE->requires->js($jsfile);
         }
-        $PAGE->requires->css(new moodle_url($CFG->wwwroot .'/local/edwiserform/style/dataTables.bootstrap4.min.css'));
+        foreach ($css as $cssfile) {
+            $PAGE->requires->css($cssfile);
+        }
         return $out;
     }
 }

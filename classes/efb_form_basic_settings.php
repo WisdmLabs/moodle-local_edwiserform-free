@@ -34,9 +34,13 @@ class efb_form_basic_settings extends moodleform {
         $events = array(
             "blank"      => get_string("efb-event-blank-name", "local_edwiserform"),
         );
+        $multiplesubmission = [];
         $plugins = $this->_customdata['plugins'];
-        foreach (array_keys($plugins) as $plugin) {
-            $events[$plugin] = get_string("efb-event-$plugin-name", "edwiserformevents_$plugin");
+        foreach ($plugins as $pluginname => $plugin) {
+            $events[$pluginname] = get_string("efb-event-$pluginname-name", "edwiserformevents_$pluginname");
+            if ($plugin->support_multiple_submissions()) {
+                $multiplesubmission[] = $pluginname;
+            }
         }
         $form->addElement("hidden", "id", null);
         $form->setType("id", PARAM_INTEGER);
@@ -49,6 +53,12 @@ class efb_form_basic_settings extends moodleform {
         $form->addElement("text", "notifi_email", get_string("efb-lbl-notifi-email", "local_edwiserform"), null);
         $form->setType("notifi_email", PARAM_TEXT);
         $form->addElement('checkbox', 'editdata', get_string('efb-lbl-allowedit', 'local_edwiserform'), get_string('efb-lbl-allowedit-desc', 'local_edwiserform'));
+        if (!empty($multiplesubmission)) {
+            foreach ($multiplesubmission as $pluginname) {
+                $form->hideif('editdata', 'type', 'eq', $pluginname);
+            }
+        }
+
         $context = context_system::instance();
         $form->addElement("editor", "confirmation_msg", get_string("efb-lbl-confirmation-msg", "local_edwiserform"), null, array(
             'maxfiles' => EDITOR_UNLIMITED_FILES,

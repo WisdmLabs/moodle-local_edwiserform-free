@@ -811,7 +811,7 @@ class DOM {
           break;
         }
       }
-      sourceSelected = _this.container.querySelectorAll('[id="' + sourceSelected + '"]');
+      sourceSelected = _this.container.querySelectorAll('[id*="' + sourceSelected + '"]');
     }
     if (value.length > 0) {
       valueSelected = value[0].value;
@@ -956,6 +956,7 @@ class DOM {
           element.source[0].addEventListener('change', function(event) {
             _this.executeCondition(elements, container);
           });
+          _this.executeCondition(elements, container);
           break;
         case 'INPUT':
           if (elementType.type == 'radio') {
@@ -963,10 +964,10 @@ class DOM {
               element.source[i].addEventListener('click', function(event) {
                 _this.executeCondition(elements, container);
               });
+              _this.executeCondition(elements, container);
             }
           }
       }
-      _this.executeCondition(elements, container);
     }
   }
 
@@ -1093,9 +1094,35 @@ class DOM {
         }
       }
     };
+    let pageSetting = {
+      'class': {
+        title: getString('class'),
+        id: 'class',
+        type: 'text',
+        value: ''
+      },
+      'background-opacity': {
+        title: getString('page-background-opacity'),
+        id: 'background-opacity',
+        type: 'range',
+        value: '0',
+        attrs: {
+          step: '0.1',
+          min: '0',
+          max: '1'
+        }
+      },
+      'style': {
+        title: getString('customcssstyle'),
+        id: 'style',
+        type: 'textarea',
+        value: ''
+      }
+    };
     return {
+      page: pageSetting,
+      form: formSettings,
       submit: submitButtonSetting,
-      form: formSettings
     };
   }
 
@@ -1110,15 +1137,16 @@ class DOM {
     let prop;
     let val;
     let styleString = '';
+    let index;
     styles = styles.trim();
     if (styles != '') {
       styles = styles.split(';');
       h.forEach(styles, function(style, i) {
         style = style.trim();
         if (style != '') {
-          style = style.split(':');
-          prop = style[0].trim();
-          val = style[1].trim();
+          index = style.indexOf(':');
+          prop = style.substring(0, index).trim();
+          val = style.substring(index + 1).trim();
           if (prop != '' && val != '') {
             stylesObj[prop] = val;
           }
@@ -1132,31 +1160,142 @@ class DOM {
     return styleString;
   }
 
+  /**
+   * Get max column count
+   * @return {Number} Max column
+   */
+  getMaxColumnCount() {
+    if (formData.rows.size == 0) {
+      return 0;
+    }
+    let maxColumns = 0;
+    formData.rows.forEach(function(row) {
+      if (row.columns.length > maxColumns) {
+        maxColumns = row.columns.length;
+      }
+    });
+    return maxColumns;
+  }
+
+  /**
+   * Manage form width according to width available in preview page
+   * @param {Boolean} fullpage Is for opened in full page or embedded
+   */
+  manageFormWidth(fullpage) {
+    let formSettings = this.getFormSettings();
+    let maxColumns = this.getMaxColumnCount();
+    let toggleClass = status => {
+      this.renderTarget.classList.toggle('edwiser-inline-form', status);
+    };
+    if (fullpage && formSettings.form['responsive'].value == false) {
+      toggleClass(false);
+      return;
+    }
+    let availableWidth = document.getElementById(`formeo-rendered-${document.getElementsByClassName('formeo-render').length - 1}`).offsetWidth;
+    switch (maxColumns) {
+      case 0:
+      case 1:
+        toggleClass(false);
+        break;
+      case 2:
+        toggleClass(availableWidth < 360);
+        break;
+      case 3:
+        toggleClass(availableWidth < 480);
+        break;
+      case 4:
+        toggleClass(availableWidth < 640);
+        break;
+      default:
+        toggleClass(availableWidth < 800);
+        break;
+    }
+  }
+
 
   /**
    * Processing form settings
    * @param {DOM} renderTarget
    */
   processFormSettings(renderTarget) {
+    let fullpage = document.getElementById('edwiserform-fullpage');
     let formSettings = this.getFormSettings();
     // Getting form setting like classname, color and background color
     let className = formSettings.form['class'] ? formSettings.form['class'].value : '';
     let color = formSettings.form['color'] ? formSettings.form['color'].value : 'inherit';
     let backgroundColor = formSettings.form['background-color'] ? formSettings.form['background-color'].value : 'inherit';
-    let width = formSettings.form['width'] ? formSettings.form['width'].value : '100%';
+    let width = formSettings.form['width'] ? formSettings.form['width'].value : '100';
     let padding = formSettings.form['padding'] ? formSettings.form['padding'].value : '25';
+    let margin = width == 100 ? '0 auto' : '5% auto';
+    if (!fullpage || fullpage.value == false) {
+      width = '100';
+      padding = 5;
+    }
     let styles = formSettings.form['style'] ? formSettings.form['style'].value : '';
-    renderTarget.classList.add(className);
     // Adding form class in renderTarget to apply settings
+    if (className != '') {
+      renderTarget.classList.add(className);
+    }
     let settings = {
-      width: width + '%',
       color: color,
       'background-color': backgroundColor,
-      margin: '0 auto',
-      padding: padding + 'px'
+      margin: margin,
+      width: width + '%',
+      padding: padding + 'px',
     };
+    if (width == 100) {
+      settings['box-shadow'] = 'none';
+    }
+    if (fullpage && fullpage.value == true) {
+      settings['z-index'] = 1;
+    }
     styles = this.mergeStyles(settings, styles);
     renderTarget.setAttribute('style', styles);
+    this.manageFormWidth(fullpage);
+  }
+
+  /**
+   * Processing form settings
+   * @param {DOM} renderTarget
+   */
+  processPageSettings(renderTarget) {
+    let fullpage = document.getElementById('edwiserform-fullpage');
+    if (!fullpage || fullpage.value == false) {
+      return;
+    }
+    let formSettings = this.getFormSettings();
+    // Getting form setting like classname, style
+    let className = formSettings.page['class'] ? formSettings.page['class'].value : '';
+    let styles = formSettings.page['style'] ? formSettings.page['style'].value : '';
+    let backgroundopacity = formSettings.page['background-opacity'] ? formSettings.page['background-opacity'].value : '0';
+    renderTarget.after(this.create({
+      tag: 'div',
+      attrs: {
+        id: 'edwiserform-background-cover',
+        style: `position: fixed; width: 100%; height: 100%; background: rgba(0,0,0,${backgroundopacity});`
+      }
+    }));
+    let body = document.getElementsByTagName('body')[0];
+    let elem = renderTarget.parentElement;
+    while(!elem.isEqualNode(body)) {
+      elem.style.background = 'transparent';
+      elem.style.margin = '0';
+      elem.style.padding = '0';
+      elem = elem.parentElement;
+    }
+    let settings = {
+      margin: '-1px 0 0 0',
+      padding: '0'
+    };
+    styles = this.mergeStyles(settings, styles);
+    // Adding page class in body element
+    if (className != '') {
+      body.classList.add(className);
+    }
+    // Applying custom style to body element
+    if (styles != '') {
+      body.setAttribute('style', styles);
+    }
   }
 
   /**
@@ -1165,6 +1304,7 @@ class DOM {
    */
   renderForm(renderTarget) {
     this.empty(renderTarget);
+    this.renderTarget = renderTarget;
     let renderData = data.prepData;
     let renderCount = document.getElementsByClassName('formeo-render').length;
     let first = true;
@@ -1244,6 +1384,7 @@ class DOM {
       stage.tag = 'div';
       stage.content = rows;
       stage.className = 'f-stage';
+      stage.title = '';
       if (first) {
         first = false;
         stage.className += ' active';
@@ -1268,8 +1409,16 @@ class DOM {
       },
       content: [dom.getFormSubmitButton()]
     }));
+    let fullpage = document.getElementById('edwiserform-fullpage');
+    if (!fullpage || fullpage == false) {
+      renderTarget.append(this.create({
+        tag: 'div',
+        content: getString('fullpage-link-message')
+      }));
+    }
     dom.applyConditions(formData.rows);
     dom.processFormSettings(renderTarget);
+    dom.processPageSettings(renderTarget);
   }
 
   /**

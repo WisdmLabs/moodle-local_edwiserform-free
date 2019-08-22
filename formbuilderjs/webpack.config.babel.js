@@ -40,12 +40,13 @@ const devtool = PRODUCTION ? false : 'source-map';
 
 const webpackConfig = {
   context: resolve(__dirname, 'dist/'),
+  watch: true,
   entry: [
     'babel-regenerator-runtime',
     resolve(__dirname, pkg.config.files.formeo.js)
   ],
   output: {
-    path: resolve(__dirname, 'dist/'),
+    path: resolve(__dirname, '../amd/build/'),
     publicPath: '/',
     filename: 'formbuilder.js'
   },
@@ -106,7 +107,7 @@ const webpackConfig = {
   },
   devServer: {
     inline: true,
-    contentBase: 'dist/',
+    contentBase: '../amd/build/',
     noInfo: true
   }
 };

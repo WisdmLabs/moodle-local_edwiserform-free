@@ -87,8 +87,11 @@ export default class Stage {
     let stageWrap = this.dom;
     const sortable = Sortable.create(stageWrap.childNodes[0], {
       animation: 150,
+      scroll: true,
+      scrollSensitivity: 1000,
+      direction: 'horizontal',
       fallbackClass: 'row-moving',
-      forceFallback: true,
+      forceFallback: h.isFireFoxEdge(),
       fallbackTolerance: 0,
       group: {name: 'stages', pull: true, put: [
         'controls',
@@ -199,9 +202,11 @@ export default class Stage {
     let fromControl = from.fType === 'controlGroup';
 
     if (fromControl) {
-      let text = evt.item.firstChild.lastChild.wholeText;
-      text = getString('dragndrop', text);
-      dom.proWarning(text);
+      dom.proWarning({
+        type: evt.item.firstChild.lastChild.wholeText,
+        video: 'dragndrop',
+        message: ''
+      });
       dom.remove(item);
       dom.remove(row);
       dom.emptyClass(dom.activeStage);

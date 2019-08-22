@@ -27,6 +27,16 @@ define("UNAUTHORISED_USER", 1);
 define("ADMIN_PERMISSION", 2);
 define("PRO_URL", "https://edwiser.org/forms/edwiser-forms-pricing");
 
+/**
+ * Return value from array based on index. If index not found or empty
+ * then return thrid parameter
+ *
+ * @param array $array
+ * @param string|integer $key to search inside array
+ * @param anytype $value optional
+ * @return anytype $value
+ * @since Edwiser Form 1.0.0
+ */
 function getarrayval($array, $key, $value="") {
     if (isset($array[$key]) && !empty($array[$key])) {
         $value = $array[$key];
@@ -34,6 +44,14 @@ function getarrayval($array, $key, $value="") {
     return $value;
 }
 
+/**
+ * Decode json string upto 1 level. First complete json is decoded.
+ * Then first level object|array is again encoded to achieve level 1 decode
+ *
+ * @param string $json
+ * @return string $json
+ * @since Edwiser Form 1.0.0
+ */
 function json_decode_level_1($json) {
     $json = json_decode($json, true);
     if (!is_array($json)) {
@@ -45,6 +63,14 @@ function json_decode_level_1($json) {
     return $json;
 }
 
+/**
+ * Decode json string upto 2 level. First complete json is decoded.
+ * Then second level object|array is again encoded to achieve level 2 decode
+ *
+ * @param string $json
+ * @return string $json
+ * @since Edwiser Form 1.0.0
+ */
 function json_decode_level_2($json) {
     $json = json_decode($json, true);
     if (!is_array($json)) {
@@ -72,6 +98,15 @@ function get_edwiserform_string($identifier) {
     return $string;
 }
 
+/**
+ * Generate user to send email
+ *
+ * @param string $email email id
+ * @param string $name name of user (optional)
+ * @param integer $id id of user (optional)
+ * @return stdClass emailuser
+ * @since Edwiser Form 1.0.0
+ */
 function generate_email_user($email, $name = '', $id = -99) {
     $emailuser = new stdClass();
     $emailuser->email = trim(filter_var($email, FILTER_SANITIZE_EMAIL));
@@ -91,6 +126,16 @@ function generate_email_user($email, $name = '', $id = -99) {
     return $emailuser;
 }
 
+/**
+ * Send email to user
+ *
+ * @param  stdClass $from user
+ * @param  stdClass $to user
+ * @param  stdClass $subject of email
+ * @param  stdClass $messagehtml email body
+ * @return boolean email sending status
+ * @since Edwiser Form 1.0.0
+ */
 function edwiserform_send_email($from, $to, $subject, $messagehtml) {
     global $PAGE;
     $context = context_system::instance();
@@ -154,17 +199,43 @@ function can_create_or_view_form($userid = false, $return = false) {
     return true;
 }
 
+/**
+ * Return events sub plugin object
+ *
+ * @return object
+ * @since Edwiser Form 1.0.0
+ */
 function get_plugins() {
     global $CFG;
     require_once($CFG->dirroot . '/local/edwiserform/locallib.php');
     $edwiserform = new edwiserform();
     return $edwiserform->get_plugins();
 }
+
+/**
+ * Return events sub plugins array object
+ *
+ * @param string $type of subplugin
+ * @return array
+ * @since Edwiser Form 1.0.0
+ */
 function get_plugin($type) {
     global $CFG;
     require_once($CFG->dirroot . '/local/edwiserform/locallib.php');
     $edwiserform = new edwiserform();
     return $edwiserform->get_plugin($type);
+}
+
+/**
+ * Return base class of events plugin
+ *
+ * @return array
+ * @since Edwiser Form 1.2.0
+ */
+function get_events_base_plugin() {
+    global $CFG;
+    require_once($CFG->dirroot . '/local/edwiserform/events/events.php');
+    return new edwiserform_events_plugin();
 }
 
 /**
@@ -228,7 +299,10 @@ function delete_edwiserform_files($filearea, $itemid) {
  * @since Edwiser Form 1.2.0
  */
 function local_edwiserform_extend_navigation(navigation_node $nav) {
-    global $CFG, $PAGE, $OUTPUT;
+    global $CFG, $PAGE;
+    if (!get_config('local_edwiserform', 'enable_sidebar_navigation')) {
+        return;
+    }
     $can = can_create_or_view_form(false, true);
     if ($can != true) {
         return;
@@ -242,13 +316,14 @@ function local_edwiserform_extend_navigation(navigation_node $nav) {
             'height' => 1
         ));
     }
-    $node = $nav->add(
+
+    // Archieve page node
+    $nav->add(
         get_string('pluginname', 'local_edwiserform'),
         new moodle_url($CFG->wwwroot . '/local/edwiserform/view.php'),
-        navigation_node::TYPE_CUSTOM,
+        navigation_node::NODETYPE_BRANCH,
         null,
         'local_edwiserform-list',
         $icon
-    );
-    $node->showinflatnavigation = true;
+    )->showinflatnavigation = true;
 }

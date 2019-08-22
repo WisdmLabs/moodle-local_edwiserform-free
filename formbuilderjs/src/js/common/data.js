@@ -164,7 +164,7 @@ let data = {
         });
         break;
       case 'delete':
-        conditions.splice(target.index, 1);
+        conditions.splice(target.conditionIndex, 1);
         break;
       case 'source':
       case 'value':

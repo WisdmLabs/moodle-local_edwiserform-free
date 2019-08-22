@@ -42,6 +42,41 @@
             &.range-group:last-child {
                 width: 16%;
             }
+            &.toggle-group {
+                display: none;
+                + label {
+                    cursor: pointer;
+                    text-indent: -9999px;
+                    width: 40px;
+                    height: 20px;
+                    display: block;
+                    border-radius: 100px;
+                    position: relative;
+                    margin-top: .5em;
+                    margin-bottom: 0;
+                }
+
+                + label:after {
+                    content: '';
+                    position: absolute;
+                    top: 5px;
+                    left: 5px;
+                    width: 10px;
+                    height: 10px;
+                    background: #fff;
+                    border-radius: 90px;
+                    transition: 0.3s;
+                }
+
+                &:not(:checked) + label {
+                    background: grey !important;
+                }
+
+                &:checked + label:after {
+                    left: calc(100% - 5px);
+                    transform: translateX(-100%);
+                }
+            }
         }
     }
     .setting-control {

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
+ * @package     edwiserformevents_feedback
  * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author      Yogesh Shirsath
@@ -24,22 +24,12 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Installation hook for edwiserform plugin
- * @param int $oldversion The old version of the edwiserform local plugin
+ * upgrade this edwiserformevents feedback database
+ * @param int $oldversion The old version of the edwiserformevents feedback plugin
  * @return bool
  */
-function xmldb_local_edwiserform_install() {
-    global $CFG, $DB;
-    // Moodle does not support timestamp datatype for column
-    // Altering efb_forms and efb_form_data table column by running custom sql
-    $alteration = array(
-        'ALTER TABLE {efb_forms} CHANGE created created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
-        'ALTER TABLE {efb_forms} CHANGE modified modified TIMESTAMP NULL DEFAULT NULL',
-        'ALTER TABLE {efb_form_data} CHANGE `date` `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
-        'ALTER TABLE {efb_form_data} CHANGE updated updated TIMESTAMP NULL DEFAULT NULL'
-    );
-    foreach ($alteration as $alter) {
-        $DB->execute($alter);
-    }
+function xmldb_edwiserformevents_feedback_upgrade($oldversion) {
+    require_once('install.php');
+    xmldb_edwiserformevents_feedback_install();
     return true;
 }

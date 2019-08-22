@@ -36,6 +36,7 @@ if (!$form) {
 } else {
     $title = $form->title;
     $shortcode = "[edwiser-form id='$formid']";
+    $out .= html_writer::tag('input', '', array('type' => 'hidden', 'id' => 'edwiserform-fullpage', 'value' => true));
     $out .= format_text($shortcode);
 }
 $out .= html_writer::end_tag("div");

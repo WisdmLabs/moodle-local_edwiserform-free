@@ -121,6 +121,9 @@ export default class Panels {
             pull: true, put: ['properties']
           },
           sort: true,
+          forceFallback: h.isFireFoxEdge(),
+          fallbackOnBody: h.isFireFoxEdge(),
+          fallbackClass: 'sortable-fallback-field',
           handle: '.prop-order',
           onSort: evt => {
             _this.propertySave(evt.to);

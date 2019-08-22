@@ -4,61 +4,72 @@
  * Author: Yogesh Shirsath
  */
 define([
-   'jquery',
-   'core/ajax',
-   'local_edwiserform/jszip',
-   'local_edwiserform/jquery.dataTables',
-   'local_edwiserform/dataTables.bootstrap4',
-   'local_edwiserform/dataTables.buttons',
-   'local_edwiserform/buttons.html5'
-], function ($, ajax) {
+    'jquery',
+    'core/ajax',
+    'core/notification',
+    'local_edwiserform/jquery.dataTables',
+    'local_edwiserform/dataTables.bootstrap4',
+    'local_edwiserform/fixedColumns.bootstrap4'
+], function ($, ajax, notification) {
     return {
         init: function() {
             $(document).ready(function (e) {
-                function guid() {
-                    function s4() {
-                        return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-                    }
-                    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-                }
                 if ($(".efb-wrap-list").data("sesskey") != 0) {
                     var sesskey = $(".efb-wrap-list").data("sesskey");
                     var forms = $("#efb-forms").DataTable({
-                        "paging":   true,
-                        "ordering": true,
-                        "bProcessing": true,
-                        "bServerSide": true,
-                        "rowId": 'DT_RowId',
-                        "bDeferRender": true,
-                        "sAjaxSource": M.cfg.wwwroot + "/local/edwiserform/classes/external/get_forms.php",
+                        paging          :   true,
+                        ordering        : true,
+                        bProcessing     : true,
+                        bServerSide     : true,
+                        rowId           : 'DT_RowId',
+                        bDeferRender    : true,
+                        sAjaxSource     : M.cfg.wwwroot + "/local/edwiserform/classes/external/get_forms.php",
+                        scrollY         : "400px",
+                        scrollX         : true,
+                        scrollCollapse  : true,
+                        fixedColumns    : {
+                            leftColumns     : 1,
+                            rightColumns    : 1
+                        },
+                        classes: {
+                            sScrollHeadInner: 'efb_dataTables_scrollHeadInner'
+                        },
                         dom: '<"efb-top"<"efb-listing"l><"efb-list-filtering"f>>t<"efb-bottom"<"efb-form-list-info"i><"efb-list-pagination"p>><"efb-shortcode-copy-note">',
-                        "columns": [
-                            { "data": "title" },
-                            { "data": "type" },
-                            { "data": "id" , "orderable" : false},
-                            { "data": "author" },
-                            { "data": "created" },
-                            { "data": "author2" },
-                            { "data": "modified" },
-                            { "data": "actions" , "orderable" : false}
+                        columns: [
+                            { data: "title" },
+                            { data: "type" },
+                            { data: "id" , orderable : false},
+                            { data: "author" },
+                            { data: "created" },
+                            { data: "author2" },
+                            { data: "modified" },
+                            { data: "actions" , orderable : false}
                         ],
-                        language: {
-                            sSearch: M.util.get_string('efb-search-form', 'local_edwiserform')
+                        language        : {
+                            sSearch: M.util.get_string('efb-search-form', 'local_edwiserform'),
+                            emptyTable: M.util.get_string('efb-heading-listforms-empty', 'local_edwiserform'),
+                            info: M.util.get_string('efb-heading-listforms-showing', 'local_edwiserform', {
+                                'start': '_START_',
+                                'end': '_END_',
+                                'total': '_TOTAL_',
+                            }),
+                            infoEmpty: M.util.get_string('efb-heading-listforms-showing', 'local_edwiserform', {
+                                'start': '0',
+                                'end': '0',
+                                'total': '0',
+                            }),
                         },
                         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
                             $('td:eq(0)', nRow).addClass( "efb-tbl-col-title" );
                             $('td:eq(1)', nRow).addClass( "efb-tbl-col-type" );
-                            $('td:eq(2)', nRow).addClass( "efb-tbl-col-shortcode" );
+                            $('td:eq(2)', nRow).addClass( "efb-tbl-col-shortcode").attr('title', M.util.get_string('clickonshortcode', 'local_edwiserform'));
                             $('td:eq(3)', nRow).addClass( "efb-tbl-col-create" );
                             $('td:eq(4)', nRow).addClass( "efb-tbl-col-modified" );
                             $('td:eq(5)', nRow).addClass( "efb-tbl-col-action-list" );
                         },
                         drawCallback: function( settings ) {
-                            $('.efb-table thead th').addClass('header').each(function(index, el) {
-                                $(el).addClass('c' + index);
-                            });
                             $('.efb-csv-export').removeClass('dt-button').off();
-                            $('.efb-shortcode-copy-note').html(M.util.get_string('clickonshortcode', 'local_edwiserform'));
+                            $('.efb-shortcode-copy-note').html(M.util.get_string('note', 'local_edwiserform') + ' ' + M.util.get_string('clickonshortcode', 'local_edwiserform'));
                         }
                     });
                 }
@@ -78,22 +89,6 @@ define([
                     return;
                 });
 
-                function delete_form_response(status, message) {
-                    var removeClass, addClass, header;
-                    if (status) {
-                        removeClass = 'bg-warning bg-danger';
-                        addClass = 'bg-success';
-                        header = M.util.get_string('success', 'local_edwiserform');
-                    } else {
-                        removeClass = 'bg-success bg-warning';
-                        addClass = 'bg-danger';
-                        header = M.util.get_string('danger', 'local_edwiserform');
-                    }
-                    $('#efb-modal .efb-modal-header').removeClass(removeClass).addClass(addClass);
-                    $('#efb-modal .efb-modal-title').html(header);
-                    $('#efb-modal .efb-modal-body').html(`<h5>${message}</h5>`);
-                    $('#efb-modal').addClass('show deleted').removeClass('pro delete');
-                }
                 $('body').on('click', '.efb-modal-delete-form', function(event) {
                     event.preventDefault();
                     var id = $(this).data('formid');
@@ -106,16 +101,22 @@ define([
                         }
                     }]);
                     reqDeleteForm[0].done(function(response) {
-                        $('.efb-modal-close').click();
                         if (response.status == true) {
                             forms.row(row).remove().draw();
                         }
-                        delete_form_response(response.status, response.msg);
-                    }).fail(function(ex) {
-                        $('.efb-modal-close').click();
-                        delete_form_response(false, ex.msg);
-                    });
+                    }).fail(notification.exception);
+                    $('.efb-modal-close').click();
                 });
+
+                /**
+                 * Get pro feature demo url of youtube video
+                 * @param  {string} video type of feature
+                 * @return {string}       Youtube embed video url
+                 */
+                var get_pro_demo_url = (video) => {
+                    return videotypes.hasOwnProperty(video) ? videotypes[video] : videotypes['default'];
+                }
+
                 $('body').on('click', '.efb-form-export', function(event) {
                     event.preventDefault();
                     $('#efb-modal .efb-modal-header').removeClass('bg-success').addClass('bg-warning');
@@ -127,7 +128,11 @@ define([
                         type: string + '! <b>' + exporttitle + '</b>',
                         message: message
                     });
-                    $('#efb-modal .efb-modal-body').html(`<h5>${message}</h5>`);
+                    $('#efb-modal .efb-modal-body').html(`
+                        <h5>${message}</h5>
+                        <div><iframe class="demo" src="${get_pro_demo_url('export')}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                        </iframe></div>
+                    `);
                     $('#efb-modal').addClass('show pro').removeClass('delete deleted');
                 });
 
@@ -158,8 +163,7 @@ define([
                 });
 
                 function show_toaster(msg) {
-                    var id= guid();
-                    var toast = $(`<div id='${id}' class='efb-toaster toaster-container'>
+                    var toast = $(`<div class='efb-toaster toaster-container'>
                       <lable class='toaster-message'>${msg}</lable>
                     </div>`);
                     $('body').append(toast);

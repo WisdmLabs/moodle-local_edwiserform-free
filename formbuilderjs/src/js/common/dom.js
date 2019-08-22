@@ -5,7 +5,7 @@ import Column from '../components/column';
 import Field from '../components/field';
 import animate from './animation';
 import {data, formData} from './data';
-import {uuid, clone, getString, hideControl, showControl, numToPercent, remove, closest, closestFtype, elementTagType} from './utils';
+import {uuid, clone, addTitle, getString, hideControl, showControl, numToPercent, remove, closest, closestFtype, elementTagType} from './utils';
 import defaultElements from '../components/controls';
 
 /**
@@ -124,41 +124,41 @@ class DOM {
 
     let defaultConfig = {
         rows: {
-          actionButtons: {
-            buttons: [
-              clone(handle),
-              edit,
-              cloneItem,
-              remove
-            ],
-            order: [],
-            disabled: []
-          }
-        },
-        columns: {
-          actionButtons: {
-            buttons: [
-              clone(handle),
-              clone(cloneItem),
-              remove
-            ],
-            order: [],
-            disabled: []
-          }
-        },
-        fields: {
-          actionButtons: {
-            buttons: [
-              handle,
-              edit,
-              cloneItem,
-              remove
-            ],
-            order: [],
-            disabled: []
-          }
-        },
-      };
+        actionButtons: {
+          buttons: [
+            addTitle(handle, 'row-move'),
+            addTitle(edit, 'row-edit'),
+            addTitle(cloneItem, 'row-clone'),
+            addTitle(remove, 'row-remove')
+          ],
+          order: [],
+          disabled: []
+        }
+      },
+      columns: {
+        actionButtons: {
+          buttons: [
+            addTitle(handle, 'column-move'),
+            addTitle(cloneItem, 'column-clone'),
+            addTitle(remove, 'column-remove')
+          ],
+          order: [],
+          disabled: []
+        }
+      },
+      fields: {
+        actionButtons: {
+          buttons: [
+            addTitle(handle, 'field-move'),
+            addTitle(edit, 'field-edit'),
+            addTitle(cloneItem, 'field-clone'),
+            addTitle(remove, 'field-remove')
+          ],
+          order: [],
+          disabled: []
+        }
+      },
+    };
 
     defaultConfig.rows.actionButtons.buttons[0].content = [
       icon('move-vertical'),
@@ -242,6 +242,27 @@ class DOM {
   }
 
   /**
+   * Process class attribute
+   * @param  {Object} elem Element object
+   * @return {Object}      Element object
+   */
+  processClass(elem) {
+    if (typeof elem.attrs != 'undefined' && typeof elem.attrs.class != 'undefined') {
+      if (typeof elem.attrs.className != 'undefined') {
+        if (Array.isArray(elem.attrs.className)) {
+          elem.attrs.className.push(clone(elem.attrs.class));
+        } else {
+          elem.attrs.className += ' ' + clone(elem.attrs.class);
+        }
+      } else {
+        elem.attrs.className = clone(elem.attrs.class);
+      }
+      delete elem.attrs.class;
+    }
+    return elem;
+  }
+
+  /**
    * Creates DOM elements
    * @param  {Object}  elem      element config object
    * @param  {Boolean} isPreview generating element for preview or render?
@@ -249,6 +270,7 @@ class DOM {
    */
   create(elem, isPreview = false) {
     let _this = this;
+    elem = _this.processClass(elem);
     elem = _this.processTagName(elem);
     let contentType;
     let {tag} = elem;
@@ -318,9 +340,6 @@ class DOM {
       delete elem.className;
     }
 
-    if (elem.hasOwnProperty('attrs') && elem.attrs.hasOwnProperty('name') && elem.attrs.name.trim() == '') {
-      elem.attrs.name = elem.id;
-    }
     // Append Element Content
     if (elem.options) {
       let {options} = elem;
@@ -339,17 +358,7 @@ class DOM {
           wrap.content.push(_this.create(option, isPreview));
         });
 
-        if (elem.attrs.className) {
-          wrap.className = elem.attrs.className;
-        }
-
         wrap.config = Object.assign({}, elem.config);
-        if (typeof(wrap.className) == 'string') {
-          wrap.className = [wrap.className];
-        }
-
-        wrap.className.push(h.get(elem, 'attrs.className'));
-
 
         if (required) {
           wrap.attrs.required = required;
@@ -375,15 +384,14 @@ class DOM {
         if (isPreview) {
             label = _this.label(elem, 'config.label');
         } else {
-            if (displayLabel == 'off') {
+            if (typeof elem.attrs.placeholder == 'undefined') {
               elem.attrs.placeholder = 'label' in elem.config ? elem.config.label : '';
             }
             label = _this.label(elem);
         }
-        if (displayLabel != 'off' && required && !isPreview) {
-          label.innerHTML = label.innerHTML + dom.create(requiredMark).outerHTML;
+        if (required) {
+          label = [label, requiredMark];
         }
-
         if (!elem.config.hideLabel) {
           if (_this.labelAfter(elem)) {
             // add check for inline checkbox
@@ -392,31 +400,18 @@ class DOM {
             wrap.content.push(label);
           } else {
             wrap.content.push(label);
-            if(displayLabel == 'off' || isPreview && required) {
-              wrap.content.push(requiredMark);
-            }
             wrap.content.push(element);
           }
         } else if (editablePreview) {
           element.contentEditable = true;
-          // Show label only while editing form - Yogesh
-          if(elem.config.showLabelEdit) {
-            if (_this.labelAfter(elem)) {
-                wrap.className = `f-${elem.attrs.type}`;
-                label.insertBefore(element, label.firstChild);
-                wrap.content.push(label);
-                if(displayLabel == 'off' || isPreview && required) {
-                  wrap.content.push(requiredMark);
-                }
-            } else {
+          if (_this.labelAfter(elem)) {
+              wrap.className = `f-${elem.attrs.type}`;
+              label.insertBefore(element, label.firstChild);
               wrap.content.push(label);
-              if(displayLabel == 'off' || isPreview && required) {
-                wrap.content.push(requiredMark);
-              }
-              wrap.content.push(element);
-            }
+          } else {
+            wrap.content.push(label);
+            wrap.content.push(element);
           }
-          // Custom code ends here
         }
       } else if (editablePreview) {
         element.contentEditable = true;
@@ -536,7 +531,6 @@ class DOM {
    */
   processAttrs(elem, element, isPreview) {
     let {attrs = {}} = elem;
-    delete attrs.tag;
     if (!isPreview) {
       if (!attrs.name && this.isInput(elem.tag)) {
         element.setAttribute('name', uuid(elem));
@@ -546,6 +540,9 @@ class DOM {
     // Set element attributes
     Object.keys(attrs).forEach(attr => {
       let name = h.safeAttrName(attr);
+      if (name == 'tag') {
+        return;
+      }
       let value = attrs[attr] || '';
       if (Array.isArray(value)) {
         if (typeof value[0] === 'object') {
@@ -620,14 +617,13 @@ class DOM {
       const defaultInput = () => {
         let input = {
           tag: 'input',
-          attrs: {
-            id: id + '-' + i,
-            name: attrs.name,
-            type: fieldType,
-            value: option.value || ''
-          },
+          attrs: clone(attrs),
           action
         };
+        delete input.attrs.className;
+        input.attrs.id = id + '-' + i;
+        input.attrs.type = fieldType;
+        input.attrs.value = option.value || '';
         let checkable = [{
           tag: 'span',
           className: 'checkable',
@@ -656,6 +652,8 @@ class DOM {
 
         if (elem.config.inline) {
           inputWrap.className.push('f-${fieldType}-inline');
+        } else {
+          elem.config.inputWrap = `f-${fieldType}-group`;
         }
 
         if (option.selected) {
@@ -908,23 +906,25 @@ class DOM {
       },
       content: []
     };
+    let uid = uuid();
     let inputControl = {
       tag: 'input',
       attrs: {
+        id: uid,
         className: classPrefix + '-input setting-input',
         value: config.value
       },
       action: {
         change: event => {
           let setting = formData.settings.get(settingName);
-          let inputTagType = elementTagType(input);
+          let inputTagType = elementTagType(event.target);
           let target = event.target;
           let value = target.value;
           switch (inputTagType.tag) {
             case 'INPUT':
               switch (inputTagType.type) {
                 case 'checkbox':
-                  setting[category][id].value = input.checked ? 'on' : 'off';
+                  setting[category][id].value = target.checked;
                   break;
                 default:
                   if (category != null) {
@@ -1008,7 +1008,7 @@ class DOM {
         inputControl.attrs.className += ' toggle-group';
         inputControl.tag = 'input';
         inputControl.type = 'checkbox';
-        inputControl.checked = config.value == 'on';
+        inputControl.checked = config.value;
         break;
       default:
         inputControl.attrs.type = 'text';
@@ -1036,37 +1036,11 @@ class DOM {
         break;
       case 'toggle':
         input.content.push({
-          tag: 'div',
-          className: classPrefix + '-input-label setting-input-label toggle-group-wrap',
-          content: [{
-            tag: 'span',
-            className: classPrefix + '-input setting-input setting-toggle-icon',
-            action: {
-              click: event => {
-                let target = event.target;
-                if (target.tagName == 'LABEL') {
-                  target = target.parentElement;
-                }
-                let input = target.parentElement.previousSibling;
-                input.checked = input.checked ? false : true;
-                let evt = new CustomEvent('change', {target: input});
-                input.dispatchEvent(evt);
-              }
-            },
-            content: [{
-              tag: 'label',
-              attrs: {
-                className: classPrefix + '-input setting-input toggle-on',
-              },
-              content: config.options.on
-            }, {
-              tag: 'label',
-              attrs: {
-                className: classPrefix + '-input setting-input toggle-off',
-              },
-              content: config.options.off
-            }]
-          }]
+          tag: 'label',
+          attrs: {
+            className: 'bg-primary',
+            for: uid
+          }
         });
         break;
     }
@@ -1210,93 +1184,6 @@ class DOM {
       className: 'category-container-' + category,
       content: [label, settings]
     };
-  }
-
-  /**
-    * Return stage tab container
-    * @return {Object} stage tabs wrapper
-    */
-  getStageControl() {
-    let _this = this;
-    let edit = {
-      tag: 'button',
-      content: _this.icon('edit'),
-      attrs: {
-        className: ['btn btn-primary item-edit-toggle'],
-        type: 'button'
-      },
-      meta: {
-        id: 'edit'
-      },
-      action: {
-        click: evt => {
-          const element = closest(evt.target, 'stage-tabs-wrapper');
-          let fType = 'stage-tabs';
-          let editClass = 'editing-' + fType;
-          let editWindow = element.querySelector(`.${fType}-edit`);
-          if (element.classList.contains(editClass)) {
-            animate.slideUp(editWindow, 666, function() {
-              animate.slideDown(editWindow.nextSibling, 333, function() {
-                element.classList.remove(editClass);
-              });
-            });
-          } else {
-            animate.slideUp(editWindow.nextSibling, 333, function() {
-              animate.slideDown(editWindow, 666, function() {
-                element.classList.add(editClass);
-              });
-            });
-          }
-        }
-      }
-    };
-
-    let remove = {
-      tag: 'button',
-      content: [_this.icon('handle'), _this.icon('remove')],
-      attrs: {
-        className: ['btn btn-danger item-remove'],
-        type: 'button'
-      },
-      meta: {
-        id: 'remove'
-      },
-      action: {
-        click: (evt) => {
-          let editor = document.getElementById('efb-cont-form-builder');
-          let stages = editor.querySelectorAll('.stage-wrap:not(.active)');
-          stages.forEach(stage => {
-            this.clearStep(evt);
-          });
-        }
-      }
-    };
-    let stageControlWrap = {
-      tag: 'div',
-      className: 'stage-tabs-wrapper wfb-tabs-view',
-      id: 'stage-tab-panel',
-      content: [{
-        tag: 'div',
-        className: 'stage-tabs-actions group-actions',
-        content: [{
-          tag: 'div',
-          className: 'action-btn-wrap',
-          content: [remove, edit]
-        }]
-      }],
-      action: {
-        mouseenter: event => {
-          event.target.classList.add('hovering-stage-tabs');
-        },
-        mouseleave: evnt => {
-          event.target.classList.remove('hovering-stage-tabs');
-        }
-      }
-    };
-    setTimeout(function() { // Activate first tab as active step when multiple steps presents
-      dom.activeStage = document.querySelector('.stage-wrap.active .stage');
-    }, 666);
-    return stageControlWrap;
   }
 
   /**
@@ -1898,7 +1785,17 @@ class DOM {
   getElementFromCondition(condition) {
     let _this = this;
     let source = condition.content[0].options;
+    if (source.length < 2) {
+      return {
+        status: false
+      };
+    }
     let value = condition.content[1].options;
+    if (value.length == 0) {
+      return {
+        status: false
+      };
+    }
     let operator = condition.content[2].options;
     let sourceSelected = null;
     let valueSelected = null;
@@ -1911,7 +1808,12 @@ class DOM {
           break;
         }
       }
-      sourceSelected = _this.renderTarget.querySelectorAll('[id="' + sourceSelected + '"]');
+      sourceSelected = _this.renderTarget.querySelectorAll('[id*="' + sourceSelected + '"]');
+      if (sourceSelected.length == 0) {
+        return {
+          status: false
+        };
+      }
     }
     if (value.length > 0) {
       valueSelected = value[0].value;
@@ -1932,6 +1834,7 @@ class DOM {
       }
     }
     return {
+      status: true,
       source: sourceSelected,
       value: valueSelected,
       operator: operatorSelected
@@ -2025,7 +1928,12 @@ class DOM {
     for (let i = 0; i < conditions.length; i++) {
       condition = conditions[i];
       element = _this.getElementFromCondition(condition);
-      elements.push(element);
+      if (element.status == true) {
+        elements.push(element);
+      }
+    }
+    if (elements.length != 0) {
+      container.style.display = 'none';
     }
     for (let i= 0; i < elements.length; i++) {
       element = elements[i];
@@ -2059,7 +1967,6 @@ class DOM {
       let id = row.id;
       if (row.conditions.length > 0) {
         let DOMrow = _this.renderTarget.querySelector('[id="' + id + '"]');
-        DOMrow.style.display = 'none';
         _this.processEachCondition(row.conditions, DOMrow);
       }
     });
@@ -2092,6 +1999,12 @@ class DOM {
           min: '20',
           max: '100'
         }
+      },
+      'responsive': {
+        title: getString('form-responsive'),
+        id: 'responsive',
+        type: 'toggle',
+        value: true,
       },
       'padding': {
         title: getString('form-padding'),
@@ -2182,19 +2095,50 @@ class DOM {
         value: ''
       }
     };
+    let pageSetting = {
+      'class': {
+        title: getString('class'),
+        id: 'class',
+        type: 'text',
+        value: ''
+      },
+      'background-opacity': {
+        title: getString('page-background-opacity'),
+        id: 'background-opacity',
+        type: 'range',
+        value: '0',
+        attrs: {
+          step: '0.1',
+          min: '0',
+          max: '1'
+        }
+      },
+      'style': {
+        title: getString('customcssstyle'),
+        id: 'style',
+        type: 'textarea',
+        value: ''
+      }
+    };
     return {
+      page: pageSetting,
       form: formSettings,
-      submit: submitButtonSetting
+      submit: submitButtonSetting,
     };
   }
 
   /**
-   * Return form settings with selected language packs
+   * Return form settings
    * @return {Object} formSettings with replaced labels
    */
   getFormSettings() {
-    let formSettings = formData.settings.get('formSettings');
-    return typeof formSettings != 'undefined' ? formSettings : this.getFormDefaultSettings();
+    let formSettings = this.getFormDefaultSettings();
+    if (formData.settings.get('formSettings') != undefined) {
+      for (let [category] of Object.entries(formSettings)) {
+        Object.assign(formSettings[category], formData.settings.get('formSettings')[category]);
+      }
+    }
+    return formSettings;
   }
 
   /**
@@ -2231,6 +2175,59 @@ class DOM {
     return styleString;
   }
 
+  /**
+   * Get max column count
+   * @return {Number} Max column
+   */
+  getMaxColumnCount() {
+    if (formData.rows.size == 0) {
+      return 0;
+    }
+    let maxColumns = 0;
+    formData.rows.forEach(function(row) {
+      if (row.columns.length > maxColumns) {
+        maxColumns = row.columns.length;
+      }
+    });
+    return maxColumns;
+  }
+
+  /**
+   * Manage form width according to width available in preview page
+   * @param {Boolean} fullpage Is for opened in full page or embedded
+   */
+  manageFormWidth(fullpage) {
+    let formSettings = this.getFormSettings();
+    let maxColumns = this.getMaxColumnCount();
+    let width = formSettings.form['width'] ? formSettings.form['width'].value : '100';
+    this.renderTarget.style.width = width + '%';
+    let toggleClass = status => {
+      this.renderTarget.classList.toggle('edwiser-inline-form', status);
+    };
+    if (formSettings.form['responsive'].value == false) {
+      toggleClass(false);
+      return;
+    }
+    let availableWidth = document.getElementById(`formeo-rendered-${document.getElementsByClassName('formeo-render').length - 1}`).offsetWidth;
+    switch (maxColumns) {
+      case 0:
+      case 1:
+        toggleClass(false);
+        break;
+      case 2:
+        toggleClass(availableWidth < 360);
+        break;
+      case 3:
+        toggleClass(availableWidth < 480);
+        break;
+      case 4:
+        toggleClass(availableWidth < 640);
+        break;
+      default:
+        toggleClass(availableWidth < 800);
+        break;
+    }
+  }
 
   /**
    * Processing form settings
@@ -2242,13 +2239,11 @@ class DOM {
     let className = formSettings.form['class'] ? formSettings.form['class'].value : '';
     let color = formSettings.form['color'] ? formSettings.form['color'].value : 'inherit';
     let backgroundColor = formSettings.form['background-color'] ? formSettings.form['background-color'].value : 'inherit';
-    let width = formSettings.form['width'] ? formSettings.form['width'].value : '100%';
     let padding = formSettings.form['padding'] ? formSettings.form['padding'].value : '25';
     let styles = formSettings.form['style'] ? formSettings.form['style'].value : '';
     renderTarget.classList.add(className);
     // Adding form class in renderTarget to apply settings
     let settings = {
-      width: width + '%',
       color: color,
       'background-color': backgroundColor,
       margin: '0 auto',
@@ -2256,7 +2251,44 @@ class DOM {
     };
     styles = this.mergeStyles(settings, styles);
     renderTarget.setAttribute('style', styles);
+    this.manageFormWidth();
   }
+
+    /**
+   * Processing form settings
+   * @param {DOM} renderTarget
+   */
+  processPageSettings(renderTarget) {
+    let formSettings = this.getFormSettings();
+    // Getting form setting like classname, style
+    let className = formSettings.page['class'] ? formSettings.page['class'].value : '';
+    let styles = formSettings.page['style'] ? formSettings.page['style'].value : '';
+    let backgroundopacity = formSettings.page['background-opacity'] ? formSettings.page['background-opacity'].value : '0';
+    let id = 'edwiserform-background-cover';
+    let style = `position: fixed; width: 100%; height: 100%; background: rgba(0,0,0,${backgroundopacity});`;
+    let cover = document.getElementById(id);
+    if (!cover) {
+      renderTarget.parentElement.before(this.create({
+        tag: 'div',
+        attrs: {
+          id: id,
+          style: style
+        }
+      }));
+    } else {
+      cover.setAttribute('style', style);
+    }
+    let preview = document.getElementById('efb-cont-form-preview');
+    // Adding page class in body element
+    if (className != '') {
+      preview.classList.add(className);
+    }
+    // Applying custom style to preview element
+    if (styles != '') {
+      preview.setAttribute('style', styles);
+    }
+  }
+
   /**
    * Renders currently loaded formData to the renderTarget
    * @param {Object} renderTarget
@@ -2343,6 +2375,7 @@ class DOM {
       stage.tag = 'div';
       stage.content = rows;
       stage.className = 'f-stage';
+      stage.title = '';
       if (first) {
         first = false;
         stage.className += ' active';
@@ -2367,6 +2400,11 @@ class DOM {
     }));
     dom.applyConditions(formData.rows);
     dom.processFormSettings(renderTarget);
+    dom.processPageSettings(renderTarget);
+    renderTarget.prepend(this.create({
+      tag: 'h2',
+      content: document.getElementById('id_title').value
+    }));
   }
 
   /**
@@ -2592,21 +2630,6 @@ class DOM {
   }
 
   /**
-   * Filter fields and choose only select and radio fields
-   * @param {Array} fields
-   * @return {Array} fields
-   */
-  filterFieldsSelectRadio(fields) {
-    let filter = [];
-    formData.fields.forEach(function(field, index) {
-      if (fields.includes(field.id) && (field.tag == 'select')) {
-        filter.push(field);
-      }
-    });
-    return filter;
-  }
-
-  /**
    * Return condition position, input position from conditions container and row container
    * @param {Event} event
    * @param {String} type of element being changed add|delete|source|value|operator
@@ -2666,30 +2689,6 @@ class DOM {
   }
 
   /**
-   * Filter all fields and only those which can be added in current rows conditions
-   * @param {String} currentRow id
-   * @return {Object} fields
-   */
-  getValidFields(currentRow) {
-    let fields = [];
-    let columns = [];
-    formData.rows.forEach(function(row, index) {
-      if (row.id != currentRow) {
-        columns = columns.concat(row.columns);
-      }
-    });
-    if (columns.length) {
-      formData.columns.forEach(function(column, index) {
-        if (columns.includes(column.id)) {
-          fields = fields.concat(column.fields);
-        }
-      });
-    }
-    fields = this.filterFieldsSelectRadio(fields);
-    return fields;
-  }
-
-  /**
    * Checking is there control which can be added only once
    */
   checkSingle() {
@@ -2712,8 +2711,15 @@ class DOM {
    */
   proWarning(msg = null) {
     let _this = this;
-    if (typeof msg == 'object') {
+    let video = '';
+    if (typeof msg == 'object' && msg != null) {
+      if (msg.hasOwnProperty('video')) {
+        video += `
+        <div><iframe class="demo" src="${this.get_pro_demo_url(msg.video)}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+        </iframe></div>`;
+      }
       msg = getString('profeaturemessage', msg);
+      msg += video;
     } else {
       msg = getString('profeature', msg);
     }
@@ -2728,7 +2734,7 @@ class DOM {
       warning,
       [{
         title: getString('upgrade'),
-        type: 'efb-form-upgrade',
+        type: 'success',
         action: function() {
           window.open(_this.prourl);
         }
@@ -3081,7 +3087,7 @@ class DOM {
    * @param {String} title for prompt window
    * @param {function} addAction function
    */
-  prompt(type, title, addAction) {
+  addAttributePrompt(type, title, addAction) {
     let _this = this;
     let id = uuid();
     let applied = false;
@@ -3107,6 +3113,9 @@ class DOM {
       tag: 'div',
       className: 'efb-modal-body',
       content: [{
+        tag: 'div',
+        content: getString('attribute-help')
+      }, {
         tag: 'input',
         attrs: {
           id: 'attr-' + id,

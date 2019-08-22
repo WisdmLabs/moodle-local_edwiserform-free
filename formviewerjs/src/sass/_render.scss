@@ -1,5 +1,4 @@
 .f-row {
-  margin-bottom: 1em;
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: nowrap;
@@ -81,4 +80,13 @@
   max-width: none;
   flex-direction: column;
   flex: auto;
+}
+
+@include breakpoint(phone-lrg) {
+  .f-row {
+    display: block !important;
+  }
+  .f-render-column {
+    width: 100% !important;
+  }
 }

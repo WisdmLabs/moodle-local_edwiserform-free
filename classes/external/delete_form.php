@@ -26,12 +26,19 @@ namespace local_edwiserform\external;
 
 defined('MOODLE_INTERNAL') || die();
 
+use external_single_structure;
 use external_function_parameters;
 use external_value;
+use stdClass;
 
 trait delete_form
 {
 
+    /**
+     * Describes the parameters for delete form
+     * @return external_function_parameters
+     * @since  Edwiser Forms 1.0.0
+     */
     public static function delete_form_parameters() {
         return new external_function_parameters(
                 [
@@ -40,13 +47,19 @@ trait delete_form
         );
     }
 
+    /**
+     * Deleting form record. Form's delete column will be marked as true to delete on cron
+     * @param  integer $formid of form
+     * @return array   [status, msg] of form deletion
+     * @since  Edwiser Form 1.0.0
+     */
     public static function delete_form($formid) {
         global $DB;
         $response = array("status" => false, "msg" => get_string("efb-msg-form-delete-fail", "local_edwiserform"));
         if (!$formid) {
             return $response;
         }
-        $data          = new \stdClass();
+        $data          = new stdClass();
         $data->id      = $formid;
         $data->deleted = true;
         $status        = $DB->update_record("efb_forms", $data);
@@ -56,8 +69,13 @@ trait delete_form
         return array("status" => $status, "msg" => $msg);
     }
 
+    /**
+     * Returns description of method parameters for delete form
+     * @return external_single_structure
+     * @since  Edwiser Form 1.0.0
+     */
     public static function delete_form_returns() {
-        return new \external_single_structure(
+        return new external_single_structure(
                 [
             'status' => new external_value(PARAM_BOOL, 'Form deletion status.'),
             'msg'    => new external_value(PARAM_TEXT, 'Form deletion message.')

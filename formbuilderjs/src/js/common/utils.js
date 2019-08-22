@@ -60,6 +60,11 @@ export const closestFtype = el => {
   return el;
 };
 
+/**
+ * Return tag and type of element
+ * @param  {DOM} el DOM element
+ * @return {Object}    tag and type
+ */
 export const elementTagType = el => {
   let element = {
     tag: el.tagName
@@ -68,6 +73,15 @@ export const elementTagType = el => {
     element.type = el.type;
   }
   return element;
+};
+
+/**
+ * Return string with first capital letter
+ * @param  {String} string plain string
+ * @return {String}        String with first letter capital
+ */
+export const ucfirst = string => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 /**
@@ -95,6 +109,11 @@ export const strMapToObj = strMap => {
   return obj;
 };
 
+/**
+ * Return new unique id or id of element
+ * @param  {DOM} elem DOM element
+ * @return {String}      unique id
+ */
 export const uuid = elem => {
   let id;
   if (elem) {
@@ -107,7 +126,11 @@ export const uuid = elem => {
   return id;
 };
 
-
+/**
+ * Clone object and return its copy
+ * @param  {Object} obj Object to be cloned
+ * @return {Object}     Cloned object
+ */
 export const clone = obj => {
   let copy;
 
@@ -134,16 +157,29 @@ export const clone = obj => {
 
   // Handle Object
   if (obj instanceof Object) {
-    copy = {};
-    for (let attr in obj) {
-      if (obj.hasOwnProperty(attr)) {
-        copy[attr] = clone(obj[attr]);
-      }
-    }
+    copy = Object.assign({}, obj);
     return copy;
   }
 
   throw new Error('Unable to copy Object, type not supported.');
+};
+
+export const strip = html => {
+  let temp = document.createElement('DIV');
+  temp.innerHTML = html;
+  return temp.textContent || temp.innerText || '';
+};
+
+/**
+ * Att title attribute to element object
+ * @param  {Object} obj    Element object
+ * @param  {String} string title string id
+ * @return {Object}        Object with title
+ */
+export const addTitle = (obj, string) => {
+  obj = clone(obj);
+  obj.attrs.title = getString(string);
+  return obj;
 };
 
 export const numToPercent = num => num.toString() + '%';

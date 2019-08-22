@@ -35,8 +35,11 @@ if (!$form) {
     $out = "404. Form not found.";
 } else {
     $title = $form->title;
+    $out .= html_writer::tag('input', '', array('type' => 'hidden', 'id' => 'edwiserform-fullpage', 'value' => true));
+    $out .= html_writer::start_tag('div', array('class' => 'edwiserform-root-container'));
     $out .= html_writer::start_tag('form', array('id' => 'preview-form', 'class' => 'edwiserform-container', 'method' => 'post'));
     $out .= html_writer::end_tag('form');
+    $out .= html_writer::end_tag('div');
     $sitekey = get_config('local_edwiserform', 'google_recaptcha_sitekey');
     if (trim($sitekey) == '') {
         $sitekey = 'null';

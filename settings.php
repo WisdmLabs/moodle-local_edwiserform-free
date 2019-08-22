@@ -39,15 +39,25 @@ $ADMIN->add('edwiserform',
 $settings = new admin_settingpage('local_edwiserform', new lang_string('pluginname', 'local_edwiserform'));
 $ADMIN->add('localplugins', $settings);
 
+// Checkbox for enabling teacher to create new form
 $settings->add(new admin_setting_configcheckbox(
     "local_edwiserform/enable_teacher_forms",
     new lang_string("efb-enable-user-level-from-creation", "local_edwiserform"),
     new lang_string("efb-des-enable-user-level-from-creation", "local_edwiserform"),
     false
 ));
+
+// Google Recaptcha site key
 $settings->add(new admin_setting_configtext(
     "local_edwiserform/google_recaptcha_sitekey",
     new lang_string("efb-google-recaptcha-sitekey", "local_edwiserform"),
     new lang_string("efb-desc-google-recaptcha-sitekey", "local_edwiserform"),
     'null'
+));
+// Enable navigation using sidebar
+$settings->add(new admin_setting_configcheckbox(
+    "local_edwiserform/enable_sidebar_navigation",
+    new lang_string("efb-enable-site-navigation", "local_edwiserform"),
+    new lang_string("efb-desc-enable-site-navigation", "local_edwiserform"),
+    true
 ));

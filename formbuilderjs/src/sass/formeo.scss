@@ -3,9 +3,10 @@
 @import 'base/mixins';
 @import 'base/icons';
 @import 'components/positioning';
+@import 'components/field-sort-fallback';
 .formeo {
   * {
-    box-sizing: inherit;
+    box-sizing: border-box;
   }
   /* added for only those buttons which is inside formbuilder */
 
@@ -159,8 +160,9 @@
     background-color: #ffffff;
     margin: 0 auto;
     padding: 40px;
-    height: 100%;
-    overflow: auto;
+    .text-error {
+      position: absolute;
+    }
 }
 
 .d-none {
