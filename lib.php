@@ -318,24 +318,12 @@ function local_edwiserform_extend_navigation(navigation_node $nav) {
     }
 
     // Archieve page node
-    $archieve = $nav->add(
-        'Form List',
+    $nav->add(
+        get_string('pluginname', 'local_edwiserform'),
         new moodle_url($CFG->wwwroot . '/local/edwiserform/view.php'),
         navigation_node::NODETYPE_BRANCH,
         null,
         'local_edwiserform-list',
         $icon
-    );
-    $archieve->showinflatnavigation = true;
-
-    // Add new form page node
-    $addnew = $nav->add(
-        'Add new form',
-        new moodle_url($CFG->wwwroot . '/local/edwiserform/view.php', array('page' => 'newform')),
-        navigation_node::NODETYPE_BRANCH,
-        null,
-        'local_edwiserform-addnew',
-        $icon
-    );
-    $addnew->showinflatnavigation = true;
+    )->showinflatnavigation = true;
 }
