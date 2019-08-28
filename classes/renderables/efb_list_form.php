@@ -88,8 +88,8 @@ class efb_list_form implements renderable, templatable {
             $stmt .= " and author=? ";
             $param[] = can_create_or_view_form() ? $USER->id : 0;
         }
-        $stmt .= $orderbyquery . $limit;
-        $records = $DB->get_records_sql($stmt, $param);
+        $stmt .= $orderbyquery;
+        $records = $DB->get_records_sql($stmt, $param, $limit['from'], $limit['to']);
         foreach ($records as $record) {
             $data = array(
                 "id" => '[edwiser-form id="'.$record->id.'"]',

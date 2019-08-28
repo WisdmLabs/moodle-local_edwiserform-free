@@ -61,3 +61,12 @@ Feature:
 12. Javascript optimization and improvement.
 13. Added support for Firefox, Safari and Edge browser.
 14. Added page autoscrolling when dragging row/column.
+
+-----------------------------------------------------------------
+
+August 28, 2019(Edwiser Forms Free 1.1.1):
+
+Bug Fixes:
+----------
+1. Using moodles limit parameters instead of query.
+2. Fixed relative path issue with events upgrade.

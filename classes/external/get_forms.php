@@ -48,11 +48,16 @@ function get_total_ebf_forms_records($searchflag, $searchtext) {
     $records = $DB->get_records_sql($stmt, $param);
     return count($records);
 }
-
+$wdmlimit = array(
+    'from' => 0,
+    'to' => 0
+);
 // Checking for limit to paginate data
 if (isset($_REQUEST['iDisplayStart']) && $_REQUEST['iDisplayLength'] != '-1') {
-    $wdmlimit = 'LIMIT '.intval($_REQUEST['iDisplayStart']).', '.
-            intval($_REQUEST['iDisplayLength']);
+    $wdmlimit = array(
+        'from' => intval($_REQUEST['iDisplayStart']),
+        'to' => intval($_REQUEST['iDisplayLength'])
+    );
 }
 
 $searchtext = "";
