@@ -29,7 +29,8 @@ defined('MOODLE_INTERNAL') || die();
  * @return bool
  */
 function xmldb_edwiserformevents_subscription_upgrade($oldversion) {
-    require_once('install.php');
+    global $CFG;
+    require_once($CFG->dirroot . '/local/edwiserform/events/subscription/db/install.php');
     xmldb_edwiserformevents_subscription_install();
     return true;
 }
