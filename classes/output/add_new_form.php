@@ -22,11 +22,17 @@
  * @author      Sudam
  */
 
-defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot . '/local/edwiserform/classes/efb_form_basic_settings.php');
-require_once($CFG->dirroot . '/local/edwiserform/classes/efb_new_form_sections.php');
+namespace local_edwiserform\output;
 
-class efb_add_new_form implements renderable, templatable
+defined('MOODLE_INTERNAL') || die();
+
+use renderable, templatable;
+use local_edwiserform\form_basic_settings;
+use local_edwiserform\new_form_sections;
+use moodle_url;
+use context_system;
+
+class add_new_form implements renderable, templatable
 {
 
     /**
@@ -39,10 +45,16 @@ class efb_add_new_form implements renderable, templatable
     // Plugins installed in events directory
     private $plugin = [];
 
+    /**
+     * Constructor for add new form renderable
+     * @param  integer $formid The id of form when re-editing form otherwise null
+     * @return void
+     * @since  Edwiser Form 1.0.0
+     */
     public function __construct($formid = null) {
         $this->formid        = $formid;
         $this->plugins        = get_plugins();
-        $this->form_sections = new efb_new_form_sections();
+        $this->form_sections = new new_form_sections();
         $this->form = null;
         if ($formid != null) {
             global $DB;
@@ -53,6 +65,8 @@ class efb_add_new_form implements renderable, templatable
 
     /**
      * Method provide the functionality to get the forms previous settings.
+     * @return array Previous form settings
+     * @since  Edwiser Form 1.1.0
      */
     private function get_form_settings() {
         global $CFG;
@@ -80,7 +94,11 @@ class efb_add_new_form implements renderable, templatable
     }
 
     /**
-     * Method provides the functionality to render the basic form template.
+     * Function to export the renderer data in a format that is suitable for a
+     * mustache template.
+     * @param renderer_base $output Used to do a final render of any components that need to be rendered for export.
+     * @return stdClass|array
+     * @since  Edwiser Form 1.0.0
      */
     public function export_for_template(\renderer_base $output) {
         global $PAGE;
@@ -97,11 +115,17 @@ class efb_add_new_form implements renderable, templatable
         return $this->form_sections->get_form_section_data();
     }
 
+    /**
+     * Set defaut section data and current form data this sets sidebar navigation buttons,
+     * header buttons and panel containers
+     *
+     * @since  Edwiser Form 1.1.0
+     */
     private function set_default_section_data() {
         global $CFG;
         $settingsparam = array('plugins' => $this->plugins);
         $settingsparam['form'] = $this->form ? $this->form : null;
-        $formsettings = new efb_form_basic_settings(null, $settingsparam);
+        $formsettings = new form_basic_settings(null, $settingsparam);
         $formdata     = $this->get_form_settings();
         $formsettings->set_data($formdata);
         $headerbutton = array(
@@ -181,6 +205,12 @@ class efb_add_new_form implements renderable, templatable
         $this->form_sections->set_panel_setup($this->setup_data());
     }
 
+    /**
+     * Setup templates
+     *
+     * @return object $setup
+     * @since  Edwiser Form 1.2.0
+     */
     private function setup_data() {
         foreach (array_keys($this->plugins) as $pluginname) {
             $free[] = array(

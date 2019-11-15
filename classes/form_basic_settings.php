@@ -22,9 +22,15 @@
  * @author      Sudam
  */
 
+namespace local_edwiserform;
+
 defined('MOODLE_INTERNAL') || die();
 
-class efb_form_basic_settings extends moodleform {
+use moodleform;
+use context_system;
+use html_writer;
+
+class form_basic_settings extends moodleform {
     public function __construct($action = null, $customdata = null, $method = 'post', $target = '', $attributes = null, $editable = true, $ajaxformdata = null) {
         parent::__construct($action, $customdata, $method, $target, array("id" => "efb-basic-form-settings"), $editable, $ajaxformdata);
     }

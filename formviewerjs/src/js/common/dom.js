@@ -155,11 +155,13 @@ class DOM {
 
     processed.push('tag');
 
+    if (!h.get(elem, 'attrs')) {
+      elem.attrs = {};
+    }
 
     // Check for root className property
     if (elem.className) {
-      const {className} = elem;
-      elem.attrs = Object.assign({}, elem.attrs, {className});
+      elem.attrs.className = elem.className;
       delete elem.className;
     }
 
@@ -1169,7 +1171,7 @@ class DOM {
    * @return {Number} Max column
    */
   getMaxColumnCount() {
-    if (formData.rows.size === 0) {
+    if (formData.rows.size == 0) {
       return 0;
     }
     let maxColumns = 0;
@@ -1230,7 +1232,7 @@ class DOM {
     const backgroundColor = formSettings.form['background-color'] ? formSettings.form['background-color'].value : 'inherit';
     let width = formSettings.form.width ? formSettings.form.width.value : '100';
     let padding = formSettings.form.padding ? formSettings.form.padding.value : '25';
-    const margin = width === 100 ? '0 auto' : '5% auto';
+    const margin = width == 100 ? '0 auto' : '5% auto';
     if (!fullpage || fullpage.value === false) {
       width = '100';
       padding = 5;
@@ -1247,10 +1249,10 @@ class DOM {
       width: width + '%',
       padding: padding + 'px',
     };
-    if (width === 100) {
+    if (width == 100) {
       settings['box-shadow'] = 'none';
     }
-    if (fullpage && fullpage.value === true) {
+    if (fullpage && fullpage.value == true) {
       settings['z-index'] = 1;
     }
     styles = this.mergeStyles(settings, styles);
@@ -1469,7 +1471,7 @@ class DOM {
     const _this = this;
     const id = uuid();
     const keyup = evt => {
-      if (evt.keyCode === 27) {
+      if (evt.keyCode == 27) {
         if (action !== null) {
           action();
         }

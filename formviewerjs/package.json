@@ -65,10 +65,9 @@
   "scripts": {
     "analyze": "webpack --json | webpack-bundle-size-analyzer",
     "icons": ". ./tools/build-icons.sh",
-    "clean": "rm -rf ../amd/src/formviewer.min.js",
-    "develop": "npm run clean && webpack --progress --watch --mode=development && npm run purge",
-    "build": "npm run clean && webpack -p --progress --mode=production && npm run purge",
-    "purge": "php /var/www/html/m37dev/admin/cli/purge_caches.php --js=true",
+    "clean": "rm -rf ../amd/build/formviewer.js",
+    "develop": "npm run clean && webpack --progress --watch --mode=development",
+    "build": "npm run clean && webpack -p --progress --mode=production",
     "copy": "cp dist/formviewer.js ../amd/build/",
     "build-all": "npm run clean && webpack -p --progress && npm run copy-all",
     "copy-all": "cp dist/formviewer.js ../amd/build/",

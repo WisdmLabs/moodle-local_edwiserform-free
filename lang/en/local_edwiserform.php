@@ -77,6 +77,10 @@ $string['efb-confirmation-email-success'] = "<p>Confirmation email sent successf
 $string['efb-notify-email-failed'] = "<p>Unable to notify author.</p>";
 
 $string['efb-delete-form-and-data'] = '{$a->title} form with ID({$a->id}) will be deleted along with its submissions. Are you sure you want to delete this form?';
+$string['deletesubmission'] = 'Delete submission?';
+$string['deletesubmissionmsg'] = 'Are you sure you want to delete selected submission?';
+$string['submissionsdeleted'] = 'Submission deleted successfully.';
+$string['emptysubmission'] = 'Please select submission to delete';
 $string['note'] = 'Note:';
 $string['clickonshortcode'] = 'Click on shortcode to copy';
 $string['shortcodecoppied'] = '{$a} copied to clipboard';
@@ -135,6 +139,7 @@ $string["efb-tbl-heading-author"] = "Author";
 $string["efb-tbl-heading-author2"] = "Updated By";
 $string["efb-tbl-heading-created"] = "Created On";
 $string["efb-tbl-heading-submitted"] = "Submitted On";
+$string['suspend'] = 'Suspend';
 $string["efb-tbl-heading-modified"] = "Last Updated";
 $string["efb-tbl-heading-versions"] = "Versions";
 $string["efb-tbl-heading-version"] = "Version";
@@ -165,6 +170,8 @@ $string["efb-valid-form-data"] = "Form data is valid";
 $string["efb-invalid-form-data"] = "Form data is not valid";
 $string["efb-login-form-disable-different-form"] = "Cannot disable. Another login form is active";
 $string["exportcsv"] = "Export CSV(PRO)";
+$string["exportxlsx"] = "Export Excelsheet(PRO)";
+$string['apply'] = 'Apply(PRO)';
 
 // Import export form
 $string["efb-form-action-export-title"] = "Export form";

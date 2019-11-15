@@ -22,22 +22,31 @@
  * @author      Sudam
  */
 
+namespace local_edwiserform\output;
+
 defined('MOODLE_INTERNAL') || die();
 
-class efb_list_form implements renderable, templatable {
+use renderable;
+use templatable;
+use renderer_base;
+use stdClass;
+use html_writer;
+use moodle_url;
 
-    public function export_for_template(\renderer_base $output) {
+class list_form implements renderable, templatable {
+
+    public function export_for_template(renderer_base $output) {
         $data = new stdClass();
         $data->heading = "Forms";
         $data->headings = array(
-            get_string("efb-tbl-heading-title", "local_edwiserform"),
+            html_writer::tag('div', get_string("efb-tbl-heading-title", "local_edwiserform"), array('style' => 'width: 80px;')),
             get_string("efb-tbl-heading-type", "local_edwiserform"),
-            get_string("efb-tbl-heading-shortcode", "local_edwiserform"),
-            get_string("efb-tbl-heading-author", "local_edwiserform"),
-            get_string("efb-tbl-heading-created", "local_edwiserform"),
-            get_string("efb-tbl-heading-author2", "local_edwiserform"),
-            get_string("efb-tbl-heading-modified", "local_edwiserform"),
-            get_string("efb-tbl-heading-action", "local_edwiserform"),
+            html_writer::tag('div', get_string("efb-tbl-heading-shortcode", "local_edwiserform"), array('style' => 'width: 160px;')),
+            html_writer::tag('div', get_string("efb-tbl-heading-author", "local_edwiserform"), array('style' => 'width: 120px;')),
+            html_writer::tag('div', get_string("efb-tbl-heading-created", "local_edwiserform"), array('style' => 'width: 120px;')),
+            html_writer::tag('div', get_string("efb-tbl-heading-author2", "local_edwiserform"), array('style' => 'width: 120px;')),
+            html_writer::tag('div', get_string("efb-tbl-heading-modified", "local_edwiserform"), array('style' => 'width: 120px;')),
+            html_writer::tag('div', get_string("efb-tbl-heading-action", "local_edwiserform"),  array('style' => 'width: 80px;')),
         );
         $data->pageactions = $this->get_page_actions();
         $data->upgradeurl = PRO_URL;
@@ -60,6 +69,39 @@ class efb_list_form implements renderable, templatable {
         return $actions;
     }
 
+    /**
+     * Returns total number of form created by admin/teacher with search filter criteria
+     * @param  boolean $searchflag true if user is filtering data
+     * @param  string  $search query string to search in the data
+     * @return integer count forms created
+     * @since  Edwiser Form 1.2.0
+     */
+    public function get_form_count($search) {
+        global $DB, $USER;
+        $param = [0];
+        $where = " WHERE deleted = ?";
+        if ($search != "") {
+            $param[] = "'%" . $search . "%'";
+            $where .= " AND LIKE ?";
+        }
+        if (!is_siteadmin()) {
+            $where .= " AND author = ?";
+            $param[] = can_create_or_view_form() ? $USER->id : 0;
+        }
+        $sql = "SELECT COUNT(id) total FROM {efb_forms} $where";
+        return $DB->get_record_sql($sql, $param)->total;
+    }
+
+    /**
+     * Fetch and return forms based on search and sort criteria from data table
+     *
+     * @param  string $limit number of rows to select
+     * @param  string $search query parameter to search in columns
+     * @param  integer $sortcolumn index of column that need to be sorted
+     * @param  string $sortdir sorting order ASC|DESC
+     * @return array rows
+     * @since  Edwiser Form 1.0.0
+     */
     public function get_forms_list($limit = "", $searchtext = "", $sortcolumn = 0, $sortdir = "") {
         global $DB, $USER;
         $rows = array();
@@ -92,7 +134,7 @@ class efb_list_form implements renderable, templatable {
         $records = $DB->get_records_sql($stmt, $param, $limit['from'], $limit['to']);
         foreach ($records as $record) {
             $data = array(
-                "id" => '[edwiser-form id="'.$record->id.'"]',
+                "shortcode" => '[edwiser-form id="'.$record->id.'"]',
                 "title" => $record->title,
                 "type" => $record->type,
                 "author" => $this->get_user_name($record->author),

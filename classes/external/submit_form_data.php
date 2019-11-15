@@ -90,7 +90,7 @@ trait submit_form_data {
         }
         if ($status) {
             $responce['status'] = true;
-            $responce['msg'] = "<p>" . get_string("efb-form-data-submission-successful", "local_edwiserform") . "</p>";
+            $responce['msg'] = "<p>" . get_string("efb-form-data-submission-successful", "local_edwiserform", $CFG->wwwroot . '/?redirect=0') . "</p>";
             $eventmail = '';
             if ($form->type != 'blank') {
                 $eventmail = $plugin->submission_email_message($form, $submission);
@@ -176,7 +176,7 @@ trait submit_form_data {
      * @since  Edwiser Form 1.0.0
      */
     public static function confirmation($form, $submission) {
-        global $USER;
+        global $USER, $CFG;
         $email = "";
         if ($USER->id == 0) {
             $email = self::email_from_form($form->definition, $submission);
@@ -190,7 +190,7 @@ trait submit_form_data {
         $submission = json_decode($submission);
         $context = context_system::instance();
         $messagehtml = file_rewrite_pluginfile_urls($form->message, 'pluginfile.php', $context->id, EDWISERFORM_COMPONENT, EDWISERFORM_FILEAREA, $form->id);
-        if (edwiserform_send_email(get_config("core", "smtpuser"), $email, get_string('efb-form-data-submission-successful', 'local_edwiserform'), $messagehtml)) {
+        if (edwiserform_send_email(get_config("core", "smtpuser"), $email, get_string('efb-form-data-submission-successful', 'local_edwiserform', $CFG->wwwroot . '/?redirect=0'), $messagehtml)) {
             return get_string('efb-confirmation-email-success', 'local_edwiserform');
         }
         return get_string('efb-confirmation-email-failed', 'local_edwiserform');

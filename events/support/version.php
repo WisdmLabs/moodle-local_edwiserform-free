@@ -27,4 +27,4 @@ $plugin->component = 'edwiserformevents_support';
 $plugin->release = '1.0.1';
 $plugin->version  = 2019082800;
 $plugin->requires = 2015111610.00;
-$plugin->maturity = MATURITY_ALPHA;
+$plugin->maturity = MATURITY_STABLE;

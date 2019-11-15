@@ -22,10 +22,16 @@
  * @author      Sudam
  */
 
-defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot . "/local/edwiserform/lib.php");
+namespace local_edwiserform\output;
 
-class efb_list_form_data implements renderable, templatable
+defined('MOODLE_INTERNAL') || die();
+
+use renderable, templatable;
+use stdClass;
+use moodle_url;
+use html_writer;
+
+class list_form_data implements renderable, templatable
 {
     /**
      *
@@ -62,8 +68,24 @@ class efb_list_form_data implements renderable, templatable
         $headings = $this->get_headings();
         $data->heading = $this->form->title;
         $data->headings = array(
-            get_string("efb-form-data-heading-user", "local_edwiserform"),
-            get_string("efb-tbl-heading-created", "local_edwiserform")
+            html_writer::tag(
+                'input',
+                '',
+                array(
+                    'type' => 'checkbox',
+                    'class' => 'submission-check-all'
+                )
+            ),
+            html_writer::tag(
+                'div',
+                get_string("efb-form-data-heading-user", "local_edwiserform"),
+                array('style' => 'width: 250px;')
+            ),
+            html_writer::tag(
+                'div',
+                get_string("efb-tbl-heading-submitted", "local_edwiserform"),
+                array('style' => 'width: 120px;')
+            ),
         );
         $data->pageactions = $this->get_page_actions();
         if (empty($headings)) {
@@ -86,30 +108,92 @@ class efb_list_form_data implements renderable, templatable
     }
 
     /**
+     * Returns total number of form data submitted by user in the XYZ form with search criteria
+     * @param  boolean $searchflag true if user is filtering data
+     * @param  string  $search query string to search in the data
+     * @param  integet $formid The id of form
+     * @return integer count submission made in the form with filter result
+     * @since  Edwiser Form 1.0.0
+     */
+    public function get_submission_count($formid, $search = '') {
+        global $DB, $USER;
+        if ($search != "") {
+            $search = " AND submission LIKE '%\"value\":\"%" . $search . "%\"%'";
+        }
+        $sql = "SELECT COUNT(id) total FROM {efb_form_data} WHERE formid = ? $search";
+        return $DB->get_record_sql($sql, [$formid])->total;
+    }
+
+    /**
      * Fetch and return form submissions based on search and sort criteria from data table
      *
      * @param  string $limit number of rows to select
-     * @param  string $searchtext query parameter to search in columns
+     * @param  string $search query parameter to search in columns
      * @param  boolean $returnheader header row added at first index of rows if true
      * @param  boolean $skipfirst skip user name column if true
      * @return array rows
      * @since  Edwiser Form 1.0.2
      */
-    public function get_submissions_list($limit = "", $searchtext = "") {
+    public function get_submissions_list($limit = "", $search = "") {
         global $DB;
-        $headings = $this->get_headings();
+
         $supportactions = isset($this->plugin) && $this->plugin->support_form_data_list_actions();
-        $stmt = "SELECT * FROM {efb_form_data} WHERE formid = " . $this->formid . " ";
-        if ($searchtext) {
-            $stmt .= "and submission REGEXP '" . $searchtext . "' ";
+
+        $headings = $this->get_headings();
+        $param = [$this->formid];
+
+        // Prepare search part of sql if search is set.
+        $searchsql = "";
+        if ($search) {
+            $param[] = "%$search%";
+            $searchsql .= " AND submission LIKE ? ";
         }
-        $stmt .= $limit;
-        $records = $DB->get_records_sql($stmt);
+
+        // If user is not admin or author then list only own submissions.
+        if (!is_siteadmin() && $this->form->author != $USER->id && $this->form->author2 != $USER->id) {
+            $param[] = $USER->id;
+            $searchsql .= " AND userid = ? ";
+        }
+        $sql = "SELECT * FROM {efb_form_data} WHERE formid = ? $searchsql";
+        $records = $DB->get_records_sql($sql, $param, $limit['from'], $limit['to']);
+
         $rows = [];
         foreach ($records as $record) {
             $formdata = [];
+            $formdata[] = html_writer::tag(
+                'input',
+                '',
+                array(
+                    'type' => 'checkbox',
+                    'class' => 'submission-check',
+                    'data-value' => $record->id
+                )
+            );
             $submission = $record->submission;
             $submission = json_decode($submission);
+
+            $action = html_writer::tag(
+                'a',
+                get_string('enrol', 'core_enrol') . '(PRO)',
+                array(
+                    'class' => 'efb-data-action show'
+                )
+            ) . html_writer::tag(
+                'a',
+                get_string('suspend', 'local_edwiserform') . '(PRO)',
+                array(
+                    'class' => 'efb-data-action show'
+                )
+            ) . html_writer::tag(
+                'a',
+                get_string('delete'),
+                array(
+                    'href' => '#',
+                    'class' => 'efb-data-action delete-action text-danger show',
+                    'data-value' => $record->id
+                )
+            );
+
             list($usql, $uparams) = $DB->get_in_or_equal($record->userid);
             $sql = "SELECT id," . get_all_user_name_fields(true) . " FROM {user} WHERE id " . $usql;
             if ($user = $DB->get_record_sql($sql, $uparams)) {
@@ -118,6 +202,10 @@ class efb_list_form_data implements renderable, templatable
                     'a',
                     fullname($user),
                     array('href' => $userlink, 'target' => '_blank', 'class' => 'formdata-user', 'data-userid' => $record->userid)
+                ) . html_writer::tag(
+                    'div',
+                    $action,
+                    array('class' => 'efb-data-actions')
                 );
             } else {
                 $formdata[] = '-';

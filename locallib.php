@@ -24,8 +24,11 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/repository/lib.php');
-require_once($CFG->dirroot . '/local/edwiserform/renderable.php');
 require_once($CFG->dirroot . '/local/edwiserform/lib.php');
+
+use local_edwiserform\output\list_form;
+use local_edwiserform\output\add_new_form;
+use local_edwiserform\output\list_form_data;
 
 class edwiserform {
 
@@ -34,6 +37,11 @@ class edwiserform {
     // Event plugins
     private $events = [];
 
+    /**
+     * Cron function to cleanup delete form, it's data and user uploaded files in the form
+     *
+     * @since Edwiser Form 1.1.0
+     */
     public function cron() {
         global $DB;
         $forms = $DB->get_records('efb_forms', array('deleted' => true));
@@ -57,6 +65,12 @@ class edwiserform {
         }
     }
 
+    /**
+     * Get renderer for edwiserform plugin
+     *
+     * @return stdClass $outpu
+     * @since Edwiser Form 1.0.0
+     */
     public function get_renderer() {
         global $PAGE;
         if ($this->output) {
@@ -129,6 +143,14 @@ class edwiserform {
         );
     }
 
+    /**
+     * Main function responsible to show create_new_form|listforms|listformdata page
+     * It also calls js file and extra stylesheets
+     *
+     * @param string $page page to view
+     * @return string page output
+     * @since Edwiser Form 1.0.0
+     */
     public function view($page) {
         global $USER, $CFG, $PAGE;
         $out = "";
@@ -145,7 +167,7 @@ class edwiserform {
                 $PAGE->requires->js_call_amd('local_edwiserform/new_form_main', 'init', array($sitekey, PRO_URL));
                 $PAGE->requires->data_for_js('sitekey', $sitekey);
                 $formid = optional_param('formid', null, PARAM_FLOAT);
-                $out = $this->get_renderer()->render(new efb_add_new_form($formid));
+                $out = $this->get_renderer()->render(new add_new_form($formid));
                 if ($formid) {
                     $page = 'editform';
                 }
@@ -154,12 +176,12 @@ class edwiserform {
                 break;
             case 'listforms':
                 $PAGE->requires->js_call_amd('local_edwiserform/form_list', 'init');
-                $out = $this->get_renderer()->render(new efb_list_form());
+                $out = $this->get_renderer()->render(new list_form());
                 break;
             case 'viewdata':
                 $formid = optional_param('formid', null, PARAM_FLOAT);
                 $PAGE->requires->js_call_amd('local_edwiserform/form_data_list', 'init', array($formid));
-                $out = $this->get_renderer()->render(new efb_list_form_data($formid));
+                $out = $this->get_renderer()->render(new list_form_data($formid));
                 break;
         }
         foreach ($js as $jsfile) {

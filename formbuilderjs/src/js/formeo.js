@@ -308,6 +308,7 @@ class Formeo {
 }
 
 if (window !== undefined) {
+  Formeo.dom = dom;
   window.Formeo = Formeo;
 }
 

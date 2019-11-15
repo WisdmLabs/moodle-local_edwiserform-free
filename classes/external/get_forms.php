@@ -15,79 +15,99 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Datatable ajax service for getting form records
- * @package   local_edwiserform
- * @copyright WisdmLabs 2018
- * @author    Yogesh Shirsath
- * @author    Krunal Kamble
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package local_edwiserform
+ * @author  2019 WisdmLabs
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once('../../../../config.php');
-require_once($CFG->dirroot . "/local/edwiserform/lib.php");
-require_once($CFG->dirroot . "/local/edwiserform/classes/renderables/efb_list_form.php");
+namespace local_edwiserform\external;
 
-/**
- * Returns total number of form created by admin/teacher with search filter criteria
- * @param  boolean $searchflag true if user is filtering data
- * @param  string  $searchtext query string to search in the data
- * @return integer count forms created
- * @since  Edwiser Form 1.0.0
- */
-function get_total_ebf_forms_records($searchflag, $searchtext) {
-    global $DB, $USER;
-    $stmt = "SELECT * FROM {efb_forms} WHERE deleted = 0 ";
-    if ($searchflag) {
-        $stmt = "SELECT * FROM {efb_forms} WHERE (title REGEXP '" . $searchtext . "' OR  type REGEXP '" . $searchtext."') and deleted = 0";
-    }
-    $param = [];
-    if (!is_siteadmin()) {
-        $stmt .= " and author=?";
-        $param[] = can_create_or_view_form() ? $USER->id : 0;
-    }
-    $records = $DB->get_records_sql($stmt, $param);
-    return count($records);
-}
-$wdmlimit = array(
-    'from' => 0,
-    'to' => 0
-);
-// Checking for limit to paginate data
-if (isset($_REQUEST['iDisplayStart']) && $_REQUEST['iDisplayLength'] != '-1') {
-    $wdmlimit = array(
-        'from' => intval($_REQUEST['iDisplayStart']),
-        'to' => intval($_REQUEST['iDisplayLength'])
-    );
-}
+use stdClass;
+use external_function_parameters;
+use external_value;
+use external_single_structure;
+use external_multiple_structure;
+use context_system;
+use html_writer;
+use local_edwiserform\output\list_form;
 
-$searchtext = "";
-$searchflag = 0;
+trait get_forms {
 
-// Check for search query and setting search flag
-if (isset($_REQUEST['sSearch']) && !empty($_REQUEST['sSearch'])) {
-    $searchtext = $_REQUEST['sSearch'];
-    $searchflag = 1;
-}
-
-// Check for column with sorting flag
-$sortcolumn = 0;
-$sortdir = "";
-if (isset($_REQUEST['iSortCol_0'])) {
-    if ($_REQUEST['iSortCol_0'] == 0 && $_REQUEST['sSortDir_0'] === 'desc') {
-        $sortcolumn = 0;
-        $sortdir = "desc";
-    } else {
-        $sortcolumn = $_REQUEST['iSortCol_0'];
-        $sortdir = $_REQUEST['sSortDir_0'];
-    }
-}
-$object = new \efb_list_form();
-$rows = $object->get_forms_list($wdmlimit, $searchtext, $sortcolumn, $sortdir);
-$data = array(
-            'sEcho' => intval($_REQUEST['sEcho']),
-            'iTotalRecords' => count($rows),
-            'iTotalDisplayRecords' => get_total_ebf_forms_records($searchflag, $searchtext),
+    /*
+     * Returns description of method parameters
+     * @return external_function_parameters
+     */
+    public static function get_forms_parameters() {
+        // get_forms_parameters() always return an external_function_parameters().
+        // The external_function_parameters constructor expects an array of external_description.
+        return new external_function_parameters(
+            // a external_description can be: external_value, external_single_structure or external_multiple structure
+            array(
+                'search'   => new external_value(PARAM_RAW, 'Search query'),
+                'start'    => new external_value(PARAM_INT, 'Start index of record'),
+                'length'   => new external_value(PARAM_INT, 'Number of records per page'),
+                'order'    => new external_single_structure(
+                    array(
+                        'column' => new external_value(PARAM_INT, 'index of column'),
+                        'dir'    => new external_value(PARAM_ALPHA, 'direction of sorting')
+                    ),
+                    'sorting order with column number and sorting direction'
+                )
+            )
         );
-$data["data"] = $rows;
-echo json_encode($data);
-die();
+    }
+
+    /**
+     * The function itself
+     * @return string welcome message
+     */
+    public static function get_forms($search, $start = 0, $length = 0, $order = ['column' => 0, 'dir' => ""]) {
+        global $PAGE;
+        $PAGE->set_context(context_system::instance());
+
+        $limit = array(
+            'from' => $start,
+            'to' => $length
+        );
+
+        $listform = new list_form();
+
+        $rows = $listform->get_forms_list($limit, $search, $order['column'], $order['dir']);
+        $count = $listform->get_form_count($search);
+
+        return array(
+            "data" => empty($rows) ? [] : $rows,
+            "recordsTotal" => $count,
+            "recordsFiltered" => $count
+        );
+    }
+    /**
+     * Returns description of method result value
+     * @return external_description
+     */
+    public static function get_forms_returns() {
+        return new external_single_structure(
+            array(
+                "data" => new external_multiple_structure(
+                    new external_single_structure(
+                        array(
+                            "shortcode" => new external_value(PARAM_TEXT, "Shortcode of form"),
+                            "title" => new external_value(PARAM_TEXT, "Title of form"),
+                            "type" => new external_value(PARAM_ALPHA, "Type of form"),
+                            "author" => new external_value(PARAM_TEXT, "Original Author"),
+                            "created" => new external_value(PARAM_TEXT, "Time when form is created"),
+                            "author2" => new external_value(PARAM_TEXT, "Secondary Author"),
+                            "modified" => new external_value(PARAM_TEXT, "Time when form is modified"),
+                            "actions" => new external_value(PARAM_RAW, "Actions which can be performed on the form"),
+                        )
+                    ),
+                    'Form details',
+                    VALUE_DEFAULT,
+                    []
+                ),
+                "recordsTotal" => new external_value(PARAM_INT, "Total records found"),
+                "recordsFiltered" => new external_value(PARAM_INT, "Total filtered record")
+            )
+        );
+    }
+}

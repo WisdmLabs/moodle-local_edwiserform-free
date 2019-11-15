@@ -9,21 +9,57 @@ define([
     'core/notification',
     'local_edwiserform/jquery.dataTables',
     'local_edwiserform/dataTables.bootstrap4',
-    'local_edwiserform/fixedColumns.bootstrap4'
-], function ($, ajax, notification) {
+    'local_edwiserform/fixedColumns.bootstrap4',
+    'local_edwiserform/formbuilder'
+], function ($, Ajax, notification) {
     return {
         init: function() {
+            var PROMISES = {
+
+                /**
+                 * Delete form and data using ajax
+                 * @param  {Number}  id Form id
+                 * @return {Promise}        Ajax promise
+                 */
+                DELETE_FORM: function(id) {
+                    return Ajax.call([{
+                        methodname: 'edwiserform_delete_form', args: { id }
+                    }])[0];
+                },
+
+                /**
+                 * Get forms using ajax
+                 * @param  {String}  search Search query
+                 * @param  {Number}  length Number of courses
+                 * @param  {Number}  start  Start index of courses
+                 * @param  {Array}   order  Column order
+                 * @return {Promise}        Ajax promise
+                 */
+                GET_FORMS: function(search, start, length, order) {
+                    return Ajax.call([{
+                        methodname: 'edwiserform_get_forms',
+                        args: {
+                            search : search,
+                            start  : start,
+                            length : length,
+                            order: order
+                        }
+                    }])[0];
+                },
+            };
+
+            var table = null;
+
             $(document).ready(function (e) {
                 if ($(".efb-wrap-list").data("sesskey") != 0) {
                     var sesskey = $(".efb-wrap-list").data("sesskey");
-                    var forms = $("#efb-forms").DataTable({
+                    table = $("#efb-forms").DataTable({
                         paging          :   true,
                         ordering        : true,
                         bProcessing     : true,
                         bServerSide     : true,
                         rowId           : 'DT_RowId',
                         bDeferRender    : true,
-                        sAjaxSource     : M.cfg.wwwroot + "/local/edwiserform/classes/external/get_forms.php",
                         scrollY         : "400px",
                         scrollX         : true,
                         scrollCollapse  : true,
@@ -38,7 +74,7 @@ define([
                         columns: [
                             { data: "title" },
                             { data: "type" },
-                            { data: "id" , orderable : false},
+                            { data: "shortcode" , orderable : false},
                             { data: "author" },
                             { data: "created" },
                             { data: "author2" },
@@ -58,6 +94,16 @@ define([
                                 'end': '0',
                                 'total': '0',
                             }),
+                        },
+                        ajax: function(data, callback, settings) {
+                            PROMISES.GET_FORMS(
+                                data.search.value,
+                                data.start,
+                                data.length,
+                                data.order[0]
+                            ).done(function(response) {
+                                callback(response);
+                            }).fail(Notification.exception);
                         },
                         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
                             $('td:eq(0)', nRow).addClass( "efb-tbl-col-title" );
@@ -79,33 +125,27 @@ define([
                 $('body').on('click', '.efb-form-delete', function(event) {
                     event.preventDefault();
                     var id = $(this).data('formid');
-                    var row = $(this).parents('tr');
-                    var title = $(row).children('.efb-tbl-col-title').text();
-                    $('#efb-modal .efb-modal-header').removeClass('bg-success').addClass('bg-warning');
-                    $('#efb-modal .efb-modal-title').html(M.util.get_string('warning', 'local_edwiserform'));
-                    $('#efb-modal .efb-modal-body').html(`<h5>${M.util.get_string('efb-delete-form-and-data', 'local_edwiserform', {title, id})}</h5>`);
-                    $('#efb-modal').addClass('show delete').removeClass('pro deleted');
-                    $('#efb-modal .efb-modal-delete-form').data('formid', id);
+                    var title = table.row(this).data().title;
+                    Formeo.dom.multiActions(
+                        'warning',
+                        M.util.get_string('warning', 'local_edwiserform'),
+                        `<h5>${M.util.get_string('efb-delete-form-and-data', 'local_edwiserform', {title, id})}</h5>`,
+                        [{
+                            title: M.util.get_string('proceed', 'local_edwiserform'),
+                            type: 'danger',
+                            action: function() {
+                                PROMISES.DELETE_FORM(id).done(function(response) {
+                                    if (response.status == true) {
+                                        table.draw();
+                                    }
+                                }).fail(notification.exception);
+                            }
+                        }, {
+                            title: M.util.get_string('cancel', 'local_edwiserform'),
+                            type: 'success'
+                        }]
+                    );
                     return;
-                });
-
-                $('body').on('click', '.efb-modal-delete-form', function(event) {
-                    event.preventDefault();
-                    var id = $(this).data('formid');
-                    var row = $(`#efb-form-id-${id}`);
-                    var title = $(row).children('.efb-tbl-col-title').text();
-                    var reqDeleteForm = ajax.call([{
-                        methodname: 'edwiserform_delete_form',
-                        args: {
-                            id: id
-                        }
-                    }]);
-                    reqDeleteForm[0].done(function(response) {
-                        if (response.status == true) {
-                            forms.row(row).remove().draw();
-                        }
-                    }).fail(notification.exception);
-                    $('.efb-modal-close').click();
                 });
 
                 /**
@@ -119,8 +159,6 @@ define([
 
                 $('body').on('click', '.efb-form-export', function(event) {
                     event.preventDefault();
-                    $('#efb-modal .efb-modal-header').removeClass('bg-success').addClass('bg-warning');
-                    $('#efb-modal .efb-modal-title').html(M.util.get_string('upgrade', 'local_edwiserform'));
                     var string = M.util.get_string('hey-wait', 'local_edwiserform');
                     var exporttitle = M.util.get_string('efb-form-action-export-title', 'local_edwiserform');
                     var message = M.util.get_string('export-pro-message', 'local_edwiserform');
@@ -128,12 +166,23 @@ define([
                         type: string + '! <b>' + exporttitle + '</b>',
                         message: message
                     });
-                    $('#efb-modal .efb-modal-body').html(`
-                        <h5>${message}</h5>
-                        <div><iframe class="demo" src="${get_pro_demo_url('export')}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
-                        </iframe></div>
-                    `);
-                    $('#efb-modal').addClass('show pro').removeClass('delete deleted');
+                    Formeo.dom.multiActions(
+                        'success',
+                        M.util.get_string('upgrade', 'local_edwiserform'),
+                        `<h5>${message}</h5>
+                        <div><iframe class="efb-pro-demo" src="${get_pro_demo_url('export')}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                        </iframe></div>`,
+                        [{
+                            title: M.util.get_string('proceed', 'local_edwiserform'),
+                            type: 'success',
+                            action: function() {
+                                window.open($('#upgrade-url').val());
+                            }
+                        }, {
+                            title: M.util.get_string('cancel', 'local_edwiserform'),
+                            type: 'secondary'
+                        }]
+                    );
                 });
 
                 function enable_disable_form(input) {
@@ -162,22 +211,6 @@ define([
                     enable_disable_form(input);
                 });
 
-                function show_toaster(msg) {
-                    var toast = $(`<div class='efb-toaster toaster-container'>
-                      <lable class='toaster-message'>${msg}</lable>
-                    </div>`);
-                    $('body').append(toast);
-                    $(toast).addClass('show');
-                    setTimeout(function() {
-                        $(toast).addClass('fade');
-                        setTimeout(function() {
-                            $(toast).removeClass('fade');
-                            setTimeout(function() {
-                                $(toast).remove();
-                            }, 300);
-                        }, 2000);
-                    });
-                }
                 $('body').on("click", ".efb-tbl-col-shortcode", function(event) {
                     var temp = $('<input>');
                     $('body').append(temp);
@@ -185,11 +218,7 @@ define([
                     temp.val(shortcode).select();
                     document.execCommand('copy');
                     temp.remove();
-                    show_toaster(M.util.get_string('shortcodecoppied', 'local_edwiserform', shortcode));
-                });
-
-                $('body').on('click', '.efb-modal-upgrade-pro', function() {
-                    window.open($('#upgrade-url').val());
+                    Formeo.dom.toaster(M.util.get_string('shortcodecoppied', 'local_edwiserform', shortcode));
                 });
             });
         }

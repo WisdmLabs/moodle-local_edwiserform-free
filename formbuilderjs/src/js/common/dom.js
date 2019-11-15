@@ -332,12 +332,23 @@ class DOM {
 
     processed.push('tag');
 
+    if (!h.get(elem, 'attrs')) {
+      elem.attrs = {};
+    }
 
     // Check for root className property
     if (elem.className) {
-      const {className} = elem;
-      elem.attrs = Object.assign({}, elem.attrs, {className});
+      elem.attrs.className = elem.className;
       delete elem.className;
+    }
+
+    // Check for id property
+    if (elem.attrs && elem.attrs.id) {
+      elem.id = elem.attrs.id;
+    }
+
+    if (h.get(elem, 'attrs.name') == undefined || h.get(elem, 'attrs.name') == '') {
+      elem.attrs.name = elem.id;
     }
 
     // Append Element Content
@@ -2145,11 +2156,15 @@ class DOM {
    * @return {Object} formSettings with replaced labels
    */
   getFormSettings() {
-    const formSettings = this.getFormDefaultSettings();
-    if (formData.settings.get('formSettings') !== undefined) {
-      for (const [category] of Object.entries(formSettings)) {
-        Object.assign(formSettings[category], formData.settings.get('formSettings')[category]);
-      }
+    /* eslint prefer-const: 0 */
+    let formSettings = this.getFormDefaultSettings();
+    const savedSettings = formData ? formData.settings.get('formSettings') : null;
+    if (savedSettings !== undefined && savedSettings !== null) {
+      Object.keys(formSettings).forEach(key => {
+        if (Object.prototype.hasOwnProperty.call(savedSettings, key)) {
+          Object.assign(formSettings[key], savedSettings[key]);
+        }
+      });
     }
     return formSettings;
   }

@@ -16,28 +16,31 @@
 
 /**
  * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
+ * @copyright   (c) 2019 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author      Yogesh Shirsath
  */
 
+namespace local_edwiserform\output;
+
 defined('MOODLE_INTERNAL') || die();
 
-class local_edwiserform_renderer extends  plugin_renderer_base {
-    public function render_efb_add_new_form(efb_add_new_form $newform) {
-        // Added in locallib
+use plugin_renderer_base;
+
+class renderer extends plugin_renderer_base {
+    public function render_add_new_form(add_new_form $newform) {
         $templatecontext = $newform->export_for_template($this);
         return $this->render_from_template('local_edwiserform/new_form', $templatecontext);
     }
-    public function render_efb_list_form(efb_list_form $listform) {
+    public function render_list_form(list_form $listform) {
         $templatecontext = $listform->export_for_template($this);
         return $this->render_from_template('local_edwiserform/list_form', $templatecontext);
     }
-    public function render_efb_list_form_data(efb_list_form_data $listform) {
+    public function render_list_form_data(list_form_data $listform) {
         $templatecontext = $listform->export_for_template($this);
         return $this->render_from_template('local_edwiserform/list_form_data', $templatecontext);
     }
-    public function render_efb_import_form(efb_import_form $listform) {
+    public function render_import_form(import_form $listform) {
         $templatecontext = $listform->export_for_template($this);
         return $this->render_from_template('local_edwiserform/import_form', $templatecontext);
     }
