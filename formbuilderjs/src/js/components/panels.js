@@ -12,17 +12,17 @@ const defaults = {
  * Edit and control sliding panels
  */
 export default class Panels {
- /**
+  /**
  * Panels initial setup
  * @param  {Object} options Panels config
  * @return {Object} Panels
  */
   constructor(options) {
-    let _this = this;
+    const _this = this;
     _this.opts = Object.assign({}, defaults, options);
 
     _this.labels = _this.panelNav();
-    let panels = _this.panelsWrap();
+    const panels = _this.panelsWrap();
 
     _this.panels = panels.childNodes;
     _this.currentPanel = _this.panels[0];
@@ -47,32 +47,33 @@ export default class Panels {
    * @return {String} panel's height in pixels
    */
   resizePanels() {
-    let panelsWrap = this.panelsWrap;
-    let column = panelsWrap.parentElement.parentElement;
-    let width = parseInt(dom.getStyle(column, 'width'));
-    let isTabbed = (width > 390) || this.opts.panels.length > 1;
+    const panelsWrap = this.panelsWrap;
+    const column = panelsWrap.parentElement.parentElement;
+    const width = parseInt(dom.getStyle(column, 'width'));
+    const isTabbed = (width > 390) || this.opts.panels.length > 1;
     this.panelDisplay = isTabbed ? 'tabbed' : 'slider';
     panelsWrap.parentElement.classList.toggle('tabbed-panels', isTabbed);
-    let panelStyle = panelsWrap.style;
-    let activePanelHeight = dom.getStyle(this.currentPanel, 'height');
-    return panelStyle.height = activePanelHeight;
+    const panelStyle = panelsWrap.style;
+    const activePanelHeight = dom.getStyle(this.currentPanel, 'height');
+    panelStyle.height = activePanelHeight;
+    return panelStyle.height;
   }
 
   /**
    * Set panel height so we can animate it with css
    */
   setPanelsHeight() {
-    let field = document.getElementById(this.opts.id);
+    const field = document.getElementById(this.opts.id);
     this.slideToggle = field.querySelector('.field-edit');
 
-    // temp styles
+    // Temp styles
     this.slideToggle.style.display = 'block';
     this.slideToggle.style.position = 'absolute';
     this.slideToggle.style.opacity = 0;
 
     this.resizePanels();
 
-    // reset styles
+    // Reset styles
     this.slideToggle.style.display = 'none';
     this.slideToggle.style.position = 'relative';
     this.slideToggle.style.opacity = 1;
@@ -93,8 +94,6 @@ export default class Panels {
       content: this.opts.panels
     });
 
-    this.panelsWrap = this.panelsWrap;
-
     if (this.opts.type === 'field') {
       this.sortableProperties(this.panelsWrap);
     }
@@ -108,8 +107,8 @@ export default class Panels {
    * @return {Array} panel groups
    */
   sortableProperties(panels) {
-    let _this = this;
-    let groups = panels.getElementsByClassName('field-edit-group');
+    const _this = this;
+    const groups = panels.getElementsByClassName('field-edit-group');
 
     return h.forEach(groups, (group, index) => {
       group.fieldID = _this.opts.id;
@@ -150,27 +149,27 @@ export default class Panels {
    * @return {Object} DOM object for panel navigation wrapper
    */
   panelNav() {
-    let _this = this;
-    let panelNavLabels = {
+    const _this = this;
+    const panelNavLabels = {
+      tag: 'div',
+      attrs: {
+        className: 'panel-labels'
+      },
+      content: {
         tag: 'div',
-        attrs: {
-          className: 'panel-labels'
-        },
-        content: {
-          tag: 'div',
-          content: []
-        }
-      };
-    let panels = this.opts.panels; // make new array
+        content: []
+      }
+    };
+    const panels = this.opts.panels; // Make new array
 
     for (let i = 0; i < panels.length; i++) {
-      let panelLabel = {
+      const panelLabel = {
         tag: 'h5',
         action: {
           click: evt => {
-            let index = h.indexOfNode(evt.target, evt.target.parentElement);
+            const index = h.indexOfNode(evt.target, evt.target.parentElement);
             _this.currentPanel = _this.panels[index];
-            let labels = evt.target.parentElement.childNodes;
+            const labels = evt.target.parentElement.childNodes;
             _this.nav.refresh(index);
             dom.removeClasses(labels, 'active-tab');
             evt.target.classList.add('active-tab');
@@ -187,38 +186,38 @@ export default class Panels {
       panelNavLabels.content.content.push(panelLabel);
     }
 
-    let next = {
-        tag: 'button',
-        attrs: {
-          className: 'next-group',
-          title: getString('controlGroups.nextGroup'),
-          type: 'button'
-        },
-        dataset: {
-          toggle: 'tooltip',
-          placement: 'top'
-        },
-        action: {
-          click: (e) => this.nav.nextGroup(e)
-        },
-        content: dom.icon('triangle-right')
-      };
-    let prev = {
-        tag: 'button',
-        attrs: {
-          className: 'prev-group',
-          title: getString('controlGroups.prevGroup'),
-          type: 'button'
-        },
-        dataset: {
-          toggle: 'tooltip',
-          placement: 'top'
-        },
-        action: {
-          click: (e) => this.nav.prevGroup(e)
-        },
-        content: dom.icon('triangle-left')
-      };
+    const next = {
+      tag: 'button',
+      attrs: {
+        className: 'next-group',
+        title: getString('controlGroups.nextGroup'),
+        type: 'button'
+      },
+      dataset: {
+        toggle: 'tooltip',
+        placement: 'top'
+      },
+      action: {
+        click: (e) => this.nav.nextGroup(e)
+      },
+      content: dom.icon('triangle-right')
+    };
+    const prev = {
+      tag: 'button',
+      attrs: {
+        className: 'prev-group',
+        title: getString('controlGroups.prevGroup'),
+        type: 'button'
+      },
+      dataset: {
+        toggle: 'tooltip',
+        placement: 'top'
+      },
+      action: {
+        click: (e) => this.nav.prevGroup(e)
+      },
+      content: dom.icon('triangle-left')
+    };
 
     return dom.create({
       tag: 'nav',
@@ -235,16 +234,16 @@ export default class Panels {
    * @return {Object} actions that control panel groups
    */
   navActions() {
-    let _this = this;
-    let action = {};
-    let groupParent = this.currentPanel.parentElement;
-    let firstControlNav = this.labels.querySelector('.panel-labels').firstChild;
-    let siblingGroups = this.currentPanel.parentElement.childNodes;
+    const _this = this;
+    const action = {};
+    const groupParent = this.currentPanel.parentElement;
+    const firstControlNav = this.labels.querySelector('.panel-labels').firstChild;
+    const siblingGroups = this.currentPanel.parentElement.childNodes;
     let index = h.indexOfNode(this.currentPanel, groupParent);
     let offset = {};
 
     const groupChange = newIndex => {
-      let labels = firstControlNav.childNodes;
+      const labels = firstControlNav.childNodes;
       dom.removeClasses(labels, 'active-tab');
       firstControlNav.childNodes[newIndex].classList.add('active-tab');
       this.currentPanel = siblingGroups[newIndex];
@@ -282,7 +281,7 @@ export default class Panels {
      * @return {Object} current group after navigation
      */
     action.nextGroup = () => {
-      let newIndex = index + 1;
+      const newIndex = index + 1;
       if (newIndex !== siblingGroups.length) {
         offset = {
           nav: firstControlNav.offsetWidth * newIndex,
@@ -292,7 +291,7 @@ export default class Panels {
         groupChange(newIndex);
         index++;
       } else {
-        let origOffset = {
+        const origOffset = {
           nav: firstControlNav.style.transform,
           panel: groupParent.style.transform
         };
@@ -312,7 +311,7 @@ export default class Panels {
 
     action.prevGroup = () => {
       if (index !== 0) {
-        let newIndex = (index - 1);
+        const newIndex = (index - 1);
         offset = {
           nav: firstControlNav.offsetWidth * newIndex,
           panel: groupParent.offsetWidth * newIndex
@@ -321,11 +320,11 @@ export default class Panels {
         groupChange(newIndex);
         index--;
       } else {
-        let curTranslate = [
-            firstControlNav.style.transform,
-            groupParent.style.transform
-          ];
-        let nudge = 'translateX(10px)';
+        const curTranslate = [
+          firstControlNav.style.transform,
+          groupParent.style.transform
+        ];
+        const nudge = 'translateX(10px)';
         firstControlNav.style.transform = nudge;
         groupParent.style.transform = nudge;
         setTimeout(() => {
@@ -337,5 +336,4 @@ export default class Panels {
 
     return action;
   }
-
 }

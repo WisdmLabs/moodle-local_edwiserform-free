@@ -10,7 +10,7 @@ export const match = (str = '', filter) => {
     console.warn('utils.match missing argument 2.');
     return false;
   }
-  let matchOperators = /[|\\{}()[\]^*$+?.]/g;
+  const matchOperators = /[|\\{}()[\]^*$+?.]/g;
   let filterArray = (typeof filter === 'string') ? [filter] : filter;
   filterArray = filterArray.map(filterStr => {
     return filterStr === '*' ? '' : filterStr.replace(matchOperators, '\\$&');
@@ -30,10 +30,10 @@ export const match = (str = '', filter) => {
  * @param  {String|Number} val
  */
 export const remove = (arr, val) => {
-  let index = arr.indexOf(val);
+  const index = arr.indexOf(val);
 
   if (index > -1) {
-     arr.splice(index, 1);
+    arr.splice(index, 1);
   }
 };
 
@@ -44,7 +44,7 @@ export const remove = (arr, val) => {
  * @return {Object}     DOM Element
  */
 export const closest = (el, cls) => {
-  let className = cls.replace('.', '');
+  const className = cls.replace('.', '');
   while ((el = el.parentElement) && !el.classList.contains(className));
   return el;
 };
@@ -61,7 +61,7 @@ export const closestFtype = el => {
 };
 
 export const elementTagType = el => {
-  let element = {
+  const element = {
     tag: el.tagName
   };
   if (el.tagName == 'INPUT') {
@@ -81,15 +81,15 @@ export const unique = array =>
     (arr.indexOf(elem) === pos));
 
 export const objToStrMap = obj => {
-  let strMap = new Map();
-  for (let k of Object.keys(obj)) {
+  const strMap = new Map();
+  for (const k of Object.keys(obj)) {
     strMap.set(k, obj[k]);
   }
   return strMap;
 };
 
 export const strMapToObj = strMap => {
-  let obj = Object.create(null);
+  const obj = Object.create(null);
   strMap.forEach((v, k) => {
     obj[k] = v;
   });
@@ -99,7 +99,7 @@ export const strMapToObj = strMap => {
 export const uuid = elem => {
   let id;
   if (elem) {
-    let {attrs = {}} = elem;
+    const {attrs = {}} = elem;
     id = attrs.id || elem.id || uuidv4();
     elem.id = id;
   } else {
@@ -109,6 +109,11 @@ export const uuid = elem => {
 };
 
 
+/**
+ * Clone object and return its copy
+ * @param  {Object} obj Object to be cloned
+ * @return {Object}     Cloned object
+ */
 export const clone = obj => {
   let copy;
 
@@ -136,15 +141,14 @@ export const clone = obj => {
   // Handle Object
   if (obj instanceof Object) {
     copy = {};
-    for (let attr in obj) {
-      if (obj.hasOwnProperty(attr)) {
+    for (const attr in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, attr)) {
         copy[attr] = clone(obj[attr]);
       }
     }
     return copy;
   }
-
-  throw new Error('Unable to copy Object, type not supported.');
+  return obj;
 };
 
 export const numToPercent = num => num.toString() + '%';
@@ -157,7 +161,7 @@ export const numberBetween = (num, min, max) => (num > min && num < max);
  * @return {Object} fresh
  */
 export const cleanObj = obj => {
-  let fresh = Object.assign({}, obj);
+  const fresh = Object.assign({}, obj);
   Object.keys(obj).forEach(key => {
     if (typeof obj[key] === 'string') {
       fresh[key] = '';
@@ -169,12 +173,12 @@ export const cleanObj = obj => {
 };
 
 export const clicked = (x, y, position, button) => {
-  let xMin = position.x - 5;
-  let xMax = position.x + 5;
-  let yMin = position.y - 5;
-  let yMax = position.y + 5;
-  let xOK = numberBetween(x, xMin, xMax);
-  let yOK = numberBetween(y, yMin, yMax);
+  const xMin = position.x - 5;
+  const xMax = position.x + 5;
+  const yMin = position.y - 5;
+  const yMax = position.y + 5;
+  const xOK = numberBetween(x, xMin, xMax);
+  const yOK = numberBetween(y, yMin, yMax);
 
   return (xOK && yOK && button !== 2);
 };
@@ -185,8 +189,8 @@ export const clicked = (x, y, position, button) => {
  * @return {String} string
  */
 export const getString = id => {
-  let M = window['M'];
-  let string = M.util.get_string(id, 'local_edwiserform');
+  const M = window.M;
+  const string = M.util.get_string(id, 'local_edwiserform');
   if (string == '[[' + id + ',local_edwiserform]]') {
     if (string.indexOf('.') != -1) {
       id = id.split('.');
@@ -211,17 +215,17 @@ export const memoize = (fn, resolver) => {
     throw new TypeError('memoize: First argument must be a function');
   }
   const memoized = (...args) => {
-    let key = resolver ? resolver.apply(memoized, args) : args[0];
-    let cache = memoized.cache;
+    const key = resolver ? resolver.apply(memoized, args) : args[0];
+    const cache = memoized.cache;
 
     if (cache.has(key)) {
       return cache.get(key);
     }
-    let result = fn.apply(memoized, args);
+    const result = fn.apply(memoized, args);
     memoized.cache = cache.set(key, result);
     return result;
   };
-  memoized.cache = new(memoize.Cache);
+  memoized.cache = new (memoize.Cache)();
   return memoized;
 };
 

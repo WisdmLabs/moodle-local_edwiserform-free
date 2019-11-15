@@ -332,7 +332,7 @@ const defaultElements = [{
   tag: 'input',
   attrs: {
     type: 'text',
-    pattern: '^((http|https)\:\/\/)?(w{3}\.)?[a-zA-Z]+.[a-zA-Z.]+.*$',
+    pattern: '^((http|https)://)?(w{3}.)?[a-zA-Z]+.[a-zA-Z.]+.*$',
     required: false,
     name: 'website',
     value: ''
@@ -483,7 +483,7 @@ const defaultElements = [{
   attrs: {
     type: 'text',
     name: 'website',
-    pattern: '((http|https)\:\/\/)?(w{3}\.)?[a-zA-Z]+.[a-zA-Z.]+.*',
+    pattern: '((http|https)://)?(w{3}.)?[a-zA-Z]+.[a-zA-Z.]+.*',
     required: false,
     value: ''
   },
@@ -554,7 +554,7 @@ const defaultElements = [{
     icon: 'paragraph',
     id: 'paragraph'
   },
-  //eslint-disable-next-line
+  // eslint-disable-next-line
   content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed iaculis quam et ipsum interdum vehicula. Cras molestie eleifend ligula eget.'
 }, {
   tag: 'hr',
@@ -580,7 +580,7 @@ export class Controls {
    */
   constructor(controlOptions, formID) {
     this.formID = formID;
-    let {groupOrder = []} = controlOptions;
+    const {groupOrder = []} = controlOptions;
     this.groupOrder = unique(groupOrder.concat([
       'standard',
       'advance',
@@ -603,8 +603,8 @@ export class Controls {
         id: 'standard',
         label: getString('standardFields'),
         elementOrder: [
-        'button',
-        'checkbox',
+          'button',
+          'checkbox',
         ]
       }, {
         id: 'advance',
@@ -642,7 +642,7 @@ export class Controls {
           message: ''
         });
       }
-      // mousedown: evt => {
+      // Mousedown: evt => {
       //   let position = _this.cPosition;
       //   position.x = evt.clientX;
       //   position.y = evt.clientY;
@@ -663,15 +663,15 @@ export class Controls {
    * @param  {Object} evt
    */
   applyControlEvents(evt) {
-    let {item} = evt;
-    let {clone} = evt;
+    const {item} = evt;
+    const {clone} = evt;
     clone.classList.remove('sortable-choosen');
     clone.style.display = 'block';
-    let control = document.getElementById(item.id);
-    let button = control.querySelector('button');
-    let actions = Object.keys(this.controlEvents);
+    const control = document.getElementById(item.id);
+    const button = control.querySelector('button');
+    const actions = Object.keys(this.controlEvents);
     for (let i = actions.length - 1; i >= 0; i--) {
-      let event = actions[i];
+      const event = actions[i];
       button.addEventListener(event, this.controlEvents[event]);
     }
   }
@@ -682,9 +682,9 @@ export class Controls {
    * @return {Object} elementControl
    */
   prepElement(elem) {
-    let _this = this;
-    let dataID = uuid();
-    let button = {
+    const _this = this;
+    const dataID = uuid();
+    const button = {
       tag: 'button',
       attrs: {
         className: 'btn btn-primary',
@@ -694,7 +694,7 @@ export class Controls {
       content: [elem.config.label],
       action: _this.controlEvents,
     };
-    let elementControl = {
+    const elementControl = {
       tag: 'li',
       className: [
         'px-0',
@@ -724,7 +724,7 @@ export class Controls {
    * @return {Object} elements of filtered controls
    */
   filterDisabledControls(elements) {
-    let allowedElements = [];
+    const allowedElements = [];
     h.forEach(elements, function(control, i) {
       if (control.config.disabledControl == true) {
         return;
@@ -739,11 +739,11 @@ export class Controls {
    * @return {Array} allGroups
    */
   groupElements() {
-    let _this = this;
+    const _this = this;
     let groups = opts.groups.slice();
-    let elements = opts.elements.slice();
+    const elements = opts.elements.slice();
     let allGroups = [];
-    let usedElementIds = [];
+    const usedElementIds = [];
 
     // Apply order to Groups
     // groups = h.orderObjectsBy(groups, this.groupOrder, 'id');
@@ -751,9 +751,9 @@ export class Controls {
     // remove disabled groups
     groups = groups.filter(group => match(group.id, opts.disable.groups));
 
-    // create group config
+    // Create group config
     allGroups = h.map(groups, (i) => {
-      let label = {
+      const label = {
         tag: 'div',
         className: 'control-label',
         content: [{
@@ -775,11 +775,11 @@ export class Controls {
               if (target.tagName == 'I' || target.tagName == 'LABEL') {
                 target = target.parentElement;
               }
-              let parent = target.parentElement.parentElement;
-              let list = target.parentElement.nextSibling;
-              if(parent.classList.contains('collapsed-controls')) {
-                if (!evt.detail.hasOwnProperty('fAction')) {
-                  let allLists = target.parentElement.parentElement.parentElement.querySelectorAll('.control-label h4');
+              const parent = target.parentElement.parentElement;
+              const list = target.parentElement.nextSibling;
+              if (parent.classList.contains('collapsed-controls')) {
+                if (!Object.prototype.hasOwnProperty.call(evt.detail, 'fAction')) {
+                  const allLists = target.parentElement.parentElement.parentElement.querySelectorAll('.control-label h4');
                   allLists.forEach(function(node, i) {
                     if (node != target && !node.parentElement.parentElement.classList.contains('collapsed-controls')) {
                       evt = new CustomEvent('click', {
@@ -793,10 +793,10 @@ export class Controls {
                 }
                 parent.classList.remove('collapsed-controls');
                 list.style.height = 'auto';
-                let height = list.clientHeight + 'px';
+                const height = list.clientHeight + 'px';
                 list.style.height = '0px';
                 setTimeout(() => {
-                    list.style.height = height;
+                  list.style.height = height;
                 }, 0);
               } else {
                 list.style.height = '0px';
@@ -808,7 +808,7 @@ export class Controls {
           }
         }]
       };
-      let list = {
+      const list = {
         tag: 'ul',
         attrs: {
           className: ['control-list', 'list-group'],
@@ -819,19 +819,19 @@ export class Controls {
 
       // Apply order to elements
       if (opts.elementOrder[groups[i].id]) {
-        let userOrder = opts.elementOrder[groups[i].id];
-        let newOrder = unique(userOrder.concat(groups[i].elementOrder));
+        const userOrder = opts.elementOrder[groups[i].id];
+        const newOrder = unique(userOrder.concat(groups[i].elementOrder));
         groups[i].elementOrder = newOrder;
       }
-      // elements = h.orderObjectsBy(elements, groups[i].elementOrder, 'meta.id');
+      // Elements = h.orderObjectsBy(elements, groups[i].elementOrder, 'meta.id');
       /**
        * Fill control groups with their fields
        * @param  {Object} field Field configuration object.
        * @return {Array}        Filtered array of Field config objects
        */
       list.content = elements.filter(field => {
-        let fieldId = field.meta.id || '';
-        let filters = [
+        const fieldId = field.meta.id || '';
+        const filters = [
           match(fieldId, opts.disable.elements),
           (field.meta.group === groups[i].id),
           !h.inArray(field.meta.id, usedElementIds)
@@ -845,7 +845,7 @@ export class Controls {
 
         return shouldFilter;
       }).map(field => _this.prepElement.call(this, field));
-      let group = {
+      const group = {
         tag: 'div',
         className: 'control-group collapsed-controls',
         content: [label, list]
@@ -864,22 +864,22 @@ export class Controls {
     if (this.element) {
       return this.element;
     }
-    let _this = this;
-    let groupedFields = this.groupElements();
+    const _this = this;
+    const groupedFields = this.groupElements();
     // _this.panels = new Panels({panels: groupedFields, type: 'controls'});
-    let groupsWrapClasses = [
+    const groupsWrapClasses = [
       'control-groups',
       'panels-wrap',
       `panel-count-${groupedFields.length}`
     ];
-    let groupsWrap = dom.create({
+    const groupsWrap = dom.create({
       tag: 'div',
       className: groupsWrapClasses,
-      // content: _this.panels.content
+      // Content: _this.panels.content
       content: groupedFields
     });
 
-    let controlsToggle = {
+    const controlsToggle = {
       tag: 'div',
       className: 'controls-toggle bg-primary',
       content: [{
@@ -891,7 +891,7 @@ export class Controls {
       }],
       action: {
         click: event => {
-          let container = closest(event.target, 'formeo');
+          const container = closest(event.target, 'formeo');
           container.parentElement.classList.toggle('hidden-controls');
           dom.repositionPanels(container);
           document.dispatchEvent(new CustomEvent('controlsCollapsed', {
@@ -903,12 +903,12 @@ export class Controls {
       }
     };
 
-    let element = dom.create({
-        tag: 'div',
-        className: this.formID + '-controls formeo-controls',
-        content: [controlsToggle, groupsWrap]
-      });
-    let groups = element.getElementsByClassName('control-list');
+    const element = dom.create({
+      tag: 'div',
+      className: this.formID + '-controls formeo-controls',
+      content: [controlsToggle, groupsWrap]
+    });
+    const groups = element.getElementsByClassName('control-list');
 
     this.element = element;
     this.groups = groups;
@@ -927,7 +927,7 @@ export class Controls {
 
     // Make controls sortable
     for (let i = groups.length - 1; i >= 0; i--) {
-      let storeID = `formeo-controls-${groups[i]}`;
+      const storeID = `formeo-controls-${groups[i]}`;
       if (!opts.sortable) {
         localStorage.removeItem(storeID);
       }
@@ -950,7 +950,7 @@ export class Controls {
            * @return {Array}
            */
           get: sortable => {
-            let order = localStorage.getItem(storeID);
+            const order = localStorage.getItem(storeID);
             return order ? order.split('|') : [];
           },
 
@@ -959,7 +959,7 @@ export class Controls {
            * @param {Sortable}  sortable
            */
           set: sortable => {
-            let order = sortable.toArray();
+            const order = sortable.toArray();
             localStorage.setItem(storeID, order.join('|'));
           }
         }
@@ -968,6 +968,5 @@ export class Controls {
 
     return element;
   }
-
 }
 export default defaultElements;

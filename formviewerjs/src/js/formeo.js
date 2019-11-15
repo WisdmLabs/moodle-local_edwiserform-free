@@ -1,5 +1,4 @@
 'use strict';
-import '../sass/formeo.scss';
 import {data} from './common/data';
 import dom from './common/dom';
 
@@ -29,7 +28,7 @@ class Formeo {
       actions: {},
       localStorage: true
     };
-    let _this = this;
+    const _this = this;
 
     _this.container = options.container || defaults.container;
     dom.container = _this.container;

@@ -261,6 +261,9 @@ and open the template in the editor.
     .dataTables_scrollHead {
         margin-bottom: 0!important;
     }
+    table.dataTable thead td, table.dataTable thead th, table.dataTable tbody td{
+        padding: 12px 8px;
+    }
     .efb-wrap-list-form-data table.dataTable tbody th {
         font-weight: 600;
     }
@@ -284,8 +287,9 @@ and open the template in the editor.
         border-bottom: 0 !important;
         thead tr th {
             &:after, &:before {
+                top: 50%;
+                transform: translateY(-50%);
                 margin-top: 0;
-                bottom: 1rem !important;
             }
         }
         .DTFC_NoData {
@@ -435,4 +439,7 @@ and open the template in the editor.
     .f-render-column {
         width: 100% !important;
     }
+}
+.edwiserform-container {
+    @import '../../../formviewerjs/src/sass/formeo.scss';
 }

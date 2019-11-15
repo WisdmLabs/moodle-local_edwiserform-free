@@ -10,38 +10,36 @@ import Panels from './panels';
  * Editor Row
  */
 export default class Row {
-
   /**
    * Set default and generate dom for row in editor
    * @param  {String} dataID
    * @return {Object}
    */
   constructor(dataID) {
-    let _this = this;
-    let defaults;
+    const _this = this;
     let row;
 
-    let rowID = _this.rowID = dataID || uuid();
+    const rowID = _this.rowID = dataID || uuid();
 
-    defaults = {
-        columns: [],
-        id: _this.rowID,
-        config: {
-          fieldset: false, // wrap contents of row in fieldset
-          legend: '', // Legend for fieldset
-          inputGroup: false // is repeatable input-group?
-        },
-        attrs: {
-          className: 'f-row'
-        },
-        conditions: []
-      };
+    const defaults = {
+      columns: [],
+      id: _this.rowID,
+      config: {
+        fieldset: false, // Wrap contents of row in fieldset
+        legend: '', // Legend for fieldset
+        inputGroup: false // Is repeatable input-group?
+      },
+      attrs: {
+        className: 'f-row'
+      },
+      conditions: []
+    };
 
-    let rowData = formData.rows.get(rowID);
+    const rowData = formData.rows.get(rowID);
 
     formData.rows.set(rowID, h.merge(defaults, rowData));
 
-    let panel = new Panels({
+    const panel = new Panels({
       panels: _this.editWindow.content,
       type: rowID
     });
@@ -49,9 +47,9 @@ export default class Row {
     panel.className = 'row-edit panels-wrap tabbed-panels';
     panel.action = {
       click: event => {
-        let row = closestFtype(event.target);
-        let firstLabel = row.getElementsByClassName('row-edit')[0].getElementsByClassName('panel-labels')[0].getElementsByTagName('h5')[0];
-        let columns = row.getElementsByClassName('stage-columns');
+        const row = closestFtype(event.target);
+        const firstLabel = row.getElementsByClassName('row-edit')[0].getElementsByClassName('panel-labels')[0].getElementsByTagName('h5')[0];
+        const columns = row.getElementsByClassName('stage-columns');
         if (row.classList.contains('editing-row') && firstLabel.classList.contains('active-tab')) {
           for (let i = 0; i < columns.length; i++) {
             columns[i].classList.remove('hide-column');
@@ -97,10 +95,10 @@ export default class Row {
     return row;
   }
   /**
-   * remove condition from condition container
+   * Remove condition from condition container
    */
   get removeCondition() {
-    let _this = this;
+    const _this = this;
     return {
       tag: 'button',
       attrs: {
@@ -112,9 +110,9 @@ export default class Row {
         click: event => {
           event.preventDefault();
           const element = event.target.parentElement.parentElement;
-          let conditions = closest(event.target, 'conditions');
+          const conditions = closest(event.target, 'conditions');
           animate.slideUp(element, 666, elem => {
-            let condition = dom.conditionPositions(event, 'delete');
+            const condition = dom.conditionPositions(event, 'delete');
             dom.remove(elem);
             _this.resizeConditions(conditions);
             data.saveConditionalLogics(condition, 'delete');
@@ -124,16 +122,16 @@ export default class Row {
     };
   }
 
- /**
+  /**
   * Wrap condition into container
   * @param {Object} input wrapped source and value
   * @return {Object} wrapped contianer
   */
   wrapCondition(input) {
-    let _this = this;
-    let source = input.content[0];
-    let value = input.content[1];
-    let operator = input.content[2];
+    const _this = this;
+    const source = input.content[0];
+    const value = input.content[1];
+    const operator = input.content[2];
     source.action = {
       change: event => {
         dom.conditionSourceChange(event);
@@ -145,25 +143,25 @@ export default class Row {
     };
     value.action = {
       change: event => {
-        let condition = dom.conditionPositions(event, 'value');
+        const condition = dom.conditionPositions(event, 'value');
         data.saveConditionalLogics(condition);
       }
     };
-    operator.action= {
+    operator.action = {
       change: event => {
-        let condition = dom.conditionPositions(event, 'operator');
+        const condition = dom.conditionPositions(event, 'operator');
         data.saveConditionalLogics(condition);
       }
     };
     input.content[0] = source;
     input.content[1] = value;
     input.content[2] = operator;
-    let conditionControls = {
+    const conditionControls = {
       tag: 'div',
       className: 'condition-controls',
       content: [_this.removeCondition]
     };
-    let condition = {
+    const condition = {
       tag: 'li',
       className: 'condition',
       content: [input, conditionControls]
@@ -171,13 +169,13 @@ export default class Row {
     return condition;
   }
 
-   /**
+  /**
    * Filter fields and choose only select and radio fields
    * @param {Array} fields
    * @return {Array} fields
    */
   filterFieldsSelectRadio(fields) {
-    let filter = [];
+    const filter = [];
     formData.fields.forEach(function(field, index) {
       if (fields.includes(field.id) && (field.tag == 'select' || (field.tag == 'input' && field.attrs.type == 'radio'))) {
         filter.push(field);
@@ -217,9 +215,9 @@ export default class Row {
    * @param {Object} container element where conditions will be displayed
    */
   addCondition(row, container) {
-    let _this = this;
-    let fields = this.getConditionValidFields(row);
-    let options = [{
+    const _this = this;
+    const fields = this.getConditionValidFields(row);
+    const options = [{
       label: getString('condition-choose-source'),
       value: 'choose',
       selected: true
@@ -230,16 +228,16 @@ export default class Row {
         value: fields[i].id
       });
     }
-    let source = {
+    const source = {
       tag: 'select',
       className: 'condition-source condition-input',
       options: options
     };
-    let value = {
+    const value = {
       tag: 'select',
       className: 'condition-value condition-input'
     };
-    let operator = {
+    const operator = {
       tag: 'select',
       className: 'condition-operator condition-input',
       options: [{
@@ -252,17 +250,17 @@ export default class Row {
       }],
       action: {
         change: event => {
-          let condition = dom.conditionPositions(event, 'operator');
+          const condition = dom.conditionPositions(event, 'operator');
           data.saveConditionalLogics(condition);
         }
       }
     };
-    let input = {
+    const input = {
       tag: 'div',
       className: 'condition-inputs',
       content: [source, value, operator]
     };
-    let wrapped = _this.wrapCondition(input);
+    const wrapped = _this.wrapCondition(input);
     container.append(dom.create(wrapped));
   }
 
@@ -271,18 +269,18 @@ export default class Row {
    * @return {[type]} [description]
    */
   get editWindow() {
-    let _this = this;
-    let rowData = formData.rows.get(_this.rowID);
+    const _this = this;
+    const rowData = formData.rows.get(_this.rowID);
 
-    let editWindow = {
+    const editWindow = {
       tag: 'div',
       className: 'panels row-edit group-config'
     };
-    let fieldsetLabel = {
+    const fieldsetLabel = {
       tag: 'label',
       content: getString('row.settings.fieldsetWrap')
     };
-    let fieldsetInput = {
+    const fieldsetInput = {
       tag: 'input',
       id: _this.rowID + '-fieldset',
       attrs: {
@@ -298,7 +296,7 @@ export default class Row {
       }
     };
 
-    // let inputGroupInput = {
+    // Let inputGroupInput = {
     //   tag: 'input',
     //   id: _this.rowID + '-inputGroup',
     //   attrs: {
@@ -318,12 +316,12 @@ export default class Row {
     //   }
     // };
 
-    let inputAddon = {
+    const inputAddon = {
       tag: 'span',
       className: 'input-group-addon',
       content: fieldsetInput
     };
-    let legendInput = {
+    const legendInput = {
       tag: 'input',
       attrs: {
         type: 'text',
@@ -339,7 +337,7 @@ export default class Row {
       },
       className: ''
     };
-    let fieldsetInputGroup = {
+    const fieldsetInputGroup = {
       tag: 'div',
       className: 'input-group',
       content: [inputAddon, legendInput]
@@ -350,30 +348,30 @@ export default class Row {
       fieldsetInputGroup
     ];
     fieldSetControls = dom.formGroup(fieldSetControls);
-    let columnSettingsLabel = Object.assign({}, fieldsetLabel, {
+    const columnSettingsLabel = Object.assign({}, fieldsetLabel, {
       content: getString('columnwidths')
     });
-    let columnSettingsPresetLabel = Object.assign({}, fieldsetLabel, {
+    const columnSettingsPresetLabel = Object.assign({}, fieldsetLabel, {
       content: 'Layout Preset', className: 'col-sm-4 form-control-label'
     });
-    let columnSettingsPresetSelect = {
+    const columnSettingsPresetSelect = {
       tag: 'div',
       className: 'col-sm-8',
       content: dom.columnPresetControl(_this.rowID)
     };
-    let formGroupContent = [
+    const formGroupContent = [
       columnSettingsPresetLabel,
       columnSettingsPresetSelect
     ];
-    let columnSettingsPreset = dom.formGroup(formGroupContent, 'row');
-    let rowConfigPanel = {
+    const columnSettingsPreset = dom.formGroup(formGroupContent, 'row');
+    const rowConfigPanel = {
       tag: 'div',
       className: 'f-panel row-config',
       config: {
         label: getString('containersettings')
       },
       content: [
-        // inputGroupInput,
+        // InputGroupInput,
         // dom.create('hr'),
         fieldSetControls,
         dom.create('hr'),
@@ -381,7 +379,7 @@ export default class Row {
         columnSettingsPreset
       ]
     };
-    let conditionPanel = {
+    const conditionPanel = {
       tag: 'div',
       config: {
         label: getString('conditions')
@@ -399,9 +397,9 @@ export default class Row {
    * @param {DOM} element targeting element of DOM
    */
   resizeConditions(element) {
-    let conditionPanel = closest(element, 'panel-conditions');
-    let panels = closest(element, 'panels');
-    let height = animate.getStyle(conditionPanel, 'height');
+    const conditionPanel = closest(element, 'panel-conditions');
+    const panels = closest(element, 'panels');
+    const height = animate.getStyle(conditionPanel, 'height');
     panels.style.height = height;
   }
 
@@ -411,11 +409,11 @@ export default class Row {
    * @return {Map} processed rowData
    */
   processConditions(rowData) {
-    let _this = this;
-    let conditions = rowData.conditions;
+    const _this = this;
+    const conditions = rowData.conditions;
     let condition;
-    let processedConditions = [];
-    for (let i = 0; i < conditions.length; i ++) {
+    const processedConditions = [];
+    for (let i = 0; i < conditions.length; i++) {
       condition = conditions[i];
       condition = _this.wrapCondition(condition);
       processedConditions.push(condition);
@@ -429,8 +427,8 @@ export default class Row {
    * @return {Object} conditions
    */
   conditions(rowData) {
-    let _this = this;
-    let conditions = [
+    const _this = this;
+    const conditions = [
       {
         tag: 'div',
         className: 'f-panel-wrap',
@@ -452,11 +450,11 @@ export default class Row {
             action: {
               click: event => {
                 event.preventDefault();
-                let container = event.target.parentElement.parentElement.getElementsByClassName('conditions')[0];
-                let row = closestFtype(event.target);
+                const container = event.target.parentElement.parentElement.getElementsByClassName('conditions')[0];
+                const row = closestFtype(event.target);
                 this.addCondition(row.id, container);
                 _this.resizeConditions(event.target);
-                let condition =dom.conditionPositions(event, 'add');
+                const condition = dom.conditionPositions(event, 'add');
                 data.saveConditionalLogics(condition);
               }
             }
@@ -491,7 +489,7 @@ export default class Row {
    * @param  {Object} evt
    */
   onEnd(evt) {
-    if(evt.from.classList.contains('empty-rows')) {
+    if (evt.from.classList.contains('empty-rows')) {
       dom.removeEmpty(evt.from);
     }
 
@@ -503,23 +501,23 @@ export default class Row {
    * @param  {Object} evt
    */
   onAdd(evt) {
-    let {from, item, to} = evt;
-    let fromRow = from.fType === 'rows';
-    let fromColumn = from.fType === 'columns';
-    let fromControls = from.fType === 'controlGroup';
+    const {from, item, to} = evt;
+    const fromRow = from.fType === 'rows';
+    const fromColumn = from.fType === 'columns';
+    const fromControls = from.fType === 'controlGroup';
     let column;
 
     if (fromRow) {
       column = item;
-    } else if(fromColumn) {
-      let meta = h.get(rFields[item.id], 'meta');
+    } else if (fromColumn) {
+      const meta = h.get(rFields[item.id], 'meta');
       if (meta.group !== 'layout') {
         column = dom.addColumn(to.id);
         dom.addField(column.id, item.id);
       } else if (meta.id === 'layout-column') {
         dom.addColumn(to.id);
       }
-    } else if(fromControls) {
+    } else if (fromControls) {
       dom.proWarning({
         type: evt.item.firstChild.lastChild.wholeText,
         video: 'dragndrop',
@@ -537,5 +535,4 @@ export default class Row {
     dom.emptyClass(to);
     data.save();
   }
-
 }

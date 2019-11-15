@@ -15,13 +15,12 @@ export default class Column {
    * @return {Object} Column config object
    */
   constructor(dataID) {
-    let _this = this;
-    let columnDefaults;
+    const _this = this;
 
-    let columnID = _this.columnID = dataID || uuid();
+    const columnID = _this.columnID = dataID || uuid();
     _this.columnData = formData.columns.get(columnID);
 
-    columnDefaults = {
+    const columnDefaults = {
       fields: [],
       id: columnID,
       config: {},
@@ -30,19 +29,19 @@ export default class Column {
 
     formData.columns.set(columnID, h.merge(columnDefaults, _this.columnData));
 
-    let resizeHandle = {
-        tag: 'li',
-        className: 'resize-x-handle',
-        action: {
-          mousedown: _this.resize,
-          touchstart: _this.resize
-        },
-        content: [dom.icon('triangle-down'), dom.icon('triangle-up')]
-      };
-    let editWindow = {
-        tag: 'li',
-        className: 'column-edit group-config'
-      };
+    const resizeHandle = {
+      tag: 'li',
+      className: 'resize-x-handle',
+      action: {
+        mousedown: _this.resize,
+        touchstart: _this.resize
+      },
+      content: [dom.icon('triangle-down'), dom.icon('triangle-up')]
+    };
+    const editWindow = {
+      tag: 'li',
+      className: 'column-edit group-config'
+    };
 
     let column = {
       tag: 'ul',
@@ -52,7 +51,7 @@ export default class Column {
       },
       action: {
         mouseup: (evt) => {
-          let column = evt.target.parentElement;
+          const column = evt.target.parentElement;
           if (column.resizing) {
             column.resizing = false;
             column.parentElement.classList.remove('resizing-columns');
@@ -74,7 +73,7 @@ export default class Column {
       }
     });
 
-    let sortable = this.sortable = Sortable.create(column, {
+    const sortable = this.sortable = Sortable.create(column, {
       animation: 150,
       fallbackClass: 'field-moving',
       forceFallback: h.isFireFoxEdge(),
@@ -105,7 +104,7 @@ export default class Column {
    */
   onSort(evt) {
     return data.saveFieldOrder(evt.target);
-    // data.save('column', evt.target.id);
+    // Data.save('column', evt.target.id);
     // document.dispatchEvent(events.formeoUpdated);
   }
 
@@ -114,8 +113,8 @@ export default class Column {
    * @param  {Object} column
    */
   processConfig(column) {
-    let _this = this;
-    let columnData = formData.columns.get(_this.columnID);
+    const _this = this;
+    const columnData = formData.columns.get(_this.columnID);
     if (columnData.config.width) {
       column.dataset.colWidth = columnData.config.width;
       column.style.width = columnData.config.width;
@@ -128,9 +127,9 @@ export default class Column {
    * @param  {Object} evt
    */
   onAdd(evt) {
-    let {from, item, to} = evt;
-    let fromColumn = from.fType === 'columns';
-    let fromControl = from.fType === 'controlGroup';
+    const {from, item, to} = evt;
+    const fromColumn = from.fType === 'columns';
+    const fromControl = from.fType === 'controlGroup';
     if (fromControl) {
       dom.proWarning({
         type: evt.item.firstChild.lastChild.wholeText,
@@ -170,7 +169,7 @@ export default class Column {
    * @param  {Object} evt
    */
   onEnd(evt) {
-    let {to, from} = evt;
+    const {to, from} = evt;
 
     if (from.classList.contains('empty-columns')) {
       dom.removeEmpty(evt.from);
@@ -196,12 +195,12 @@ export default class Column {
    * @param  {Object} evt resize event
    */
   resize(evt) {
-    let resize = {};
-    let column = evt.target.parentElement;
-    let sibling = column.nextSibling || column.previousSibling;
-    let row = column.parentElement;
-    let rowStyle = dom.getStyle(row);
-    let rowPadding = parseFloat(rowStyle.paddingLeft) +
+    const resize = {};
+    const column = evt.target.parentElement;
+    const sibling = column.nextSibling || column.previousSibling;
+    const row = column.parentElement;
+    const rowStyle = dom.getStyle(row);
+    const rowPadding = parseFloat(rowStyle.paddingLeft) +
     parseFloat(rowStyle.paddingRight);
     let colWidthPercent;
     let sibWidthPercent;
@@ -219,8 +218,8 @@ export default class Column {
       } else {
         clientX = evt.clientX;
       }
-      let newColWidth = (resize.colStartWidth + clientX - resize.startX);
-      let newSibWidth = (resize.sibStartWidth - clientX + resize.startX);
+      const newColWidth = (resize.colStartWidth + clientX - resize.startX);
+      const newSibWidth = (resize.sibStartWidth - clientX + resize.startX);
 
       const percent = width => (width / resize.rowWidth * 100);
       colWidthPercent = parseFloat(percent(newColWidth));
@@ -246,9 +245,9 @@ export default class Column {
       if (!resize.resized) {
         return;
       }
-      let columnData = formData.columns.get(column.id);
-      let sibColumnData = formData.columns.get(sibling.id);
-      let row = column.parentElement;
+      const columnData = formData.columns.get(column.id);
+      const sibColumnData = formData.columns.get(sibling.id);
+      const row = column.parentElement;
       row.querySelector('.column-preset').value = 'custom';
       row.classList.remove('resizing-columns');
       columnData.config.width = column.dataset.colWidth;
@@ -265,8 +264,8 @@ export default class Column {
       }
       row.classList.add('resizing-columns');
 
-      // remove bootstrap column classes since we are custom sizing
-      let reg = /\bcol-\w+-\d+/g;
+      // Remove bootstrap column classes since we are custom sizing
+      const reg = /\bcol-\w+-\d+/g;
       column.className.replace(reg, '');
       sibling.className.replace(reg, '');
 
@@ -274,7 +273,7 @@ export default class Column {
       resize.colStartWidth = column.offsetWidth || dom.getStyle(column, 'width');
       // eslint-disable-next-line
       resize.sibStartWidth = sibling.offsetWidth || dom.getStyle(sibling, 'width');
-      resize.rowWidth = row.offsetWidth - rowPadding; // compensate for padding
+      resize.rowWidth = row.offsetWidth - rowPadding; // Compensate for padding
 
       window.addEventListener('mouseup', resize.stop, false);
       window.addEventListener('mousemove', resize.move, false);
@@ -282,5 +281,4 @@ export default class Column {
       window.addEventListener('touchmove', resize.move, false);
     })(evt);
   }
-
 }

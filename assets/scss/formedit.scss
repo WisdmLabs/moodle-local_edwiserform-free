@@ -8,6 +8,10 @@ and open the template in the editor.
     Author     : sudam
 */
 
+#page-local-edwiserform-view {
+    @import '../../formbuilderjs/src/sass/formeo.scss';
+}
+
 /* Style the tab */
 .efb-form-builder-wrap {
     overflow: hidden;

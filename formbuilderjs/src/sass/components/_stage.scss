@@ -1,11 +1,11 @@
-@import 'components/group-actions';
-@import 'components/row';
-@import 'components/row-edit';
-@import 'components/column';
-@import 'components/field';
-@import 'components/field-edit';
-@import 'components/panels';
-@import 'components/steps';
+@import './group-actions';
+@import './row';
+@import './row-edit';
+@import './column';
+@import './field';
+@import './field-edit';
+@import './panels';
+@import './steps';
 
 .stage-wrap {
   position: relative;

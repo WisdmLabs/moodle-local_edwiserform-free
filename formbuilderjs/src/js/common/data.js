@@ -17,11 +17,11 @@ let formData;
 // Registered fields are the fields that are configured on init.
 // This variable acts as a data buffer thats contains
 // the configurations for a field's final view.
-let registeredFields = {};
+const registeredFields = {};
 
-let data = {
+const data = {
   init: (opts, userFormData) => {
-    let defaultFormData = {
+    const defaultFormData = {
       id: uuid(),
       settings: new Map(),
       stages: new Map(),
@@ -30,7 +30,7 @@ let data = {
       fields: new Map()
     };
     _data.opts = opts;
-    let processFormData = data => {
+    const processFormData = data => {
       if (typeof data === 'string') {
         data = window.JSON.parse(data);
       }
@@ -46,10 +46,10 @@ let data = {
 
     if (userFormData === '') {
       formData = false;
-    } else if (userFormData != null) {
+    } else if (userFormData !== null) {
       processFormData(userFormData);
     } else if (window.localStorage && _data.opts.localStorage) {
-      let localFormData = window.localStorage.getItem('formData');
+      const localFormData = window.localStorage.getItem('formData');
       if (localFormData) {
         processFormData(localFormData);
       }
@@ -67,9 +67,9 @@ let data = {
 
 
   saveColumnOrder: row => {
-    let columns = row.getElementsByClassName('stage-columns');
-    let columnOrder = h.map(columns, i => columns[i].id);
-    let rowData = formData.rows.get(row.id);
+    const columns = row.getElementsByClassName('stage-columns');
+    const columnOrder = h.map(columns, i => columns[i].id);
+    const rowData = formData.rows.get(row.id);
 
     rowData.columns = columnOrder;
 
@@ -77,8 +77,8 @@ let data = {
   },
 
   saveFieldOrder: column => {
-    let fields = column.getElementsByClassName('stage-fields');
-    let fieldOrder = h.map(fields, i => fields[i].id);
+    const fields = column.getElementsByClassName('stage-fields');
+    const fieldOrder = h.map(fields, i => fields[i].id);
 
     formData.columns.get(column.id).fields = fieldOrder;
 
@@ -86,12 +86,12 @@ let data = {
   },
 
   refreshStageSelectList() {
-    let stageselect = document.getElementById('stages');
-    let stageSelectList = document.getElementsByClassName('stages-list');
+    const stageselect = document.getElementById('stages');
+    const stageSelectList = document.getElementsByClassName('stages-list');
     stageSelectList[0].classList.remove('d-none');
     stageselect.options.length = 0;
     formData.stages.forEach(function(stage, index) {
-      let option = document.createElement('option');
+      const option = document.createElement('option');
       option.label = stage.title;
       option.value = index;
       stageselect.add(option);
@@ -100,38 +100,38 @@ let data = {
 
   addStage() {
     const createStage = stageID => new Stage('', '');
-    let stage = createStage('', '');
-    let stageID = stage.childNodes[0].id;
-    let editor = document.getElementsByClassName('formeo-editor');
-    let formWrapper = editor[0].querySelector('.form-container');
+    const stage = createStage('', '');
+    const stageID = stage.childNodes[0].id;
+    const editor = document.getElementsByClassName('formeo-editor');
+    const formWrapper = editor[0].querySelector('.form-container');
     formWrapper.append(stage);
     data.save();
     return stageID;
   },
 
   updateStageTitle: (stageID, title) => {
-    let stage = formData.stages.get(stageID);
+    const stage = formData.stages.get(stageID);
     stage.title = title;
     formData.stages.set(stageID, stage);
     data.save();
   },
 
   saveConditionalLogics: (target) => {
-    let rowID = target.row.id;
-    let rowData = formData.rows.get(rowID);
-    let conditions = rowData.conditions;
+    const rowID = target.row.id;
+    const rowData = formData.rows.get(rowID);
+    const conditions = rowData.conditions;
     let condition;
     if (conditions.length > target.conditionIndex) {
       condition = conditions[target.conditionIndex];
     }
-    let type = {
+    const type = {
       source: 0,
       value: 1,
       operator: 2
     };
-    let getValues = function(element, i) {
-      let options = element.childNodes[i].childNodes;
-      let optionsData = [];
+    const getValues = function(element, i) {
+      const options = element.childNodes[i].childNodes;
+      const optionsData = [];
       if (options.length > 0) {
         options.forEach(option => {
           optionsData.push({
@@ -185,9 +185,9 @@ let data = {
     if (typeof formData.stages.get(stage.id) == 'undefined') {
       return {};
     }
-    let oldValue = formData.stages.get(stage.id).rows.slice();
-    let rows = stage.getElementsByClassName('stage-rows');
-    let rowOrder = h.map(rows, rowID => rows[rowID].id);
+    const oldValue = formData.stages.get(stage.id).rows.slice();
+    const rows = stage.getElementsByClassName('stage-rows');
+    const rowOrder = h.map(rows, rowID => rows[rowID].id);
     formData.stages.get(stage.id).rows = rowOrder;
     new CustomEvent('formeoUpdated', {
       data: {
@@ -202,17 +202,17 @@ let data = {
   },
 
   saveOptionOrder: parent => {
-    let props = parent.getElementsByClassName('prop-wrap');
-    let propData = h.map(props, i => {
+    const props = parent.getElementsByClassName('prop-wrap');
+    const propData = h.map(props, i => {
       return props[i].propData;
     });
-    let fieldData = formData.fields.get(parent.fieldID);
+    const fieldData = formData.fields.get(parent.fieldID);
     fieldData[parent.editGroup] = propData;
     return propData;
   },
 
   saveOrder: (group, parent) => {
-    let saveOrder = {
+    const saveOrder = {
       row: data.saveRowOrder,
       column: data.saveColumnOrder,
       field: data.saveFieldOrder,
@@ -229,9 +229,9 @@ let data = {
    * @return {[type]}       [description]
    */
   saveType: (group, id) => {
-    let map = {
+    const map = {
       settings: () => {
-        let stage = formData.stages.settings;
+        const stage = formData.stages.settings;
         formData.settings = [];
 
         h.forEach(stage, (i, rowID) => {
@@ -259,7 +259,7 @@ let data = {
       },
       attrs: attrUL => {
         const fieldData = formData.fields.get(attrUL.fieldID);
-        let attrValues = fieldData.attrs;
+        const attrValues = fieldData.attrs;
         events.formeoUpdated = new CustomEvent('formeoUpdated', {
           data: {
             changed: 'field.attrs',
@@ -273,8 +273,8 @@ let data = {
         return attrValues;
       },
       options: optionUL => {
-        let oldValue = formData.fields.get(optionUL.fieldID).options;
-        let newValue = data.saveOrder('options', optionUL);
+        const oldValue = formData.fields.get(optionUL.fieldID).options;
+        const newValue = data.saveOrder('options', optionUL);
         events.formeoUpdated = new CustomEvent('formeoUpdated', {
           data: {
             changed: 'field.options',
@@ -299,27 +299,27 @@ let data = {
    * @return {Object}      [description]
    */
   empty: (type, id) => {
-    let removed = {};
+    const removed = {};
     const emptyType = {
       stages: id => {
         if (!id) {
           id = dom.activeStage.id;
         }
-        let stageData = formData.stages.get(id);
-        let rows = stageData.rows;
+        const stageData = formData.stages.get(id);
+        const rows = stageData.rows;
         removed.rows = rows.map(rowID => {
-          emptyType['rows'](rowID);
+          emptyType.rows(rowID);
           formData.rows.delete(rowID);
           return rowID;
         });
         stageData.rows = [];
       },
       rows: id => {
-        let row = formData.rows.get(id);
+        const row = formData.rows.get(id);
         if (row) {
           let columns = row.columns;
           removed.columns = columns.map(columnID => {
-            emptyType['columns'](columnID);
+            emptyType.columns(columnID);
             formData.columns.delete(columnID);
             return columnID;
           });
@@ -327,7 +327,7 @@ let data = {
         }
       },
       columns: id => {
-        let column = formData.columns.get(id);
+        const column = formData.columns.get(id);
         if (column) {
           let fields = column.fields;
           removed.fields = fields.map(fieldID => {
@@ -341,8 +341,8 @@ let data = {
         let field = dom.fields.get(id);
         if (field) {
           field = field.field;
-          let column = formData.columns.get(field.parentElement.id);
-          let oldValue = column.fields.slice();
+          const column = formData.columns.get(field.parentElement.id);
+          const oldValue = column.fields.slice();
           remove(column.fields, id);
           events.formeoUpdated = new CustomEvent('formeoUpdated', {
             data: {
@@ -376,7 +376,7 @@ let data = {
         try {
           storage.setItem('formData', data.json);
         } catch (ex) {
-          let confirmClearAll = new CustomEvent('confirmClearStorage', {
+          const confirmClearAll = new CustomEvent('confirmClearStorage', {
             detail: {
               confirmationMessage: getString('clearstoragemessage'),
               clearStorageAction: () => {
@@ -426,7 +426,7 @@ let data = {
   },
 
   get js() {
-    let jsData = {};
+    const jsData = {};
 
     Object.keys(formData).forEach(key => {
       if (typeof formData[key] === 'string') {
@@ -439,10 +439,10 @@ let data = {
   },
 
   get prepData() {
-    let jsData = data.js;
+    const jsData = data.js;
     Object.keys(jsData).forEach(type => {
       Object.keys(jsData[type]).forEach(entKey => {
-        let entity = jsData[type][entKey];
+        const entity = jsData[type][entKey];
         if (entity.action) {
           Object.keys(entity.action).forEach(fn => {
             entity.action[fn] = entity.action[fn].toString();
@@ -454,11 +454,11 @@ let data = {
   },
 
   /**
-   * getter method for JSON formData
+   * Getter method for JSON formData
    * @return {JSON} formData
    */
   get json() {
-    let preppedData = data.prepData;
+    const preppedData = data.prepData;
 
     return window.JSON.stringify(preppedData, null, '\t');
   }
