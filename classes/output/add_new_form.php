@@ -102,7 +102,7 @@ class add_new_form implements renderable, templatable
      */
     public function export_for_template(\renderer_base $output) {
         global $PAGE;
-        $this->form_sections->set_form_action(get_string("efb-form-editing", "local_edwiserform"));
+        $this->form_sections->set_form_action(get_string("form-editing", "local_edwiserform"));
         if ($this->form) {
             $PAGE->requires->data_for_js('formdefinition', $this->form->definition);
             $this->form_sections->set_formid($this->formid);
@@ -131,13 +131,13 @@ class add_new_form implements renderable, templatable
         $headerbutton = array(
             array(
                 "id"    => "efb-heading-listforms",
-                "label" => get_string("efb-heading-listforms", "local_edwiserform"),
+                "label" => get_string("heading-listforms", "local_edwiserform"),
                 "url"   => new moodle_url('/local/edwiserform/view.php?page=listforms'),
                 "icon"  => "list"
             ),
             array(
                 "id"    => "efb-btn-save-form-settings",
-                "label" => get_string("efb-btn-save", "local_edwiserform"),
+                "label" => get_string("btn-save", "local_edwiserform"),
                 "url"   => "#",
                 "class" => "d-none",
                 "icon"  => "check"
@@ -148,39 +148,39 @@ class add_new_form implements renderable, templatable
                 "id"      => "efb-form-setup",
                 "active"  => $this->form ? "" : "active",
                 "panelid" => "#efb-cont-form-setup",
-                "label"   => get_string("efb-lbl-form-setup", "local_edwiserform"),
+                "label"   => get_string("lbl-form-setup", "local_edwiserform"),
                 "icon"    => "fa-cog"
             ),
             array(
                 "id"      => "efb-form-settings",
                 "panelid" => "#efb-cont-form-settings",
-                "label"   => get_string("efb-lbl-form-settings", "local_edwiserform"),
+                "label"   => get_string("lbl-form-settings", "local_edwiserform"),
                 "icon"    => "fa-wrench"
             ),
             array(
                 "id"      => "efb-form-builder",
                 "active"  => $this->form ? "active" : "",
                 "panelid" => "#efb-cont-form-builder",
-                "label"   => get_string("efb-lbl-form-builder", "local_edwiserform"),
+                "label"   => get_string("lbl-form-builder", "local_edwiserform"),
                 "icon"    => "fa-list-alt"
             ),
             array(
                 "id"      => "efb-form-preview",
                 "panelid" => "#efb-cont-form-preview",
-                "label"   => get_string("efb-lbl-form-preview", "local_edwiserform"),
+                "label"   => get_string("lbl-form-preview", "local_edwiserform"),
                 "icon"    => "fa-eye"
             )
         );
         $panels        = array(
             array(
                 "id"      => "efb-cont-form-settings",
-                "heading" => get_string("efb-lbl-form-settings", "local_edwiserform"),
+                "heading" => get_string("lbl-form-settings", "local_edwiserform"),
                 "body"    => "<div class='efb-form-settings'>".$formsettings->render()."</div>"
             ),
             array(
                 "id"      => "efb-cont-form-builder",
                 "active"  => $this->form ? "active" : "hide",
-                "heading" => get_string("efb-lbl-form-builder", "local_edwiserform"),
+                "heading" => get_string("lbl-form-builder", "local_edwiserform"),
                 "body"    => "<form class='build-form'></form>",
                 "button"  => "<button class='efb-form-step efb-form-step-preview btn-primary fa fa-eye' data-id='efb-form-preview' title='" . get_string(
                     'efb-lbl-form-preview',
@@ -189,7 +189,7 @@ class add_new_form implements renderable, templatable
             ),
             array(
                 "id"      => "efb-cont-form-preview",
-                "heading" => get_string("efb-lbl-form-preview", "local_edwiserform"),
+                "heading" => get_string("lbl-form-preview", "local_edwiserform"),
                 "body"    => '<div class="preview-form">
                         <div class="preview-form-container">
                             <form class="render-form"></form>
@@ -215,9 +215,9 @@ class add_new_form implements renderable, templatable
         foreach (array_keys($this->plugins) as $pluginname) {
             $free[] = array(
                 "tmpl_id"        => $pluginname,
-                "tmpl_name"      => get_string("efb-event-$pluginname-name", "edwiserformevents_$pluginname"),
-                "tmpl_hover_txt" => get_string("efb-event-hover-text", "local_edwiserform"),
-                "desc"           => get_string("efb-event-$pluginname-desc", "edwiserformevents_$pluginname"),
+                "tmpl_name"      => get_string("event-$pluginname-name", "edwiserformevents_$pluginname"),
+                "tmpl_hover_txt" => get_string("event-hover-text", "local_edwiserform"),
+                "desc"           => get_string("event-$pluginname-desc", "edwiserformevents_$pluginname"),
             );
         }
         $protemplates = array('blank', 'login', 'enrolment', 'registration');
@@ -225,8 +225,8 @@ class add_new_form implements renderable, templatable
             $pro[] = array(
                 "tmpl_id"        => $templatename,
                 "pro"            => true,
-                "tmpl_name"      => get_string("efb-event-$templatename-name", "local_edwiserform"),
-                "desc"           => get_string("efb-event-$templatename-desc", "local_edwiserform"),
+                "tmpl_name"      => get_string("event-$templatename-name", "local_edwiserform"),
+                "desc"           => get_string("event-$templatename-desc", "local_edwiserform"),
             );
         }
         if ($this->form) {
@@ -239,19 +239,19 @@ class add_new_form implements renderable, templatable
         $title = $this->form ? $this->form->title : '';
         $setup = array(
             "id"              => "efb-cont-form-setup",
-            "heading"         => get_string("efb-lbl-form-$heading", "local_edwiserform"),
+            "heading"         => get_string("lbl-form-$heading", "local_edwiserform"),
             "title"           => $title,
             "active"          => "active",
-            "msg_select_tmpl" => get_string("efb-setup-msg-select-tmpl", "local_edwiserform"),
+            "msg_select_tmpl" => get_string("setup-msg-select-tmpl", "local_edwiserform"),
             "form_name"       => array(
-                "label"       => get_string("efb-lbl-form-setup-formname", "local_edwiserform"),
-                "placeholder" => get_string("efb-lbl-form-setup-formname-placeholder", "local_edwiserform")
+                "label"       => get_string("lbl-form-setup-formname", "local_edwiserform"),
+                "placeholder" => get_string("lbl-form-setup-formname-placeholder", "local_edwiserform")
             ),
             "free"            => $free,
             "pro"             => $pro,
-            "tmpl_add_title"  => get_string("efb-setup-additional-title", "local_edwiserform"),
-            "msg_upgrade"     => get_string("efb-setup-msg-upgrade", "local_edwiserform"),
-            "btn_upgrade"     => get_string("efb-setup-btn-upgrade", "local_edwiserform"),
+            "tmpl_add_title"  => get_string("setup-additional-title", "local_edwiserform"),
+            "msg_upgrade"     => get_string("setup-msg-upgrade", "local_edwiserform"),
+            "btn_upgrade"     => get_string("setup-btn-upgrade", "local_edwiserform"),
             "pro_url"         => PRO_URL
         );
         return (object) $setup;

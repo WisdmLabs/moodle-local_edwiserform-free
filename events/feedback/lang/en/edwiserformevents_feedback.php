@@ -22,5 +22,5 @@
  */
 
 $string['pluginname'] = 'Feedback Form';
-$string['efb-event-feedback-name'] = "Simple Feedback Form";
-$string['efb-event-feedback-desc'] = "Allow your users to submit feedback with this simple feedback form.";
+$string['event-feedback-name'] = "Simple Feedback Form";
+$string['event-feedback-desc'] = "Allow your users to submit feedback with this simple feedback form.";

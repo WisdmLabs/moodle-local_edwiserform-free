@@ -182,7 +182,7 @@ function can_create_or_view_form($userid = false, $return = false) {
         if ($return) {
             return false;
         }
-        throw new moodle_exception('efb-cannot-create-form', 'local_edwiserform', new moodle_url('/my/'), null, get_string('efb-contact-admin', 'local_edwiserform'));
+        throw new moodle_exception('efb-cannot-create-form', 'local_edwiserform', new moodle_url('/my/'), null, get_string('contact-admin', 'local_edwiserform'));
     }
 
     // User is teacher
@@ -192,7 +192,7 @@ function can_create_or_view_form($userid = false, $return = false) {
         if ($return) {
             return false;
         }
-        throw new moodle_exception('efb-admin-disabled-teacher', 'local_edwiserform', new moodle_url('/my/'), null, get_string('efb-contact-admin', 'local_edwiserform'));
+        throw new moodle_exception('efb-admin-disabled-teacher', 'local_edwiserform', new moodle_url('/my/'), null, get_string('contact-admin', 'local_edwiserform'));
     }
 
     // User is teacher and admin allowing teacher to create/view form

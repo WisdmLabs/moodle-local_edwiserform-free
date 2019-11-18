@@ -62,7 +62,7 @@ define(['jquery'], function ($) {
                 var status = validateEditEmail(index, $(edit).val());
                 switch (status) {
                     case 0:
-                        showEmailError(M.util.get_string("efb-lbl-notifi-email-warning", "local_edwiserform"));
+                        showEmailError(M.util.get_string("lbl-notifi-email-warning", "local_edwiserform"));
                         return;
                     case 1:
                         editing = -1;
@@ -74,7 +74,7 @@ define(['jquery'], function ($) {
                         hideEmailError();
                         return;
                     case 2:
-                        showEmailError(M.util.get_string("efb-lbl-notifi-email-duplicate", "local_edwiserform"));
+                        showEmailError(M.util.get_string("lbl-notifi-email-duplicate", "local_edwiserform"));
                         return;
                 }
             }
@@ -126,7 +126,7 @@ define(['jquery'], function ($) {
             var status = validateEmail($(elem).val());
             switch (status) {
                 case 0:
-                    showEmailError(M.util.get_string("efb-lbl-notifi-email-warning", "local_edwiserform"));
+                    showEmailError(M.util.get_string("lbl-notifi-email-warning", "local_edwiserform"));
                     return;
                 case 1:
                     var nextIndex = $(elem).siblings('.email-tag').length;
@@ -137,7 +137,7 @@ define(['jquery'], function ($) {
                     hideEmailError();
                     return;
                 case 2:
-                    showEmailError(M.util.get_string("efb-lbl-notifi-email-duplicate", "local_edwiserform"));
+                    showEmailError(M.util.get_string("lbl-notifi-email-duplicate", "local_edwiserform"));
                     return;
             }
         }

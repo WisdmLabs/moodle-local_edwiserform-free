@@ -22,5 +22,5 @@
  */
 
 $string['pluginname'] = 'Support Us Form';
-$string['efb-event-support-name'] = "Simple Support Form";
-$string['efb-event-support-desc'] = "Allow your users to submit there queries with this simple support form.";
+$string['event-support-name'] = "Simple Support Form";
+$string['event-support-desc'] = "Allow your users to submit there queries with this simple support form.";

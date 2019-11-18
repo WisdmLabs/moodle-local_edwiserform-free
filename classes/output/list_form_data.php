@@ -61,7 +61,7 @@ class list_form_data implements renderable, templatable
         global $DB, $CFG;
         $data = new stdClass();
         if (!$this->supportsubmission) {
-            $data->submissionnotsupport = get_string("efb-form-data-submission-not-supported", "local_edwiserform");
+            $data->submissionnotsupport = get_string("form-data-submission-not-supported", "local_edwiserform");
             return $data;
         }
         $data->formid = $this->formid;
@@ -78,23 +78,23 @@ class list_form_data implements renderable, templatable
             ),
             html_writer::tag(
                 'div',
-                get_string("efb-form-data-heading-user", "local_edwiserform"),
+                get_string("form-data-heading-user", "local_edwiserform"),
                 array('style' => 'width: 250px;')
             ),
             html_writer::tag(
                 'div',
-                get_string("efb-tbl-heading-submitted", "local_edwiserform"),
+                get_string("tbl-heading-submitted", "local_edwiserform"),
                 array('style' => 'width: 120px;')
             ),
         );
         $data->pageactions = $this->get_page_actions();
         if (empty($headings)) {
-            $data->nodata = get_string("efb-form-data-no-data", "local_edwiserform");
+            $data->nodata = get_string("form-data-no-data", "local_edwiserform");
             return $data;
         }
         $supportactions = isset($this->plugin) && $this->plugin->support_form_data_list_actions();
         if ($supportactions) {
-            $data->headings[] = get_string("efb-form-data-heading-action", "local_edwiserform");
+            $data->headings[] = get_string("form-data-heading-action", "local_edwiserform");
         }
         if ($headings) {
             $headingsmap = $this->get_name_label_map();
@@ -364,12 +364,12 @@ class list_form_data implements renderable, templatable
         $actions = array(
             array(
                 'url' => new moodle_url('/local/edwiserform/view.php', array('page' => 'newform')),
-                'label' => get_string('efb-heading-newform', 'local_edwiserform'),
+                'label' => get_string('heading-newform', 'local_edwiserform'),
                 'icon'  => 'edit'
             ),
             array(
                 'url' => new moodle_url('/local/edwiserform/view.php', array('page' => 'listforms')),
-                'label' => get_string('efb-heading-listforms', 'local_edwiserform'),
+                'label' => get_string('heading-listforms', 'local_edwiserform'),
                 'icon'  => 'list'
             )
         );

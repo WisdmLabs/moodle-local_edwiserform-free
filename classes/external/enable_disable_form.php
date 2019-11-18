@@ -62,7 +62,7 @@ trait enable_disable_form
         $action = $action ? "enable" : "disable";
         $responce = array(
             "status" => false,
-            "msg" => get_string("efb-form-action-" . $action . "-failed", "local_edwiserform")
+            "msg" => get_string("form-action-" . $action . "-failed", "local_edwiserform")
         );
         $form = $DB->get_record("efb_forms", array("id" => $id));
         if ($form) {
@@ -70,7 +70,7 @@ trait enable_disable_form
             $DB->update_record("efb_forms", $form);
             $responce = array(
                 "status" => true,
-                "msg" => get_string("efb-form-action-" . $action . "-success", "local_edwiserform")
+                "msg" => get_string("form-action-" . $action . "-success", "local_edwiserform")
             );
         }
         return $responce;

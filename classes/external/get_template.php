@@ -55,12 +55,12 @@ trait get_template {
         $responce = array(
             'status'     => false,
             'definition' => '',
-            'msg'        => get_string("efb-template-not-found", "local_edwiserform")
+            'msg'        => get_string("template-not-found", "local_edwiserform")
         );
 
         // Checking for empty form template
         if (trim($name) == '') {
-            $responce['msg'] = get_string("efb-template-name-not-valid", "local_edwiserform");
+            $responce['msg'] = get_string("template-name-not-valid", "local_edwiserform");
             return $responce;
         }
 
@@ -69,7 +69,7 @@ trait get_template {
         if ($template) {
             $responce['status'] = true;
             $responce['definition'] = $template->definition;
-            $responce['msg'] = get_string("efb-template-found", "local_edwiserform");
+            $responce['msg'] = get_string("template-found", "local_edwiserform");
         }
         return $responce;
     }

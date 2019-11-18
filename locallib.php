@@ -46,21 +46,21 @@ class edwiserform {
         global $DB;
         $forms = $DB->get_records('efb_forms', array('deleted' => true));
         foreach ($forms as $form) {
-            mtrace(get_string('efb-delete-form-data-cron-start', 'local_edwiserform', $form->id));
+            mtrace(get_string('delete-form-data-cron-start', 'local_edwiserform', $form->id));
             $status = $DB->delete_records('efb_form_data', array('formid' => $form->id));
             $status = true;
             if ($status) {
-                mtrace(get_string('efb-delete-form-data-cron-end', 'local_edwiserform', $form->id));
+                mtrace(get_string('delete-form-data-cron-end', 'local_edwiserform', $form->id));
             } else {
-                mtrace(get_string('efb-delete-form-data-cron-failed', 'local_edwiserform', $form->id));
+                mtrace(get_string('delete-form-data-cron-failed', 'local_edwiserform', $form->id));
             }
-            mtrace(get_string('efb-delete-form-cron-start', 'local_edwiserform', $form->id));
+            mtrace(get_string('delete-form-cron-start', 'local_edwiserform', $form->id));
             $status = $DB->delete_records('efb_forms', array('deleted' => true));
             $status = true;
             if ($status) {
-                mtrace(get_string('efb-delete-form-cron-end', 'local_edwiserform', $form->id));
+                mtrace(get_string('delete-form-cron-end', 'local_edwiserform', $form->id));
             } else {
-                mtrace(get_string('efb-delete-form-cron-failed', 'local_edwiserform', $form->id));
+                mtrace(get_string('delete-form-cron-failed', 'local_edwiserform', $form->id));
             }
         }
     }

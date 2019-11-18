@@ -49,7 +49,7 @@ if ($page == 'newform') {
 } else {
     $PAGE->set_pagelayout('admin');
 }
-$efbpagetitle = get_string('efb-heading-' . $title, 'local_edwiserform');
+$efbpagetitle = get_string('heading-' . $title, 'local_edwiserform');
 $PAGE->set_title($efbpagetitle);
 $PAGE->set_heading($efbpagetitle);
 $PAGE->set_url(new moodle_url("/local/edwiserform/view.php", $urlparam));

@@ -55,7 +55,7 @@ trait delete_form
      */
     public static function delete_form($formid) {
         global $DB;
-        $response = array("status" => false, "msg" => get_string("efb-msg-form-delete-fail", "local_edwiserform"));
+        $response = array("status" => false, "msg" => get_string("msg-form-delete-fail", "local_edwiserform"));
         if (!$formid) {
             return $response;
         }
@@ -64,7 +64,7 @@ trait delete_form
         $data->deleted = true;
         $status        = $DB->update_record("efb_forms", $data);
         if ($status) {
-            $msg = get_string("efb-msg-form-delete-success", "local_edwiserform");
+            $msg = get_string("msg-form-delete-success", "local_edwiserform");
         }
         return array("status" => $status, "msg" => $msg);
     }

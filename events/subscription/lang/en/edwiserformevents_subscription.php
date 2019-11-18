@@ -22,5 +22,5 @@
  */
 
 $string['pluginname'] = 'Subscription Form';
-$string['efb-event-subscription-name'] = "Simple Subscription Form";
-$string['efb-event-subscription-desc'] = "Allow your users to subscribe for event.";
+$string['event-subscription-name'] = "Simple Subscription Form";
+$string['event-subscription-desc'] = "Allow your users to subscribe for event.";

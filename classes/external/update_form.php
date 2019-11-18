@@ -54,7 +54,7 @@ trait update_form {
         require_once($CFG->dirroot . "/local/edwiserform/lib.php");
         $responce = array(
             'status' => false,
-            'msg' => get_string("efb-form-setting-update-fail-msg", "local_edwiserform"),
+            'msg' => get_string("form-setting-update-fail-msg", "local_edwiserform"),
         );
         $type = self::getarrayval($settings, "type");
         $formid = self::getarrayval($settings, "id");
@@ -68,9 +68,9 @@ trait update_form {
         $status = self::update_form_status($formid, $formdefinition, $formsettings);
         if ($status == true) {
             $responce['status'] = true;
-            $responce['msg'] = get_string("efb-form-setting-update-msg", "local_edwiserform");
+            $responce['msg'] = get_string("form-setting-update-msg", "local_edwiserform");
         } else if ($status == false) {
-            $responce['msg'] = get_string("efb-form-def-update-fail-msg", "local_edwiserform");
+            $responce['msg'] = get_string("form-def-update-fail-msg", "local_edwiserform");
         } else {
             $responce['msg'] = $status;
         }

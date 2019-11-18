@@ -82,14 +82,14 @@ define([
                             { data: "actions" , orderable : false}
                         ],
                         language        : {
-                            sSearch: M.util.get_string('efb-search-form', 'local_edwiserform'),
-                            emptyTable: M.util.get_string('efb-heading-listforms-empty', 'local_edwiserform'),
-                            info: M.util.get_string('efb-heading-listforms-showing', 'local_edwiserform', {
+                            sSearch: M.util.get_string('search-form', 'local_edwiserform'),
+                            emptyTable: M.util.get_string('heading-listforms-empty', 'local_edwiserform'),
+                            info: M.util.get_string('heading-listforms-showing', 'local_edwiserform', {
                                 'start': '_START_',
                                 'end': '_END_',
                                 'total': '_TOTAL_',
                             }),
-                            infoEmpty: M.util.get_string('efb-heading-listforms-showing', 'local_edwiserform', {
+                            infoEmpty: M.util.get_string('heading-listforms-showing', 'local_edwiserform', {
                                 'start': '0',
                                 'end': '0',
                                 'total': '0',
@@ -119,9 +119,7 @@ define([
                         }
                     });
                 }
-                $('.efb-modal-close').click(function() {
-                    $('#efb-modal').removeClass('show');
-                });
+
                 $('body').on('click', '.efb-form-delete', function(event) {
                     event.preventDefault();
                     var id = $(this).data('formid');
@@ -129,7 +127,7 @@ define([
                     Formeo.dom.multiActions(
                         'warning',
                         M.util.get_string('warning', 'local_edwiserform'),
-                        `<h5>${M.util.get_string('efb-delete-form-and-data', 'local_edwiserform', {title, id})}</h5>`,
+                        `<h5>${M.util.get_string('delete-form-and-data', 'local_edwiserform', {title, id})}</h5>`,
                         [{
                             title: M.util.get_string('proceed', 'local_edwiserform'),
                             type: 'danger',
@@ -160,7 +158,7 @@ define([
                 $('body').on('click', '.efb-form-export', function(event) {
                     event.preventDefault();
                     var string = M.util.get_string('hey-wait', 'local_edwiserform');
-                    var exporttitle = M.util.get_string('efb-form-action-export-title', 'local_edwiserform');
+                    var exporttitle = M.util.get_string('form-action-export-title', 'local_edwiserform');
                     var message = M.util.get_string('export-pro-message', 'local_edwiserform');
                     message = M.util.get_string('profeaturemessage', 'local_edwiserform', {
                         type: string + '! <b>' + exporttitle + '</b>',

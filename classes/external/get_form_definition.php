@@ -60,7 +60,7 @@ trait get_form_definition {
             'formtype' => 'blank',
             'action' => '',
             'data' => '',
-            'msg' => get_string("efb-form-not-found", "local_edwiserform", ''.$formid),
+            'msg' => get_string("form-not-found", "local_edwiserform", ''.$formid),
         );
         if ($formid > 0) {
             $form = $DB->get_record('efb_forms', array('id' => $formid));
@@ -72,7 +72,7 @@ trait get_form_definition {
 
             // If form is not enabled then returning response with form not enabled message
             if (!$form->enabled) {
-                $responce['msg'] = get_string("efb-form-not-enabled", "local_edwiserform", ''.$form->title);
+                $responce['msg'] = get_string("form-not-enabled", "local_edwiserform", ''.$form->title);
                 return $responce;
             }
             $params = array('form_id' => $formid);
@@ -86,8 +86,8 @@ trait get_form_definition {
                 // Checking whether selected form type XYZ can be viewed while user is not logged in
                 // If no then returning response with login to use form
                 if ($form->type == 'blank' || $plugin->login_required()) {
-                    $link = html_writer::link(new moodle_url($CFG->wwwroot . "/login/index.php"), get_string("efb-form-loggedin-required-click", "local_edwiserform"));
-                    $responce["msg"] = get_string("efb-form-loggedin-required", "local_edwiserform", $link);
+                    $link = html_writer::link(new moodle_url($CFG->wwwroot . "/login/index.php"), get_string("form-loggedin-required-click", "local_edwiserform"));
+                    $responce["msg"] = get_string("form-loggedin-required", "local_edwiserform", $link);
                     return $responce;
                 }
             } else {
@@ -95,7 +95,7 @@ trait get_form_definition {
                 // Checking whether selected form type XYZ can be viewed while user is logged in
                 // If no then returning response with not allowed while logged in
                 if ($form->type != 'blank' && !$plugin->login_allowed()) {
-                    $responce["msg"] = get_string("efb-form-loggedin-not-allowed", "local_edwiserform");
+                    $responce["msg"] = get_string("form-loggedin-not-allowed", "local_edwiserform");
                     return $responce;
                 }
             }
@@ -125,7 +125,7 @@ trait get_form_definition {
         switch ($canuser['status']) {
             case 0:
                 // User previously submitted data into form but admin disabled user from re-submitting data
-                $responce["msg"] = get_string("efb-form-submission-found", "local_edwiserform", $CFG->wwwroot);
+                $responce["msg"] = get_string("form-submission-found", "local_edwiserform", $CFG->wwwroot);
                 break;
             case 2:
                 // User previously submitted data into form and can re-submit data to edit previous submission
@@ -133,11 +133,11 @@ trait get_form_definition {
             case 1:
                 // User can submit data into form
                 $responce["definition"] = $form->definition;
-                $responce["msg"] = get_string("efb-form-definition-found", "local_edwiserform");
+                $responce["msg"] = get_string("form-definition-found", "local_edwiserform");
                 $responce["status"] = true;
                 break;
             default:
-                $responce["msg"] = get_string("efb-unknown-error", "local_edwiserform");
+                $responce["msg"] = get_string("unknown-error", "local_edwiserform");
                 break;
         }
         if ($form->type != 'blank') {

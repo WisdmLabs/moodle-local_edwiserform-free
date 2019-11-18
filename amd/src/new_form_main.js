@@ -123,7 +123,7 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
                                 $('#id_title').parents('.fitem').addClass('has-danger');
                                 break;
                         }
-                        formeo.dom.toaster(M.util.get_string('efb-lbl-title-warning', 'local_edwiserform'), 3000);
+                        formeo.dom.toaster(M.util.get_string('lbl-title-warning', 'local_edwiserform'), 3000);
                     } else {
                         $('.efb-form-title-container').removeClass('has-danger');
                         $('#id_title').parents('.fitem').removeClass('has-danger');
@@ -139,7 +139,7 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
                 });
                 $(".efb-panel-btn").click(function (event) {
                     if (!check_template()) {
-                        formeo.dom.toaster(M.util.get_string('efb-select-template-warning', 'local_edwiserform'), 3000);
+                        formeo.dom.toaster(M.util.get_string('select-template-warning', 'local_edwiserform'), 3000);
                         switch_panel('form-setup');
                         event.preventDefault();
                         return;
@@ -231,7 +231,7 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
                 // This will save the form settings using ajax.
                 $("body").on("click", "#efb-btn-save-form-settings", function (event) {
                     if (!check_template()) {
-                        formeo.dom.toaster(M.util.get_string('efb-select-template-warning', 'local_edwiserform'), 3000);
+                        formeo.dom.toaster(M.util.get_string('select-template-warning', 'local_edwiserform'), 3000);
                         switch_panel('form-setup');
                         event.preventDefault();
                         return;
@@ -267,7 +267,7 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
                                     M.util.get_string("success", "local_edwiserform"),
                                     response.msg,
                                     [{
-                                        title: M.util.get_string("efb-heading-listforms", "local_edwiserform"),
+                                        title: M.util.get_string("heading-listforms", "local_edwiserform"),
                                         type: 'primary',
                                         action: function() {
                                             $(location).attr('href', M.cfg.wwwroot + "/local/edwiserform/view.php?page=listforms");
@@ -284,15 +284,15 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
                         formeo.dom.multiActions(
                             'warning',
                             M.util.get_string("attention", "local_edwiserform"),
-                            M.util.get_string("efb-forms-update-confirm", "local_edwiserform"),
+                            M.util.get_string("forms-update-confirm", "local_edwiserform"),
                             [{
-                                title: M.util.get_string("efb-forms-update-create-new", "local_edwiserform"),
+                                title: M.util.get_string("forms-update-create-new", "local_edwiserform"),
                                 type: 'primary',
                                 action: function() {
                                     save_form_settings(service_name, settings, formdef, form_create_action);
                                 }
                             }, {
-                                title: M.util.get_string("efb-forms-update-overwrite-existing", "local_edwiserform"),
+                                title: M.util.get_string("forms-update-overwrite-existing", "local_edwiserform"),
                                 type: 'warning',
                                 action: function() {
                                     service_name = "edwiserform_update_form_settings";
@@ -306,7 +306,7 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
                     if (!saved) {
                         save_form_settings(service_name, settings, formdef, form_create_action);
                     } else {
-                        formeo.dom.toaster(M.util.get_string('efb-form-setting-saved', 'local_edwiserform'), 3000);
+                        formeo.dom.toaster(M.util.get_string('form-setting-saved', 'local_edwiserform'), 3000);
                     }
                 });
 
@@ -400,7 +400,7 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
                         formeo.dom.multiActions(
                             'warning',
                             M.util.get_string("attention", "local_edwiserform"),
-                            M.util.get_string("efb-template-change-warning", "local_edwiserform"),
+                            M.util.get_string("template-change-warning", "local_edwiserform"),
                             [{
                                 title: M.util.get_string('proceed', 'local_edwiserform'),
                                 type: 'warning',

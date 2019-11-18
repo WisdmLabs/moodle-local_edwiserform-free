@@ -99,7 +99,7 @@ trait create_new_form {
     public static function create_new_form($settings, $formdef) {
         $responce = array(
             'status' => false,
-            'msg' => get_string("efb-form-setting-save-fail-msg", "local_edwiserform"),
+            'msg' => get_string("form-setting-save-fail-msg", "local_edwiserform"),
             'formid' => 0
         );
         $type = self::getarrayval($settings, "type");
@@ -112,7 +112,7 @@ trait create_new_form {
                 $plugin->create_new_form($formid, $eventsettings);
             }
             $responce['status'] = true;
-            $responce['msg'] = get_string("efb-form-setting-save-msg", "local_edwiserform");
+            $responce['msg'] = get_string("form-setting-save-msg", "local_edwiserform");
             $responce['formid'] = $formid;
         }
         return $responce;

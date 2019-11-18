@@ -60,7 +60,7 @@ trait delete_submission
         global $DB, $USER, $CFG;
         $form = $DB->get_record('efb_forms', array('id' => $id));
         if ($form == false) {
-            return ['status' => false, 'msg' => get_string('efb-form-not-found', 'local_edwiserform', $id)];
+            return ['status' => false, 'msg' => get_string('form-not-found', 'local_edwiserform', $id)];
         }
 
         // If empty submissions array then return error message

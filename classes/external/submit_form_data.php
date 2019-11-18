@@ -58,7 +58,7 @@ trait submit_form_data {
         global $DB, $USER, $CFG;
         $responce = array(
             'status' => false,
-            'msg' => get_string("efb-form-data-submission-failed", "local_edwiserform"),
+            'msg' => get_string("form-data-submission-failed", "local_edwiserform"),
             'errors' => "{}"
         );
         $form = $DB->get_record('efb_forms', array('id' => $formid));
@@ -90,7 +90,7 @@ trait submit_form_data {
         }
         if ($status) {
             $responce['status'] = true;
-            $responce['msg'] = "<p>" . get_string("efb-form-data-submission-successful", "local_edwiserform", $CFG->wwwroot . '/?redirect=0') . "</p>";
+            $responce['msg'] = "<p>" . get_string("form-data-submission-successful", "local_edwiserform", $CFG->wwwroot . '/?redirect=0') . "</p>";
             $eventmail = '';
             if ($form->type != 'blank') {
                 $eventmail = $plugin->submission_email_message($form, $submission);
@@ -185,15 +185,15 @@ trait submit_form_data {
             $email = $USER->email;
         }
         if (!$email) {
-            return get_string('efb-confirmation-email-failed', 'local_edwiserform');
+            return get_string('confirmation-email-failed', 'local_edwiserform');
         }
         $submission = json_decode($submission);
         $context = context_system::instance();
         $messagehtml = file_rewrite_pluginfile_urls($form->message, 'pluginfile.php', $context->id, EDWISERFORM_COMPONENT, EDWISERFORM_FILEAREA, $form->id);
-        if (edwiserform_send_email(get_config("core", "smtpuser"), $email, get_string('efb-form-data-submission-successful', 'local_edwiserform', $CFG->wwwroot . '/?redirect=0'), $messagehtml)) {
-            return get_string('efb-confirmation-email-success', 'local_edwiserform');
+        if (edwiserform_send_email(get_config("core", "smtpuser"), $email, get_string('form-data-submission-successful', 'local_edwiserform', $CFG->wwwroot . '/?redirect=0'), $messagehtml)) {
+            return get_string('confirmation-email-success', 'local_edwiserform');
         }
-        return get_string('efb-confirmation-email-failed', 'local_edwiserform');
+        return get_string('confirmation-email-failed', 'local_edwiserform');
     }
 
     /**
@@ -207,11 +207,11 @@ trait submit_form_data {
     public static function notify($form, $submission, $eventmail = '') {
         global $CFG, $COURSE, $USER;
         $submission = json_decode($submission);
-        $subject = get_string('efb-notify-email-subject', 'local_edwiserform', array('site' => $COURSE->fullname, 'title' => $form->title));
-        $user = $USER->id != 0 ? "$USER->firstname $USER->lastname" : get_string('efb-submission-anonymous-user', 'local_edwiserform');
+        $subject = get_string('notify-email-subject', 'local_edwiserform', array('site' => $COURSE->fullname, 'title' => $form->title));
+        $user = $USER->id != 0 ? "$USER->firstname $USER->lastname" : get_string('submission-anonymous-user', 'local_edwiserform');
         $title = $form->title;
         $link = $CFG->wwwroot . "/local/edwiserform/view.php?page=viewdata&formid=" .$form->id;
-        $messagehtml = get_string('efb-notify-email-body', 'local_edwiserform', array('user' => $user, 'title' => $form->title, 'link' => $link));
+        $messagehtml = get_string('notify-email-body', 'local_edwiserform', array('user' => $user, 'title' => $form->title, 'link' => $link));
         $messagehtml .= $eventmail;
         $emails = explode(',', $form->notifi_email);
         $status = true;
@@ -219,9 +219,9 @@ trait submit_form_data {
             $status = $status && edwiserform_send_email(get_config("core", "smtpuser"), $email, $subject, $messagehtml);
         }
         if ($status != true) {
-            return get_string('efb-notify-email-failed', 'local_edwiserform');
+            return get_string('notify-email-failed', 'local_edwiserform');
         }
-        return get_string('efb-notify-email-success', 'local_edwiserform');
+        return get_string('notify-email-success', 'local_edwiserform');
     }
 
     /**
