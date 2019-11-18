@@ -761,7 +761,7 @@ export class Controls {
           content: [groups[i].label || '', {
             tag: 'label',
             className: 'efb-forms-pro-label m-0',
-            content: getString('efb-pro-label')
+            content: getString('pro-label')
           }, {
             tag: 'i',
             attrs: {

@@ -55,6 +55,7 @@ class add_new_form implements renderable, templatable
         $this->formid        = $formid;
         $this->plugins        = get_plugins();
         $this->form_sections = new new_form_sections();
+        $this->teacher = !is_siteadmin() & is_teacher();
         $this->form = null;
         if ($formid != null) {
             global $DB;
@@ -123,7 +124,10 @@ class add_new_form implements renderable, templatable
      */
     private function set_default_section_data() {
         global $CFG;
-        $settingsparam = array('plugins' => $this->plugins);
+        $settingsparam = array(
+            'plugins' => $this->plugins,
+            'teacher' => $this->teacher
+        );
         $settingsparam['form'] = $this->form ? $this->form : null;
         $formsettings = new form_basic_settings(null, $settingsparam);
         $formdata     = $this->get_form_settings();
@@ -179,11 +183,11 @@ class add_new_form implements renderable, templatable
             ),
             array(
                 "id"      => "efb-cont-form-builder",
-                "active"  => $this->form ? "active" : "hide",
+                "active"  => $this->form ? "active" : "",
                 "heading" => get_string("lbl-form-builder", "local_edwiserform"),
                 "body"    => "<form class='build-form'></form>",
                 "button"  => "<button class='efb-form-step efb-form-step-preview btn-primary fa fa-eye' data-id='efb-form-preview' title='" . get_string(
-                    'efb-lbl-form-preview',
+                    'lbl-form-preview',
                     'local_edwiserform'
                 ) . "'></button>"
             ),
@@ -198,7 +202,7 @@ class add_new_form implements renderable, templatable
                 "button"  => "<button class='efb-form-step efb-form-step-builder btn-primary fa fa-eye-slash' data-id='efb-form-builder'></button>"
             ),
         );
-        $this->form_sections->set_builder_active($this->form ? "content-hide" : "content-active");
+        $this->form_sections->set_builder_active($this->form ? "" : "active");
         $this->form_sections->set_nav_item($navitem);
         $this->form_sections->set_panels($panels);
         $this->form_sections->set_header_button($headerbutton);

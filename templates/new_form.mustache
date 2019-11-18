@@ -14,34 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
   }}
-
-<style>
-#region-main > .card{
-    min-height:unset;
-    border:unset;
-    margin-bottom:unset;
-}
-.card-block{
-    padding:unset;
-}
-#page-wrapper{
-    overflow: hidden;
-}
-#page{
-    margin:unset;
-    padding:unset;
-}
-#region-main-box,
-#page.container-fluid{
-    padding:unset;
-}
-#page-wrapper::after{
-    min-height:unset;
-}
-
-</style>
-
-<div class="efb-form-builder-wrap">
+<div class="efb-form-builder-wrap" style='display: none;'>
     <!-- Form Toolbar -->
     {{#formid}}
         <input type="hidden" name="id" value="{{formid}}">
@@ -49,6 +22,9 @@
     {{#formversion}}
         <input type="hidden" name="version" value="{{formversion}}">
     {{/formversion}}
+    <div id="formeo-sprite" class="d-none">
+        {{{buildericons}}}
+    </div>
     <div class="efb-editor-toolbar">
         <div class="efb-editor-logo">
             <div class="efb-editor-logo-wrap">
@@ -57,7 +33,7 @@
         </div>
         <div class="efb-editor-action {{^panelsetup.title}}efb-hide{{/panelsetup.title}}">
             <div class="efb-editor-action-title">
-                <label id="efb-form-cur-action">{{form_action}}</label>
+                <label id="efb-form-cur-action">{{formaction}}</label>
                 <span class="efb-form-title">{{panelsetup.title}}</span>
             </div>
         </div>
@@ -73,29 +49,29 @@
         </div>
     </div>
 
-    <div class="efb-forms-editor-body row">
-        <!-- Form Panels-->
-        <div id="efb-forms-panels-toggle" class="efb-forms-panels-toggle">
-            {{#nav_item}}
-            <button id="{{id}}" class="efb-panel-btn btn-primary {{#active}}panel-{{active}}{{/active}}" data-panel="{{panelid}}" data-panel-lbl="{{label}}">
-                <i class="fa {{icon}}"></i>
-                <span>{{label}}</span>
-            </button>
-            {{/nav_item}}
+    <div id="efb-forms-panels-toggle" class="efb-forms-panels-toggle">
+        <div>
+        {{#nav_item}}
+        <button id="{{id}}" class="efb-panel-btn btn btn-primary {{class}} {{active}}" data-panel="{{panelid}}" data-panel-lbl="{{label}}">
+            <i class="fa {{icon}}"></i>
+            <span>{{label}}</span>
+        </button>
+        {{/nav_item}}
         </div>
-        <div class="efb-form-content">
-            <div class="efb-forms-panel-heading">Setup</div>
-            <div class="efb-forms-panels">
-                <div id="{{panelsetup.id}}" class="efb-tabcontent {{builderactive}}">
-                    {{body}}
-                    {{> local_edwiserform/_create_form_setup_panel }}
-                </div>
-                {{#panels}}
-                <div id="{{id}}" class="efb-tabcontent content-{{#active}}{{active}}{{/active}}{{^active}}hide{{/active}}">
-                    {{{body}}}{{{button}}}
-                </div>
-                {{/panels}}
+    </div>
+    <div class="efb-form-content">
+        <div class="efb-forms-panel-heading">{{#str}} edittree, core_grades {{/str}}</div>
+        <!-- Form Panels-->
+        <div class="efb-forms-panels">
+            <div id="{{panelsetup.id}}" class="efb-tabcontent {{builderactive}}">
+                {{body}}
+                {{> local_edwiserform/create_form_setup_panel }}
             </div>
+            {{#panels}}
+            <div id="{{id}}" class="efb-tabcontent {{active}}">
+                {{{body}}}{{{button}}}
+            </div>
+            {{/panels}}
         </div>
     </div>
 </div>

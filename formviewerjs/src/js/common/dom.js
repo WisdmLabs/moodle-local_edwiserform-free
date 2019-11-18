@@ -229,7 +229,7 @@ class DOM {
             if (--limit !== 0) {
               setTimeout(renderCaptcha, 1000);
             } else {
-              element.querySelector('.g-recaptcha').innerHTML = getString('efb-google-recaptcha-not-loaded');
+              element.querySelector('.g-recaptcha').innerHTML = getString('google-recaptcha-not-loaded');
             }
           }
         };

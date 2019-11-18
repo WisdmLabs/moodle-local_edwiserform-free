@@ -171,6 +171,23 @@ class edwiserform {
                 if ($formid) {
                     $page = 'editform';
                 }
+                $out .= html_writer::start_tag('div', array('id' => 'root-page-loading', 'style' => '
+                    position: fixed;
+                    width: 100%;
+                    top: 0;
+                    left: 0;
+                    height: 100%;
+                '));
+                $out .= html_writer::start_tag('div', array('style' => '
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    text-align: center;
+                '));
+                $out .= get_string("error-occured-while-loading", "local_edwiserform");
+                $out .= html_writer::end_tag('div');
+                $out .= html_writer::end_tag('div');
                 $css = [new moodle_url($CFG->wwwroot .'/local/edwiserform/style/formedit.css')];
                 $css[] = new moodle_url($CFG->wwwroot .'/local/edwiserform/style/bootstrap-grid.css');
                 break;

@@ -88,7 +88,7 @@ $string['hey-wait'] = 'Hey Wait';
 $string['search-form'] = 'Search Forms:';
 $string['missing-name-attribute-field'] = 'Please provide name in the: <strong>{$a}</strong>. This is important to run form properly.';
 $string['form-enter-title'] = 'Please give a name to your form';
-$string['fullpage-link-message'] = '<a class="efb-view-fullpage" href="#">Click here</a> to view form in new tab.';
+$string['fullpage-link-message'] = '<a class="view-fullpage" href="#">Click here</a> to view form in new tab.';
 $string['fullpage-link-clicked'] = 'Form is opened in another tab.';
 
  // Template event string
@@ -131,6 +131,72 @@ $string["attention"] = "Attention";
 $string["template-change-warning"] = "All fields from current form will be deleted. Are you sure you want to continue?";
 
 // Setup template strings end.
+
+
+// Settings string start
+$string['settings-general'] = "General";
+$string['settings-notification'] = "Notification";
+$string['settings-confirmation'] = "Confirmation";
+$string['settings-events'] = "Events";
+$string['allowsubmissionsfromdate'] = 'Start date(PRO)';
+$string['allowsubmissionstodate'] = 'End date(PRO)';
+$string['enable-notification'] = 'Enable notification';
+$string['enable-notification-desc'] = 'Enable email notification.';
+$string['notify-email-subject'] = 'New user submission';
+$string['notify-email-subject-setting'] = 'Email Subject';
+$string['notify-email-body'] = '<div style="background-color: #efefef; -webkit-text-size-adjust: none !important; margin: 0; padding: 70px 70px 70px 70px;"><table id="template_container" style="text-align: center; padding-bottom: 20px; background-color: rgb(223, 223, 223); box-shadow: rgba(0, 0, 0, 0.024) 0px 0px 0px 3px !important; border-radius: 6px !important; margin: auto;" border="0" width="500" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="background-color: #1177d1;border-top-left-radius: 6px !important;border-top-right-radius: 6px !important;border-bottom: 0;font-family: Arial;font-weight: bold;line-height: 100%;vertical-align: middle;">
+<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">{SITE_NAME}</h1>
+</td>
+</tr>
+<tr>
+<td style="padding: 20px; background-color: #dfdfdf; border-radius: 6px !important;" align="center" valign="top">
+<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Hi,</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">{USER_LINK} has made submission in {FORM_TITLE} form.</div>
+<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div>
+<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div></td></tr>
+</tbody>
+</table>
+</div>';
+$string['email-show-tags'] = 'Show tags';
+$string['email-hide-tags'] = 'Hide tags';
+$string['email-body-tags'] = [
+    "{SITE_NAME}" => "Will be replaced with site name",
+    "{USER_FULLNAME}(PRO)" => "Firstname and Lastname of user",
+    "{USER_FIRSTNAME}(PRO)" => "User's firstname",
+    "{USER_LASTNAME}(PRO)" => "User's lastname",
+    "{AUTHOR_NAME}(PRO)" => "Firstname and Lastname of author",
+    "{AUTHOR_FIRSTNAME}(PRO)" => "Author's firstname",
+    "{AUTHOR_LASTNAME}(PRO)" => "Author's lastname",
+    "{FORM_TITLE}" => "Title of form",
+    "{USER_LINK}(PRO)" => "Link of user with fullname",
+    "{ALL_FIELDS}(PRO)" => "All fields from form",
+    "{VIEW_DATA_LINK LABEL=\"click\"}(PRO)" => "Link to view submission with custom label"
+];
+$string['notify-email-body-setting'] = 'Email Body';
+$string['confirmation-email-failed'] = "<p>Unable to send confirmation email.</p>";
+$string['confirmation-email-success'] = "<p>Confirmation email sent successfully.</p>";
+$string['notify-email-failed'] = "<p>Unable to notify author.</p>";
+$string['notify-email-success'] = "<p>Notified to author successfully.</p>";
+$string["lbl-confirmation-subject"] = "Form Confirmation Email Subject";
+$string["lbl-confirmation-default-subject"] = 'Form submitted successfully.';
+$string["lbl-confirmation-msg"] = "Form Confirmation Email Message";
+$string["confirmation-default-msg"] = '<div style="background-color: #efefef; -webkit-text-size-adjust: none !important; margin: 0; padding: 70px 70px 70px 70px;"><table id="template_container" style="text-align: center; padding-bottom: 20px; background-color: rgb(223, 223, 223); box-shadow: rgba(0, 0, 0, 0.024) 0px 0px 0px 3px !important; border-radius: 6px !important; margin: auto;" border="0" width="500" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="background-color: #1177d1;border-top-left-radius: 6px !important;border-top-right-radius: 6px !important;border-bottom: 0;font-family: Arial;font-weight: bold;line-height: 100%;vertical-align: middle;">
+<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">{SITE_NAME}</h1>
+</td>
+</tr>
+<tr>
+<td style="padding: 20px; background-color: #dfdfdf; border-radius: 6px !important;" align="center" valign="top">
+<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Hi {USER_FIRSTNAME},</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Thank you for submission in {FORM_TITLE}.</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div></td></tr></tbody></table><br>
+</div>';
+$string['error-occured-while-loading'] = 'Please wait while the page is loading. <br> If nothing appears then try to reload the page.';
+$string['email-body-restore-desc'] = '<a href="#" class="efb-email-body-restore" data-id="{$a->id}" data-string="{$a->string}">Restore</a> email body to default.';
+$string['recipient-email-desc'] = 'Default: Author\'s email address';
+// Settings strings end
 
 $string["tbl-heading-title"] = "Title";
 $string["tbl-heading-type"] = "Type";

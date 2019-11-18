@@ -19,7 +19,7 @@ gulp.task('separatecss', function() {
     return gulp.src('assets/scss/*.scss')
     .pipe(sass(sassOptions))
     .pipe(gulp.dest('./style'))
-    .pipe(notify({message: 'Common styles completed.', onLast: true}));
+    .pipe(notify({message: 'Separate styles completed.', onLast: true}));
 });
 
 gulp.task('copydatatablescss', function() {

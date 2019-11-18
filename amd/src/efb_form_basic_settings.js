@@ -37,7 +37,7 @@ define(['jquery'], function ($) {
             var emailElement = document.createElement("span");
             $(emailElement).html(email);
             $(emailElement).attr("data-email", email);
-            $(emailElement).attr("class", `email-tag btn btn-${classes[Math.floor((Math.random() * classes.length))]}`);
+            $(emailElement).attr("class", `email-tag btn btn-${classes[Math.floor((Math.random()*classes.length))]}`);
             var deleteEmail = document.createElement("span");
             $(deleteEmail).attr("class", "email-tag-delete");
             $(deleteEmail).html("X");
@@ -79,8 +79,43 @@ define(['jquery'], function ($) {
                 }
             }
         }
-        $("#id_notifi_email").parent().prepend(`<div class="notifi-email-group"><input type="email" class="notifi-email-group-input form-control" id="notifi-email-group-input"/></div>`);
+        $("#id_notifi_email").parent().prepend(`<div class="notifi-email-group"><input type="email" class="notifi-email-group-input form-control" id="notifi-email-group-input"/><div>${M.util.get_string('recipient-email-desc', 'local_edwiserform')}</div></div>`);
         $("#id_notifi_email").hide();
+        $('#id_notifi_email_body').after(M.util.get_string('email-body-restore-desc', 'local_edwiserform', {
+            id: '#id_notifi_email_bodyeditable',
+            string: 'notify-email-body'
+        }));
+        $('#id_confirmation_msg').after(M.util.get_string('email-body-restore-desc', 'local_edwiserform', {
+            id: '#id_confirmation_msgeditable',
+            string: 'confirmation-default-msg'
+        }));
+        $('.efb-email-body-restore').click(function() {
+            $($(this).data('id')).html(M.util.get_string($(this).data('string'), 'local_edwiserform'))
+        });
+        function get_body_tags() {
+            var tags = M.util.get_string('email-body-tags', 'local_edwiserform');
+            var container = "<div class='efb-email-tags show'><ul>";
+            $.each(tags, function(tag, info) {
+                container += `<li><a href="#" class="efb-email-tag" title="${info}">${tag}</a></li>`;
+            });
+            return container += "</ul></div>";
+        }
+        $('body').on('click', '.efb-email-show-tags>a', function() {
+            $(this).next().toggleClass('show');
+            $(this).text($(this).next().hasClass('show') ? M.util.get_string('email-hide-tags', 'local_edwiserform') : M.util.get_string('email-show-tags', 'local_edwiserform'));
+        });
+        $("#id_notifi_email_body").parents('.felement').siblings().append(
+            `<div class="efb-email-show-tags">
+                <a href="#">${M.util.get_string('email-hide-tags', 'local_edwiserform')}</a>
+                ${get_body_tags()}
+            </div>`
+        );
+        $("#id_confirmation_msg").parents('.felement').siblings().append(
+            `<div class="efb-email-show-tags">
+                <a href="#">${M.util.get_string('email-hide-tags', 'local_edwiserform')}</a>
+                ${get_body_tags()}
+            </div>`
+        );
         var emails = $("#id_notifi_email").val().trim();
         var editing = -1;
         if (emails.length > 0) {
@@ -142,9 +177,9 @@ define(['jquery'], function ($) {
             }
         }
         $("body").on("keyup", "#notifi-email-group-input", function(event) {
-            if (event.keyCode == 13 || event.keyCode == 32) { // Enter key or space key.
+            if (event.keyCode == 13 || event.keyCode == 32) { //Enter key or space key
                 checkAndAdd(this);
-            } else if (event.keyCode == 188) { // Comma key.
+            } else if (event.keyCode == 188) { //Comma key
                 $(this).val($(this).val().slice(0, -1));
                 checkAndAdd(this);
             }

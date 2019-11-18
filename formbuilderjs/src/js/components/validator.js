@@ -114,7 +114,7 @@ class Validator {
     if (nameMissing.length == 0) {
       return '';
     }
-    return getString('efb-missing-name-attribute-field', nameMissing.join(', '));
+    return getString('missing-name-attribute-field', nameMissing.join(', '));
   }
 }
 const validator = new Validator();

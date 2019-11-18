@@ -327,3 +327,25 @@ function local_edwiserform_extend_navigation(navigation_node $nav) {
         $icon
     )->showinflatnavigation = true;
 }
+
+/**
+ * Check whether current user is enrolled as teacher in any course
+ *
+ * @param  int $userid id of user or no parameter for current user
+ *
+ * @return bool true if user is teacher
+ * @since  Edwiser Form 1.2
+ */
+function is_teacher($userid = false) {
+    global $USER, $DB;
+    if ($userid == false) {
+        $userid = $USER->id;
+    }
+
+    $sql = "SELECT count(ra.id) FROM {role_assignments} ra
+              JOIN {role} r ON ra.roleid = r.id
+             WHERE ra.userid = ?
+               AND r.archetype IN ('editingteacher', 'teacher')";
+    $teachers = $DB->get_field_sql($sql, array($userid));
+    return $teachers > 0;
+}
