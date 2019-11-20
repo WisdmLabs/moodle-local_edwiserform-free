@@ -46,6 +46,22 @@ define([
                         }
                     }])[0];
                 },
+
+                /**
+                 * Enable or disable form using id and action
+                 * @param  {Number}  id     Form id
+                 * @param  {Boolean} action True - Enable, False - Disable
+                 * @return {Promise}        Ajax promise
+                 */
+                ENABLE_DISABLE_FORM: function(id, action) {
+                    return Ajax.call([{
+                        methodname: 'edwiserform_enable_disable_form',
+                        args: {
+                            id     : id,
+                            action : action
+                        }
+                    }])[0];
+                }
             };
 
             var table = null;
@@ -185,14 +201,8 @@ define([
 
                 function enable_disable_form(input) {
                     var formid = $(input).data('formid');
-                    var enabledisableform = ajax.call([{
-                        methodname: 'edwiserform_enable_disable_form',
-                        args: {
-                            id: formid,
-                            action: !$(input).is(':checked')
-                        }
-                    }]);
-                    enabledisableform[0].done(function(response) {
+                    PROMISES.ENABLE_DISABLE_FORM(formid, !$(input).is(':checked'))
+                    .done(function(response) {
                         if (response.status) {
                             $(input).prop('checked', $(input).is(':checked'));
                         } else {
