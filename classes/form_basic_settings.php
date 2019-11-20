@@ -163,6 +163,7 @@ class form_basic_settings extends moodleform {
             'subdirs' => false
         ))->setValue(array('text' => get_string('confirmation-default-msg', 'local_edwiserform')));
         $form->setType("confirmation_msg", PARAM_RAW);
+        $form->addElement("html", "<div class='form-settings-preview bg-primary'>" . get_string('preview-only', 'local_edwiserform') . "</div>");
         $form->addElement("html", "</div>");
     }
 
@@ -177,6 +178,7 @@ class form_basic_settings extends moodleform {
     private function get_event_settings(&$form, $eventlist) {
         $form->addElement("html", "<div class='efb-settings-tab' id='efb-settings-events'>");
         $form->addElement("select", "events", get_string("lbl-event", "local_edwiserform"), $eventlist)->setMultiple(true);
+        $form->addElement("html", "<div class='form-settings-preview bg-primary'>" . get_string('preview-only', 'local_edwiserform') . "</div>");
         $form->addElement("html", "</div>");
     }
 

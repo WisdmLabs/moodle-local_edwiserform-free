@@ -56,6 +56,10 @@ $string['lbl-description-warning'] = "Description cannot be empty.";
 $string['lbl-allowedit'] = "Allow Data Edit";
 $string['lbl-allowedit-desc'] = "Allow user to edit submitted data.";
 $string['lbl-event'] = "Select Event";
+$string['lbl-event-choose'] = "Choose events";
+$string['lbl-event-search'] = "Search events";
+$string['lbl-event-search-not-found'] = "No results";
+$string['lbl-event'] = "Select Event";
 $string['lbl-courses-list'] = "Select Courses";
 $string['lbl-notifi-email'] = "Recipient Email Address";
 $string['lbl-notifi-email-warning'] = "Invalid email address.";
@@ -87,6 +91,7 @@ $string['shortcodecoppied'] = '{$a} copied to clipboard';
 $string['hey-wait'] = 'Hey Wait';
 $string['search-form'] = 'Search Forms:';
 $string['missing-name-attribute-field'] = 'Please provide name in the: <strong>{$a}</strong>. This is important to run form properly.';
+$string['form-style'] = 'Style';
 $string['form-enter-title'] = 'Please give a name to your form';
 $string['fullpage-link-message'] = '<a class="view-fullpage" href="#">Click here</a> to view form in new tab.';
 $string['fullpage-link-clicked'] = 'Form is opened in another tab.';
@@ -102,6 +107,7 @@ $string['event-login-desc'] = 'Provides the login form. You can use this form in
 $string['event-registration-name'] = "User Registration Form";
 $string['event-registration-desc'] = "Provides the registration form. Use this form to create user account.";
 $string['pro-label'] = 'PRO';
+$string['preview-only'] = 'Preview Only';
 
 // Setup template strings start.
 $string['setup-msg-select-tmpl'] = "To speed up the process, you can select from one of our pre-made templates";
@@ -136,14 +142,14 @@ $string["template-change-warning"] = "All fields from current form will be delet
 // Settings string start
 $string['settings-general'] = "General";
 $string['settings-notification'] = "Notification";
-$string['settings-confirmation'] = "Confirmation";
-$string['settings-events'] = "Events";
-$string['allowsubmissionsfromdate'] = 'Start date(PRO)';
-$string['allowsubmissionstodate'] = 'End date(PRO)';
-$string['enable-notification'] = 'Enable notification';
-$string['enable-notification-desc'] = 'Enable email notification.';
+$string['settings-confirmation'] = "Confirmation <strong>(PRO)</strong>";
+$string['settings-events'] = "Events <strong>(PRO)</strong>";
+$string['allowsubmissionsfromdate'] = 'Start date <strong>(PRO)</strong>';
+$string['allowsubmissionstodate'] = 'End date <strong>(PRO)</strong>';
+$string['enable-notification'] = 'Enable notification <strong>(PRO)</strong>';
+$string['enable-notification-desc'] = 'Enable email notification.(Always enabled in Edwiser Forms Free)';
 $string['notify-email-subject'] = 'New user submission';
-$string['notify-email-subject-setting'] = 'Email Subject';
+$string['notify-email-subject-setting'] = 'Email Subject <strong>(PRO)</strong>';
 $string['notify-email-body'] = '<div style="background-color: #efefef; -webkit-text-size-adjust: none !important; margin: 0; padding: 70px 70px 70px 70px;"><table id="template_container" style="text-align: center; padding-bottom: 20px; background-color: rgb(223, 223, 223); box-shadow: rgba(0, 0, 0, 0.024) 0px 0px 0px 3px !important; border-radius: 6px !important; margin: auto;" border="0" width="500" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
@@ -231,7 +237,6 @@ $string["form-setting-update-msg"] = "Form has been updated successfuly. Click O
 $string["list-form-data-page-title"] = "List Form Data.";
 $string["msg-form-delete-success"] = "Form deleted successfuly.";
 $string["msg-form-delete-fail"] = "Form deletion failed.";
-$string["lbl-confirmation-msg"] = "Form Confirmation Email Message";
 $string["valid-form-data"] = "Form data is valid";
 $string["invalid-form-data"] = "Form data is not valid";
 $string["login-form-disable-different-form"] = "Cannot disable. Another login form is active";

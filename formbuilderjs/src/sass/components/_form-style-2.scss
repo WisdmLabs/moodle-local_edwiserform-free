@@ -1,0 +1,29 @@
+.formeo {
+    .f-field-group {
+        &.input-text-wrapper , &.input-number-wrapper, &.input-password-wrapper, &.input-date-wrapper, &.input-email-wrapper, &.textarea-wrapper, &.input-file-wrapper {
+            &:not(.active)> label, .text-error {
+                top: 0.5rem;
+            }
+            &.active {
+                &>label, .text-error {
+                    top: -1rem;
+                }
+            }
+        }
+        &.select-wrapper {
+            &>label {
+                top: -1rem;
+            }
+        }
+        .select-container {
+            width: 100%;
+            .selected-option {
+                padding: 0.6rem .6rem 0rem;
+            }
+        }
+    }
+    .f-addon, input:not(.select-list-search), textarea, .select-container .selected-option {
+        border: 0px solid;
+        border-bottom: 1px solid #ccc;
+    }
+}

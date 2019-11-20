@@ -41,6 +41,14 @@
     height: 100%;
     padding: 25px;
     overflow: auto;
+
+    .form-settings-preview {
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        text-align: center;
+        padding: 6px;
+    }
 }
 .efb-form-settings {
     box-sizing: border-box;

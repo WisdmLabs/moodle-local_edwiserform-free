@@ -3,10 +3,36 @@
  * Version: 0.1.0
  * Author: Yogesh Shirsath
  */
-define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_basic_settings', 'local_edwiserform/formbuilder'], function ($, ajax, notification) {
+define([
+    'jquery',
+    'core/ajax',
+    'core/notification',
+    'core/templates',
+    'local_edwiserform/form_styles',
+    'local_edwiserform/efb_form_basic_settings',
+    'local_edwiserform/formbuilder',
+    'local_edwiserform/fastsearch',
+    'local_edwiserform/fastselect'
+    ], function ($, ajax, notification, Templates, formStyles) {
+
+    var SELECTORS = {
+        FORMTYPE: '#id_type',
+        COMPONENT: 'local_edwiserform',
+        EVENT: '#id_events',
+        EVENT_LIST: '.efb-event-list',
+        FORM_STYLE: '.efb-form-style',
+        RENDER_FORM: '.render-form',
+        PANEL: '.efb-panel-btn',
+        TEMPLATE_OVERLAY: '.efb-forms-template-overlay',
+        TITLE: '#id_title',
+        ACTIVE: 'active',
+        FORM_TITLE: '#efb-form-title'
+    };
+
     let container = document.querySelector('.build-form');
-    let renderContainer = document.querySelector('.render-form');
+    let renderContainer = document.querySelector(SELECTORS.RENDER_FORM);
     let saved = false;
+    var fastselect = null;
     var get_form_def;
     var get_form_settings;
     var formeo;
@@ -102,7 +128,7 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
      */
     var reset_form = function() {
         formeo.dom.loading();
-        var formtype = $("#id_type").val();
+        var formtype = $(SELECTORS.FORMTYPE).val();
         PROMISES.GET_TEMPLATE(formtype)
         .done(function(response) {
             formeo.dom.loadingClose();
@@ -133,10 +159,10 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
      * @param  {String} id Panel id
      */
     function switch_panel(id) {
-        $('.efb-panel-btn').removeClass('active');
-        $(`#efb-${id}`).addClass('active');
-        $('.efb-tabcontent').removeClass('active');
-        $(`#efb-cont-${id}`).addClass('active');
+        $(SELECTORS.PANEL).removeClass(SELECTORS.ACTIVE);
+        $(`#efb-${id}`).addClass(SELECTORS.ACTIVE);
+        $('.efb-tabcontent').removeClass(SELECTORS.ACTIVE);
+        $(`#efb-cont-${id}`).addClass(SELECTORS.ACTIVE);
     }
 
     /**
@@ -158,15 +184,42 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
                 case 'efb-form-preview':
                     switch_panel('form-settings');
                 case 'efb-form-settings':
-                    $('#id_title').parents('.fitem').addClass('has-danger');
+                    $(SELECTORS.TITLE).parents('.fitem').addClass('has-danger');
                     break;
             }
-            formeo.dom.toaster(M.util.get_string('lbl-title-warning', 'local_edwiserform'), 3000);
+            formeo.dom.toaster(M.util.get_string('lbl-title-warning', SELECTORS.COMPONENT), 3000);
         } else {
             $('.efb-form-title-container').removeClass('has-danger');
-            $('#id_title').parents('.fitem').removeClass('has-danger');
+            $(SELECTORS.TITLE).parents('.fitem').removeClass('has-danger');
         }
         return emptytitle;
+    }
+
+    /**
+     * Toogle event setting on event ribbon click
+     * @param {DOM}     _this        Clicked DOM element
+     * @param {Boolean} collapseOnly True if only one event settings can be uncollapsed
+     */
+    function toggleEventSettings(_this, collapseOnly) {
+        if($(_this).parent('.efb-event').hasClass('collapsed')) {
+            if (!collapseOnly) {
+                $('.efb-event:not(.collapsed) h4').each(function(i, node) {
+                    $(node).trigger('click', [true])
+                });
+            }
+            $(_this).parent('.efb-event').removeClass('collapsed');
+            $(_this).next().height('auto');
+            let height = $(_this).next()[0].clientHeight + 'px';
+            $(_this).next().height('0px');
+            setTimeout(() => {
+                $(_this).next().height(height);
+            }, 0);
+        } else {
+            $(_this).next().height('0px');
+            $(_this).next()[0].addEventListener('transitionend', () => {
+                $(_this).parent('.efb-event').addClass('collapsed');
+            }, {once: true});
+        }
     }
 
     /**
@@ -174,7 +227,7 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
      * @return {Object} form settings
      */
     get_form_settings = function() {
-        var type = $("#id_type").val();
+        var type = $(SELECTORS.FORMTYPE).val();
         var data = {
             "title": $("#id_title").val(),
             "description": $("#id_description").val(),
@@ -193,6 +246,63 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
      */
     get_form_def = function() {
         return formeo.formData;
+    }
+
+    /**
+     * Return callback for fastselect library option
+     * @return {Object} Callback object
+     */
+    var fastselect_custom_callbacks = {
+        removeSelectedOption: function(option, $choiceItem) {
+            if (option.value == $(SELECTORS.FORMTYPE).val()) {
+                formeo.dom.toaster(M.util.get_string('cannot-remove-event', SELECTORS.COMPONENT, $(SELECTORS.FORMTYPE).find('option:selected').html()), 3000);
+                return;
+            }
+            var removedModel = this.optionsCollection.removeSelected(option);
+            if (removedModel && removedModel.$item) {
+                removedModel.$item.removeClass(this.options.itemSelectedClass);
+            }
+            if ($choiceItem) {
+                $choiceItem.remove();
+            } else {
+                this.$el.find(selectorFromClass(this.options.choiceItemClass) + '[data-value="' + option.value + '"]').remove();
+            }
+            this.updateDomElements();
+            this.writeToInput();
+            if(option.value == 'enrolment') {
+                $('#efb-event-enrolment').remove();
+            }
+        },
+        setSelectedOption: function(option) {
+            if (this.optionsCollection.isSelected(option.value)) {
+                return;
+            }
+            this.optionsCollection.setSelected(option);
+            var selectedModel = this.optionsCollection.findWhere(function(model) {
+                return model.value === option.value;
+            });
+            if (this.isMultiple) {
+                this.$controls && this.addChoiceItem(option);
+            } else {
+                this.fastsearch && this.fastsearch.$resultItems.removeClass(this.options.itemSelectedClass);
+                this.$toggleBtn && this.$toggleBtn.text(option.text);
+            }
+            selectedModel && selectedModel.$item.addClass(this.options.itemSelectedClass);
+            this.updateDomElements();
+            if(option.value == 'enrolment') {
+                Formeo.dom.loading();
+                var courses = Array.from(Array(10).keys());
+                courses.push('...');
+                Templates.render('local_edwiserform/event_settings_container', {
+                    name: option.text,
+                    courses
+                })
+                .done(function(html, js) {
+                    Templates.appendNodeContents($(SELECTORS.EVENT_LIST), html, js);
+                    Formeo.dom.loadingClose();
+                });
+            }
+        }
     }
 
     /**
@@ -238,18 +348,51 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
      * @param  {String} template template definition
      */
     function select_template(formtype, template = '') {
-        $("#id_type").val(formtype);
-        var changeEvent = new CustomEvent("change", {target: $("#id_type")[0]});
-        $("#id_type")[0].dispatchEvent(changeEvent);
+        $(SELECTORS.FORMTYPE).val(formtype);
+        var changeEvent = new CustomEvent("change", {target: $(SELECTORS.FORMTYPE)[0]});
+        $(SELECTORS.FORMTYPE)[0].dispatchEvent(changeEvent);
         formeoOpts.container = container;
         formeo = new Formeo(formeoOpts, template);
         $("#efb-form-settings").trigger('click');
     }
 
     /**
+     * Apply style to form preview
+     * @param  {Number} id Style id
+     */
+    function apply_style(id) {
+        $(SELECTORS.FORM_STYLE).removeClass('selected');
+        $(SELECTORS.FORM_STYLE + '[data-form="' + id + '"]').addClass('selected');
+        for (var i = 1; i <= supportedStyles; i++) {
+            if ($(SELECTORS.RENDER_FORM).hasClass('form-style-' + i)) {
+                formStyles.apply($(SELECTORS.RENDER_FORM), 'remove', i);
+            }
+        }
+        formStyles.apply($(SELECTORS.RENDER_FORM), 'add', id);
+    }
+
+    /**
      * Innitialize form events
      */
     function initializeEvents() {
+        if (fastselect == null) {
+            fastselect = $(SELECTORS.EVENT).hide().fastselect({
+                callbacks: fastselect_custom_callbacks
+            });
+        }
+        $('#efb-settings-events').append('<div class="efb-event-list"></div>');
+        $('.efb-form-style-container .controls-toggle').click(function() {
+            $(this).parents('.preview-form').toggleClass('show-styles');
+            $('#efb-cont-form-builder .formeo-controls').closest('.build-form').toggleClass('hidden-controls');
+        });
+        $(SELECTORS.FORM_STYLE).mouseenter(function() {
+            $('.form-style-preview').attr('src', $(this).find('img').attr('src')).css('top', $(this).offset().top).show();
+        }).mouseleave(SELECTORS.FORM_STYLE, function() {
+            $('.form-style-preview').attr('src', '').hide();
+        }).click(SELECTORS.FORM_STYLE, function(event) {
+            apply_style($(this).data('form'));
+        });
+
         let label = $('#id_allowsubmissionsfromdate_enabled').parent();
         let container = $(label).parent();
         label.detach().prependTo(container);
@@ -258,10 +401,10 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
         label.detach().prependTo(container);
 
         $('.efb-settings-tab-list-item').click(function() {
-            $('.efb-settings-tab-list-item').removeClass('active');
-            $(this).addClass('active');
-            $('.efb-settings-tab').removeClass('active');
-            $(`#${$(this).data('target')}`).addClass('active');
+            $('.efb-settings-tab-list-item').removeClass(SELECTORS.ACTIVE);
+            $(this).addClass(SELECTORS.ACTIVE);
+            $('.efb-settings-tab').removeClass(SELECTORS.ACTIVE);
+            $(`#${$(this).data('target')}`).addClass(SELECTORS.ACTIVE);
         });
 
         $(document).on('formeoUpdated', function(event) {
@@ -278,7 +421,7 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
         });
         $(".efb-panel-btn").click(function (event) {
             if (!check_template()) {
-                formeo.dom.toaster(M.util.get_string('select-template-warning', 'local_edwiserform'), 3000);
+                formeo.dom.toaster(M.util.get_string('select-template-warning', SELECTORS.COMPONENT), 3000);
                 switch_panel('form-setup');
                 event.preventDefault();
                 return;
@@ -298,13 +441,14 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
 
             if ("#efb-cont-form-preview" == eleCont) {
                 formeo.render(renderContainer);
+                apply_style(1);
             }
         });
 
         // This will save the form settings using ajax.
         $("body").on("click", "#efb-btn-save-form-settings", function (event) {
             if (!check_template()) {
-                formeo.dom.toaster(M.util.get_string('select-template-warning', 'local_edwiserform'), 3000);
+                formeo.dom.toaster(M.util.get_string('select-template-warning', SELECTORS.COMPONENT), 3000);
                 switch_panel('form-setup');
                 event.preventDefault();
                 return;
@@ -337,16 +481,16 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
                         window.onbeforeunload = null;
                         formeo.dom.multiActions(
                             'success',
-                            M.util.get_string("success", "local_edwiserform"),
+                            M.util.get_string("success", SELECTORS.COMPONENT),
                             response.msg,
                             [{
-                                title: M.util.get_string("heading-listforms", "local_edwiserform"),
+                                title: M.util.get_string("heading-listforms", SELECTORS.COMPONENT),
                                 type: 'primary',
                                 action: function() {
                                     $(location).attr('href', M.cfg.wwwroot + "/local/edwiserform/view.php?page=listforms");
                                 }
                             }, {
-                                title: M.util.get_string("close", "local_edwiserform"),
+                                title: M.util.get_string("close", SELECTORS.COMPONENT),
                                 type: 'default'
                             }]
                         );
@@ -356,16 +500,16 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
                 }
                 formeo.dom.multiActions(
                     'warning',
-                    M.util.get_string("attention", "local_edwiserform"),
-                    M.util.get_string("forms-update-confirm", "local_edwiserform"),
+                    M.util.get_string("attention", SELECTORS.COMPONENT),
+                    M.util.get_string("forms-update-confirm", SELECTORS.COMPONENT),
                     [{
-                        title: M.util.get_string("forms-update-create-new", "local_edwiserform"),
+                        title: M.util.get_string("forms-update-create-new", SELECTORS.COMPONENT),
                         type: 'primary',
                         action: function() {
                             save_form_settings(action, settings, formdef, form_create_action);
                         }
                     }, {
-                        title: M.util.get_string("forms-update-overwrite-existing", "local_edwiserform"),
+                        title: M.util.get_string("forms-update-overwrite-existing", SELECTORS.COMPONENT),
                         type: 'warning',
                         action: function() {
                             action = "update";
@@ -379,11 +523,11 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
             if (!saved) {
                 save_form_settings(action, settings, formdef, form_create_action);
             } else {
-                formeo.dom.toaster(M.util.get_string('form-setting-saved', 'local_edwiserform'), 3000);
+                formeo.dom.toaster(M.util.get_string('form-setting-saved', SELECTORS.COMPONENT), 3000);
             }
         });
 
-        $("#efb-form-title").keyup(function () {
+        $(SELECTORS.FORM_TITLE).keyup(function () {
             var formName = $(this).val();
             var empty = formName == '';
             $(this).parent().toggleClass('has-danger', empty);
@@ -398,12 +542,12 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
             change_heading(formName);
         }).change(function() {
             var formName = $(this).val();
-            $("#efb-form-title").val(formName);
+            $(SELECTORS.FORM_TITLE).val(formName);
             can_save_form();
         });
 
 
-        $("#id_type").change(function() {
+        $(SELECTORS.FORMTYPE).change(function() {
             $(".efb-forms-template").removeClass("active");
             var type = $(this).val();
             $("#efb-forms-template-" + type).addClass("active");
@@ -422,10 +566,10 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
             can_save_form();
             var select = function() {
                 var formtype = $(_this).data("template");
-                $(_this).parents('.efb-forms-template-overlay').addClass('loading');
+                $(_this).parents(SELECTORS.TEMPLATE_OVERLAY).addClass('loading');
                 PROMISES.GET_TEMPLATE(formtype)
                 .done(function(response) {
-                    $(_this).parents('.efb-forms-template-overlay').removeClass('loading');
+                    $(_this).parents(SELECTORS.TEMPLATE_OVERLAY).removeClass('loading');
                     if (response.status == true) {
                         select_template(formtype, response.definition);
                         return;
@@ -434,27 +578,34 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_edwiserform/efb_form_
                         select_template(formtype, response.definition);
                     });
                 }).fail(function(ex) {
-                    $(_this).parents('.efb-forms-template-overlay').removeClass('loading');
+                    $(_this).parents(SELECTORS.TEMPLATE_OVERLAY).removeClass('loading');
                     formeo.dom.alert('danger', ex.message);
                 });
             }
             if ($(".efb-forms-template.active").length && !empty_form_definition()) {
                 formeo.dom.multiActions(
                     'warning',
-                    M.util.get_string("attention", "local_edwiserform"),
-                    M.util.get_string("template-change-warning", "local_edwiserform"),
+                    M.util.get_string("attention", SELECTORS.COMPONENT),
+                    M.util.get_string("template-change-warning", SELECTORS.COMPONENT),
                     [{
-                        title: M.util.get_string('proceed', 'local_edwiserform'),
+                        title: M.util.get_string('proceed', SELECTORS.COMPONENT),
                         type: 'warning',
                         action: select
                     }, {
-                        title: M.util.get_string('cancel', 'local_edwiserform'),
+                        title: M.util.get_string('cancel', SELECTORS.COMPONENT),
                         type: 'success'
                     }]
                 );
             } else {
                 select();
             }
+        });
+
+        $('body').on('click', '.efb-event-label', function(event, collapseOnly = null) {
+            if ($(this).next().html() == '') {
+                return
+            }
+            toggleEventSettings(this, collapseOnly);
         });
 
         // Copy email tag

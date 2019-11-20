@@ -1,0 +1,141 @@
+*::-webkit-input-placeholder { /* WebKit browsers */
+    color: transparent;
+}
+*:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: transparent;
+}
+*::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: transparent;
+}
+*:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: transparent;
+}
+input::-webkit-datetime-edit {
+    color: transparent;
+}
+.formeo {
+    .f-field-group {
+        label {
+            font-size:14px;
+            font-weight:normal;
+            color:#999;
+        }
+        label, .form-control, .text-error {
+            transition:0.2s ease all;
+            -moz-transition:0.2s ease all;
+            -webkit-transition:0.2s ease all;
+        }
+        &.input-text-wrapper , &.input-number-wrapper, &.input-password-wrapper, &.input-date-wrapper, &.input-email-wrapper, &.textarea-wrapper, &.input-file-wrapper {
+            position: relative;
+            &>label {
+                position:absolute;
+                pointer-events:none;
+                left: 0.5rem;
+                margin-bottom: 0rem;
+                z-index: 1;
+            }
+            &.active {
+                &>label, .text-error {
+                    font-size: 95%;
+                }
+                input::-webkit-datetime-edit {
+                    color: inherit;
+                }
+            }
+        }
+        &.select-wrapper {
+            position: relative;
+            &>label {
+                position: absolute;
+                left: 0.5rem;
+                margin-bottom: 0rem;
+                z-index: 1;
+                font-size: 95%;
+            }
+        }
+        .select-container {
+            position: relative;
+            width: 100%;
+            &:not(.active) .select-list-wrapper {
+                display: none;
+            }
+            .selected-option {
+                cursor: pointer;
+                &::after {
+                    content: "";
+                    width: 0;
+                    height: 0;
+                    border-left: 0.5rem solid transparent;
+                    border-right: 0.5rem solid transparent;
+                    border-top: 0.5rem solid;
+                    position: absolute;
+                    right: 1rem;
+                    top: 100%;
+                    transform: translate(0%,-250%);
+                }
+            }
+            .select-list-wrapper {
+                position: absolute;
+                width: 100%;
+                z-index: 2;
+                box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12), 0 1px 10px 0 rgba(0,0,0,.12);
+                .select-list-search {
+                    height: 36px;
+                    padding-left: 25px;
+                }
+                .fa-search {
+                    position: absolute;
+                    height: 100%;
+                    left: 7px;
+                    line-height: 34px;
+                }
+                .select-list {
+                    margin: 0;
+                    background: white;
+                    overflow: auto;
+                    -webkit-overflow-scrolling: touch;
+                    padding-top: 0;
+                    padding-bottom: 0;
+                    max-height: 256px;
+                    min-width: 100%;
+                    border-radius: 4px;
+                    padding: 0;
+                    cursor: pointer;
+                    .select-list-item {
+                        list-style-type: none;
+                        padding: 0.5rem 1rem;
+                        &.active {
+                            background: rgba(0,0,0,.12);
+                        }
+                    }
+                }
+            }
+        }
+        .file-container {
+            .file-input-selected-wrapper {
+                width: 75%;
+                display: inline-block;
+            }
+            .file-input-selected-wrapper input {
+                @extend %input-style;
+                border: none;
+                padding: .3rem 0;
+            }
+            .file-input-button-wrapper {
+                width: 25%;
+                display: inline-block;
+                text-align: right;
+                .select-file-button {
+                    border-radius: 50%;
+                    width: 34px;
+                    height: 34px;
+                    padding: 0;
+                    .fa-upload {
+                        width: 13px;
+                        height: 13px;
+                    }
+                }
+            }
+        }
+    }
+}

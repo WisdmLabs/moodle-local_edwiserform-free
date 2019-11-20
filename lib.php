@@ -26,6 +26,7 @@ define("EDWISERFORM_FILEAREA", "successmessage");
 define("UNAUTHORISED_USER", 1);
 define("ADMIN_PERMISSION", 2);
 define("PRO_URL", "https://edwiser.org/forms/edwiser-forms-pricing");
+define("SUPPORTED_FORM_STYLES", 4);
 
 /**
  * Return value from array based on index. If index not found or empty

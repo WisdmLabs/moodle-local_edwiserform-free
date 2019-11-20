@@ -189,7 +189,6 @@ class edwiserform {
                 $out .= html_writer::end_tag('div');
                 $out .= html_writer::end_tag('div');
                 $css = [new moodle_url($CFG->wwwroot .'/local/edwiserform/style/formedit.css')];
-                $css[] = new moodle_url($CFG->wwwroot .'/local/edwiserform/style/bootstrap-grid.css');
                 break;
             case 'listforms':
                 $PAGE->requires->js_call_amd('local_edwiserform/form_list', 'init');

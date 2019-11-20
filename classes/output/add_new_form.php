@@ -31,6 +31,7 @@ use local_edwiserform\form_basic_settings;
 use local_edwiserform\new_form_sections;
 use moodle_url;
 use context_system;
+use stdClass;
 
 class add_new_form implements renderable, templatable
 {
@@ -117,13 +118,38 @@ class add_new_form implements renderable, templatable
     }
 
     /**
+     * Get container to show form styles
+     *
+     * @return string style dom container
+     * @since  Edwiser Form 1.1.0
+     */
+    private function get_form_style_container() {
+        global $PAGE, $CFG;
+        $selected = (isset($this->form) && $this->form->style != null) ? $this->form->style : 1;
+        $PAGE->requires->data_for_js('supportedStyles', SUPPORTED_FORM_STYLES);
+        $PAGE->requires->data_for_js('selectedStyle', $selected);
+        $styles = [];
+        for ($i = 1; $i <= SUPPORTED_FORM_STYLES; $i++) {
+            $styles[] = [
+                'id' => $i,
+                'label' => get_string('form-style', 'local_edwiserform')." ".$i,
+                'active' => $i == $selected,
+                'url' => $CFG->wwwroot . '/local/edwiserform/pix/form_style_' . $i . '.png',
+                'pro' => true
+            ];
+        }
+        unset($styles[0]['pro']);
+        return $styles;
+    }
+
+    /**
      * Set defaut section data and current form data this sets sidebar navigation buttons,
      * header buttons and panel containers
      *
      * @since  Edwiser Form 1.1.0
      */
     private function set_default_section_data() {
-        global $CFG;
+        global $CFG, $PAGE;
         $settingsparam = array(
             'plugins' => $this->plugins,
             'teacher' => $this->teacher
@@ -175,6 +201,8 @@ class add_new_form implements renderable, templatable
                 "icon"    => "fa-eye"
             )
         );
+        $preview = new stdClass;
+        $preview->styles = $this->get_form_style_container();
         $panels        = array(
             array(
                 "id"      => "efb-cont-form-settings",
@@ -193,12 +221,8 @@ class add_new_form implements renderable, templatable
             ),
             array(
                 "id"      => "efb-cont-form-preview",
-                "heading" => get_string("lbl-form-preview", "local_edwiserform"),
-                "body"    => '<div class="preview-form">
-                        <div class="preview-form-container">
-                            <form class="render-form"></form>
-                        </div>
-                    </div>',
+                "heading" => get_string("efb-lbl-form-preview", "local_edwiserform"),
+                "body"    => $PAGE->get_renderer('local_edwiserform')->render_from_template('local_edwiserform/new_form_preview_container', $preview),
                 "button"  => "<button class='efb-form-step efb-form-step-builder btn-primary fa fa-eye-slash' data-id='efb-form-builder'></button>"
             ),
         );

@@ -223,6 +223,27 @@ class DOM {
   }
 
   /**
+   * Check for standard element
+   * @param  {Object}  elem      element config object
+   * @return {Boolean}            true | false
+   */
+  getWrapperClass(elem) {
+    if (h.get(elem, 'className') == 'g-recaptcha') {
+      return 'g-recaptcha-wrapper';
+    }
+    if (elem.tag == 'textarea' || elem.tag == 'select') {
+      return elem.tag + '-wrapper';
+    }
+    if (elem.tag == 'input') {
+      if (elem.attrs.type == 'radio' || elem.attrs.type == 'checkbox') {
+        return '';
+      }
+      return 'input-' + elem.attrs.type + '-wrapper';
+    }
+    return '';
+  }
+
+  /**
    * Missing form-control class in input element
    * @param  {Object} elem element config object
    * @return {Object}
@@ -290,7 +311,7 @@ class DOM {
     const wrap = {
       tag: 'div',
       attrs: {},
-      className: [h.get(elem, 'config.inputWrap') || 'f-field-group' + ' ' + displayLabel],
+      className: [h.get(elem, 'config.inputWrap') || 'f-field-group' + ' ' + displayLabel + ' ' + this.getWrapperClass(elem)],
       content: [],
       config: {}
     };
