@@ -86,6 +86,12 @@ class new_form_sections {
     private $builderactive;
 
     /**
+     * $buildericons Form builder svg icon
+     * @var [type]
+     */
+    private $buildericons;
+
+    /**
      * Get complete form section data object
      * @return stdClass Create new form section data
      */
@@ -100,6 +106,7 @@ class new_form_sections {
         $this->section_data->headerbutton = $this->get_header_button();
         $this->section_data->panelsetup = $this->get_panel_setup();
         $this->section_data->builderactive = $this->get_builder_active();
+        $this->section_data->buildericons = $this->get_builder_icons();
         return $this->section_data;
     }
 
@@ -245,6 +252,22 @@ class new_form_sections {
      */
     public function set_builder_active($builderactive) {
         $this->builderactive = $builderactive;
+    }
+
+    /**
+     * Get form builder svg icons
+     * @return html HTML format svg icons
+     */
+    public function get_builder_icons() {
+        return $this->buildericons;
+    }
+
+    /**
+     * Get form builder svg icons
+     * @param html $buildericons HTML format svg icons
+     */
+    public function set_builder_icons($buildericons) {
+        $this->buildericons = $buildericons;
     }
 
 }

@@ -167,28 +167,6 @@ class edwiserform_events_plugin {
         return ucfirst($name);
     }
 
-    public function common_submission_email_message($form, $submission) {
-        $definition = json_decode($form->definition, true);
-        $fields = $definition['fields'];
-        $data = json_decode($submission->submission);
-        $messagehtml = '';
-        foreach ($data as $input) {
-            $name = $this->get_field_label($fields, $input->name);
-            $messagehtml .= html_writer::start_tag('div');
-            $messagehtml .= html_writer::start_tag('table');
-            $messagehtml .= html_writer::start_tag('tr');
-            $messagehtml .= html_writer::tag('td', $name . ':');
-            $messagehtml .= html_writer::tag('td', $input->value);
-            $messagehtml .= html_writer::end_tag('tr');
-            $messagehtml .= html_writer::end_tag('table');
-            $messagehtml .= html_writer::end_tag('div');
-        }
-        return $messagehtml;
-    }
-
-    public function submission_email_message($form, $submission) {
-        return null;
-    }
     /**
      * Has field value in form data
      * @param array   $formdata

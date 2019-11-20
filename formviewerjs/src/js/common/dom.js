@@ -1463,6 +1463,37 @@ class DOM {
   }
 
   /**
+   * Display loading effect
+   */
+  loading() {
+    const _this = this;
+    const id = 'efb-modal-loading';
+    const modal = {
+      tag: 'div',
+      id: id,
+      attrs: {
+        className: 'efb-modal fade',
+        role: 'dialog',
+        'aria-hidden': true
+      },
+      content: {
+        tag: 'div',
+        className: 'efb-modal-loader'
+      }
+    };
+    _this.addModal(modal);
+  }
+
+  /**
+   * Display loading effect
+   */
+  loadingClose() {
+    const _this = this;
+    const id = 'efb-modal-loading';
+    _this.removeModal(id);
+  }
+
+  /**
    * @param {String} type of prompt window
    * @param {String} msg for prompt window
    * @param {function} action to apply after pressing ok button

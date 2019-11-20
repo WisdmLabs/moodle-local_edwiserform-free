@@ -142,14 +142,14 @@ $string["template-change-warning"] = "All fields from current form will be delet
 // Settings string start
 $string['settings-general'] = "General";
 $string['settings-notification'] = "Notification";
-$string['settings-confirmation'] = "Confirmation <strong>(PRO)</strong>";
-$string['settings-events'] = "Events <strong>(PRO)</strong>";
-$string['allowsubmissionsfromdate'] = 'Start date <strong>(PRO)</strong>';
-$string['allowsubmissionstodate'] = 'End date <strong>(PRO)</strong>';
-$string['enable-notification'] = 'Enable notification <strong>(PRO)</strong>';
+$string['settings-confirmation'] = 'Confirmation <label class="efb-forms-pro-label m-0">PRO</label>';
+$string['settings-events'] = 'Events <label class="efb-forms-pro-label m-0">PRO</label>';
+$string['allowsubmissionsfromdate'] = 'Start date <label class="efb-forms-pro-label m-0">PRO</label>';
+$string['allowsubmissionstodate'] = 'End date <label class="efb-forms-pro-label m-0">PRO</label>';
+$string['enable-notification'] = 'Enable notification <label class="efb-forms-pro-label m-0">PRO</label>';
 $string['enable-notification-desc'] = 'Enable email notification.(Always enabled in Edwiser Forms Free)';
 $string['notify-email-subject'] = 'New user submission';
-$string['notify-email-subject-setting'] = 'Email Subject <strong>(PRO)</strong>';
+$string['notify-email-subject-setting'] = 'Email Subject <label class="efb-forms-pro-label m-0">PRO</label>';
 $string['notify-email-body'] = '<div style="background-color: #efefef; -webkit-text-size-adjust: none !important; margin: 0; padding: 70px 70px 70px 70px;"><table id="template_container" style="text-align: center; padding-bottom: 20px; background-color: rgb(223, 223, 223); box-shadow: rgba(0, 0, 0, 0.024) 0px 0px 0px 3px !important; border-radius: 6px !important; margin: auto;" border="0" width="500" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
@@ -159,7 +159,7 @@ $string['notify-email-body'] = '<div style="background-color: #efefef; -webkit-t
 </tr>
 <tr>
 <td style="padding: 20px; background-color: #dfdfdf; border-radius: 6px !important;" align="center" valign="top">
-<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Hi,</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">{USER_LINK} has made submission in {FORM_TITLE} form.</div>
+<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Hi,</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Someone has made submission in {FORM_TITLE} form.</div>
 <div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div>
 <div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div></td></tr>
 </tbody>
@@ -168,26 +168,26 @@ $string['notify-email-body'] = '<div style="background-color: #efefef; -webkit-t
 $string['email-show-tags'] = 'Show tags';
 $string['email-hide-tags'] = 'Hide tags';
 $string['email-body-tags'] = [
-    "{SITE_NAME}" => "Will be replaced with site name",
-    "{USER_FULLNAME}(PRO)" => "Firstname and Lastname of user",
-    "{USER_FIRSTNAME}(PRO)" => "User's firstname",
-    "{USER_LASTNAME}(PRO)" => "User's lastname",
-    "{AUTHOR_NAME}(PRO)" => "Firstname and Lastname of author",
-    "{AUTHOR_FIRSTNAME}(PRO)" => "Author's firstname",
-    "{AUTHOR_LASTNAME}(PRO)" => "Author's lastname",
-    "{FORM_TITLE}" => "Title of form",
-    "{USER_LINK}(PRO)" => "Link of user with fullname",
-    "{ALL_FIELDS}(PRO)" => "All fields from form",
-    "{VIEW_DATA_LINK LABEL=\"click\"}(PRO)" => "Link to view submission with custom label"
+    '{FORM_TITLE}' => 'Title of form',
+    '{SITE_NAME}' => 'Will be replaced with site name',
+    '{USER_FULLNAME}<label class="efb-forms-pro-label m-0">PRO</label>' => 'Firstname and Lastname of user',
+    '{USER_FIRSTNAME}<label class="efb-forms-pro-label m-0">PRO</label>' => 'User\'s firstname',
+    '{USER_LASTNAME}<label class="efb-forms-pro-label m-0">PRO</label>' => 'User\'s lastname',
+    '{AUTHOR_NAME}<label class="efb-forms-pro-label m-0">PRO</label>' => 'Firstname and Lastname of author',
+    '{AUTHOR_FIRSTNAME}<label class="efb-forms-pro-label m-0">PRO</label>' => 'Author\'s firstname',
+    '{AUTHOR_LASTNAME}<label class="efb-forms-pro-label m-0">PRO</label>' => 'Author\'s lastname',
+    '{USER_LINK}<label class="efb-forms-pro-label m-0">PRO</label>' => 'Link of user with fullname',
+    '{ALL_FIELDS}<label class="efb-forms-pro-label m-0">PRO</label>' => 'All fields from form',
+    '{VIEW_DATA_LINK LABEL=\"click\"}<label class="efb-forms-pro-label m-0">PRO</label>' => 'Link to view submission with custom label'
 ];
 $string['notify-email-body-setting'] = 'Email Body';
 $string['confirmation-email-failed'] = "<p>Unable to send confirmation email.</p>";
 $string['confirmation-email-success'] = "<p>Confirmation email sent successfully.</p>";
 $string['notify-email-failed'] = "<p>Unable to notify author.</p>";
 $string['notify-email-success'] = "<p>Notified to author successfully.</p>";
-$string["lbl-confirmation-subject"] = "Form Confirmation Email Subject";
-$string["lbl-confirmation-default-subject"] = 'Form submitted successfully.';
-$string["lbl-confirmation-msg"] = "Form Confirmation Email Message";
+$string["confirmation-subject"] = "Form Confirmation Email Subject";
+$string["confirmation-default-subject"] = 'Form submitted successfully.';
+$string["confirmation-msg"] = "Form Confirmation Email Message";
 $string["confirmation-default-msg"] = '<div style="background-color: #efefef; -webkit-text-size-adjust: none !important; margin: 0; padding: 70px 70px 70px 70px;"><table id="template_container" style="text-align: center; padding-bottom: 20px; background-color: rgb(223, 223, 223); box-shadow: rgba(0, 0, 0, 0.024) 0px 0px 0px 3px !important; border-radius: 6px !important; margin: auto;" border="0" width="500" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
@@ -197,7 +197,7 @@ $string["confirmation-default-msg"] = '<div style="background-color: #efefef; -w
 </tr>
 <tr>
 <td style="padding: 20px; background-color: #dfdfdf; border-radius: 6px !important;" align="center" valign="top">
-<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Hi {USER_FIRSTNAME},</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Thank you for submission in {FORM_TITLE}.</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div></td></tr></tbody></table><br>
+<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Hi,</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Thank you for submission in {FORM_TITLE} form.</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div></td></tr></tbody></table><br>
 </div>';
 $string['error-occured-while-loading'] = 'Please wait while the page is loading. <br> If nothing appears then try to reload the page.';
 $string['email-body-restore-desc'] = '<a href="#" class="efb-email-body-restore" data-id="{$a->id}" data-string="{$a->string}">Restore</a> email body to default.';

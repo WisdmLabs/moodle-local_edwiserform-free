@@ -74,17 +74,14 @@ class Formeo {
     formeo.reset = data.reset;
     formeo.validator = validator;
     // Load remote resources such as css and svg sprite
-    _this.loadResources().then(() => {
-      dom.setConfig = opts.config;
-      formeo.render = renderTarget => dom.renderForm.call(dom, renderTarget);
-      if (opts.allowEdit) {
-        formeo.edit = _this.init.bind(_this);
-        _this.init.call(_this);
-      }
-      return;
-    }).catch(error => {
-      dom.alert('danger', error.message);
-    });
+    dom.setConfig = opts.config;
+    formeo.render = renderTarget => {
+      dom.renderForm(renderTarget);
+    };
+    if (opts.allowEdit) {
+      formeo.edit = this.init;
+      this.init();
+    }
     return formeo;
   }
 
@@ -215,7 +212,7 @@ class Formeo {
     };
     return {
       tag: 'div',
-      className: 'form-settings-actions group-actions',
+      className: 'form-settings-actions group-actions control-count-2',
       content: [{
         tag: 'div',
         className: 'action-btn-wrap',

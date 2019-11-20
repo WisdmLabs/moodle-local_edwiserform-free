@@ -610,7 +610,9 @@ define([
 
         // Copy email tag
         $('body').on('click', '.efb-email-tag', function() {
-            // if ($(this).text())
+            if($(this).find('.efb-forms-pro-label').length != 0) {
+                return;
+            }
             var temp = $('<input>');
             $('body').append(temp);
             var shortcode = $(this).text();

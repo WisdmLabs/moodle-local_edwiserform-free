@@ -41,14 +41,6 @@
     height: 100%;
     padding: 25px;
     overflow: auto;
-
-    .form-settings-preview {
-        position: absolute;
-        top: 25px;
-        right: 25px;
-        text-align: center;
-        padding: 6px;
-    }
 }
 .efb-form-settings {
     box-sizing: border-box;
@@ -64,7 +56,6 @@
     margin: 0;
     background-color: rgba(255,255,255,0.8);
     .efb-settings-tab-list-item {
-        border-bottom: 1px solid #80808070;
         list-style: none;
         cursor: pointer;
         a {

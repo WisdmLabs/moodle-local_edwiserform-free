@@ -26,10 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/local/edwiserform/events/events.php');
 
 class edwiserform_events_support extends edwiserform_events_plugin {
-
-    public function submission_email_message($form, $submission) {
-        return $this->common_submission_email_message($form, $submission);
-    }
     /**
      * Execute event action after form submission
      * @param object form

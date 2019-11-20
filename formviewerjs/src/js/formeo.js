@@ -50,6 +50,7 @@ class Formeo {
 
 if (window !== undefined) {
   window.Formeo = Formeo;
+  Formeo.dom = dom;
 }
 
 export default Formeo;

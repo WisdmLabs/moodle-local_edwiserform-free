@@ -85,6 +85,7 @@ class add_new_form implements renderable, templatable
                 "description"    => $this->form->description,
                 "type"           => $this->form->type,
                 "notifi_email"   => $this->form->notifi_email,
+                "enable_notification" => true,
                 "confirmation_msg" => array(
                     "itemid" => $draftid,
                     "format" => FORMAT_HTML,
@@ -103,7 +104,7 @@ class add_new_form implements renderable, templatable
      * @since  Edwiser Form 1.0.0
      */
     public function export_for_template(\renderer_base $output) {
-        global $PAGE;
+        global $PAGE, $CFG;
         $this->form_sections->set_form_action(get_string("form-editing", "local_edwiserform"));
         if ($this->form) {
             $PAGE->requires->data_for_js('formdefinition', $this->form->definition);
@@ -114,6 +115,7 @@ class add_new_form implements renderable, templatable
             $logo = $output->image_url("edwiser-logoalternate", "local_edwiserform");
         }
         $this->form_sections->set_logo($logo);
+        $this->form_sections->set_builder_icons(file_get_contents($CFG->dirroot . '/local/edwiserform/pix/formeo-sprite.svg'));
         return $this->form_sections->get_form_section_data();
     }
 
