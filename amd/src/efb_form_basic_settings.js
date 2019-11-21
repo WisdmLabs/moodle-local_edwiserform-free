@@ -96,7 +96,9 @@ define(['jquery'], function ($) {
             var tags = M.util.get_string('email-body-tags', 'local_edwiserform');
             var container = "<div class='efb-email-tags show'><ul>";
             $.each(tags, function(tag, info) {
-                container += `<li><a href="#" class="efb-email-tag" title="${info}">${tag}</a></li>`;
+                container += `<li>
+                <a href="#" class="efb-email-tag" title="${info}">${tag}
+                <label class="efb-forms-pro-label m-0">${M.util.get_string('pro-label', 'local_edwiserform')}</label></a></li>`;
             });
             return container += "</ul></div>";
         }

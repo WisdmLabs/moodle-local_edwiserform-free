@@ -33,15 +33,15 @@ define([
             var PROMISES = {
                 /**
                  * Ajax promise to delete form submission by ids
-                 * @param  {Number}   id Id of submission
+                 * @param  {Array}   ids Ids array of submission
                  * @return {Promise}     Ajax promise
                  */
-                DELETE_SUBMISSION: function(id) {
+                DELETE_SUBMISSION: function(ids) {
                     return Ajax.call([{
-                        methodname: 'edwiserform_delete_submission',
+                        methodname: 'edwiserform_delete_submissions',
                         args: {
                             id: formid,
-                            submission: id
+                            submissions: ids
                         }
                     }])[0]
                 },
@@ -127,14 +127,11 @@ define([
                 });
             });
 
-            // Select All/None checkbox
-            $('body').on('change', '.submission-check-all', function() {
-                $('.DTFC_Cloned .submission-check').prop('checked', $(this).is(':checked'));
-            });
-
-            $('body').on('click', '.efb-data-action.delete-action', function(event) {
-                event.preventDefault();
-                var id = $(this).data('value');
+            /**
+             * Delete submission from ids passed in parameter
+             * @param  {Array} ids Ids array of submissions
+             */
+            function delete_submissions(ids) {
                 Formeo.dom.multiActions(
                     'warning',
                     M.util.get_string('deletesubmission', 'local_edwiserform'),
@@ -144,7 +141,7 @@ define([
                         type: 'danger',
                         action: function() {
                             Formeo.dom.loading();
-                            PROMISES.DELETE_SUBMISSION(id).done(function(response) {
+                            PROMISES.DELETE_SUBMISSION(ids).done(function(response) {
                                 if (response.status == true) {
                                     Formeo.dom.alert('success', `<div class='col-12'>${response.msg}</div>`);
                                     table.draw();
@@ -161,6 +158,41 @@ define([
                         type: 'success'
                     }]
                 );
+            }
+
+            // Select All/None checkbox
+            $('body').on('change', '.submission-check-all', function() {
+                $('.DTFC_Cloned .submission-check').prop('checked', $(this).is(':checked'));
+            });
+
+            // Apply bulk actions
+            $('body').on('click', '#efb-apply-actions', function(event) {
+                event.preventDefault()
+                switch($('#efb-bulk-actions').val()) {
+                    case 'bulkaction':
+                        // Show toaster if bulk action is not selected
+                        Formeo.dom.toaster(M.util.get_string('selectbulkaction', 'local_edwiserform'));
+                        break;
+                    case 'delete':
+                        // Show toaster if deletiong submission without selecting any
+                        if (!$('.submission-check').is(':checked')) {
+                            Formeo.dom.toaster(M.util.get_string('emptysubmission', 'local_edwiserform'));
+                            return;
+                        }
+
+                        var ids = [];
+                        // Prepare ids array to delete
+                        $('.submission-check:checked').each(function(i, e) {
+                            ids.push($(e).data('value'));
+                        });
+                        delete_submissions(ids);
+                        break;
+                }
+            });
+
+            $('body').on('click', '.efb-data-action.delete-action', function(event) {
+                event.preventDefault()
+                delete_submissions([$(this).data('value')]);
             });
 
             $('body').on('click', '.efb-actions a', function(event) {

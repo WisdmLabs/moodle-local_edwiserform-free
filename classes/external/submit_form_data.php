@@ -161,26 +161,6 @@ trait submit_form_data {
     }
 
     /**
-     * Replacing template tags with data
-     * @param  string   $body        html body of template
-     * @param  stdClass $form        Form object with definition and settings
-     * @return string                filtered html body
-     * @since  Edwiser Form 1.2.1
-     */
-    public static function filter_body_tags($body, $form) {
-        global $PAGE, $USER, $DB, $COURSE;
-        $namefields = get_all_user_name_fields(true);
-        $tags = array(
-            "{SITE_NAME}" => $COURSE->fullname,
-            "{FORM_TITLE}" => $form->title,
-        );
-        foreach ($tags as $tag => $value) {
-            $body = str_replace($tag, $value, $body);
-        }
-        return $body;
-    }
-
-    /**
      * Sending confirmation email to user who submitted form
      * @param  stdClass $form       The form object with definition and settings
      * @param  array    $submission Data submitted by user through form
@@ -198,7 +178,6 @@ trait submit_form_data {
         }
         $context = context_system::instance();
         $messagehtml = file_rewrite_pluginfile_urls($form->message, 'pluginfile.php', $context->id, EDWISERFORM_COMPONENT, EDWISERFORM_FILEAREA, $form->id);
-        $messagehtml = self::filter_body_tags($messagehtml, $form);
         if (edwiserform_send_email(
             get_config("core", "smtpuser"),
             $email,
@@ -225,7 +204,6 @@ trait submit_form_data {
         $title = $form->title;
         $link = $CFG->wwwroot . "/local/edwiserform/view.php?page=viewdata&formid=" .$form->id;
         $messagehtml = get_string('notify-email-body', 'local_edwiserform', array('user' => $user, 'title' => $form->title, 'link' => $link));
-        $messagehtml = self::filter_body_tags($messagehtml, $form);
         if ($form->notifi_email) {
             $emails = explode(',', $form->notifi_email);
         } else {

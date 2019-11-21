@@ -32,7 +32,7 @@ use external_value;
 use edwiserform;
 use stdClass;
 
-trait delete_submission
+trait delete_submissions
 {
 
     /**
@@ -40,58 +40,80 @@ trait delete_submission
      * @return external_function_parameters
      * @since  Edwiser Form 1.3.2
      */
-    public static function delete_submission_parameters() {
+    public static function delete_submissions_parameters() {
         return new external_function_parameters(
             [
                 'id' => new external_value(PARAM_INT, 'Form id', VALUE_REQUIRED),
-                'submission' => new external_value(PARAM_INT, 'Submission id')
+                'submissions' => new external_multiple_structure(
+                    new external_value(PARAM_INT, 'Submission id'),
+                    VALUE_DEFAULT,
+                    []
+                )
             ]
         );
     }
 
     /**
      * Deleting form record. Form's delete column will be marked as true to delete on cron
-     * @param  integer $id      id of form
-     * @param  array   $submission Submission id array to delete
+     * @param  integer $formid      id of form
+     * @param  array   $submissions Submission id array to delete
      * @return array   [status, msg] of form deletion
      * @since  Edwiser Form 1.3.2
      */
-    public static function delete_submission($id, $submission) {
+    public static function delete_submissions($formid, $submissions) {
         global $DB, $USER, $CFG;
-        $form = $DB->get_record('efb_forms', array('id' => $id));
+        $form = $DB->get_record('efb_forms', array('id' => $formid));
         if ($form == false) {
-            return ['status' => false, 'msg' => get_string('form-not-found', 'local_edwiserform', $id)];
+            return ['status' => false, 'msg' => get_string('efb-form-not-found', 'local_edwiserform', $formid)];
         }
 
         // If empty submissions array then return error message
-        if (!$submission) {
+        if (empty($submissions)) {
             return ['status' => false, 'msg' => get_string('emptysubmission', 'local_edwiserform')];
         }
 
         // Prepare sql to fetch submissions data
-        $submission = $DB->get_record_sql(
+        list($insql, $inparam) = $DB->get_in_or_equal($submissions, SQL_PARAMS_NAMED, 'id');
+        $submissions = $DB->get_records_sql(
             'SELECT * FROM {efb_form_data}
-              WHERE formid = :formid AND id = :submission',
-            array('formid' => $id, 'submission' => $submission)
+              WHERE formid = :formid AND id ' . $insql,
+            array('formid' => $formid) + $inparam
         );
 
         // if selected submissions are already deleted or not present then return error message
-        if (!$submission) {
+        if (empty($submissions)) {
             return ['status' => false, 'msg' => get_string('emptysubmission', 'local_edwiserform')];
         }
 
-        // If current user is admin or author/author2 or current submission is submitted
-        // by him then delete it.
-        if ($adminorauthor ||$submission->userid == $USER->id) {
-            // Delete submissions from database.
-            $DB->delete_records_select(
-                'efb_form_data',
-                ' formid = :formid AND id = :submission',
-                array('formid' => $id, 'submission' => $submission->id)
-            );
+        // Check if user is admin or author/author2 of form
+        $adminorauthor = is_siteadmin() || $form->author == $USER->id || $form->author2 == $USER->id;
+        require_once($CFG->dirroot . '/local/edwiserform/locallib.php');
+        $edwiserform = new edwiserform();
+
+        foreach ($submissions as $key => $submission) {
+
+            // If current user is not admin or author/author2 or current submission is not submitted
+            // by him then remove it from array for preventing deletion.
+            if (!$adminorauthor) {
+                if ($submission->userid != $USER->id) {
+                    unset($key);
+                    continue;
+                }
+            }
+        }
+        if (count($inparam) > 1) {
+            $msg = get_string('submissionsdeleted', 'local_edwiserform');
+        } else {
+            $msg = get_string('submissiondeleted', 'local_edwiserform');
         }
 
-        return array("status" => true, "msg" => get_string('submissionsdeleted', 'local_edwiserform'));
+        // Delete submissions from database.
+        $DB->delete_records_select(
+            'efb_form_data',
+            ' formid = :formid AND id ' . $insql,
+            array('formid' => $formid) + $inparam
+        );
+        return array("status" => true, "msg" => $msg);
     }
 
     /**
@@ -99,7 +121,7 @@ trait delete_submission
      * @return external_single_structure
      * @since  Edwiser Form 1.3.2
      */
-    public static function delete_submission_returns() {
+    public static function delete_submissions_returns() {
         return new external_single_structure(
             [
                 'status' => new external_value(PARAM_BOOL, 'Form deletion status.'),

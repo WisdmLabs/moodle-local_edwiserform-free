@@ -21,6 +21,7 @@
  * @author      Yogesh Shirsath
  */
 
+$prolabel = '<label class="efb-forms-pro-label m-0">PRO</label>';
 $string['pluginname'] = "Edwiser Forms Free";
 $string['heading-newform'] = "Add New Form";
 $string['heading-editform'] = "Edit Form";
@@ -83,7 +84,8 @@ $string['notify-email-failed'] = "<p>Unable to notify author.</p>";
 $string['delete-form-and-data'] = '{$a->title} form with ID({$a->id}) will be deleted along with its submissions. Are you sure you want to delete this form?';
 $string['deletesubmission'] = 'Delete submission?';
 $string['deletesubmissionmsg'] = 'Are you sure you want to delete selected submission?';
-$string['submissionsdeleted'] = 'Submission deleted successfully.';
+$string['submissionsdeleted'] = 'Submissions deleted successfully.';
+$string['submissiondeleted'] = 'Submission deleted successfully.';
 $string['emptysubmission'] = 'Please select submission to delete';
 $string['note'] = 'Note:';
 $string['clickonshortcode'] = 'Click on shortcode to copy';
@@ -142,24 +144,24 @@ $string["template-change-warning"] = "All fields from current form will be delet
 // Settings string start
 $string['settings-general'] = "General";
 $string['settings-notification'] = "Notification";
-$string['settings-confirmation'] = 'Confirmation <label class="efb-forms-pro-label m-0">PRO</label>';
-$string['settings-events'] = 'Events <label class="efb-forms-pro-label m-0">PRO</label>';
-$string['allowsubmissionsfromdate'] = 'Start date <label class="efb-forms-pro-label m-0">PRO</label>';
-$string['allowsubmissionstodate'] = 'End date <label class="efb-forms-pro-label m-0">PRO</label>';
-$string['enable-notification'] = 'Enable notification <label class="efb-forms-pro-label m-0">PRO</label>';
+$string['settings-confirmation'] = 'Confirmation ' . $prolabel;
+$string['settings-events'] = 'Events ' . $prolabel;
+$string['allowsubmissionsfromdate'] = 'Start date ' . $prolabel;
+$string['allowsubmissionstodate'] = 'End date ' . $prolabel;
+$string['enable-notification'] = 'Enable notification ' . $prolabel;
 $string['enable-notification-desc'] = 'Enable email notification.(Always enabled in Edwiser Forms Free)';
 $string['notify-email-subject'] = 'New user submission';
-$string['notify-email-subject-setting'] = 'Email Subject <label class="efb-forms-pro-label m-0">PRO</label>';
+$string['notify-email-subject-setting'] = 'Email Subject ' . $prolabel;
 $string['notify-email-body'] = '<div style="background-color: #efefef; -webkit-text-size-adjust: none !important; margin: 0; padding: 70px 70px 70px 70px;"><table id="template_container" style="text-align: center; padding-bottom: 20px; background-color: rgb(223, 223, 223); box-shadow: rgba(0, 0, 0, 0.024) 0px 0px 0px 3px !important; border-radius: 6px !important; margin: auto;" border="0" width="500" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
 <td style="background-color: #1177d1;border-top-left-radius: 6px !important;border-top-right-radius: 6px !important;border-bottom: 0;font-family: Arial;font-weight: bold;line-height: 100%;vertical-align: middle;">
-<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">{SITE_NAME}</h1>
+<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">Enter SITE_NAME here</h1>
 </td>
 </tr>
 <tr>
 <td style="padding: 20px; background-color: #dfdfdf; border-radius: 6px !important;" align="center" valign="top">
-<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Hi,</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Someone has made submission in {FORM_TITLE} form.</div>
+<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Hi,</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Someone has made submission in your form.</div>
 <div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div>
 <div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div></td></tr>
 </tbody>
@@ -170,17 +172,17 @@ $string['email-hide-tags'] = 'Hide tags';
 $string['email-body-tags'] = [
     '{FORM_TITLE}' => 'Title of form',
     '{SITE_NAME}' => 'Will be replaced with site name',
-    '{USER_FULLNAME}<label class="efb-forms-pro-label m-0">PRO</label>' => 'Firstname and Lastname of user',
-    '{USER_FIRSTNAME}<label class="efb-forms-pro-label m-0">PRO</label>' => 'User\'s firstname',
-    '{USER_LASTNAME}<label class="efb-forms-pro-label m-0">PRO</label>' => 'User\'s lastname',
-    '{AUTHOR_NAME}<label class="efb-forms-pro-label m-0">PRO</label>' => 'Firstname and Lastname of author',
-    '{AUTHOR_FIRSTNAME}<label class="efb-forms-pro-label m-0">PRO</label>' => 'Author\'s firstname',
-    '{AUTHOR_LASTNAME}<label class="efb-forms-pro-label m-0">PRO</label>' => 'Author\'s lastname',
-    '{USER_LINK}<label class="efb-forms-pro-label m-0">PRO</label>' => 'Link of user with fullname',
-    '{ALL_FIELDS}<label class="efb-forms-pro-label m-0">PRO</label>' => 'All fields from form',
-    '{VIEW_DATA_LINK LABEL=\"click\"}<label class="efb-forms-pro-label m-0">PRO</label>' => 'Link to view submission with custom label'
+    '{USER_FULLNAME}' => 'Firstname and Lastname of user',
+    '{USER_FIRSTNAME}' => 'User\'s firstname',
+    '{USER_LASTNAME}' => 'User\'s lastname',
+    '{AUTHOR_NAME}' => 'Firstname and Lastname of author',
+    '{AUTHOR_FIRSTNAME}' => 'Author\'s firstname',
+    '{AUTHOR_LASTNAME}' => 'Author\'s lastname',
+    '{USER_LINK}' => 'Link of user with fullname',
+    '{ALL_FIELDS}' => 'All fields from form',
+    '{VIEW_DATA_LINK LABEL=\"click\"}' => 'Link to view submission with custom label'
 ];
-$string['notify-email-body-setting'] = 'Email Body';
+$string['notify-email-body-setting'] = 'Email Body ' . $prolabel;
 $string['confirmation-email-failed'] = "<p>Unable to send confirmation email.</p>";
 $string['confirmation-email-success'] = "<p>Confirmation email sent successfully.</p>";
 $string['notify-email-failed'] = "<p>Unable to notify author.</p>";
@@ -192,12 +194,12 @@ $string["confirmation-default-msg"] = '<div style="background-color: #efefef; -w
 <tbody>
 <tr>
 <td style="background-color: #1177d1;border-top-left-radius: 6px !important;border-top-right-radius: 6px !important;border-bottom: 0;font-family: Arial;font-weight: bold;line-height: 100%;vertical-align: middle;">
-<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">{SITE_NAME}</h1>
+<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">Enter SITE_NAME here</h1>
 </td>
 </tr>
 <tr>
 <td style="padding: 20px; background-color: #dfdfdf; border-radius: 6px !important;" align="center" valign="top">
-<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Hi,</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Thank you for submission in {FORM_TITLE} form.</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div></td></tr></tbody></table><br>
+<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Hi,</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Thank you for submission.</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div></td></tr></tbody></table><br>
 </div>';
 $string['error-occured-while-loading'] = 'Please wait while the page is loading. <br> If nothing appears then try to reload the page.';
 $string['email-body-restore-desc'] = '<a href="#" class="efb-email-body-restore" data-id="{$a->id}" data-string="{$a->string}">Restore</a> email body to default.';
@@ -242,7 +244,8 @@ $string["invalid-form-data"] = "Form data is not valid";
 $string["login-form-disable-different-form"] = "Cannot disable. Another login form is active";
 $string["exportcsv"] = "Export CSV(PRO)";
 $string["exportxlsx"] = "Export Excelsheet(PRO)";
-$string['apply'] = 'Apply(PRO)';
+$string['apply'] = 'Apply';
+$string['selectbulkaction'] = 'Please select action';
 
 // Import export form
 $string["form-action-export-title"] = "Export form";

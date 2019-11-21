@@ -8,12 +8,11 @@ define([
     'core/ajax',
     'core/notification',
     'core/templates',
-    'local_edwiserform/form_styles',
     'local_edwiserform/efb_form_basic_settings',
     'local_edwiserform/formbuilder',
     'local_edwiserform/fastsearch',
     'local_edwiserform/fastselect'
-    ], function ($, ajax, notification, Templates, formStyles) {
+    ], function ($, ajax, notification, Templates) {
 
     var SELECTORS = {
         FORMTYPE: '#id_type',
@@ -357,21 +356,6 @@ define([
     }
 
     /**
-     * Apply style to form preview
-     * @param  {Number} id Style id
-     */
-    function apply_style(id) {
-        $(SELECTORS.FORM_STYLE).removeClass('selected');
-        $(SELECTORS.FORM_STYLE + '[data-form="' + id + '"]').addClass('selected');
-        for (var i = 1; i <= supportedStyles; i++) {
-            if ($(SELECTORS.RENDER_FORM).hasClass('form-style-' + i)) {
-                formStyles.apply($(SELECTORS.RENDER_FORM), 'remove', i);
-            }
-        }
-        formStyles.apply($(SELECTORS.RENDER_FORM), 'add', id);
-    }
-
-    /**
      * Innitialize form events
      */
     function initializeEvents() {
@@ -389,8 +373,6 @@ define([
             $('.form-style-preview').attr('src', $(this).find('img').attr('src')).css('top', $(this).offset().top).show();
         }).mouseleave(SELECTORS.FORM_STYLE, function() {
             $('.form-style-preview').attr('src', '').hide();
-        }).click(SELECTORS.FORM_STYLE, function(event) {
-            apply_style($(this).data('form'));
         });
 
         let label = $('#id_allowsubmissionsfromdate_enabled').parent();
@@ -441,7 +423,6 @@ define([
 
             if ("#efb-cont-form-preview" == eleCont) {
                 formeo.render(renderContainer);
-                apply_style(1);
             }
         });
 
@@ -608,19 +589,6 @@ define([
             toggleEventSettings(this, collapseOnly);
         });
 
-        // Copy email tag
-        $('body').on('click', '.efb-email-tag', function() {
-            if($(this).find('.efb-forms-pro-label').length != 0) {
-                return;
-            }
-            var temp = $('<input>');
-            $('body').append(temp);
-            var shortcode = $(this).text();
-            temp.val(shortcode).select();
-            document.execCommand('copy');
-            temp.remove();
-            formeo.dom.toaster(M.util.get_string('shortcodecoppied', SELECTORS.COMPONENT, shortcode), 3000);
-        })
         can_save_form();
     }
 

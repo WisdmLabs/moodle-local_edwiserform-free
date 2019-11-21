@@ -41,5 +41,5 @@ class efb_api extends \external_api {
     use enable_disable_form;
     use get_forms;
     use get_form_submissions;
-    use delete_submission;
+    use delete_submissions;
 }

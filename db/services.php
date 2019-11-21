@@ -105,11 +105,11 @@ $functions = [
         'loginrequired' => true,
         'ajax' => true
     ],
-    'edwiserform_delete_submission' => [
+    'edwiserform_delete_submissions' => [
         'classname' => 'local_edwiserform\external\efb_api',
-        'methodname' => 'delete_submission',
+        'methodname' => 'delete_submissions',
         'classpath' => '',
-        'description' => 'Delete form submission',
+        'description' => 'Delete form submissions',
         'type' => 'write',
         'loginrequired' => true,
         'ajax' => true
