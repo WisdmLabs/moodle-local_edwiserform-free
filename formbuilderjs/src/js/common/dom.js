@@ -2767,7 +2767,7 @@ class DOM {
     if (typeof msg === 'object' && msg !== null) {
       if (Object.prototype.hasOwnProperty.call(msg, 'video')) {
         video += `
-        <div><iframe class="demo" src="${this.get_pro_demo_url(msg.video)}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+        <div><iframe class="efb-pro-demo" src="${this.get_pro_demo_url(msg.video)}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
         </iframe></div>`;
       }
       msg = getString('profeaturemessage', msg);

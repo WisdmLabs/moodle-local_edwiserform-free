@@ -152,22 +152,6 @@
       .text-error {
         position: absolute;
       }
-      &.form-style-1 {
-        @import 'components/display-label';
-      }
-      &[class*='form-style-']:not(.form-style-1) {
-        color:#999;
-        @import 'components/form-style-common';
-      }
-      &.form-style-2 {
-        @import 'components/form-style-2';
-      }
-      &.form-style-3 {
-        @import 'components/form-style-3';
-      }
-      &.form-style-4 {
-        @import 'components/form-style-4';
-      }
   }
   @import 'components/preview';
 }
