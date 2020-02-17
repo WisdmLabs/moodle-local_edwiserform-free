@@ -81,8 +81,8 @@ class list_form implements renderable, templatable {
         $param = [0];
         $where = " WHERE deleted = ?";
         if ($search != "") {
-            $param[] = "'%" . $search . "%'";
-            $where .= " AND LIKE ?";
+            $param[] = "%" . $search . "%";
+            $where .= " AND title LIKE ?";
         }
         if (!is_siteadmin()) {
             $where .= " AND author = ?";
