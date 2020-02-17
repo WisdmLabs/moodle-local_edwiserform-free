@@ -69,18 +69,35 @@ trait submit_form_data {
         if ($form->type != 'blank') {
             $plugin = get_plugin($form->type);
         }
-        if (self::should_update_submission($form, $data, $plugin)) {
-            $submission = $DB->get_record("efb_form_data", array('formid' => $formid, 'userid' => $userid));
-            $submission->submission = $data;
-            $submission->updated = time();
-            $status = $DB->update_record("efb_form_data", $submission);
+        // Userid is required to save form data to associate with specific or empty user
+        if (isloggedin()) {
+            $userid = $USER->id;
         } else {
+            $userid = 0;
+        }
+        if ($form->type == 'blank') {
+            $supportmultiple = false;
+            $supportformdataupdate = true;
+        } else {
+            $supportmultiple = $plugin->support_multiple_submissions();
+            $supportformdataupdate = $plugin->support_form_data_update();
+        }
+        if ($supportmultiple) {
+            $submission = $DB->get_records("efb_form_data", array('formid' => $formid, 'userid' => $userid));
+        } else {
+            $submission = $DB->get_record("efb_form_data", array('formid' => $formid, 'userid' => $userid));
+        }
+        if ($supportmultiple || !$submission || !$supportformdataupdate) {
             $submission = new stdClass;
             $submission->formid = $formid;
-            $submission->userid = $USER->id;
+            $submission->userid = $userid;
             $submission->submission = $data;
             $submission->date = time();
             $status = $DB->insert_record("efb_form_data", $submission);
+        } else {
+            $submission->submission = $data;
+            $submission->updated = time();
+            $status = $DB->update_record("efb_form_data", $submission);
         }
         if ($status) {
             $responce['status'] = true;
@@ -91,29 +108,6 @@ trait submit_form_data {
             $responce['msg'] .= self::notify($form);
         }
         return $responce;
-    }
-
-    /**
-     * Check whether form can update form data
-     * @param  Object  $form       form object
-     * @param  Array   $submission previous submission
-     * @param  Object  $plugin     plugin object
-     * @return Boolean             true if update possible
-     */
-    public static function should_update_submission($form, $submission, $plugin) {
-        if (!$submission) {
-            return false;
-        }
-        if ($form->type == 'blank') {
-            return true;
-        }
-        if ($plugin->support_multiple_submissions()) {
-            return false;
-        }
-        if ($plugin->support_form_data_update()) {
-            return true;
-        }
-        return false;
     }
 
     /**
