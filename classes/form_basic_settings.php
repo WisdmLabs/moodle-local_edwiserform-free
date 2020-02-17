@@ -29,6 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 use moodleform;
 use context_system;
 use moodle_url;
+use html_writer;
 
 class form_basic_settings extends moodleform {
     public function __construct($action = null, $customdata = null, $method = 'post', $target = '', $attributes = null, $editable = true, $ajaxformdata = null) {
@@ -175,9 +176,15 @@ class form_basic_settings extends moodleform {
      * @since Edwiser Form 1.0.0
      */
     private function get_event_settings(&$form, $eventlist) {
-        $form->addElement("html", "<div class='efb-settings-tab' id='efb-settings-events'>");
-        $form->addElement("select", "events", get_string("lbl-event", "local_edwiserform"), $eventlist)->setMultiple(true);
-        $form->addElement("html", "</div>");
+        $url = new moodle_url('/local/edwiserform/pix/events.mp4');
+        $html = html_writer::start_tag('div', array('class' => 'efb-settings-tab', 'id' => 'efb-settings-events'));
+        $html .= html_writer::start_tag('video', array('controls' => true, 'style' => 'width: 100%;'));
+        $html .= html_writer::tag('source', '', array('src' => $url, 'type' => 'video/webm'));
+        $html .= html_writer::tag('source', '', array('src' => $url, 'type' => 'video/mp4'));
+        $html .= 'Your browser does not support the video tag.';
+        $html .= html_writer::end_tag('video');
+        $html .= html_writer::end_tag('div');
+        $form->addElement("html", $html);
     }
 
     /**

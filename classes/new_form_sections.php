@@ -87,7 +87,7 @@ class new_form_sections {
 
     /**
      * $buildericons Form builder svg icon
-     * @var [type]
+     * @var string
      */
     private $buildericons;
 
@@ -255,7 +255,7 @@ class new_form_sections {
     }
 
     /**
-     * Get form builder svg icons
+     * Getter for buildericons
      * @return html HTML format svg icons
      */
     public function get_builder_icons() {
@@ -263,11 +263,10 @@ class new_form_sections {
     }
 
     /**
-     * Get form builder svg icons
+     * Setter for buildericons
      * @param html $buildericons HTML format svg icons
      */
     public function set_builder_icons($buildericons) {
         $this->buildericons = $buildericons;
     }
-
 }

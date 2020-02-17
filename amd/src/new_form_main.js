@@ -9,16 +9,12 @@ define([
     'core/notification',
     'core/templates',
     'local_edwiserform/efb_form_basic_settings',
-    'local_edwiserform/formbuilder',
-    'local_edwiserform/fastsearch',
-    'local_edwiserform/fastselect'
+    'local_edwiserform/formbuilder'
     ], function ($, ajax, notification, Templates) {
 
     var SELECTORS = {
         FORMTYPE: '#id_type',
         COMPONENT: 'local_edwiserform',
-        EVENT: '#id_events',
-        EVENT_LIST: '.efb-event-list',
         FORM_STYLE: '.efb-form-style',
         RENDER_FORM: '.render-form',
         PANEL: '.efb-panel-btn',
@@ -52,21 +48,6 @@ define([
                 methodname: 'edwiserform_get_template',
                 args: {
                     name: type
-                }
-            }])[0];
-        },
-        /**
-         * Call moodle service edwiser_get_template
-         * @param  {String}  event Event name
-         * @param  {Number}  id    Form id
-         * @return {Promise}       Ajax promise call
-         */
-        GET_EVENT_SETTINGS: function(event, id) {
-            return ajax.call([{
-                methodname: 'edwiserform_get_event_settings',
-                args: {
-                    event: event,
-                    id: id
                 }
             }])[0];
         },
@@ -195,33 +176,6 @@ define([
     }
 
     /**
-     * Toogle event setting on event ribbon click
-     * @param {DOM}     _this        Clicked DOM element
-     * @param {Boolean} collapseOnly True if only one event settings can be uncollapsed
-     */
-    function toggleEventSettings(_this, collapseOnly) {
-        if($(_this).parent('.efb-event').hasClass('collapsed')) {
-            if (!collapseOnly) {
-                $('.efb-event:not(.collapsed) h4').each(function(i, node) {
-                    $(node).trigger('click', [true])
-                });
-            }
-            $(_this).parent('.efb-event').removeClass('collapsed');
-            $(_this).next().height('auto');
-            let height = $(_this).next()[0].clientHeight + 'px';
-            $(_this).next().height('0px');
-            setTimeout(() => {
-                $(_this).next().height(height);
-            }, 0);
-        } else {
-            $(_this).next().height('0px');
-            $(_this).next()[0].addEventListener('transitionend', () => {
-                $(_this).parent('.efb-event').addClass('collapsed');
-            }, {once: true});
-        }
-    }
-
-    /**
      * Get form settings
      * @return {Object} form settings
      */
@@ -245,63 +199,6 @@ define([
      */
     get_form_def = function() {
         return formeo.formData;
-    }
-
-    /**
-     * Return callback for fastselect library option
-     * @return {Object} Callback object
-     */
-    var fastselect_custom_callbacks = {
-        removeSelectedOption: function(option, $choiceItem) {
-            if (option.value == $(SELECTORS.FORMTYPE).val()) {
-                formeo.dom.toaster(M.util.get_string('cannot-remove-event', SELECTORS.COMPONENT, $(SELECTORS.FORMTYPE).find('option:selected').html()), 3000);
-                return;
-            }
-            var removedModel = this.optionsCollection.removeSelected(option);
-            if (removedModel && removedModel.$item) {
-                removedModel.$item.removeClass(this.options.itemSelectedClass);
-            }
-            if ($choiceItem) {
-                $choiceItem.remove();
-            } else {
-                this.$el.find(selectorFromClass(this.options.choiceItemClass) + '[data-value="' + option.value + '"]').remove();
-            }
-            this.updateDomElements();
-            this.writeToInput();
-            if(option.value == 'enrolment') {
-                $('#efb-event-enrolment').remove();
-            }
-        },
-        setSelectedOption: function(option) {
-            if (this.optionsCollection.isSelected(option.value)) {
-                return;
-            }
-            this.optionsCollection.setSelected(option);
-            var selectedModel = this.optionsCollection.findWhere(function(model) {
-                return model.value === option.value;
-            });
-            if (this.isMultiple) {
-                this.$controls && this.addChoiceItem(option);
-            } else {
-                this.fastsearch && this.fastsearch.$resultItems.removeClass(this.options.itemSelectedClass);
-                this.$toggleBtn && this.$toggleBtn.text(option.text);
-            }
-            selectedModel && selectedModel.$item.addClass(this.options.itemSelectedClass);
-            this.updateDomElements();
-            if(option.value == 'enrolment') {
-                Formeo.dom.loading();
-                var courses = Array.from(Array(10).keys());
-                courses.push('...');
-                Templates.render('local_edwiserform/event_settings_container', {
-                    name: option.text,
-                    courses
-                })
-                .done(function(html, js) {
-                    Templates.appendNodeContents($(SELECTORS.EVENT_LIST), html, js);
-                    Formeo.dom.loadingClose();
-                });
-            }
-        }
     }
 
     /**
@@ -359,12 +256,6 @@ define([
      * Innitialize form events
      */
     function initializeEvents() {
-        if (fastselect == null) {
-            fastselect = $(SELECTORS.EVENT).hide().fastselect({
-                callbacks: fastselect_custom_callbacks
-            });
-        }
-        $('#efb-settings-events').append('<div class="efb-event-list"></div>');
         $('.efb-form-style-container .controls-toggle').click(function() {
             $(this).parents('.preview-form').toggleClass('show-styles');
             $('#efb-cont-form-builder .formeo-controls').closest('.build-form').toggleClass('hidden-controls');
@@ -580,13 +471,6 @@ define([
             } else {
                 select();
             }
-        });
-
-        $('body').on('click', '.efb-event-label', function(event, collapseOnly = null) {
-            if ($(this).next().html() == '') {
-                return
-            }
-            toggleEventSettings(this, collapseOnly);
         });
 
         can_save_form();
