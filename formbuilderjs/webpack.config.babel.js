@@ -45,7 +45,7 @@ const webpackConfig = {
     resolve(__dirname, pkg.config.files.formeo.js)
   ],
   output: {
-    path: resolve(__dirname, '../amd/build/'),
+    path: resolve(__dirname, '../amd/src/'),
     publicPath: '/',
     filename: 'formbuilder.js'
   },

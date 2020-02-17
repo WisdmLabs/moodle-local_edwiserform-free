@@ -3,6 +3,8 @@ const minify = require('gulp-minify');
 const babel = require('gulp-babel');
 const clean = require("gulp-clean");
 const replace = require("gulp-batch-replace");
+const sourcemaps = require('gulp-sourcemaps');
+const rename = require('gulp-rename');
 
 const PRODUCTION = process.argv.includes('-production');
 
@@ -20,10 +22,12 @@ if (PRODUCTION == false) {
 }
 gulp.task('script', function() {
     return gulp.src('amd/src/*.js')
+    .pipe(sourcemaps.init())
     .pipe(babel({
         presets: [["@babel/preset-env"]]
     }))
     .pipe(minify(minifyOptions))
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('amd/build'));
 });
 
