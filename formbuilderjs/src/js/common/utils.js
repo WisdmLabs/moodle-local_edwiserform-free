@@ -195,7 +195,7 @@ export const cleanObj = obj => {
   const fresh = Object.assign({}, obj);
   Object.keys(obj).forEach(key => {
     if (typeof obj[key] === 'string') {
-      fresh[key] = '';
+      fresh[key] = key;
     } else if (typeof obj[key] === 'boolean') {
       fresh[key] = false;
     }
