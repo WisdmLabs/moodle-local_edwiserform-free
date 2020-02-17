@@ -23,6 +23,26 @@ const stringToPath = function(string) {
   return result;
 };
 
+const decodeEntities = (function() {
+  const cache = {};
+  let character;
+  const e = document.createElement('div');
+  return function(html) {
+    return html.replace(/([&][^&; ]+[;])/g, function(entity) {
+      character = cache[entity];
+      if (!character) {
+        e.innerHTML = entity;
+        if (e.childNodes[0]) {
+          character = cache[entity] = e.childNodes[0].nodeValue;
+        } else {
+          character = '';
+        }
+      }
+      return character;
+    });
+  };
+})();
+
 const helpers = {
 
   /**
@@ -169,6 +189,38 @@ const helpers = {
       }
     }
     return mergedObj;
+  },
+
+  /**
+   * Returns the text from a HTML string
+   *
+   * @param  {String}    html The html string
+   * @return {Boolean} Normal string without html tag
+   */
+  stripHtml: (html) => {
+    // Create a new div element
+    const temporalDivElement = document.createElement('div');
+    // Set the HTML content with the providen
+    temporalDivElement.innerHTML = decodeEntities(html);
+    // Retrieve the text property of the element (cross-browser support)
+    return temporalDivElement.textContent || temporalDivElement.innerText || '';
+  },
+
+  /**
+   * Check whether current string is html or not
+   *
+   * @param  {String} string Input string
+   * @return {Boolean}       True if string is html
+   */
+  isHtml: (string) => {
+    const a = document.createElement('div');
+    a.innerHTML = decodeEntities(string);
+    for (let c = a.childNodes, i = c.length; i--;) {
+      if (c[i].nodeType == 1) {
+        return true;
+      }
+    }
+    return false;
   }
 
 };

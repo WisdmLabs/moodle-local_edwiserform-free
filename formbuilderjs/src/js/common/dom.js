@@ -826,7 +826,7 @@ class DOM {
       tag: 'label',
       attrs: {},
       className: ['control-label'],
-      content: elem.config.label,
+      content: h.isHtml(elem.config.label) ? h.stripHtml(elem.config.label) : elem.config.label,
       action: {}
     };
 

@@ -31,8 +31,7 @@ use stdClass;
 use moodle_url;
 use html_writer;
 
-class list_form_data implements renderable, templatable
-{
+class list_form_data implements renderable, templatable {
     /**
      *
      * @var Integer Form id, this will be the form id to edit or it can be the null in case of the new form creation.
@@ -125,6 +124,28 @@ class list_form_data implements renderable, templatable
     }
 
     /**
+     * Get field details using submission name
+     * @param  string     $name Name of element
+     * @return array|null       If field exist then return field array else null
+     * @since  Edwiser Form 1.4.3
+     */
+    private function get_field_by_name($name) {
+        if (!$this->decoded) {
+            $this->form->definition = json_decode($this->form->definition, true);
+            $this->decoded = true;
+        }
+
+        foreach ($this->form->definition['fields'] as $field) {
+            if (isset($field['attrs']) && isset($field['attrs']['name']) && $field['attrs']['name'] == $name) {
+                return $field;
+            }
+        }
+
+        return null;
+    }
+
+
+    /**
      * Fetch and return form submissions based on search and sort criteria from data table
      *
      * @param  string $limit number of rows to select
@@ -195,9 +216,12 @@ class list_form_data implements renderable, templatable
             );
 
             list($usql, $uparams) = $DB->get_in_or_equal($record->userid);
+
             $sql = "SELECT id," . get_all_user_name_fields(true) . " FROM {user} WHERE id " . $usql;
+
             if ($user = $DB->get_record_sql($sql, $uparams)) {
                 $userlink = new moodle_url('/user/profile.php', array('id' => $record->userid));
+
                 $formdata[] = html_writer::tag(
                     'a',
                     fullname($user),
@@ -210,14 +234,33 @@ class list_form_data implements renderable, templatable
             } else {
                 $formdata[] = '-';
             }
+
             if ($supportactions) {
                 $formdata[] = $this->plugin->form_data_list_actions($record);
             }
+
             $submitteddata = array_fill_keys($headings, null);
             $formdata[] = date('d-m-Y H:i:s', $record->date);
             $formdata = array_merge($formdata, $submitteddata);
+
             foreach ($submission as $elem) {
+
                 $value = $elem->value;
+
+                $field = $this->get_field_by_name($elem->name);
+
+                if ($field != null && $field['tag']) {
+                    if (in_array($field['attrs']['type'], ['radio', ['checkbox']])) {
+                        // If element is radio or checkbox then show label instead of value.
+                        foreach ($field['options'] as $option) {
+                            if ($option['value'] == $value) {
+                                $value = $option['label'];
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 if (isset($formdata[$elem->name])) {
                     if (!is_array($formdata[$elem->name])) {
                         $formdata[$elem->name] = array($formdata[$elem->name]);
@@ -227,6 +270,7 @@ class list_form_data implements renderable, templatable
                 }
                 $formdata[$elem->name] = $value;
             }
+
             $formdata = array_values($formdata);
             foreach ($formdata as $key => $value) {
                 if (is_array($value)) {
@@ -259,7 +303,7 @@ class list_form_data implements renderable, templatable
         $map = [];
         foreach ($fields as $field) {
             if (isset($field["attrs"]["name"]) && !isset($map[$field["attrs"]["name"]])) {
-                $map[$field["attrs"]["name"]] = $field["config"]["label"];
+                $map[$field["attrs"]["name"]] = strip_tags($field["config"]["label"]);
             }
         }
         return $map;
