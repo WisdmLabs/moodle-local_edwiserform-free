@@ -260,7 +260,7 @@ class list_form_data implements renderable, templatable {
                 $field = $this->get_field_by_name($elem->name);
 
                 if ($field != null && $field['tag']) {
-                    if (in_array($field['attrs']['type'], ['radio', ['checkbox']])) {
+                    if (isset($field['attrs']['type']) && in_array($field['attrs']['type'], ['radio', ['checkbox']])) {
                         // If element is radio or checkbox then show label instead of value.
                         foreach ($field['options'] as $option) {
                             if ($option['value'] == $value) {
