@@ -15,11 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
- * @author      Sudam
+ * Add new form renderable class definition.
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
+ * @author    Sudam Chakor
  */
 
 namespace local_edwiserform\output;
@@ -34,8 +35,12 @@ use moodle_url;
 use context_system;
 use stdClass;
 
-class add_new_form implements renderable, templatable
-{
+/**
+ * Class contains methods of add new form page content
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class add_new_form implements renderable, templatable {
     /**
      * Edwiser Forms $controller class instance
      * @var controller
@@ -47,6 +52,11 @@ class add_new_form implements renderable, templatable
      * @var Integer Form id, this will be the form id to edit or it can be the null in case of the new form creation.
      */
     private $formid         = null;
+
+    /**
+     * Form sections
+     * @var null
+     */
     private $formsections = null;
 
     /**

@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   (c) 2019 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * Edwiser Form rendering function class.
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 namespace local_edwiserform\output;
@@ -27,21 +28,43 @@ defined('MOODLE_INTERNAL') || die();
 
 use plugin_renderer_base;
 
+/**
+ * Class contains methods for rendering page contents
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class renderer extends plugin_renderer_base {
+
+    /**
+     * Render add new form page
+     *
+     * @param  add_new_form $newform New form renderable object
+     * @return string                New form page html content
+     */
     public function render_add_new_form(add_new_form $newform) {
         $templatecontext = $newform->export_for_template($this);
         return $this->render_from_template('local_edwiserform/new_form', $templatecontext);
     }
+
+    /**
+     * Render form list page
+     *
+     * @param  list_form $listform Form list renderable object
+     * @return string              Form list page html content
+     */
     public function render_list_form(list_form $listform) {
         $templatecontext = $listform->export_for_template($this);
         return $this->render_from_template('local_edwiserform/list_form', $templatecontext);
     }
+
+    /**
+     * Render form data list page
+     *
+     * @param  list_form_data $listform Form data list renderable object
+     * @return string                   Form data list html content
+     */
     public function render_list_form_data(list_form_data $listform) {
         $templatecontext = $listform->export_for_template($this);
         return $this->render_from_template('local_edwiserform/list_form_data', $templatecontext);
-    }
-    public function render_import_form(import_form $listform) {
-        $templatecontext = $listform->export_for_template($this);
-        return $this->render_from_template('local_edwiserform/import_form', $templatecontext);
     }
 }

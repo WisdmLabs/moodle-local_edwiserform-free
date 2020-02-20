@@ -15,11 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
- * @author      Sudam
+ * Description of list_form
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
+ * @author    Sudam
  */
 
 namespace local_edwiserform\output;
@@ -34,6 +35,11 @@ use renderable;
 use moodle_url;
 use stdClass;
 
+/**
+ * Class contains method to list out all forms using datatable. Also filter using ajax.
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class list_form implements renderable, templatable {
 
     /**
@@ -52,7 +58,6 @@ class list_form implements renderable, templatable {
     /**
      * Function to export the renderer data in a format that is suitable for a
      * mustache template.
-     *
      * @param renderer_base $output Used to do a final render of any components that need to be rendered for export.
      * @return stdClass|array
      * @since  Edwiser Form 1.2.0
@@ -82,7 +87,6 @@ class list_form implements renderable, templatable {
 
     /**
      * Return array of page action
-     *
      * @return array $actions
      * @since  Edwiser Form 1.0.0
      */
@@ -99,7 +103,6 @@ class list_form implements renderable, templatable {
 
     /**
      * Returns total number of form created by admin/teacher with search filter criteria
-     * @param  boolean $searchflag true if user is filtering data
      * @param  string  $search query string to search in the data
      * @return integer count forms created
      * @since  Edwiser Form 1.2.0
@@ -122,7 +125,6 @@ class list_form implements renderable, templatable {
 
     /**
      * Fetch and return forms based on search and sort criteria from data table
-     *
      * @param  string $limit number of rows to select
      * @param  string $search query parameter to search in columns
      * @param  integer $sortcolumn index of column that need to be sorted
@@ -130,7 +132,7 @@ class list_form implements renderable, templatable {
      * @return array rows
      * @since  Edwiser Form 1.0.0
      */
-    public function get_forms_list($limit = "", $searchtext = "", $sortcolumn = 0, $sortdir = "") {
+    public function get_forms_list($limit = "", $search = "", $sortcolumn = 0, $sortdir = "") {
         global $DB, $USER;
         $rows = array();
 
@@ -144,8 +146,8 @@ class list_form implements renderable, templatable {
         );
         $searchquery = " ";
         $orderbyquery = " ";
-        if ($searchtext) {
-            $searchquery = " (title REGEXP '" . $searchtext . "' OR  type REGEXP '" . $searchtext."') and ";
+        if ($search) {
+            $searchquery = " (title REGEXP '" . $search . "' OR  type REGEXP '" . $search . "') and ";
         }
         if (!empty($sortdir) && array_key_exists($sortcolumn, $colarray)) {
             $orderbyquery = " ORDER BY ".$colarray[$sortcolumn]. " ".$sortdir . " ";
@@ -178,10 +180,8 @@ class list_form implements renderable, templatable {
 
     /**
      * Get html string form action Enable-Disable
-     *
      * @param int  $id      form id
      * @param bool $enabled does form is enabled or disabled
-     *
      * @return string html format string containing enable-disable action
      * @since  Edwiser Form 1.2.0
      */
@@ -212,9 +212,7 @@ class list_form implements renderable, templatable {
     /**
      * Get html string for form actions like Enable-Disable, View data, Preview form, Edit form,
      * Export form definition delete form
-     *
      * @param stdClass $form form object with settings
-     *
      * @return string html format string containing actions
      * @since  Edwiser Form 1.2.0
      */
@@ -313,7 +311,6 @@ class list_form implements renderable, templatable {
 
     /**
      * Return name of user
-     *
      * @param  integer $userid id of user
      * @return string name of user by concatenation of firstname and last name
      * @since  Edwiser Form 1.1.0

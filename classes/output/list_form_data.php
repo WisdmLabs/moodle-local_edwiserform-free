@@ -15,11 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
- * @author      Sudam
+ * Description of list form data class
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 namespace local_edwiserform\output;
@@ -32,6 +32,11 @@ use html_writer;
 use moodle_url;
 use stdClass;
 
+/**
+ * Class contains method to list out all forms data using datatable. Also filter using ajax.
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class list_form_data implements renderable, templatable {
 
     /**
@@ -41,12 +46,21 @@ class list_form_data implements renderable, templatable {
     private $controller;
 
     /**
-     *
      * @var Integer Form id, this will be the form id to edit or it can be the null in case of the new form creation.
      */
     private $formid         = null;
+
+    /**
+     * Selected event plugin
+     * @var null
+     */
     private $plugin         = null;
 
+    /**
+     * Constructor for list form data renderable
+     * @param  integer $formid The id of form when re-editing form otherwise null
+     * @since  Edwiser Form 1.0.0
+     */
     public function __construct($formid = null) {
         global $DB;
         $this->decoded = false;
@@ -61,7 +75,6 @@ class list_form_data implements renderable, templatable {
     /**
      * Function to export the renderer data in a format that is suitable for a
      * mustache template.
-     *
      * @param renderer_base $output Used to do a final render of any components that need to be rendered for export.
      * @return stdClass|array
      * @since  Edwiser Form 1.0.1
@@ -118,10 +131,9 @@ class list_form_data implements renderable, templatable {
 
     /**
      * Returns total number of form data submitted by user in the XYZ form with search criteria
-     * @param  boolean $searchflag true if user is filtering data
-     * @param  string  $search query string to search in the data
      * @param  integet $formid The id of form
-     * @return integer count submission made in the form with filter result
+     * @param  string  $search query string to search in the data
+     * @return integer         count submission made in the form with filter result
      * @since  Edwiser Form 1.0.0
      */
     public function get_submission_count($formid, $search = '') {
@@ -157,11 +169,8 @@ class list_form_data implements renderable, templatable {
 
     /**
      * Fetch and return form submissions based on search and sort criteria from data table
-     *
      * @param  string $limit number of rows to select
      * @param  string $search query parameter to search in columns
-     * @param  boolean $returnheader header row added at first index of rows if true
-     * @param  boolean $skipfirst skip user name column if true
      * @return array rows
      * @since  Edwiser Form 1.0.2
      */
@@ -298,7 +307,6 @@ class list_form_data implements renderable, templatable {
 
     /**
      * Return array having field name and index and it's label as value
-     *
      * @return array map of fields name->label
      * @since Edwiser Form 1.0.0
      */
@@ -321,7 +329,6 @@ class list_form_data implements renderable, templatable {
 
     /**
      * Get column heading of form based on form fileds and there arrangement
-     *
      * @return array heading
      * @since Edwiser Form 1.0.4
      */
@@ -344,7 +351,6 @@ class list_form_data implements renderable, templatable {
 
     /**
      * Get fields from stage
-     *
      * @param array $def form definition
      * @param array $stage data of stage containing rows
      * @param array $headings
@@ -360,7 +366,6 @@ class list_form_data implements renderable, templatable {
 
     /**
      * Get fields from row
-     *
      * @param array $def form definition
      * @param array $row data of row containing columns
      * @param array $headings
@@ -376,7 +381,6 @@ class list_form_data implements renderable, templatable {
 
     /**
      * Get fields from column
-     *
      * @param array $def form definition
      * @param array $column data of column containing fileds
      * @param array $headings
@@ -392,7 +396,6 @@ class list_form_data implements renderable, templatable {
 
     /**
      * Add field name into headings array and return
-     *
      * @param array $field data
      * @param array $headings
      * @return array headings
@@ -412,8 +415,11 @@ class list_form_data implements renderable, templatable {
         return $headings;
     }
 
-
-
+    /**
+     * Get page actions
+     * @return array page actions
+     * @since Edwiser Form 1.0.0
+     */
     private function get_page_actions() {
         $actions = array(
             array(
