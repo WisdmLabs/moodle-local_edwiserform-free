@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * Trait for submit form data service.
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 namespace local_edwiserform\external;
@@ -32,6 +33,11 @@ use external_value;
 use context_system;
 use stdClass;
 
+/**
+ * Service definition for submit form data.
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 trait submit_form_data {
 
     /**
@@ -49,10 +55,10 @@ trait submit_form_data {
     }
 
     /**
-     * Save usr's submitted form data, process events, send confirmation and notification email
+     * Save usr's submitted form data, process events, send confirmation and notification email.
      * @param  integer $formid The form id
-     * @param  string  $data json string of user's submission data
-     * @param  array   [status, msg, errors(encodded errors array)]
+     * @param  string  $data   json string of user's submission data
+     * @return array           [status, msg, errors(encodded errors array)]
      * @since  Edwiser Form 1.0.0
      */
     public static function submit_form_data($formid, $data) {
@@ -60,14 +66,14 @@ trait submit_form_data {
 
         $controller = controller::instance();
 
-        $responce = array(
+        $response = array(
             'status' => false,
             'msg' => get_string("form-data-submission-failed", "local_edwiserform"),
             'errors' => "{}"
         );
         $form = $DB->get_record('efb_forms', array('id' => $formid));
         if (!$form) {
-            return $responce;
+            return $response;
         }
         $plugin = null;
         if ($form->type != 'blank') {
@@ -104,18 +110,18 @@ trait submit_form_data {
             $status = $DB->update_record("efb_form_data", $submission);
         }
         if ($status) {
-            $responce['status'] = true;
-            $responce['msg'] = "<p>" . get_string(
+            $response['status'] = true;
+            $response['msg'] = "<p>" . get_string(
                 "form-data-submission-successful",
                 "local_edwiserform",
                 $CFG->wwwroot . '/?redirect=0'
             ) . "</p>";
             if ($form->message) {
-                $responce['msg'] .= self::confirmation($form, $data);
+                $response['msg'] .= self::confirmation($form, $data);
             }
-            $responce['msg'] .= self::notify($form);
+            $response['msg'] .= self::notify($form);
         }
-        return $responce;
+        return $response;
     }
 
     /**
@@ -204,8 +210,6 @@ trait submit_form_data {
     /**
      * Sending notification email to admin/emails from form settings
      * @param  stdClass $form       The form object with definition and settings
-     * @param  array    $submission Data submitted by user through form
-     * @param  string   $eventmail  Email content from email
      * @return string               success message when email sent succussful or failed message or empty if no email found
      * @since  Edwiser Form 1.0.0
      */

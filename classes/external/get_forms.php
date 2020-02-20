@@ -15,9 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package local_edwiserform
- * @author  2019 WisdmLabs
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Trait for get forms service.
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 namespace local_edwiserform\external;
@@ -33,9 +35,14 @@ use context_system;
 use html_writer;
 use local_edwiserform\output\list_form;
 
+/**
+ * Service definition for get forms.
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 trait get_forms {
 
-    /*
+    /**
      * Returns description of method parameters
      * @return external_function_parameters
      */
@@ -57,8 +64,12 @@ trait get_forms {
     }
 
     /**
-     * The function itself
-     * @return string welcome message
+     * Get forms list using filter.
+     * @param  string  $search Search query for forms list
+     * @param  integer $start  Start index for forms listing
+     * @param  integer $length Total forms can be fetched while listing
+     * @param  array   $order  Ordering values: column => Column to sort, dir => Direction to sort.
+     * @return array           Form submissions list
      */
     public static function get_forms($search, $start = 0, $length = 0, $order = ['column' => 0, 'dir' => ""]) {
         global $PAGE;

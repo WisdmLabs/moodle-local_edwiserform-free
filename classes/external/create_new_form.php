@@ -15,11 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
- * @author      Sudam
+ * Trait for create_new_form service
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
+ * @author    Sudam
  */
 
 namespace local_edwiserform\external;
@@ -34,6 +35,11 @@ use external_value;
 use Exception;
 use stdClass;
 
+/**
+ * Service definition for create new form
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 trait create_new_form {
 
     /**
@@ -105,7 +111,7 @@ trait create_new_form {
     public static function create_new_form($settings, $formdef) {
         $controller = controller::instance();
 
-        $responce = array(
+        $response = array(
             'status' => false,
             'msg' => get_string("form-setting-save-fail-msg", "local_edwiserform"),
             'formid' => 0
@@ -122,11 +128,11 @@ trait create_new_form {
                 $plugin = $controller->get_plugin($type);
                 $plugin->create_new_form($formid, $eventsettings);
             }
-            $responce['status'] = true;
-            $responce['msg'] = get_string("form-setting-save-msg", "local_edwiserform");
-            $responce['formid'] = $formid;
+            $response['status'] = true;
+            $response['msg'] = get_string("form-setting-save-msg", "local_edwiserform");
+            $response['formid'] = $formid;
         }
-        return $responce;
+        return $response;
     }
 
     /**

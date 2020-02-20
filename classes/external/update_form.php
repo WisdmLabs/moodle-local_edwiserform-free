@@ -15,11 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
- * @author      Sudam
+ * Trait for update form settings and definition service.
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
+ * @author    Sudam
  */
 
 namespace local_edwiserform\external;
@@ -32,6 +33,11 @@ use external_value;
 use context_system;
 use stdClass;
 
+/**
+ * Service definition for update form.
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 trait update_form {
 
     /**
@@ -56,7 +62,7 @@ trait update_form {
 
         $controller = controller::instance();
 
-        $responce = array(
+        $response = array(
             'status' => false,
             'msg' => get_string("form-setting-update-fail-msg", "local_edwiserform"),
         );
@@ -67,18 +73,18 @@ trait update_form {
         $settings = $controller->get_array_val($params, 'setting');
         $formid = $controller->get_array_val($settings, "id");
         $formdefinition = $controller->get_array_val($params, 'formdef');
-        $responce["formid"] = $formid;
+        $response["formid"] = $formid;
         $formsettings = self::get_form_settings($settings);
         $status = self::update_form_status($formid, $formdefinition, $formsettings);
         if ($status == true) {
-            $responce['status'] = true;
-            $responce['msg'] = get_string("form-setting-update-msg", "local_edwiserform");
+            $response['status'] = true;
+            $response['msg'] = get_string("form-setting-update-msg", "local_edwiserform");
         } else if ($status == false) {
-            $responce['msg'] = get_string("form-def-update-fail-msg", "local_edwiserform", PRO_URL);
+            $response['msg'] = get_string("form-def-update-fail-msg", "local_edwiserform", PRO_URL);
         } else {
-            $responce['msg'] = $status;
+            $response['msg'] = $status;
         }
-        return $responce;
+        return $response;
     }
 
     /**
@@ -135,10 +141,10 @@ trait update_form {
 
     /**
      * Updating form definition if new definition is different than previous
-     * @param  integer $formid The form id
-     * @param  $formdefinition Form definition in json format
-     * @param  $formsettings Form object with settings and form definition
-     * @return boolean true if form definition is updated
+     * @param  integer $formid         The form id
+     * @param  string  $formdefinition Form definition in json format
+     * @param  object  $formsettings   Form object with settings and form definition
+     * @return boolean                 true if form definition is updated
      * @since  Edwiser Form 1.0.0
      */
     private static function update_form_status($formid, $formdefinition, $formsettings) {

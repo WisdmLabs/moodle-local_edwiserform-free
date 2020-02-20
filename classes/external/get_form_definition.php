@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * Trait for get form definition service.
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 namespace local_edwiserform\external;
@@ -31,6 +32,11 @@ use external_value;
 use html_writer;
 use moodle_url;
 
+/**
+ * Service definition for get form definition
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 trait get_form_definition {
 
     /**
@@ -57,7 +63,7 @@ trait get_form_definition {
 
         $controller = controller::instance();
 
-        $responce = array(
+        $response = array(
             'status' => false,
             'title' => '',
             'definition' => '',
@@ -71,16 +77,16 @@ trait get_form_definition {
 
             // If form id is invalid then returning false response.
             if (!$form || $form->deleted) {
-                return $responce;
+                return $response;
             }
 
             // If form is not enabled then returning response with form not enabled message.
             if (!$form->enabled) {
-                $responce['msg'] = get_string("form-not-enabled", "local_edwiserform", ''.$form->title);
-                return $responce;
+                $response['msg'] = get_string("form-not-enabled", "local_edwiserform", ''.$form->title);
+                return $response;
             }
             $params = array('form_id' => $formid);
-            $responce["form_id"] = $formid;
+            $response["form_id"] = $formid;
             $plugin = null;
             if ($form->type != 'blank') {
                 $plugin = $controller->get_plugin($form->type);
@@ -94,39 +100,39 @@ trait get_form_definition {
                         new moodle_url($CFG->wwwroot . "/login/index.php"),
                         get_string("form-loggedin-required-click", "local_edwiserform")
                     );
-                    $responce["msg"] = get_string("form-loggedin-required", "local_edwiserform", $link);
-                    return $responce;
+                    $response["msg"] = get_string("form-loggedin-required", "local_edwiserform", $link);
+                    return $response;
                 }
             } else {
 
                 // Checking whether selected form type XYZ can be viewed while user is logged in.
                 // If no then returning response with not allowed while logged in.
                 if ($form->type != 'blank' && !$plugin->login_allowed()) {
-                    $responce["msg"] = get_string("form-loggedin-not-allowed", "local_edwiserform");
-                    return $responce;
+                    $response["msg"] = get_string("form-loggedin-not-allowed", "local_edwiserform");
+                    return $response;
                 }
             }
-            $responce["formtype"] = $form->type;
-            $responce["title"] = $form->title;
-            self::validate_form($form, $plugin, $responce);
+            $response["formtype"] = $form->type;
+            $response["title"] = $form->title;
+            self::validate_form($form, $plugin, $response);
             if ($form->type != 'blank') {
 
                 // This feature is going to add in future update. Whether form is going to submit data to external url.
-                $responce['action']  = $plugin->get_action_url();
+                $response['action']  = $plugin->get_action_url();
             }
         }
-        return $responce;
+        return $response;
     }
 
     /**
-     * Validate whether whether user can submit data into form and attach previously submitted data
-     * @param  stdClass $form standard class object of form with main settings
-     * @param  object   $plugin object of selected form type
-     * @param  array    $response reference array with [status, title, definition, formtype, action, data, msg]
-     * @return array    [status, title, definition, formtype, action, data, msg]
+     * Validate whether whether user can submit data into form and attach previously submitted data.
+     * @param  stdClass $form     Standard class object of form with main settings
+     * @param  object   $plugin   Object of selected form type
+     * @param  array    $response Reference array with [status, title, definition, formtype, action, data, msg]
+     * @return array              [status, title, definition, formtype, action, data, msg]
      * @since  Edwiser Form 1.0.0
      */
-    public static function validate_form($form, $plugin, &$responce) {
+    public static function validate_form($form, $plugin, &$response) {
         global $CFG;
 
         $controller = controller::instance();
@@ -135,29 +141,29 @@ trait get_form_definition {
         switch ($canuser['status']) {
             case 0:
                 // User previously submitted data into form but admin disabled user from re-submitting data.
-                $responce["msg"] = get_string("form-submission-found", "local_edwiserform", $CFG->wwwroot);
+                $response["msg"] = get_string("form-submission-found", "local_edwiserform", $CFG->wwwroot);
                 break;
             case 2:
                 // User previously submitted data into form and can re-submit data to edit previous submission.
-                $responce["data"] = $canuser["data"];
+                $response["data"] = $canuser["data"];
             case 1:
                 // User can submit data into form.
-                $responce["definition"] = $form->definition;
-                $responce["msg"] = get_string("form-definition-found", "local_edwiserform");
-                $responce["status"] = true;
+                $response["definition"] = $form->definition;
+                $response["msg"] = get_string("form-definition-found", "local_edwiserform");
+                $response["status"] = true;
                 break;
             default:
-                $responce["msg"] = get_string("unknown-error", "local_edwiserform");
+                $response["msg"] = get_string("unknown-error", "local_edwiserform");
                 break;
         }
         if ($form->type != 'blank') {
             // Attaching extra data to the form data.
-            $responce['data'] = $plugin->attach_data($form, $responce["data"]);
+            $response['data'] = $plugin->attach_data($form, $response["data"]);
         } else {
             $events = $controller->get_events_base_plugin();
-            $responce['data'] = $events->attach_common_data($form, $responce["data"]);
+            $response['data'] = $events->attach_common_data($form, $response["data"]);
         }
-        return $responce;
+        return $response;
     }
 
     /**
