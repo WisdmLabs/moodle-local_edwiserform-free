@@ -26,6 +26,7 @@ namespace local_edwiserform\external;
 defined('MOODLE_INTERNAL') || die();
 
 use external_function_parameters;
+use local_edwiserform\controller;
 use external_value;
 use html_writer;
 use moodle_url;
@@ -53,6 +54,9 @@ trait get_form_definition {
      */
     public static function get_form_definition($formid) {
         global $DB, $CFG, $USER;
+
+        $controller = controller::instance();
+
         $responce = array(
             'status' => false,
             'title' => '',
@@ -79,7 +83,7 @@ trait get_form_definition {
             $responce["form_id"] = $formid;
             $plugin = null;
             if ($form->type != 'blank') {
-                $plugin = get_plugin($form->type);
+                $plugin = $controller->get_plugin($form->type);
             }
             if (empty($USER->id)) {
 

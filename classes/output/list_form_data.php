@@ -26,12 +26,20 @@ namespace local_edwiserform\output;
 
 defined('MOODLE_INTERNAL') || die();
 
+use local_edwiserform\controller;
 use renderable, templatable;
-use stdClass;
-use moodle_url;
 use html_writer;
+use moodle_url;
+use stdClass;
 
 class list_form_data implements renderable, templatable {
+
+    /**
+     * Edwiser Forms $controller class instance
+     * @var controller
+     */
+    private $controller;
+
     /**
      *
      * @var Integer Form id, this will be the form id to edit or it can be the null in case of the new form creation.
@@ -41,9 +49,11 @@ class list_form_data implements renderable, templatable {
 
     public function __construct($formid = null) {
         global $DB;
+        $this->decoded = false;
+        $this->controller = controller::instance();
         $this->formid = $formid;
         $this->form = $DB->get_record('efb_forms', array('id' => $this->formid));
-        $this->plugin = $this->form->type == 'blank' ? null : get_plugin($this->form->type);
+        $this->plugin = $this->form->type == 'blank' ? null : $this->controller->get_plugin($this->form->type);
         $this->supportsubmission = $this->form->type == 'blank' ? true : $this->plugin->can_save_data();
     }
 

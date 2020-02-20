@@ -201,33 +201,6 @@ function can_create_or_view_form($userid = false, $return = false) {
 }
 
 /**
- * Return events sub plugin object
- *
- * @return object
- * @since Edwiser Form 1.0.0
- */
-function get_plugins() {
-    global $CFG;
-    require_once($CFG->dirroot . '/local/edwiserform/locallib.php');
-    $edwiserform = new edwiserform();
-    return $edwiserform->get_plugins();
-}
-
-/**
- * Return events sub plugins array object
- *
- * @param string $type of subplugin
- * @return array
- * @since Edwiser Form 1.0.0
- */
-function get_plugin($type) {
-    global $CFG;
-    require_once($CFG->dirroot . '/local/edwiserform/locallib.php');
-    $edwiserform = new edwiserform();
-    return $edwiserform->get_plugin($type);
-}
-
-/**
  * Return base class of events plugin
  *
  * @return array

@@ -26,12 +26,13 @@ namespace local_edwiserform\external;
 
 defined('MOODLE_INTERNAL') || die();
 
-use external_single_structure;
 use external_function_parameters;
-use external_value;
-use stdClass;
+use local_edwiserform\controller;
+use external_single_structure;
 use context_system;
+use external_value;
 use Exception;
+use stdClass;
 
 trait create_new_form {
 
@@ -97,6 +98,8 @@ trait create_new_form {
      * @since  Edwiser Form 1.0.0
      */
     public static function create_new_form($settings, $formdef) {
+        $controller = controller::instance();
+
         $responce = array(
             'status' => false,
             'msg' => get_string("form-setting-save-fail-msg", "local_edwiserform"),
@@ -108,7 +111,7 @@ trait create_new_form {
         $formid = self::save_form($params['setting'], $params['formdef']);
         if ($formid > 0) {
             if ($type != 'blank') {
-                $plugin = get_plugin($type);
+                $plugin = $controller->get_plugin($type);
                 $plugin->create_new_form($formid, $eventsettings);
             }
             $responce['status'] = true;

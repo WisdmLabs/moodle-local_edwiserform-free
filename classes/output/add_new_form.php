@@ -26,15 +26,21 @@ namespace local_edwiserform\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-use renderable, templatable;
 use local_edwiserform\form_basic_settings;
 use local_edwiserform\new_form_sections;
+use local_edwiserform\controller;
+use renderable, templatable;
 use moodle_url;
 use context_system;
 use stdClass;
 
 class add_new_form implements renderable, templatable
 {
+    /**
+     * Edwiser Forms $controller class instance
+     * @var controller
+     */
+    private $controller;
 
     /**
      *
@@ -53,8 +59,9 @@ class add_new_form implements renderable, templatable
      * @since  Edwiser Form 1.0.0
      */
     public function __construct($formid = null) {
+        $this->controller    = controller::instance();
         $this->formid        = $formid;
-        $this->plugins        = get_plugins();
+        $this->plugins        = $this->controller->get_plugins();
         $this->form_sections = new new_form_sections();
         $this->teacher = !is_siteadmin() & is_teacher();
         $this->form = null;

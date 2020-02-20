@@ -25,6 +25,7 @@ namespace local_edwiserform\external;
 
 defined('MOODLE_INTERNAL') || die();
 
+use local_edwiserform\controller;
 use external_single_structure;
 use external_function_parameters;
 use external_value;
@@ -56,6 +57,9 @@ trait submit_form_data {
      */
     public static function submit_form_data($formid, $data) {
         global $DB, $USER, $CFG;
+
+        $controller = controller::instance();
+
         $responce = array(
             'status' => false,
             'msg' => get_string("form-data-submission-failed", "local_edwiserform"),
@@ -67,7 +71,7 @@ trait submit_form_data {
         }
         $plugin = null;
         if ($form->type != 'blank') {
-            $plugin = get_plugin($form->type);
+            $plugin = $controller->get_plugin($form->type);
         }
         // Userid is required to save form data to associate with specific or empty user
         if (isloggedin()) {
