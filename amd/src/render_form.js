@@ -8,7 +8,7 @@ define([
     'core/ajax',
     'core/notification',
     'local_edwiserform/formviewer'
-    ], function ($, Ajax, Notification) {
+], function ($, Ajax, Notification) {
     var SELECTORS = {
         CONTAINER: '.edwiserform-container',
         FULLPAGE: '#edwiserform-fullpage',
@@ -71,7 +71,7 @@ define([
     function load_form_data(form, data) {
         var formData = JSON.parse(data);
         $.each(formData, function(index, attr) {
-            $.each($(form).find(`[name="${attr.name}"]`), function(i, elem) {
+            $.each($(form).find('[name="' + attr.name + '"]'), function(i, elem) {
                 switch (elem.tagName) {
                     case 'INPUT':
                         switch (elem.type) {
@@ -120,10 +120,10 @@ define([
         var errors = JSON.parse(errors);
         $('.custom-validation-error').remove();
         $.each(errors, function(name, error) {
-            var errorview = $(form).find(`#${name}-error`);
+            var errorview = $(form).find('#' + name + '-error');
             if (errorview.length == 0) {
-                $(form).find(`[name="${name}"]`).after(`<span id="${name}-error" class="text-error custom-validation-error"></span>`);
-                errorview = $(form).find(`#${name}-error`);
+                $(form).find('[name="' + name + '"]').after('<span id="' + name + '-error" class="text-error custom-validation-error"></span>');
+                errorview = $(form).find('#' + name + '-error');
             }
             errorview.text(error);
         });
@@ -213,7 +213,7 @@ define([
      * Initialize events on elements
      */
     function initializeEvents() {
-        // Handle form field arrangement on resize
+        // Handle form field arrangement on resize.
         $(window).resize(function() {
             $.each(forms, function(index) {
                 formeo[index].dom.manageFormWidth(fullpage);
@@ -227,7 +227,7 @@ define([
         });
 
         $('body').on('click', '.efb-view-fullpage', function() {
-            // View form on full page
+            // View form on full page.
             var id = $(this).closest('.edwiserform-container').find('input[class="id"]').val();
             window.open(M.cfg.wwwroot + '/local/edwiserform/form.php?id=' + id);
             $(this).closest('.edwiserform-container').html(M.util.get_string('fullpage-link-clicked', 'local_edwiserform'));
@@ -245,7 +245,7 @@ define([
 
     /**
      * Render all forms on the page
-     * @param  {[type]} sitekey sitekey for Google recaptcha
+     * @param  String sitekey sitekey for Google recaptcha
      */
     function render_forms(sitekey) {
         let formeoOpts = {
@@ -265,7 +265,7 @@ define([
                     formeoOpts.container = form;
                     formeo[index] = new Formeo(formeoOpts, response.definition);
                     formeo[index].render(form);
-                    $(form).prepend(`<h2>${response.title}</h2>`);
+                    $(form).prepend('<h2>' + response.title + '</h2>');
                     $(form).prepend(idElement);
                     if (response.data) {
                         load_form_data(form, response.data);

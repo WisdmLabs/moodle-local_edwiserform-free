@@ -88,16 +88,8 @@ define([
                     language        : {
                         sSearch: M.util.get_string('search-form', 'local_edwiserform'),
                         emptyTable: M.util.get_string('heading-listforms-empty', 'local_edwiserform'),
-                        info: M.util.get_string('heading-listforms-showing', 'local_edwiserform', {
-                            'start': '_START_',
-                            'end': '_END_',
-                            'total': '_TOTAL_',
-                        }),
-                        infoEmpty: M.util.get_string('heading-listforms-showing', 'local_edwiserform', {
-                            'start': '0',
-                            'end': '0',
-                            'total': '0',
-                        }),
+                        info: M.util.get_string('heading-listforms-showing', 'local_edwiserform', {'start': '_START_', 'end': '_END_', 'total': '_TOTAL_'}),
+                        infoEmpty: M.util.get_string('heading-listforms-showing', 'local_edwiserform', {'start': '0', 'end': '0', 'total': '0'}),
                     },
                     buttons: [],
                     ajax: function(data, callback, settings) {
@@ -143,7 +135,7 @@ define([
                             Formeo.dom.loading();
                             PROMISES.DELETE_SUBMISSION(ids).done(function(response) {
                                 if (response.status == true) {
-                                    Formeo.dom.alert('success', `<div class='col-12'>${response.msg}</div>`);
+                                    Formeo.dom.alert('success', '<div class="col-12">' + response.msg + '</div>');
                                     table.draw();
                                     $('.submission-check-all').prop('checked', false);
                                 }
@@ -160,28 +152,28 @@ define([
                 );
             }
 
-            // Select All/None checkbox
+            // Select All/None checkbox.
             $('body').on('change', '.submission-check-all', function() {
                 $('.DTFC_Cloned .submission-check').prop('checked', $(this).is(':checked'));
             });
 
-            // Apply bulk actions
+            // Apply bulk actions.
             $('body').on('click', '#efb-apply-actions', function(event) {
                 event.preventDefault()
                 switch($('#efb-bulk-actions').val()) {
                     case 'bulkaction':
-                        // Show toaster if bulk action is not selected
+                        // Show toaster if bulk action is not selected.
                         Formeo.dom.toaster(M.util.get_string('selectbulkaction', 'local_edwiserform'));
                         break;
                     case 'delete':
-                        // Show toaster if deletiong submission without selecting any
+                        // Show toaster if deletiong submission without selecting any.
                         if (!$('.submission-check').is(':checked')) {
                             Formeo.dom.toaster(M.util.get_string('emptysubmission', 'local_edwiserform'));
                             return;
                         }
 
                         var ids = [];
-                        // Prepare ids array to delete
+                        // Prepare ids array to delete.
                         $('.submission-check:checked').each(function(i, e) {
                             ids.push($(e).data('value'));
                         });

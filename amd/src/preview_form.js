@@ -16,7 +16,7 @@ define(['jquery', 'core/ajax', 'local_edwiserform/formviewer'], function ($, aja
                 var formeo;
                 formeo = new Formeo(formeoOpts, definition);
                 formeo.render(form);
-                $(form).prepend(`<h2>${title}</h2>`);
+                $(form).prepend('<h2>' + title + '</h2>');
             });
         }
     };

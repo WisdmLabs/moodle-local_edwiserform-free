@@ -100,16 +100,8 @@ define([
                         language        : {
                             sSearch: M.util.get_string('search-form', 'local_edwiserform'),
                             emptyTable: M.util.get_string('heading-listforms-empty', 'local_edwiserform'),
-                            info: M.util.get_string('heading-listforms-showing', 'local_edwiserform', {
-                                'start': '_START_',
-                                'end': '_END_',
-                                'total': '_TOTAL_',
-                            }),
-                            infoEmpty: M.util.get_string('heading-listforms-showing', 'local_edwiserform', {
-                                'start': '0',
-                                'end': '0',
-                                'total': '0',
-                            }),
+                            info: M.util.get_string('heading-listforms-showing', 'local_edwiserform', {'start': '_START_', 'end': '_END_', 'total': '_TOTAL_'}),
+                            infoEmpty: M.util.get_string('heading-listforms-showing', 'local_edwiserform', {'start': '0', 'end': '0', 'total': '0'}),
                         },
                         ajax: function(data, callback, settings) {
                             PROMISES.GET_FORMS(
@@ -143,7 +135,7 @@ define([
                     Formeo.dom.multiActions(
                         'warning',
                         M.util.get_string('warning', 'local_edwiserform'),
-                        `<h5>${M.util.get_string('delete-form-and-data', 'local_edwiserform', {title, id})}</h5>`,
+                        '<h5>' + M.util.get_string('delete-form-and-data', 'local_edwiserform', {title, id}) + '</h5>',
                         [{
                             title: M.util.get_string('proceed', 'local_edwiserform'),
                             type: 'danger',
@@ -167,7 +159,7 @@ define([
                  * @param  {string} video type of feature
                  * @return {string}       Youtube embed video url
                  */
-                var get_pro_demo_url = (video) => {
+                var get_pro_demo_url = function(video) {
                     return videotypes.hasOwnProperty(video) ? videotypes[video] : videotypes['default'];
                 }
 
@@ -183,9 +175,7 @@ define([
                     Formeo.dom.multiActions(
                         'success',
                         M.util.get_string('upgrade', 'local_edwiserform'),
-                        `<h5>${message}</h5>
-                        <div><iframe class="efb-pro-demo" src="${get_pro_demo_url('export')}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
-                        </iframe></div>`,
+                        '<h5>' + message + '</h5><div><iframe class="efb-pro-demo" src="' + get_pro_demo_url('export') + '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>',
                         [{
                             title: M.util.get_string('proceed', 'local_edwiserform'),
                             type: 'success',

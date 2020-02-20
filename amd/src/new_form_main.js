@@ -10,7 +10,7 @@ define([
     'core/templates',
     'local_edwiserform/efb_form_basic_settings',
     'local_edwiserform/formbuilder'
-    ], function ($, ajax, notification, Templates) {
+], function ($, ajax, notification, Templates) {
 
     var SELECTORS = {
         FORMTYPE: '#id_type',
@@ -92,21 +92,12 @@ define([
         $('#efb-btn-save-form-settings').parents('.efb-editor-button').toggleClass('d-none', !status);
         $('.efb-form-save').toggleClass('d-none', !status);
         return status;
-    };
-
-    /**
-     * Get pro feature demo url of youtube video
-     * @param  {string} video type of feature
-     * @return {string}       Youtube embed video url
-     */
-    var get_pro_demo_url = (video) => {
-        return videotypes.hasOwnProperty(video) ? videotypes[video] : videotypes['default'];
     }
 
     /**
      * Reset form definition to selected template
      */
-    var reset_form = function() {
+    formeoOpts.resetForm = function() {
         formeo.dom.loading();
         var formtype = $(SELECTORS.FORMTYPE).val();
         PROMISES.GET_TEMPLATE(formtype)
@@ -123,8 +114,14 @@ define([
         });
     };
 
-    formeoOpts.resetForm = reset_form;
-    formeoOpts.get_pro_demo_url = get_pro_demo_url;
+    /**
+     * Get pro feature demo url of youtube video
+     * @param  {string} video type of feature
+     * @return {string}       Youtube embed video url
+     */
+    formeoOpts.get_pro_demo_url = function(video) {
+        return videotypes.hasOwnProperty(video) ? videotypes[video] : videotypes['default'];
+    };
 
     /**
      * Check whether template is selected or not
@@ -140,9 +137,9 @@ define([
      */
     function switch_panel(id) {
         $(SELECTORS.PANEL).removeClass(SELECTORS.ACTIVE);
-        $(`#efb-${id}`).addClass(SELECTORS.ACTIVE);
+        $('#efb-' + id).addClass(SELECTORS.ACTIVE);
         $('.efb-tabcontent').removeClass(SELECTORS.ACTIVE);
-        $(`#efb-cont-${id}`).addClass(SELECTORS.ACTIVE);
+        $('#efb-cont-' + id).addClass(SELECTORS.ACTIVE);
     }
 
     /**
@@ -277,7 +274,7 @@ define([
             $('.efb-settings-tab-list-item').removeClass(SELECTORS.ACTIVE);
             $(this).addClass(SELECTORS.ACTIVE);
             $('.efb-settings-tab').removeClass(SELECTORS.ACTIVE);
-            $(`#${$(this).data('target')}`).addClass(SELECTORS.ACTIVE);
+            $('#' + $(this).data('target')).addClass(SELECTORS.ACTIVE);
         });
 
         $(document).on('formeoUpdated', function(event) {
@@ -417,7 +414,6 @@ define([
             $(SELECTORS.FORM_TITLE).val(formName);
             can_save_form();
         });
-
 
         $(SELECTORS.FORMTYPE).change(function() {
             $(".efb-forms-template").removeClass("active");
