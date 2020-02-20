@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     edwiserformevents_registration
- * @copyright   (c) 2019 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * Edwiser Forms controller methods.
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 namespace local_edwiserform;
@@ -39,6 +40,11 @@ use core_component;
 use context_system;
 use stdClass;
 
+/**
+ * Class contains general methods of Edwiser Forms.
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class controller {
 
     /**
@@ -138,12 +144,12 @@ class controller {
      */
     public function can_save_data($form, $plugin) {
         global $DB, $USER;
-        $responce = ['status' => 1];
+        $response = ['status' => 1];
         if ($USER->id == 0) {
-            return $responce;
+            return $response;
         }
         if ($plugin != null && $plugin->support_multiple_submissions()) {
-            return $responce;
+            return $response;
         }
         $formid = $form->id;
         $sql = "SELECT f.type, f.data_edit, fd.submission FROM {efb_forms} f
@@ -153,13 +159,13 @@ class controller {
         $form = $DB->get_record_sql($sql, array($formid, $USER->id));
         if ($form && ($form->type == 'blank' || $plugin->can_save_data())) {
             if ($form->data_edit) {
-                $responce['data'] = $form->submission;
-                $responce['status'] = 2;
+                $response['data'] = $form->submission;
+                $response['status'] = 2;
             } else {
-                $responce['status'] = 0;
+                $response['status'] = 0;
             }
         }
-        return $responce;
+        return $response;
     }
 
     /**

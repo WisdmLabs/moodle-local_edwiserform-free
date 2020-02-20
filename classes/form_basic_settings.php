@@ -15,11 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   (c) 2019 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
- * @author      Sudam
+ * Form basic settings class.
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
+ * @author    Sudam
  */
 
 namespace local_edwiserform;
@@ -31,7 +32,30 @@ use context_system;
 use moodle_url;
 use html_writer;
 
+/**
+ * Edwiser Forms basic settings definition.
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class form_basic_settings extends moodleform {
+
+    /**
+     * Constructor to initialize required variables
+     * @param mixed $action the action attribute for the form. If empty defaults to auto detect the
+     *              current url. If a moodle_url object then outputs params as hidden variables.
+     * @param mixed $customdata if your form defintion method needs access to data such as $course
+     *              $cm, etc. to construct the form definition then pass it in this array. You can
+     *              use globals for somethings.
+     * @param string $method if you set this to anything other than 'post' then _GET and _POST will
+     *               be merged and used as incoming data to the form.
+     * @param string $target target frame for form submission. You will rarely use this. Don't use
+     *               it if you don't need to as the target attribute is deprecated in xhtml strict.
+     * @param mixed $attributes you can pass a string of html attributes here or an array.
+     *               Special attribute 'data-random-ids' will randomise generated elements ids. This
+     *               is necessary when there are several forms on the same page.
+     * @param bool $editable
+     * @param array $ajaxformdata Forms submitted via ajax, must pass their data here, instead of relying on _GET and _POST.
+     */
     public function __construct(
         $action = null,
         $customdata = null,
@@ -53,7 +77,6 @@ class form_basic_settings extends moodleform {
 
     /**
      * Method defines the form basic settings elements.
-     *
      * @since Edwiser Form 1.2.0
      */
     protected function definition() {
@@ -96,9 +119,8 @@ class form_basic_settings extends moodleform {
 
     /**
      * Add general settings for the form like title, description, data edit and form scheduling
-     *
-     * @param stdClass $form
-     * @param array $allevents
+     * @param stdClass $form               Moodle form object
+     * @param bool     $multiplesubmission If true then form type support multiple submission
      * @since Edwiser Form 1.1.0
      */
     private function get_general_settings(&$form, $multiplesubmission) {
@@ -136,7 +158,6 @@ class form_basic_settings extends moodleform {
 
     /**
      * Add notiication settings for the form like notifi_email, notifi_email_subject, notifi_email_body
-     *
      * @param stdClass $form
      * @since Edwiser Form 1.0.0
      */
@@ -167,7 +188,6 @@ class form_basic_settings extends moodleform {
 
     /**
      * Add confirmation settings for the form like confirmation_subject, confirmation_messsage
-     *
      * @param stdClass $form
      * @since Edwiser Form 1.0.0
      */
@@ -190,7 +210,6 @@ class form_basic_settings extends moodleform {
     /**
      * Add event settings for the form like events list
      * User can select multiple event for his form to trigger event action on form submission
-     *
      * @param stdClass $form
      * @param array $eventlist supported event list
      * @since Edwiser Form 1.0.0
@@ -210,7 +229,6 @@ class form_basic_settings extends moodleform {
     /**
      * Get html tabs to switch between settings panel. Currently General, Notification,
      * Confirmation, Events tabs are added
-     *
      * @param stdClass $form
      * @since Edwiser Form 1.0.0
      */
