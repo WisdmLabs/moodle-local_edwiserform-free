@@ -257,6 +257,6 @@ class local_edwiserform_external_testcase extends local_edwiserform_base_testcas
         $setting['type'] = 'subscription';
         $def = $DB->get_field('efb_form_templates', 'definition', array('name' => 'subscription'));
         $result = efb_api::update_form($setting, $def);
-        $this->assertEquals(get_string("form-def-update-fail-msg", "local_edwiserform"), $result['msg']);
+        $this->assertEquals(get_string("form-def-update-fail-msg", "local_edwiserform", PRO_URL), $result['msg']);
     }
 }

@@ -74,7 +74,7 @@ trait update_form {
             $responce['status'] = true;
             $responce['msg'] = get_string("form-setting-update-msg", "local_edwiserform");
         } else if ($status == false) {
-            $responce['msg'] = get_string("form-def-update-fail-msg", "local_edwiserform");
+            $responce['msg'] = get_string("form-def-update-fail-msg", "local_edwiserform", PRO_URL);
         } else {
             $responce['msg'] = $status;
         }

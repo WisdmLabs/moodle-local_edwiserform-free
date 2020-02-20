@@ -233,7 +233,7 @@ $string["form-setting-save-msg"] = "Form saved successfuly. You will redirected 
 $string["form-setting-saved"] = "Your form is already saved. You will redirected to forms list.";
 $string["form-setting-save-fail-msg"] = "Error while saving form definition.";
 $string["form-def-save-fail-msg"] = "Error while saving form definition.";
-$string["form-def-update-fail-msg"] = "Cannot overwrite form. User submissions present. Try to create new form.";
+$string["form-def-update-fail-msg"] = 'Cannot overwrite form. User submissions present. Try to create new form or <a href="{$a}" target="_blank">upgrade</a> to pro to override form even if it have submissions.';
 $string["form-setting-update-fail-msg"] = "Unable to update form.";
 $string["form-setting-update-msg"] = "Form has been updated successfuly. Click Ok to redirect to forms list.";
 $string["list-form-data-page-title"] = "List Form Data.";
