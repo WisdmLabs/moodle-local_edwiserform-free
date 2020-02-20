@@ -158,40 +158,6 @@ trait get_form_definition {
     }
 
     /**
-     * Check whether user can save data into form
-     * @param  stdClass $form object of form with definition and settings
-     * @param  object   $plugin object of selected event
-     * @return array    [status 0-cannot submit but have data|1-can submit|2-can submit and have data,
-     *                   data previous submitted data]
-     * @since  Edwiser Form 1.0.0
-     */
-    public static function can_save_data($form, $plugin) {
-        global $DB, $USER;
-        $responce = ['status' => 1];
-        if ($USER->id == 0) {
-            return $responce;
-        }
-        if ($plugin != null && $plugin->support_multiple_submissions()) {
-            return $responce;
-        }
-        $formid = $form->id;
-        $sql = "SELECT f.type, f.data_edit, fd.submission FROM {efb_forms} f
-                  JOIN {efb_form_data} fd ON f.id = fd.formid
-                 WHERE f.id = ?
-                   AND fd.userid = ?";
-        $form = $DB->get_record_sql($sql, array($formid, $USER->id));
-        if ($form && ($form->type == 'blank' || $plugin->can_save_data())) {
-            if ($form->data_edit) {
-                $responce['data'] = $form->submission;
-                $responce['status'] = 2;
-            } else {
-                $responce['status'] = 0;
-            }
-        }
-        return $responce;
-    }
-
-    /**
      * Returns description of method parameters for get form definition
      * @return external_single_structure
      * @since  Edwiser Form 1.0.0

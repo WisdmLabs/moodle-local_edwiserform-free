@@ -27,10 +27,10 @@ namespace local_edwiserform\external;
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/externallib.php');
-require_once($CFG->dirroot . "/local/edwiserform/lib.php");
+require_once($CFG->dirroot . '/local/edwiserform/locallib.php');
 use external_api;
 
-class efb_api extends \external_api {
+class efb_api extends external_api {
 
     use create_new_form;
     use delete_form;

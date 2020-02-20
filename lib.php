@@ -21,67 +21,6 @@
  * @author      Yogesh Shirsath
  */
 
-define("EDWISERFORM_COMPONENT", "local_edwiserform");
-define("EDWISERFORM_FILEAREA", "successmessage");
-define("UNAUTHORISED_USER", 1);
-define("ADMIN_PERMISSION", 2);
-define("PRO_URL", "https://edwiser.org/forms/edwiser-forms-pricing");
-define("SUPPORTED_FORM_STYLES", 4);
-
-/**
- * Decode json string upto 1 level. First complete json is decoded.
- * Then first level object|array is again encoded to achieve level 1 decode
- *
- * @param string $json
- * @return string $json
- * @since Edwiser Form 1.0.0
- */
-function json_decode_level_1($json) {
-    $json = json_decode($json, true);
-    if (!is_array($json)) {
-        return $json;
-    }
-    foreach ($json as $key => $value) {
-        $json[$key] = json_encode($value);
-    }
-    return $json;
-}
-
-/**
- * Decode json string upto 2 level. First complete json is decoded.
- * Then second level object|array is again encoded to achieve level 2 decode
- *
- * @param string $json
- * @return string $json
- * @since Edwiser Form 1.0.0
- */
-function json_decode_level_2($json) {
-    $json = json_decode($json, true);
-    if (!is_array($json)) {
-        return $json;
-    }
-    foreach ($json as $key1 => $json1) {
-        if (!is_array($json1)) {
-            continue;
-        }
-        foreach ($json1 as $key2 => $json2) {
-            $json1[$key2] = json_encode($json2);
-        }
-        $json[$key1] = $json1;
-    }
-    return $json;
-}
-
-function get_edwiserform_string($identifier) {
-    $string = get_string($identifier, "local_edwiserform");
-    if ($string == "[[".$identifier."]]") {
-        $string = str_replace("[[", "", $string);
-        $string = str_replace("]]", "", $string);
-        $string = str_replace("-", " ", $string);
-    }
-    return $string;
-}
-
 /**
  * Call cron on the assign module.
  */
@@ -120,19 +59,6 @@ function local_edwiserform_pluginfile($course, $cm, $context, $filearea, array $
     }
     // Download MUST be forced - security!
     send_stored_file($file, 0, 0, $forcedownload, $options);
-}
-/**
- * Delete area files of edwiserform
- *
- * @param  integer $itemid to delete files
- * @since  Edwiser Form 1.1.0
- */
-function delete_edwiserform_files($filearea, $itemid) {
-    if ($itemid < 1) {
-        return;
-    }
-    $fs = get_file_storage();
-    $fs->delete_area_files(context_system::instance()->id, EDWISERFORM_COMPONENT, $filearea, $itemid);
 }
 
 /**

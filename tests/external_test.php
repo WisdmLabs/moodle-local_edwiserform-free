@@ -30,7 +30,6 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/local/edwiserform/tests/base_test.php');
 require_once($CFG->dirroot . '/local/edwiserform/classes/external/efb_api.php');
-require_once($CFG->dirroot . '/local/edwiserform/lib.php');
 
 use local_edwiserform\external\efb_api;
 

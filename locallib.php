@@ -94,49 +94,6 @@ class edwiserform {
     }
 
     /**
-     * Load the plugins from the sub folder events
-     *
-     * @param string type - Type of plugin
-     * @return array - The sorted list of plugins
-     */
-    public function get_plugin($type) {
-        global $CFG;
-        $result = null;
-
-        $names = core_component::get_plugin_list('edwiserformevents');
-        foreach ($names as $name => $path) {
-            if ($name == $type && file_exists($path . '/locallib.php')) {
-                require_once($path . '/locallib.php');
-                $shortsubtype = substr('edwiserformevents', strlen('edwiserform'));
-                $pluginclass = 'edwiserform_' . $shortsubtype . '_' . $name;
-                $result = new $pluginclass($this, $name);
-            }
-        }
-        return $result;
-    }
-
-    /**
-     * Load the plugins from the sub folder events
-     *
-     * @return array - The sorted list of plugins
-     */
-    public function get_plugins() {
-        global $CFG;
-        $result = array();
-
-        $names = core_component::get_plugin_list('edwiserformevents');
-        foreach ($names as $name => $path) {
-            if (file_exists($path . '/locallib.php')) {
-                require_once($path . '/locallib.php');
-                $shortsubtype = substr('edwiserformevents', strlen('edwiserform'));
-                $pluginclass = 'edwiserform_' . $shortsubtype . '_' . $name;
-                $result[$name] = new $pluginclass($this, $name);
-            }
-        }
-        return $result;
-    }
-
-    /**
      * Get pro feature video type links
      * @return array Video type links array
      */

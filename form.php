@@ -22,7 +22,7 @@
  */
 
 require_once('../../config.php');
-require_once($CFG->dirroot . '/local/edwiserform/lib.php');
+
 $context = context_system::instance();
 $PAGE->set_context($context);
 $formid = required_param('id', PARAM_INT);

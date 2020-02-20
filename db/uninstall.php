@@ -30,7 +30,6 @@
  */
 function xmldb_local_edwiserform_uninstall() {
     global $DB, $CFG;
-    require_once($CFG->dirroot . '/local/edwiserform/lib.php');
     $fs = get_file_storage();
     $fs->delete_area_files(context_system::instance()->id, EDWISERFORM_COMPONENT, EDWISERFORM_SUCCESS_FILEAREA);
     return true;

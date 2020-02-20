@@ -87,7 +87,7 @@ trait delete_submissions
 
         // Check if user is admin or author/author2 of form
         $adminorauthor = is_siteadmin() || $form->author == $USER->id || $form->author2 == $USER->id;
-        require_once($CFG->dirroot . '/local/edwiserform/locallib.php');
+
         $edwiserform = new edwiserform();
 
         foreach ($submissions as $key => $submission) {
