@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * Edwiser Form root class
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -30,8 +31,17 @@ use local_edwiserform\output\add_new_form;
 use local_edwiserform\output\list_form;
 use local_edwiserform\controller;
 
+/**
+ * Edwiser Form root class definition
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class edwiserform {
 
+    /**
+     * Renderer output object
+     * @var core_renderer
+     */
     private $output;
 
     /**
@@ -119,10 +129,9 @@ class edwiserform {
     /**
      * Main function responsible to show create_new_form|listforms|listformdata page
      * It also calls js file and extra stylesheets
-     *
-     * @param string $page page to view
-     * @return string page output
-     * @since Edwiser Form 1.0.0
+     * @param  string $page page to view
+     * @return string       page output
+     * @since  Edwiser Form 1.0.0
      */
     public function view($page) {
         global $USER, $CFG, $PAGE;

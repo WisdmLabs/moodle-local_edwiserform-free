@@ -15,16 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * lib functions requried by Moodle
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
  * Call cron on the assign module.
+ * @return boolean
+ * @since Edwiser Form 1.0.0
  */
 function local_edwiserform_cron() {
     global $CFG;
@@ -36,7 +39,6 @@ function local_edwiserform_cron() {
 
 /**
  * Serves the files from the edwiserform file areas
- *
  * @param stdClass $course the course object
  * @param stdClass $cm the course module object
  * @param stdClass $context the edwiserform's context
@@ -44,6 +46,7 @@ function local_edwiserform_cron() {
  * @param array $args extra arguments (itemid, path)
  * @param bool $forcedownload whether or not force download
  * @param array $options additional options affecting the file serving
+ * @since Edwiser Form 1.0.0
  */
 function local_edwiserform_pluginfile(
     $course,
@@ -64,15 +67,13 @@ function local_edwiserform_pluginfile(
     if (!($file = $fs->get_file_by_hash(sha1($fullpath)))) {
         return false;
     }
-    // Download MUST be forced - security.
+    // Download MUST be forced - security!
     send_stored_file($file, 0, 0, $forcedownload, $options);
 }
 
 /**
  * Adding edwiser form list link in sidebar for admin and teacher
- *
  * @param navigation_node $nav navigation node
- *
  * @since Edwiser Form 1.2.0
  */
 function local_edwiserform_extend_navigation(navigation_node $nav) {
