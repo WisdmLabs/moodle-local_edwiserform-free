@@ -21,6 +21,8 @@
  * @author      Yogesh Shirsath
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 function xmldb_edwiserformevents_support_uninstall() {
     global $DB;
     $record = $DB->get_record('efb_form_templates', array('name' => 'support'));
