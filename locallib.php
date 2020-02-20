@@ -34,7 +34,10 @@ class edwiserform {
 
     private $output;
 
-    // Event plugins
+    /**
+     * Events list
+     * @var array
+     */
     private $events = [];
 
     /**

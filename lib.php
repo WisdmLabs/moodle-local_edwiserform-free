@@ -21,6 +21,8 @@
  * @author      Yogesh Shirsath
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Call cron on the assign module.
  */
@@ -43,7 +45,15 @@ function local_edwiserform_cron() {
  * @param bool $forcedownload whether or not force download
  * @param array $options additional options affecting the file serving
  */
-function local_edwiserform_pluginfile($course, $cm, $context, $filearea, array $args, $forcedownload = 0, array $options = array()) {
+function local_edwiserform_pluginfile(
+    $course,
+    $cm,
+    $context,
+    $filearea,
+    array $args,
+    $forcedownload = 0,
+    array $options = array()
+) {
     if ($context->contextlevel != CONTEXT_SYSTEM) {
         send_file_not_found();
     }
@@ -54,7 +64,7 @@ function local_edwiserform_pluginfile($course, $cm, $context, $filearea, array $
     if (!($file = $fs->get_file_by_hash(sha1($fullpath)))) {
         return false;
     }
-    // Download MUST be forced - security!
+    // Download MUST be forced - security.
     send_stored_file($file, 0, 0, $forcedownload, $options);
 }
 
@@ -87,7 +97,7 @@ function local_edwiserform_extend_navigation(navigation_node $nav) {
         ));
     }
 
-    // Archieve page node
+    // Archieve page node.
     $nav->add(
         get_string('pluginname', 'local_edwiserform'),
         new moodle_url($CFG->wwwroot . '/local/edwiserform/view.php'),

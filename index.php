@@ -22,5 +22,8 @@
  */
 
 require_once('../../config.php');
+
+require_login();
+
 global $CFG;
 redirect(new moodle_url($CFG->wwwroot . '/local/edwiserform/view.php', array('page' => 'listforms')));

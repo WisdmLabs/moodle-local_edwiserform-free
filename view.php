@@ -38,7 +38,7 @@ $urlparam = array('page' => $page);
 $formid = optional_param('formid', null, PARAM_INT);
 if ($formid) {
     $urlparam['formid'] = $formid;
-    // Switching between layout of new form and list form/formdata
+    // Switching between layout of new form and list form/formdata.
 }
 $title = $page;
 if ($page == 'newform') {

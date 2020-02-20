@@ -23,6 +23,8 @@
 
 require_once('../../config.php');
 
+require_login();
+
 $context = context_system::instance();
 $PAGE->set_context($context);
 $formid = required_param('id', PARAM_INT);
