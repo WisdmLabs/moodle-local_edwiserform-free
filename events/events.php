@@ -105,7 +105,7 @@ class edwiserform_events_plugin {
      * Form data list js files
      */
     public function form_data_list_js() {
-        // Require js files or call amd
+        // Require js files or call amd.
     }
 
     /**
@@ -187,7 +187,12 @@ class edwiserform_events_plugin {
         global $USER;
         $data = json_decode($data);
         if ($USER->id != 0) {
-            $fields = ["firstname" => $USER->firstname, "lastname" => $USER->lastname, "email" => $USER->email, "mobile" => $USER->phone2];
+            $fields = [
+                "firstname" => $USER->firstname,
+                "lastname" => $USER->lastname,
+                "email" => $USER->email,
+                "mobile" => $USER->phone2
+            ];
             foreach ($fields as $key => $value) {
                 if (!$this->has_field($data, $key)) {
                     $data[] = [
