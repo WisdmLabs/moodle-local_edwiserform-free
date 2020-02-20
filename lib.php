@@ -29,23 +29,6 @@ define("PRO_URL", "https://edwiser.org/forms/edwiser-forms-pricing");
 define("SUPPORTED_FORM_STYLES", 4);
 
 /**
- * Return value from array based on index. If index not found or empty
- * then return thrid parameter
- *
- * @param array $array
- * @param string|integer $key to search inside array
- * @param anytype $value optional
- * @return anytype $value
- * @since Edwiser Form 1.0.0
- */
-function getarrayval($array, $key, $value="") {
-    if (isset($array[$key]) && !empty($array[$key])) {
-        $value = $array[$key];
-    }
-    return $value;
-}
-
-/**
  * Decode json string upto 1 level. First complete json is decoded.
  * Then first level object|array is again encoded to achieve level 1 decode
  *

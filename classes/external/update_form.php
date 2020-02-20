@@ -26,9 +26,11 @@ namespace local_edwiserform\external;
 
 defined('MOODLE_INTERNAL') || die();
 
+use local_edwiserform\controller;
 use external_function_parameters;
 use external_value;
 use context_system;
+use stdClass;
 
 trait update_form {
 
@@ -51,18 +53,20 @@ trait update_form {
      */
     public static function update_form($settings, $formdef) {
         global $CFG;
-        require_once($CFG->dirroot . "/local/edwiserform/lib.php");
+
+        $controller = controller::instance();
+
         $responce = array(
             'status' => false,
             'msg' => get_string("form-setting-update-fail-msg", "local_edwiserform"),
         );
-        $type = self::getarrayval($settings, "type");
-        $formid = self::getarrayval($settings, "id");
-        $eventsettings = self::getarrayval($settings, "eventsettings");
+        $type = $controller->get_array_val($settings, "type");
+        $formid = $controller->get_array_val($settings, "id");
+        $eventsettings = $controller->get_array_val($settings, "eventsettings");
         $params = self::validate_parameters(self::update_form_parameters(), array("setting" => $settings, "formdef" => $formdef));
-        $settings = self::getarrayval($params, 'setting');
-        $formid = self::getarrayval($settings, "id");
-        $formdefinition = self::getarrayval($params, 'formdef');
+        $settings = $controller->get_array_val($params, 'setting');
+        $formid = $controller->get_array_val($settings, "id");
+        $formdefinition = $controller->get_array_val($params, 'formdef');
         $responce["formid"] = $formid;
         $formsettings = self::get_form_settings($settings);
         $status = self::update_form_status($formid, $formdefinition, $formsettings);
@@ -86,23 +90,26 @@ trait update_form {
      */
     private static function get_form_settings($setting) {
         global $DB, $USER, $CFG;
-        $data = new \stdClass();
-        $data->id = self::getarrayval($setting, "id");
-        $data->title = self::getarrayval($setting, "title");
-        $data->description = self::getarrayval($setting, "description");
-        $data->type = self::getarrayval($setting, "type");
-        $data->notifi_email = self::getarrayval($setting, "notifi_email");
-        $data->data_edit = self::getarrayval($setting, "data_edit", false);
+
+        $controller = controller::instance();
+
+        $data = new stdClass();
+        $data->id = $controller->get_array_val($setting, "id");
+        $data->title = $controller->get_array_val($setting, "title");
+        $data->description = $controller->get_array_val($setting, "description");
+        $data->type = $controller->get_array_val($setting, "type");
+        $data->notifi_email = $controller->get_array_val($setting, "notifi_email");
+        $data->data_edit = $controller->get_array_val($setting, "data_edit", false);
         $context = context_system::instance();
         require_once($CFG->libdir . "/filelib.php");
         $data->message = file_save_draft_area_files(
-            self::getarrayval($setting, "draftitemid", 0),
+            $controller->get_array_val($setting, "draftitemid", 0),
             $context->id,
             EDWISERFORM_COMPONENT,
             EDWISERFORM_FILEAREA,
             $data->id,
             array('subdirs' => false),
-            self::getarrayval($setting, "message", "")
+            $controller->get_array_val($setting, "message", "")
         );
         $data->author2 = $USER->id;
         $data->modified = time();
