@@ -32,8 +32,23 @@ use moodle_url;
 use html_writer;
 
 class form_basic_settings extends moodleform {
-    public function __construct($action = null, $customdata = null, $method = 'post', $target = '', $attributes = null, $editable = true, $ajaxformdata = null) {
-        parent::__construct($action, $customdata, $method, $target, array("id" => "efb-basic-form-settings"), $editable, $ajaxformdata);
+    public function __construct(
+        $action = null,
+        $customdata = null,
+        $method = 'post',
+        $target = '',
+        $attributes = null,
+        $editable = true,
+        $ajaxformdata = null) {
+        parent::__construct(
+            $action,
+            $customdata,
+            $method,
+            $target,
+            array("id" => "efb-basic-form-settings"),
+            $editable,
+            $ajaxformdata
+        );
     }
 
     /**
@@ -93,7 +108,12 @@ class form_basic_settings extends moodleform {
         $form->setType("title", PARAM_TEXT);
         $form->addElement("textarea", "description", get_string("lbl-description", "local_edwiserform"), null);
         $form->setType("description", PARAM_TEXT);
-        $form->addElement("checkbox", "editdata", get_string("lbl-allowedit", "local_edwiserform"), get_string('lbl-allowedit-desc', 'local_edwiserform'));
+        $form->addElement(
+            "checkbox",
+            "editdata",
+            get_string("lbl-allowedit", "local_edwiserform"),
+            get_string('lbl-allowedit-desc', 'local_edwiserform')
+        );
         $form->addElement(
             'date_time_selector',
             'allowsubmissionsfromdate',
@@ -205,7 +225,10 @@ class form_basic_settings extends moodleform {
             "events"        => "",
         ];
         foreach ($tabs as $tab => $active) {
-            $form->addElement("html", "<li class='efb-settings-tab-list-item efb-list-group-item $active' data-target='efb-settings-$tab'>");
+            $form->addElement(
+                "html",
+                "<li class='efb-settings-tab-list-item efb-list-group-item $active' data-target='efb-settings-$tab'>"
+            );
             $form->addElement("html", "<div class='bg-primary'>");
             $form->addElement("html", "<h4>" . get_string("settings-$tab", 'local_edwiserform') . "</h4>");
             $form->addElement("html", "</div>");

@@ -256,7 +256,7 @@ class controller {
         if (!$userid) {
             $userid = $USER->id;
         }
-        // User is not logged in so not allowed
+        // User is not logged in so not allowed.
         if (!$userid) {
             if ($return) {
                 return false;
@@ -264,7 +264,7 @@ class controller {
             throw new moodle_exception('efb-cannot-create-form', 'local_edwiserform', new moodle_url('/my/'));
         }
 
-        // User is site admin so allowed
+        // User is site admin so allowed.
         if (is_siteadmin($userid)) {
             return true;
         }
@@ -274,25 +274,37 @@ class controller {
                    AND r.archetype REGEXP 'editingteacher|teacher'";
         $count = $DB->get_record_sql($sql, array($userid));
 
-        // User is not teacher so not allowed
+        // User is not teacher so not allowed.
         if ($count->teacher == 0) {
             if ($return) {
                 return false;
             }
-            throw new moodle_exception('efb-cannot-create-form', 'local_edwiserform', new moodle_url('/my/'), null, get_string('contact-admin', 'local_edwiserform'));
+            throw new moodle_exception(
+                'cannot-create-form',
+                'local_edwiserform',
+                new moodle_url('/my/'),
+                null,
+                get_string('contact-admin', 'local_edwiserform')
+            );
         }
 
-        // User is teacher
+        // User is teacher.
         if (!get_config('local_edwiserform', 'enable_teacher_forms')) {
 
-            // Admin disallowed teacher from creating/viewing form
+            // Admin disallowed teacher from creating/viewing form.
             if ($return) {
                 return false;
             }
-            throw new moodle_exception('efb-admin-disabled-teacher', 'local_edwiserform', new moodle_url('/my/'), null, get_string('contact-admin', 'local_edwiserform'));
+            throw new moodle_exception(
+                'admin-disabled-teacher',
+                'local_edwiserform',
+                new moodle_url('/my/'),
+                null,
+                get_string('contact-admin', 'local_edwiserform')
+            );
         }
 
-        // User is teacher and admin allowing teacher to create/view form
+        // User is teacher and admin allowing teacher to create/view form.
         return true;
     }
 }
