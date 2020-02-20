@@ -28,22 +28,29 @@
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
+
 require_once($CFG->dirroot . '/local/edwiserform/tests/base_test.php');
+
+use local_edwiserform\controller;
 
 class local_edwiserform_lib_testcase extends local_edwiserform_base_testcase {
 
     public function test_generate_email_user() {
-        $emailuser = generate_email_user('test@gmail.com', 'Yogesh Shirsath', 1);
+        $controller = controller::instance();
+
+        $emailuser = $controller->generate_email_user('test@gmail.com', 'Yogesh Shirsath', 1);
         $this->assertEquals('test@gmail.com', $emailuser->email);
         $this->assertEquals('Yogesh Shirsath', $emailuser->firstname);
         $this->assertEquals(1, $emailuser->id);
     }
 
     public function test_edwiserform_send_email() {
+        $controller = controller::instance();
+
         $subject = "PHPUnit Test";
         $messagehtml = "<p>This is sample PHPUnit test";
         $sink = $this->redirectEmails();
-        $status = edwiserform_send_email('test.sender@gmail.com', 'test.receiver@gmail.com', $subject, $messagehtml);
+        $status = $controller->edwiserform_send_email('test.sender@gmail.com', 'test.receiver@gmail.com', $subject, $messagehtml);
         $messages = $sink->get_messages();
         $this->assertEquals(true, $status, 'Email sent successfully.');
     }

@@ -83,54 +83,6 @@ function get_edwiserform_string($identifier) {
 }
 
 /**
- * Generate user to send email
- *
- * @param string $email email id
- * @param string $name name of user (optional)
- * @param integer $id id of user (optional)
- * @return stdClass emailuser
- * @since Edwiser Form 1.0.0
- */
-function generate_email_user($email, $name = '', $id = -99) {
-    $emailuser = new stdClass();
-    $emailuser->email = trim(filter_var($email, FILTER_SANITIZE_EMAIL));
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $emailuser->email = '';
-    }
-    $name = format_text($name, FORMAT_HTML, array('trusted' => false, 'noclean' => false));
-    $emailuser->firstname = trim(filter_var($name, FILTER_SANITIZE_STRING));
-    $emailuser->lastname = '';
-    $emailuser->maildisplay = true;
-    $emailuser->mailformat = 1; // 0 (zero) text-only emails, 1 (one) for HTML emails.
-    $emailuser->id = $id;
-    $emailuser->firstnamephonetic = '';
-    $emailuser->lastnamephonetic = '';
-    $emailuser->middlename = '';
-    $emailuser->alternatename = '';
-    return $emailuser;
-}
-
-/**
- * Send email to user
- *
- * @param  stdClass $from user
- * @param  stdClass $to user
- * @param  stdClass $subject of email
- * @param  stdClass $messagehtml email body
- * @return boolean email sending status
- * @since Edwiser Form 1.0.0
- */
-function edwiserform_send_email($from, $to, $subject, $messagehtml) {
-    global $PAGE;
-    $context = context_system::instance();
-    $PAGE->set_context($context);
-    $fromemail = generate_email_user($from);
-    $toemail = generate_email_user($to);
-    $messagetext = html_to_text($messagehtml);
-    return email_to_user($toemail, $fromemail, $subject, $messagetext, $messagehtml, '', '', true, $fromemail->email);
-}
-
-/**
  * Return base class of events plugin
  *
  * @return array

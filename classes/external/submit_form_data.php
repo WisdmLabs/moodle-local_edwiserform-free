@@ -167,6 +167,9 @@ trait submit_form_data {
      */
     public static function confirmation($form, $submission) {
         global $USER, $CFG;
+
+        $controller = controller::instance();
+
         $email = self::email_from_form($form->definition, $submission);
         if ($email == '' && $USER->id != 0 && !empty($USER->email)) {
             $email = $USER->email;
@@ -176,7 +179,7 @@ trait submit_form_data {
         }
         $context = context_system::instance();
         $messagehtml = file_rewrite_pluginfile_urls($form->message, 'pluginfile.php', $context->id, EDWISERFORM_COMPONENT, EDWISERFORM_FILEAREA, $form->id);
-        if (edwiserform_send_email(
+        if ($controller->edwiserform_send_email(
             get_config("core", "smtpuser"),
             $email,
             get_string('confirmation-default-subject', 'local_edwiserform'),
@@ -197,6 +200,9 @@ trait submit_form_data {
      */
     public static function notify($form) {
         global $CFG, $COURSE, $USER, $DB;
+
+        $controller = controller::instance();
+
         $subject = get_string('notify-email-subject', 'local_edwiserform', array('site' => $COURSE->fullname, 'title' => $form->title));
         $user = $USER->id != 0 ? "$USER->firstname $USER->lastname" : get_string('submission-anonymous-user', 'local_edwiserform');
         $title = $form->title;
@@ -209,7 +215,7 @@ trait submit_form_data {
         }
         $status = true;
         foreach ($emails as $email) {
-            $status = $status && edwiserform_send_email(get_config("core", "smtpuser"), $email, $subject, $messagehtml);
+            $status = $status && $controller->edwiserform_send_email(get_config("core", "smtpuser"), $email, $subject, $messagehtml);
         }
         if ($status != true) {
             return get_string('notify-email-failed', 'local_edwiserform');
