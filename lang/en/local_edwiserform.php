@@ -98,7 +98,7 @@ $string['form-enter-title'] = 'Please give a name to your form';
 $string['fullpage-link-message'] = '<a class="view-fullpage" href="#">Click here</a> to view form in new tab.';
 $string['fullpage-link-clicked'] = 'Form is opened in another tab.';
 
- // Template event string
+ // Template event string.
 $string['event-blank-name'] = "Blank Form";
 $string['event-blank-desc'] = "The blank form allows you to create any type of form using our drag & drop builder.";
 $string['event-hover-text'] = "Select this form";
@@ -141,7 +141,7 @@ $string["template-change-warning"] = "All fields from current form will be delet
 // Setup template strings end.
 
 
-// Settings string start
+// Settings string start.
 $string['settings-general'] = "General";
 $string['settings-notification'] = "Notification";
 $string['settings-confirmation'] = 'Confirmation ' . $prolabel;
@@ -204,7 +204,7 @@ $string["confirmation-default-msg"] = '<div style="background-color: #efefef; -w
 $string['error-occured-while-loading'] = 'Please wait while the page is loading. <br> If nothing appears then try to reload the page.';
 $string['email-body-restore-desc'] = '<a href="#" class="efb-email-body-restore" data-id="{$a->id}" data-string="{$a->string}">Restore</a> email body to default.';
 $string['recipient-email-desc'] = 'Default: Author\'s email address';
-// Settings strings end
+// Settings strings end.
 
 $string["tbl-heading-title"] = "Title";
 $string["tbl-heading-type"] = "Type";
@@ -247,7 +247,7 @@ $string["exportxlsx"] = "Export Excelsheet(PRO)";
 $string['apply'] = 'Apply';
 $string['selectbulkaction'] = 'Please select action';
 
-// Import export form
+// Import export form.
 $string["form-action-export-title"] = "Export form";
 $string['form-import'] = 'Import form(PRO)';
 $string['import-file'] = 'Select .xml file to import';
@@ -261,7 +261,7 @@ $string['import-invalid-file-no-type'] = 'Form does not have form type';
 $string['import-invalid-file-no-courses'] = 'Form does not have courses';
 /* End */
 
-// Form viewer strings
+// Form viewer strings.
 $string["form-not-found"] = 'Form {$a} not found.';
 $string["form-not-enabled"] = 'Form {$a} not enable.';
 $string["form-data-heading-action"] = "Action";
@@ -504,7 +504,7 @@ $string["warning"] = "Warning";
 $string["website"] = "Website";
 $string["yes"] = "Yes";
 
-// Tooltips for Form editor
+// Tooltips for Form editor.
 $string['row-move'] = 'Order row';
 $string['row-edit'] = 'Edit row, column, conditional logic properties';
 $string['row-clone'] = 'Duplicate row with its columns and fields';
@@ -529,7 +529,7 @@ $string['remove-configs'] = 'Remove config';
 $string['remove-condition'] = 'Remove condition';
 $string['order-option'] = 'Order option';
 
-// Editing panel heading
+// Editing panel heading.
 $string['select-options-label'] = 'Option Label';
 $string['select-options-value'] = 'Option Value';
 $string['input-radio-options-name'] = 'Radio Name';
@@ -541,7 +541,7 @@ $string['input-checkbox-options-value'] = 'Checkbox Value';
 $string['input-radio-options-selected'] = $string['input-checkbox-options-selected'] = $string['select-options-selected'] = '';
 $string['datalist-options-value'] = 'List option value';
 
-// Validator Strings
+// Validator Strings.
 $string['input-invalid-type'] = 'Invalid input type in <strong>{$a}</strong>';
 $string['select-option-invalid'] = 'Invalid option in <strong>{$a}</strong>.';
 $string['input-radio-option-invalid'] = 'Invalid radio option in <strong>{$a}</strong>';
