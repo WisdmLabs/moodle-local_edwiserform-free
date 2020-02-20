@@ -189,7 +189,10 @@ class list_form implements renderable, templatable {
         $html = "";
         $enabletitle = get_string('form-action-enable-title', 'local_edwiserform');
         $disabletitle = get_string('form-action-disable-title', 'local_edwiserform');
-        $html .= html_writer::start_tag('label', array('class' => 'efb-switch', 'title' => $enabled ? $disabletitle : $enabletitle));
+        $html .= html_writer::start_tag(
+            'label',
+            array('class' => 'efb-switch', 'title' => $enabled ? $disabletitle : $enabletitle)
+        );
         $html .= html_writer::checkbox(
             'efb-switch-input',
             '',
@@ -218,10 +221,10 @@ class list_form implements renderable, templatable {
     private function get_form_actions($form) {
         global $DB, $CFG;
 
-        // Enable disable form toggle
+        // Enable disable form toggle.
         $actions[] = $this->get_enable_disable_button($form->id, $form->enabled);
 
-        // View form data link
+        // View form data link.
         $actions[] = array(
             "icon" => "icon fa fa-table fa-fw text-primary",
             "title" => get_string("form-action-view-data-title", "local_edwiserform"),
@@ -232,7 +235,7 @@ class list_form implements renderable, templatable {
             )
         );
 
-        // Form live demo link
+        // Form live demo link.
         $actions[] = array(
             "icon" => "icon fa fa-file-text-o fa-fw text-primary",
             "title" => get_string("form-action-live-demo-title", "local_edwiserform"),
@@ -243,7 +246,7 @@ class list_form implements renderable, templatable {
             )
         );
 
-        // Preview form link
+        // Preview form link.
         $actions[] = array(
             "icon" => "icon fa fa-eye fa-fw text-primary",
             "title" => get_string("form-action-preview-title", "local_edwiserform"),
@@ -254,7 +257,7 @@ class list_form implements renderable, templatable {
             )
         );
 
-        // Edit form link
+        // Edit form link.
         $actions[] = array(
             "icon" => "icon fa fa-edit fa-fw text-primary",
             "title" => get_string("form-action-edit-title", "local_edwiserform"),
@@ -265,7 +268,7 @@ class list_form implements renderable, templatable {
             )
         );
 
-        // Export form definition link
+        // Export form definition link.
         $actions[] = array(
             "icon" => "icon fa fa-share-square-o fa-fw text-primary",
             "title" => get_string("form-action-export-title", "local_edwiserform"),
@@ -276,7 +279,7 @@ class list_form implements renderable, templatable {
             )
         );
 
-        // Delete form link
+        // Delete form link.
         $actions[] = array(
             "icon" => "icon fa fa-trash fa-fw text-primary",
             "title" => get_string("form-action-delete-title", "local_edwiserform"),

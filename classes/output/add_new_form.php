@@ -49,7 +49,10 @@ class add_new_form implements renderable, templatable
     private $formid         = null;
     private $formsections = null;
 
-    // Plugins installed in events directory
+    /**
+     * Plugins installed in events directory.
+     * @var array
+     */
     private $plugin = [];
 
     /**
@@ -84,7 +87,15 @@ class add_new_form implements renderable, templatable
             require_once($CFG->libdir . "/filelib.php");
             $draftid = file_get_submitted_draft_itemid(EDWISERFORM_FILEAREA);
             $context = context_system::instance();
-            $message = file_prepare_draft_area($draftid, $context->id, EDWISERFORM_COMPONENT, EDWISERFORM_FILEAREA, $this->form->id, null, $this->form->message);
+            $message = file_prepare_draft_area(
+                $draftid,
+                $context->id,
+                EDWISERFORM_COMPONENT,
+                EDWISERFORM_FILEAREA,
+                $this->form->id,
+                null,
+                $this->form->message
+            );
             $data = array(
                 "id"             => $this->form->id,
                 "title"          => $this->form->title,
@@ -220,16 +231,25 @@ class add_new_form implements renderable, templatable
                 "active"  => $this->form ? "active" : "",
                 "heading" => get_string("lbl-form-builder", "local_edwiserform"),
                 "body"    => "<form class='build-form'></form>",
-                "button"  => "<button class='efb-form-step efb-form-step-preview btn-primary fa fa-eye' data-id='efb-form-preview' title='" . get_string(
-                    'lbl-form-preview',
-                    'local_edwiserform'
-                ) . "'></button>"
+                "button"  => "<button
+                    class='efb-form-step efb-form-step-preview btn-primary fa fa-eye'
+                    data-id='efb-form-preview'
+                    title='" . get_string(
+                        'lbl-form-preview',
+                        'local_edwiserform'
+                    ) . "'></button>"
             ),
             array(
                 "id"      => "efb-cont-form-preview",
                 "heading" => get_string("lbl-form-preview", "local_edwiserform"),
-                "body"    => $PAGE->get_renderer('local_edwiserform')->render_from_template('local_edwiserform/new_form_preview_container', $preview),
-                "button"  => "<button class='efb-form-step efb-form-step-builder btn-primary fa fa-eye-slash' data-id='efb-form-builder'></button>"
+                "body"    => $PAGE->get_renderer('local_edwiserform')->render_from_template(
+                    'local_edwiserform/new_form_preview_container',
+                    $preview
+                ),
+                "button"  => "<button
+                    class='efb-form-step efb-form-step-builder btn-primary fa fa-eye-slash'
+                    data-id='efb-form-builder'>
+                    </button>"
             ),
         );
         $this->form_sections->set_builder_active($this->form ? "" : "active");
