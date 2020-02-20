@@ -124,16 +124,12 @@ trait update_form {
      * @since  Edwiser Form 1.0.0
      */
     private static function compare_form_definition($def1, $def2) {
-        if ($def1 != $def2) {
-            $def1 = json_decode_level_2($def1);
-            $def2 = json_decode_level_2($def2);
-            foreach ($def1["fields"] as $key => $value) {
-                if (!isset($def2["fields"][$key]) || $value != $def2["fields"][$key]) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        $def1 = json_decode($def1, true);
+        $def2 = json_decode($def2, true);
+        error_reporting(E_ALL & ~E_NOTICE);
+        $status = empty(array_diff_assoc($def1['fields'], $def2['fields'])) && empty(array_diff_assoc($def2['fields'], $def1['fields']));
+        error_reporting(E_ALL);
+        return $status;
     }
 
     /**
