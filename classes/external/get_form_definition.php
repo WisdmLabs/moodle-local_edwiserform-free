@@ -151,7 +151,7 @@ trait get_form_definition {
             // Attaching extra data to the form data
             $responce['data'] = $plugin->attach_data($form, $responce["data"]);
         } else {
-            $events = get_events_base_plugin();
+            $events = $controller->get_events_base_plugin();
             $responce['data'] = $events->attach_common_data($form, $responce["data"]);
         }
         return $responce;

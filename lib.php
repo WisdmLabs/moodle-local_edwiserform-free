@@ -83,18 +83,6 @@ function get_edwiserform_string($identifier) {
 }
 
 /**
- * Return base class of events plugin
- *
- * @return array
- * @since Edwiser Form 1.2.0
- */
-function get_events_base_plugin() {
-    global $CFG;
-    require_once($CFG->dirroot . '/local/edwiserform/events/events.php');
-    return new edwiserform_events_plugin();
-}
-
-/**
  * Call cron on the assign module.
  */
 function local_edwiserform_cron() {

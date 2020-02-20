@@ -23,8 +23,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/local/edwiserform/lib.php');
-
 class edwiserform_events_plugin {
     /**
      * Return does event require logged in user
