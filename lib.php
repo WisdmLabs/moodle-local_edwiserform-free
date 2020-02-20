@@ -35,9 +35,6 @@ function local_edwiserform_cron() {
 /**
  * Serves the files from the edwiserform file areas
  *
- * @package mod_pitchprep
- * @category files
- *
  * @param stdClass $course the course object
  * @param stdClass $cm the course module object
  * @param stdClass $context the edwiserform's context

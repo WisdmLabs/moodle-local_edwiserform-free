@@ -49,6 +49,14 @@ class list_form implements renderable, templatable {
         $this->controller = controller::instance();
     }
 
+    /**
+     * Function to export the renderer data in a format that is suitable for a
+     * mustache template.
+     *
+     * @param renderer_base $output Used to do a final render of any components that need to be rendered for export.
+     * @return stdClass|array
+     * @since  Edwiser Form 1.2.0
+     */
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
         $data->heading = "Forms";
@@ -72,6 +80,12 @@ class list_form implements renderable, templatable {
         return $data;
     }
 
+    /**
+     * Return array of page action
+     *
+     * @return array $actions
+     * @since  Edwiser Form 1.0.0
+     */
     private function get_page_actions() {
         $actions = array(
             array(
