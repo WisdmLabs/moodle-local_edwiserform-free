@@ -22,6 +22,8 @@
 
 namespace local_edwiserform\external;
 
+defined('MOODLE_INTERNAL') || die();
+
 use stdClass;
 use external_function_parameters;
 use external_value;
@@ -38,10 +40,7 @@ trait get_form_submissions {
      * @return external_function_parameters
      */
     public static function get_form_submissions_parameters() {
-        // get_form_submissions_parameters() always return an external_function_parameters().
-        // The external_function_parameters constructor expects an array of external_description.
         return new external_function_parameters(
-            // a external_description can be: external_value, external_single_structure or external_multiple structure
             array(
                 'formid'   => new external_value(PARAM_INT, 'Form id'),
                 'search'   => new external_value(PARAM_RAW, 'Search query'),

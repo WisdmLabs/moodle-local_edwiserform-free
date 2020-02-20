@@ -127,7 +127,8 @@ trait update_form {
         $def1 = json_decode($def1, true);
         $def2 = json_decode($def2, true);
         error_reporting(E_ALL & ~E_NOTICE);
-        $status = empty(array_diff_assoc($def1['fields'], $def2['fields'])) && empty(array_diff_assoc($def2['fields'], $def1['fields']));
+        $status = empty(array_diff_assoc($def1['fields'], $def2['fields'])) &&
+                  empty(array_diff_assoc($def2['fields'], $def1['fields']));
         error_reporting(E_ALL);
         return $status;
     }

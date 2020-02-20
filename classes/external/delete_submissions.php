@@ -25,6 +25,8 @@
 
 namespace local_edwiserform\external;
 
+defined('MOODLE_INTERNAL') || die();
+
 use external_single_structure;
 use external_function_parameters;
 use external_multiple_structure;
@@ -32,8 +34,7 @@ use external_value;
 use edwiserform;
 use stdClass;
 
-trait delete_submissions
-{
+trait delete_submissions {
 
     /**
      * Describes the parameters for delete form
@@ -67,12 +68,12 @@ trait delete_submissions
             return ['status' => false, 'msg' => get_string('efb-form-not-found', 'local_edwiserform', $formid)];
         }
 
-        // If empty submissions array then return error message
+        // If empty submissions array then return error message.
         if (empty($submissions)) {
             return ['status' => false, 'msg' => get_string('emptysubmission', 'local_edwiserform')];
         }
 
-        // Prepare sql to fetch submissions data
+        // Prepare sql to fetch submissions data.
         list($insql, $inparam) = $DB->get_in_or_equal($submissions, SQL_PARAMS_NAMED, 'id');
         $submissions = $DB->get_records_sql(
             'SELECT * FROM {efb_form_data}
@@ -80,20 +81,20 @@ trait delete_submissions
             array('formid' => $formid) + $inparam
         );
 
-        // if selected submissions are already deleted or not present then return error message
+        // If selected submissions are already deleted or not present then return error message.
         if (empty($submissions)) {
             return ['status' => false, 'msg' => get_string('emptysubmission', 'local_edwiserform')];
         }
 
-        // Check if user is admin or author/author2 of form
+        // Check if user is admin or author/author2 of form.
         $adminorauthor = is_siteadmin() || $form->author == $USER->id || $form->author2 == $USER->id;
 
         $edwiserform = new edwiserform();
 
         foreach ($submissions as $key => $submission) {
 
-            // If current user is not admin or author/author2 or current submission is not submitted
-            // by him then remove it from array for preventing deletion.
+            // If current user is not admin or author/author2 or current submission is not submitted.
+            // By him then remove it from array for preventing deletion.
             if (!$adminorauthor) {
                 if ($submission->userid != $USER->id) {
                     unset($key);

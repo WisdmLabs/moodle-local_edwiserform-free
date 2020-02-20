@@ -69,12 +69,12 @@ trait get_form_definition {
         if ($formid > 0) {
             $form = $DB->get_record('efb_forms', array('id' => $formid));
 
-            // If form id is invalid then returning false response
+            // If form id is invalid then returning false response.
             if (!$form || $form->deleted) {
                 return $responce;
             }
 
-            // If form is not enabled then returning response with form not enabled message
+            // If form is not enabled then returning response with form not enabled message.
             if (!$form->enabled) {
                 $responce['msg'] = get_string("form-not-enabled", "local_edwiserform", ''.$form->title);
                 return $responce;
@@ -87,17 +87,20 @@ trait get_form_definition {
             }
             if (empty($USER->id)) {
 
-                // Checking whether selected form type XYZ can be viewed while user is not logged in
-                // If no then returning response with login to use form
+                // Checking whether selected form type XYZ can be viewed while user is not logged in.
+                // If no then returning response with login to use form.
                 if ($form->type == 'blank' || $plugin->login_required()) {
-                    $link = html_writer::link(new moodle_url($CFG->wwwroot . "/login/index.php"), get_string("form-loggedin-required-click", "local_edwiserform"));
+                    $link = html_writer::link(
+                        new moodle_url($CFG->wwwroot . "/login/index.php"),
+                        get_string("form-loggedin-required-click", "local_edwiserform")
+                    );
                     $responce["msg"] = get_string("form-loggedin-required", "local_edwiserform", $link);
                     return $responce;
                 }
             } else {
 
-                // Checking whether selected form type XYZ can be viewed while user is logged in
-                // If no then returning response with not allowed while logged in
+                // Checking whether selected form type XYZ can be viewed while user is logged in.
+                // If no then returning response with not allowed while logged in.
                 if ($form->type != 'blank' && !$plugin->login_allowed()) {
                     $responce["msg"] = get_string("form-loggedin-not-allowed", "local_edwiserform");
                     return $responce;
@@ -108,7 +111,7 @@ trait get_form_definition {
             self::validate_form($form, $plugin, $responce);
             if ($form->type != 'blank') {
 
-                // This feature is going to add in future update. Whether form is going to submit data to external url
+                // This feature is going to add in future update. Whether form is going to submit data to external url.
                 $responce['action']  = $plugin->get_action_url();
             }
         }
@@ -131,14 +134,14 @@ trait get_form_definition {
         $canuser = $controller->can_save_data($form, $plugin);
         switch ($canuser['status']) {
             case 0:
-                // User previously submitted data into form but admin disabled user from re-submitting data
+                // User previously submitted data into form but admin disabled user from re-submitting data.
                 $responce["msg"] = get_string("form-submission-found", "local_edwiserform", $CFG->wwwroot);
                 break;
             case 2:
-                // User previously submitted data into form and can re-submit data to edit previous submission
+                // User previously submitted data into form and can re-submit data to edit previous submission.
                 $responce["data"] = $canuser["data"];
             case 1:
-                // User can submit data into form
+                // User can submit data into form.
                 $responce["definition"] = $form->definition;
                 $responce["msg"] = get_string("form-definition-found", "local_edwiserform");
                 $responce["status"] = true;
@@ -148,7 +151,7 @@ trait get_form_definition {
                 break;
         }
         if ($form->type != 'blank') {
-            // Attaching extra data to the form data
+            // Attaching extra data to the form data.
             $responce['data'] = $plugin->attach_data($form, $responce["data"]);
         } else {
             $events = $controller->get_events_base_plugin();

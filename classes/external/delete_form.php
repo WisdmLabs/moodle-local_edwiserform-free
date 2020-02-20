@@ -31,8 +31,7 @@ use external_function_parameters;
 use external_value;
 use stdClass;
 
-trait delete_form
-{
+trait delete_form {
 
     /**
      * Describes the parameters for delete form

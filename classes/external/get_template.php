@@ -58,13 +58,13 @@ trait get_template {
             'msg'        => get_string("template-not-found", "local_edwiserform")
         );
 
-        // Checking for empty form template
+        // Checking for empty form template.
         if (trim($name) == '') {
             $responce['msg'] = get_string("template-name-not-valid", "local_edwiserform");
             return $responce;
         }
 
-        // If template is part of pro version and license status is inactive then returning error
+        // If template is part of pro version and license status is inactive then returning error.
         $template = $DB->get_record("efb_form_templates", array("name" => $name));
         if ($template) {
             $responce['status'] = true;

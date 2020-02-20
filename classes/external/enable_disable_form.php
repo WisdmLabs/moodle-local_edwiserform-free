@@ -33,8 +33,7 @@ use external_value;
  *
  * @author Yogesh Shirsath
  */
-trait enable_disable_form
-{
+trait enable_disable_form {
 
     /**
      * Describes the parameters for enable disable form

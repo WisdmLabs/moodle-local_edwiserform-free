@@ -48,7 +48,12 @@ trait create_new_form {
             'description' => new external_value(PARAM_TEXT, 'Form description.', VALUE_DEFAULT, ''),
             'data_edit' => new external_value(PARAM_BOOL, 'Is form editable. Boolean true/flase', VALUE_REQUIRED),
             'type' => new external_value(PARAM_TEXT, 'Type of the form', VALUE_REQUIRED),
-            'notifi_email' => new external_value(PARAM_TEXT, 'Notification email address. This value is required if the form type is contact us', VALUE_DEFAULT, ''),
+            'notifi_email' => new external_value(
+                PARAM_TEXT,
+                'Notification email address. This value is required if the form type is contact us',
+                VALUE_DEFAULT,
+                ''
+            ),
             'message' => new external_value(PARAM_RAW, 'Message to show after successfull submission', VALUE_DEFAULT, ''),
             "draftitemid" => new external_value(PARAM_INT, 'Draft item id form message', VALUE_DEFAULT, 0)
         );
@@ -107,7 +112,10 @@ trait create_new_form {
         );
         $type = $controller->get_array_val($settings, "type");
         $eventsettings = $controller->get_array_val($settings, "eventsettings");
-        $params = self::validate_parameters(self::create_new_form_parameters(), array("setting" => $settings, "formdef" => $formdef));
+        $params = self::validate_parameters(
+            self::create_new_form_parameters(),
+            array("setting" => $settings, "formdef" => $formdef)
+        );
         $formid = self::save_form($params['setting'], $params['formdef']);
         if ($formid > 0) {
             if ($type != 'blank') {
