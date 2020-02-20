@@ -134,15 +134,12 @@ class add_new_form implements renderable, templatable
      */
     private function get_form_style_container() {
         global $PAGE, $CFG;
-        $selected = (isset($this->form) && $this->form->style != null) ? $this->form->style : 1;
-        $PAGE->requires->data_for_js('supportedStyles', SUPPORTED_FORM_STYLES);
-        $PAGE->requires->data_for_js('selectedStyle', $selected);
         $styles = [];
         for ($i = 1; $i <= SUPPORTED_FORM_STYLES; $i++) {
             $styles[] = [
                 'id' => $i,
                 'label' => get_string('form-style', 'local_edwiserform')." ".$i,
-                'active' => $i == $selected,
+                'active' => $i == 1,
                 'url' => $CFG->wwwroot . '/local/edwiserform/pix/form_style_' . $i . '.png',
                 'pro' => true
             ];
