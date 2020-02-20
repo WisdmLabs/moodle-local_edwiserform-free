@@ -131,59 +131,6 @@ function edwiserform_send_email($from, $to, $subject, $messagehtml) {
 }
 
 /**
- * Check whether user can create, view form list or form data.
- *
- * @param  integer $userid id of user
- * @param  boolean $return true if return wheather user can create form
- * @return boolean
- * @since Edwiser Form 1.0.0
- */
-function can_create_or_view_form($userid = false, $return = false) {
-    global $USER, $DB;
-    if (!$userid) {
-        $userid = $USER->id;
-    }
-    // User is not logged in so not allowed
-    if (!$userid) {
-        if ($return) {
-            return false;
-        }
-        throw new moodle_exception('efb-cannot-create-form', 'local_edwiserform', new moodle_url('/my/'));
-    }
-
-    // User is site admin so allowed
-    if (is_siteadmin($userid)) {
-        return true;
-    }
-    $sql = "SELECT count(ra.id) teacher FROM {role_assignments} ra
-              JOIN {role} r ON ra.roleid = r.id
-             WHERE ra.userid = ?
-               AND r.archetype REGEXP 'editingteacher|teacher'";
-    $count = $DB->get_record_sql($sql, array($userid));
-
-    // User is not teacher so not allowed
-    if ($count->teacher == 0) {
-        if ($return) {
-            return false;
-        }
-        throw new moodle_exception('efb-cannot-create-form', 'local_edwiserform', new moodle_url('/my/'), null, get_string('contact-admin', 'local_edwiserform'));
-    }
-
-    // User is teacher
-    if (!get_config('local_edwiserform', 'enable_teacher_forms')) {
-
-        // Admin disallowed teacher from creating/viewing form
-        if ($return) {
-            return false;
-        }
-        throw new moodle_exception('efb-admin-disabled-teacher', 'local_edwiserform', new moodle_url('/my/'), null, get_string('contact-admin', 'local_edwiserform'));
-    }
-
-    // User is teacher and admin allowing teacher to create/view form
-    return true;
-}
-
-/**
  * Return base class of events plugin
  *
  * @return array
@@ -257,10 +204,13 @@ function delete_edwiserform_files($filearea, $itemid) {
  */
 function local_edwiserform_extend_navigation(navigation_node $nav) {
     global $CFG, $PAGE;
+
+    $controller = local_edwiserform\controller::instance();
+
     if (!get_config('local_edwiserform', 'enable_sidebar_navigation')) {
         return;
     }
-    $can = can_create_or_view_form(false, true);
+    $can = $controller->can_create_or_view_form(false, true);
     if ($can != true) {
         return;
     }
@@ -283,26 +233,4 @@ function local_edwiserform_extend_navigation(navigation_node $nav) {
         'local_edwiserform-list',
         $icon
     )->showinflatnavigation = true;
-}
-
-/**
- * Check whether current user is enrolled as teacher in any course
- *
- * @param  int $userid id of user or no parameter for current user
- *
- * @return bool true if user is teacher
- * @since  Edwiser Form 1.2
- */
-function is_teacher($userid = false) {
-    global $USER, $DB;
-    if ($userid == false) {
-        $userid = $USER->id;
-    }
-
-    $sql = "SELECT count(ra.id) FROM {role_assignments} ra
-              JOIN {role} r ON ra.roleid = r.id
-             WHERE ra.userid = ?
-               AND r.archetype IN ('editingteacher', 'teacher')";
-    $teachers = $DB->get_field_sql($sql, array($userid));
-    return $teachers > 0;
 }

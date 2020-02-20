@@ -26,14 +26,28 @@ namespace local_edwiserform\output;
 
 defined('MOODLE_INTERNAL') || die();
 
-use renderable;
-use templatable;
+use local_edwiserform\controller;
 use renderer_base;
-use stdClass;
 use html_writer;
+use templatable;
+use renderable;
 use moodle_url;
+use stdClass;
 
 class list_form implements renderable, templatable {
+
+    /**
+     * Edwiser Forms $controller class instance
+     * @var controller
+     */
+    private $controller;
+
+    /**
+     * Constructor to initialize required variables
+     */
+    public function __construct() {
+        $this->controller = controller::instance();
+    }
 
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
@@ -86,7 +100,7 @@ class list_form implements renderable, templatable {
         }
         if (!is_siteadmin()) {
             $where .= " AND author = ?";
-            $param[] = can_create_or_view_form() ? $USER->id : 0;
+            $param[] = $this->controller->can_create_or_view_form() ? $USER->id : 0;
         }
         $sql = "SELECT COUNT(id) total FROM {efb_forms} $where";
         return $DB->get_record_sql($sql, $param)->total;
@@ -128,7 +142,7 @@ class list_form implements renderable, templatable {
         $param = [];
         if (!is_siteadmin()) {
             $stmt .= " and author=? ";
-            $param[] = can_create_or_view_form() ? $USER->id : 0;
+            $param[] = $this->controller->can_create_or_view_form() ? $USER->id : 0;
         }
         $stmt .= $orderbyquery;
         $records = $DB->get_records_sql($stmt, $param, $limit['from'], $limit['to']);

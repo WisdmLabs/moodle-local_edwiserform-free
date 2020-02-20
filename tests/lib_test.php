@@ -49,27 +49,29 @@ class local_edwiserform_lib_testcase extends local_edwiserform_base_testcase {
     }
 
     public function test_can_create_or_view_form() {
+        $controller = controller::instance();
+
         $this->setUser($this->student);
         try {
-            can_create_or_view_form();
+            $controller->can_create_or_view_form();
         } catch (moodle_exception $ex) {
             $this->assertEquals('You are not allowed to create form. (Please contact Site Admin.)', $ex->getMessage());
         }
         $this->setUser($this->teacher);
         try {
-            can_create_or_view_form();
+            $controller->can_create_or_view_form();
         } catch (moodle_exception $ex) {
             $this->assertEquals('You are not allowed to create form. Contact Admin to enable form creation. (Please contact Site Admin.)', $ex->getMessage());
         }
         $this->setUser($this->editingteacher);
         try {
-            can_create_or_view_form();
+            $controller->can_create_or_view_form();
         } catch (moodle_exception $ex) {
             $this->assertEquals('You are not allowed to create form. Contact Admin to enable form creation. (Please contact Site Admin.)', $ex->getMessage());
         }
         set_config('enable_teacher_forms', true, 'local_edwiserform');
-        $this->assertEquals(true, can_create_or_view_form(), 'Editing Teacher can create form.');
+        $this->assertEquals(true, $controller->can_create_or_view_form(), 'Editing Teacher can create form.');
         $this->setUser($this->teacher);
-        $this->assertEquals(true, can_create_or_view_form(), 'Teacher can create form.');
+        $this->assertEquals(true, $controller->can_create_or_view_form(), 'Teacher can create form.');
     }
 }

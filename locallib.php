@@ -24,11 +24,11 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/repository/lib.php');
-require_once($CFG->dirroot . '/local/edwiserform/lib.php');
 
-use local_edwiserform\output\list_form;
-use local_edwiserform\output\add_new_form;
 use local_edwiserform\output\list_form_data;
+use local_edwiserform\output\add_new_form;
+use local_edwiserform\output\list_form;
+use local_edwiserform\controller;
 
 class edwiserform {
 
@@ -36,6 +36,19 @@ class edwiserform {
 
     // Event plugins
     private $events = [];
+
+    /**
+     * Edwiser Forms $controller class instance
+     * @var controller
+     */
+    private $controller;
+
+    /**
+     * Constructor to initialize required variables
+     */
+    public function __construct() {
+        $this->controller = controller::instance();
+    }
 
     /**
      * Cron function to cleanup delete form, it's data and user uploaded files in the form
@@ -154,12 +167,12 @@ class edwiserform {
     public function view($page) {
         global $USER, $CFG, $PAGE;
         $out = "";
-        can_create_or_view_form($USER->id);
         $PAGE->requires->data_for_js('videotypes', $this->get_video_types());
         $js = [new moodle_url('https://www.google.com/recaptcha/api.js')];
         $css = [new moodle_url($CFG->wwwroot .'/local/edwiserform/style/datatables.css')];
         switch ($page) {
             case 'newform':
+                $this->controller->can_create_or_view_form($USER->id);
                 $sitekey = get_config('local_edwiserform', 'google_recaptcha_sitekey');
                 if (trim($sitekey) == '') {
                     $sitekey = 'null';
@@ -191,6 +204,7 @@ class edwiserform {
                 $css = [new moodle_url($CFG->wwwroot .'/local/edwiserform/style/formedit.css')];
                 break;
             case 'listforms':
+                $this->controller->can_create_or_view_form($USER->id);
                 $PAGE->requires->js_call_amd('local_edwiserform/form_list', 'init');
                 $out = $this->get_renderer()->render(new list_form());
                 break;

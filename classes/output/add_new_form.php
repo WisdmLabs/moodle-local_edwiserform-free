@@ -63,7 +63,7 @@ class add_new_form implements renderable, templatable
         $this->formid        = $formid;
         $this->plugins        = $this->controller->get_plugins();
         $this->form_sections = new new_form_sections();
-        $this->teacher = !is_siteadmin() & is_teacher();
+        $this->teacher = !is_siteadmin() & $this->controller->is_teacher();
         $this->form = null;
         if ($formid != null) {
             global $DB;

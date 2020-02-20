@@ -125,7 +125,10 @@ trait get_form_definition {
      */
     public static function validate_form($form, $plugin, &$responce) {
         global $CFG;
-        $canuser = self::can_save_data($form, $plugin);
+
+        $controller = controller::instance();
+
+        $canuser = $controller->can_save_data($form, $plugin);
         switch ($canuser['status']) {
             case 0:
                 // User previously submitted data into form but admin disabled user from re-submitting data
