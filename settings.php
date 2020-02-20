@@ -26,13 +26,13 @@ defined('MOODLE_INTERNAL') || die();
 // Add admin menues
 $ADMIN->add('modules', new admin_category('edwiserform', new lang_string("pluginname", "local_edwiserform")));
 $ADMIN->add('edwiserform',
-            new admin_externalpage('efbnewform', new lang_string("efb-heading-newform", "local_edwiserform"), "$CFG->wwwroot/local/edwiserform/view.php?page=newform")
+            new admin_externalpage('efbnewform', new lang_string("heading-newform", "local_edwiserform"), "$CFG->wwwroot/local/edwiserform/view.php?page=newform")
         );
 $ADMIN->add('edwiserform',
-            new admin_externalpage('efblistforms', new lang_string("efb-heading-listforms", "local_edwiserform"), "$CFG->wwwroot/local/edwiserform/view.php?page=listforms")
+            new admin_externalpage('efblistforms', new lang_string("heading-listforms", "local_edwiserform"), "$CFG->wwwroot/local/edwiserform/view.php?page=listforms")
         );
 $ADMIN->add('edwiserform',
-            new admin_externalpage('efbsettings', new lang_string("efb-settings", "local_edwiserform"), new moodle_url("/admin/settings.php?section=local_edwiserform"))
+            new admin_externalpage('efbsettings', new lang_string("settings", "local_edwiserform"), new moodle_url("/admin/settings.php?section=local_edwiserform"))
         );
 
 // General settings
@@ -42,22 +42,22 @@ $ADMIN->add('localplugins', $settings);
 // Checkbox for enabling teacher to create new form
 $settings->add(new admin_setting_configcheckbox(
     "local_edwiserform/enable_teacher_forms",
-    new lang_string("efb-enable-user-level-from-creation", "local_edwiserform"),
-    new lang_string("efb-des-enable-user-level-from-creation", "local_edwiserform"),
+    new lang_string("enable-user-level-from-creation", "local_edwiserform"),
+    new lang_string("des-enable-user-level-from-creation", "local_edwiserform"),
     false
 ));
 
 // Google Recaptcha site key
 $settings->add(new admin_setting_configtext(
     "local_edwiserform/google_recaptcha_sitekey",
-    new lang_string("efb-google-recaptcha-sitekey", "local_edwiserform"),
-    new lang_string("efb-desc-google-recaptcha-sitekey", "local_edwiserform"),
+    new lang_string("google-recaptcha-sitekey", "local_edwiserform"),
+    new lang_string("desc-google-recaptcha-sitekey", "local_edwiserform"),
     'null'
 ));
 // Enable navigation using sidebar
 $settings->add(new admin_setting_configcheckbox(
     "local_edwiserform/enable_sidebar_navigation",
-    new lang_string("efb-enable-site-navigation", "local_edwiserform"),
-    new lang_string("efb-desc-enable-site-navigation", "local_edwiserform"),
+    new lang_string("enable-site-navigation", "local_edwiserform"),
+    new lang_string("desc-enable-site-navigation", "local_edwiserform"),
     true
 ));

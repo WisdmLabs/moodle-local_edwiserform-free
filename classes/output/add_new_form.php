@@ -230,7 +230,7 @@ class add_new_form implements renderable, templatable
             ),
             array(
                 "id"      => "efb-cont-form-preview",
-                "heading" => get_string("efb-lbl-form-preview", "local_edwiserform"),
+                "heading" => get_string("lbl-form-preview", "local_edwiserform"),
                 "body"    => $PAGE->get_renderer('local_edwiserform')->render_from_template('local_edwiserform/new_form_preview_container', $preview),
                 "button"  => "<button class='efb-form-step efb-form-step-builder btn-primary fa fa-eye-slash' data-id='efb-form-builder'></button>"
             ),
