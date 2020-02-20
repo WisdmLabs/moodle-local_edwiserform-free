@@ -28,6 +28,9 @@
  * @return boolean status
  * @since Edwiser Form 1.1.0
  */
+
+defined('MOODLE_INTERNAL') || die();
+
 function xmldb_local_edwiserform_uninstall() {
     global $DB, $CFG;
     $fs = get_file_storage();

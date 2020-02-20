@@ -34,7 +34,7 @@ function xmldb_local_edwiserform_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2019061800) {
-        // Updated data type of efb_forms table
+        // Updated data type of efb_forms table.
         $table = new xmldb_table('efb_forms');
         $field = new xmldb_field('created', XMLDB_TYPE_CHAR, 50, null, false, false);
         $dbman->change_field_type($table, $field);
@@ -66,7 +66,7 @@ function xmldb_local_edwiserform_upgrade($oldversion) {
         $field = new xmldb_field('modified', XMLDB_TYPE_INTEGER, 10);
         $dbman->change_field_type($table, $field);
 
-        // Updated data type of efb_form_data table
+        // Updated data type of efb_form_data table.
         $table = new xmldb_table('efb_form_data');
         $field = new xmldb_field('date', XMLDB_TYPE_CHAR, 50, null, false, false);
         $dbman->change_field_type($table, $field);
