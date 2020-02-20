@@ -141,11 +141,11 @@ class local_edwiserform_external_testcase extends local_edwiserform_base_testcas
         $this->setAdminUser();
         $this->create_test_form();
 
-        // Testing formid is less than 1
+        // Testing formid is less than 1.
         $result = efb_api::get_form_definition(0);
         $this->assertEquals(get_string("form-not-found", "local_edwiserform", '0'), $result['msg']);
 
-        // Testing deleted form
+        // Testing deleted form.
         $data          = new stdClass();
         $data->id      = $this->formid;
         $data->deleted = true;
@@ -155,17 +155,17 @@ class local_edwiserform_external_testcase extends local_edwiserform_base_testcas
         $DB->update_record("efb_forms", $data);
         $this->assertEquals(get_string("form-not-found", "local_edwiserform", ''.$this->formid), $result['msg']);
 
-        // Testing disabled form
+        // Testing disabled form.
         $result = efb_api::get_form_definition($this->formid);
         $this->assertEquals(get_string("form-not-enabled", "local_edwiserform", ''.$this->form->title), $result['msg']);
 
-        // Testing success
+        // Testing success.
         $data->enabled = true;
         $DB->update_record("efb_forms", $data);
         $result = efb_api::get_form_definition($this->formid);
         $this->assertEquals(get_string("form-definition-found", "local_edwiserform"), $result['msg']);
 
-        // Testing formdata submitted but data edit not enabled
+        // Testing formdata submitted but data edit not enabled.
         $this->add_test_data($this->formid);
         $data->data_edit = false;
         $DB->update_record("efb_forms", $data);
@@ -174,7 +174,7 @@ class local_edwiserform_external_testcase extends local_edwiserform_base_testcas
         $DB->update_record("efb_forms", $data);
         $this->assertEquals(get_string("form-cannot-submit", "local_edwiserform"), $result['msg']);
 
-        // Testing formdata submitted and data edit enabled
+        // Testing formdata submitted and data edit enabled.
         $result = efb_api::get_form_definition($this->formid);
         $this->assertEquals(get_string("form-definition-found", "local_edwiserform"), $result['msg']);
     }
@@ -182,11 +182,11 @@ class local_edwiserform_external_testcase extends local_edwiserform_base_testcas
     public function test_get_template() {
         global $DB;
         $template = 'registration';
-        // Testing template not found
+        // Testing template not found.
         $result = efb_api::get_template($template);
         $this->assertEquals(false, $result['status']);
 
-        // Testing template found
+        // Testing template found.
         $record = new stdClass;
         $record->name = $template;
         $record->definition = $this->get_form_definition();
@@ -198,12 +198,12 @@ class local_edwiserform_external_testcase extends local_edwiserform_base_testcas
     public function test_submit_form_data() {
         global $DB;
         $this->redirectEmails();
-        // Testing form data submission for invalid form id
+        // Testing form data submission for invalid form id.
         $result = efb_api::submit_form_data(0, $this->get_test_data());
         $this->assertEquals(get_string("form-data-submission-failed", "local_edwiserform"), $result['msg']);
         $this->create_test_form();
 
-        // Testing form data submission
+        // Testing form data submission.
         $this->create_test_form(array('enabled' => true));
         $result = efb_api::submit_form_data($this->formid, $this->get_test_data());
         $this->assertEquals("<p>" . get_string(
@@ -211,7 +211,7 @@ class local_edwiserform_external_testcase extends local_edwiserform_base_testcas
             "local_edwiserform"
         ) . "</p>" . get_string('confirmation-email-success', 'local_edwiserform'), $result['msg']);
 
-        // Testing edit form data
+        // Testing edit form data.
         $this->setAdminUser();
         efb_api::submit_form_data($this->formid, $this->get_test_data());
         $result = efb_api::submit_form_data($this->formid, $this->get_test_data());
@@ -226,7 +226,7 @@ class local_edwiserform_external_testcase extends local_edwiserform_base_testcas
         $this->setAdminUser();
         $this->create_test_form();
 
-        // Testing form update
+        // Testing form update.
         $setting = array(
             'id' => $this->formid,
             'title' => 'Test',
@@ -241,19 +241,19 @@ class local_edwiserform_external_testcase extends local_edwiserform_base_testcas
         $result = efb_api::update_form($setting, $def);
         $this->assertEquals(get_string("form-setting-update-msg", "local_edwiserform"), $result['msg']);
 
-        // Testing form has submission and no form changes
+        // Testing form has submission and no form changes.
         $this->add_test_data($this->formid);
         $result = efb_api::update_form($setting, $def);
         $this->assertEquals(get_string("form-setting-update-msg", "local_edwiserform"), $result['msg']);
 
-        // Testing form has submission and settings change
+        // Testing form has submission and settings change.
         $setting['title'] = 'Update Test';
         $setting['description'] = 'Update test description';
         $setting['data_edit'] = false;
         $result = efb_api::update_form($setting, $def);
         $this->assertEquals(get_string("form-setting-update-msg", "local_edwiserform"), $result['msg']);
 
-        // Testing form has submission and definition change
+        // Testing form has submission and definition change.
         $setting['type'] = 'subscription';
         $def = $DB->get_field('efb_form_templates', 'definition', array('name' => 'subscription'));
         $result = efb_api::update_form($setting, $def);
