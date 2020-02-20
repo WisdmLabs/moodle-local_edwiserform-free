@@ -16,7 +16,6 @@
 
 /**
  * Base class for unit tests for local_edwiserform.
- *
  * @package    local_edwiserform
  * @category   phpunit
  * @copyright  2018 WisdmLabs <support@wisdmlabs.com>
