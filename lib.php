@@ -24,6 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+// Edwiser Forms Usage Tracking (Forms Analytics).
+$ranalytics = new \local_edwiserform\usage_tracking();
+$ranalytics->send_usage_analytics();
+
 /**
  * Call cron on the assign module.
  * @return boolean

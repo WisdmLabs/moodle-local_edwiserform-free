@@ -75,3 +75,11 @@ $settings->add(new admin_setting_configcheckbox(
     new lang_string("desc-enable-site-navigation", "local_edwiserform"),
     true
 ));
+
+// Usage tracking GDPR setting.
+$settings->add(new admin_setting_configcheckbox(
+    'local_edwiserform/enableusagetracking',
+    new lang_string('enableusagetracking', 'local_edwiserform'),
+    new lang_string('enableusagetrackingdesc', 'local_edwiserform'),
+    true
+));
