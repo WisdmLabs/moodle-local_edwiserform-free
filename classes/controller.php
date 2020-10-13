@@ -30,7 +30,7 @@ define("EDWISERFORM_COMPONENT", "local_edwiserform");
 define("EDWISERFORM_FILEAREA", "successmessage");
 define("UNAUTHORISED_USER", 1);
 define("ADMIN_PERMISSION", 2);
-define("PRO_URL", "https://edwiser.org/forms/edwiser-forms-pricing");
+define("PRO_URL", "https://edwiser.org/forms/#pricing");
 define("SUPPORTED_FORM_STYLES", 4);
 
 require_once($CFG->dirroot . '/local/edwiserform/events/events.php');
