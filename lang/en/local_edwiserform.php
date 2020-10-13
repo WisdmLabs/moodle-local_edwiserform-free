@@ -145,7 +145,7 @@ $string["template-change-warning"] = "All fields from current form will be delet
 // Settings string start.
 $string['settings-general'] = "General";
 $string['settings-notification'] = "Notification";
-$string['settings-confirmation'] = 'Confirmation ' . $prolabel;
+$string['settings-confirmation'] = 'Confirmation ';
 $string['settings-events'] = 'Events ' . $prolabel;
 $string['allowsubmissionsfromdate'] = 'Start date ' . $prolabel;
 $string['allowsubmissionstodate'] = 'End date ' . $prolabel;
@@ -188,7 +188,7 @@ $string['confirmation-email-failed'] = "<p>Unable to send confirmation email.</p
 $string['confirmation-email-success'] = "<p>Confirmation email sent successfully.</p>";
 $string['notify-email-failed'] = "<p>Unable to notify author.</p>";
 $string['notify-email-success'] = "<p>Notified to author successfully.</p>";
-$string["confirmation-subject"] = "Form Confirmation Email Subject";
+$string["confirmation-subject"] = "Form Confirmation Email Subject"  . $prolabel;
 $string["confirmation-default-subject"] = 'Form submitted successfully.';
 $string["confirmation-msg"] = "Form Confirmation Email Message";
 $string["confirmation-default-msg"] = '<div style="background-color: #efefef; -webkit-text-size-adjust: none !important; margin: 0; padding: 70px 70px 70px 70px;"><table id="template_container" style="text-align: center; padding-bottom: 20px; background-color: rgb(223, 223, 223); box-shadow: rgba(0, 0, 0, 0.024) 0px 0px 0px 3px !important; border-radius: 6px !important; margin: auto;" border="0" width="500" cellspacing="0" cellpadding="0">
