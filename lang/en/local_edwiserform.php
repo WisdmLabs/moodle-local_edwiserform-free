@@ -97,7 +97,7 @@ $string['search-entry'] = 'Search Entry:';
 $string['missing-name-attribute-field'] = 'Please provide name in the: <strong>{$a}</strong>. This is important to run form properly.';
 $string['form-style'] = 'Style';
 $string['form-enter-title'] = 'Please give a name to your form';
-$string['fullpage-link-message'] = '<a class="view-fullpage" href="#">Click here</a> to view form in new tab.';
+$string['fullpage-link-message'] = '<a class="efb-view-fullpage" href="#">Click here</a> to view form in new tab.';
 $string['fullpage-link-clicked'] = 'Form is opened in another tab.';
 
  // Template event string.
