@@ -157,7 +157,7 @@ $string['notify-email-body'] = '<div style="background-color: #efefef; -webkit-t
 <tbody>
 <tr>
 <td style="background-color: #1177d1;border-top-left-radius: 6px !important;border-top-right-radius: 6px !important;border-bottom: 0;font-family: Arial;font-weight: bold;line-height: 100%;vertical-align: middle;">
-<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">Enter SITE_NAME here</h1>
+<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">Edwiser Forms Free</h1>
 </td>
 </tr>
 <tr>
@@ -195,7 +195,7 @@ $string["confirmation-default-msg"] = '<div style="background-color: #efefef; -w
 <tbody>
 <tr>
 <td style="background-color: #1177d1;border-top-left-radius: 6px !important;border-top-right-radius: 6px !important;border-bottom: 0;font-family: Arial;font-weight: bold;line-height: 100%;vertical-align: middle;">
-<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">Enter SITE_NAME here</h1>
+<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">Edwiser Forms Free</h1>
 </td>
 </tr>
 <tr>
