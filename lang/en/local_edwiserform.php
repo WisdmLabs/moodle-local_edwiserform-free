@@ -93,6 +93,7 @@ $string['clickonshortcode'] = 'Click on shortcode to copy';
 $string['shortcodecoppied'] = '{$a} copied to clipboard';
 $string['hey-wait'] = 'Hey Wait';
 $string['search-form'] = 'Search Forms:';
+$string['search-entry'] = 'Search Entry:';
 $string['missing-name-attribute-field'] = 'Please provide name in the: <strong>{$a}</strong>. This is important to run form properly.';
 $string['form-style'] = 'Style';
 $string['form-enter-title'] = 'Please give a name to your form';
