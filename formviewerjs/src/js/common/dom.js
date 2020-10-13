@@ -1274,33 +1274,23 @@ class DOM {
     const className = formSettings.page.class ? formSettings.page.class.value : '';
     let styles = formSettings.page.style ? formSettings.page.style.value : '';
     const backgroundopacity = formSettings.page['background-opacity'] ? formSettings.page['background-opacity'].value : '0';
-    renderTarget.after(this.create({
-      tag: 'div',
-      attrs: {
-        id: 'edwiserform-background-cover',
-        style: `position: fixed; width: 100%; height: 100%; background: rgba(0,0,0,${backgroundopacity});`
-      }
-    }));
-    const body = document.getElementsByTagName('body')[0];
-    let elem = renderTarget.parentElement;
-    while (!elem.isEqualNode(body)) {
-      elem.style.background = 'transparent';
-      elem.style.margin = '0';
-      elem.style.padding = '0';
-      elem = elem.parentElement;
-    }
+    const wrap = renderTarget.closest('.edwiserform-wrap-container');
+    const container = wrap.parentElement;
+    wrap.style.background = 'rgba(0, 0, 0, ' + backgroundopacity + ')';
+    wrap.style.margin = '0';
+    wrap.style.padding = '0';
     const settings = {
       margin: '-1px 0 0 0',
       padding: '0'
     };
     styles = this.mergeStyles(settings, styles);
     // Adding page class in body element
-    if (className !== '') {
-      body.classList.add(className);
+    if (className != '') {
+      container.classList.add(className);
     }
     // Applying custom style to body element
-    if (styles !== '') {
-      body.setAttribute('style', styles);
+    if (styles != '') {
+      container.setAttribute('style', styles);
     }
   }
 

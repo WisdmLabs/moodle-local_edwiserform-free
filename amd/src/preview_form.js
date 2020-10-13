@@ -7,6 +7,7 @@ define(['jquery', 'core/ajax', 'local_edwiserform/formviewer'], function ($, aja
     return {
         init: function(title, sitekey) {
             $(document).ready(function (e) {
+                $('body').addClass('edwiserform-fullpage');
                 var form = $('#preview-form')[0];
                 let formeoOpts = {
                     container: form,

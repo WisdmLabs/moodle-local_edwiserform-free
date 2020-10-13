@@ -436,3 +436,18 @@
   width: max-content;
   display: inline-block;
 }
+
+.edwiserform-fullpage {
+    .edwiserform-root-container {
+        background: white;
+    }
+    .edwiserform-root-container, .edwiserform-wrap-container {
+        display: block;
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        overflow: auto;
+    }
+}

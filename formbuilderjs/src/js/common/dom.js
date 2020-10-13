@@ -2289,15 +2289,17 @@ class DOM {
     const color = formSettings.form.color ? formSettings.form.color.value : 'inherit';
     const backgroundColor = formSettings.form['background-color'] ? formSettings.form['background-color'].value : 'inherit';
     const padding = formSettings.form.padding ? formSettings.form.padding.value : '25';
-    let styles = formSettings.form.style ? formSettings.form.style.value : '';
+    const width = formSettings.form.width ? formSettings.form.width.value : '100';
+    const margin = width == 100 ? '0 auto' : '5% auto';
     renderTarget.classList.add(className);
     // Adding form class in renderTarget to apply settings
     const settings = {
       color: color,
       'background-color': backgroundColor,
-      margin: '0 auto',
+      margin: margin,
       padding: padding + 'px'
     };
+    let styles = formSettings.form.style ? formSettings.form.style.value : '';
     styles = this.mergeStyles(settings, styles);
     renderTarget.setAttribute('style', styles);
     this.manageFormWidth();
@@ -2313,27 +2315,16 @@ class DOM {
     const className = formSettings.page.class ? formSettings.page.class.value : '';
     const styles = formSettings.page.style ? formSettings.page.style.value : '';
     const backgroundopacity = formSettings.page['background-opacity'] ? formSettings.page['background-opacity'].value : '0';
-    const id = 'edwiserform-background-cover';
-    const style = `position: fixed; width: 100%; height: 100%; background: rgba(0,0,0,${backgroundopacity});`;
-    const cover = document.getElementById(id);
-    if (!cover) {
-      renderTarget.parentElement.before(this.create({
-        tag: 'div',
-        attrs: {
-          id: id,
-          style: style
-        }
-      }));
-    } else {
-      cover.setAttribute('style', style);
-    }
+    renderTarget.parentElement.style.background = 'rgba(0, 0, 0, ' + backgroundopacity + ')';
+    renderTarget.parentElement.style.margin = '0';
+    renderTarget.parentElement.style.padding = '0';
     const preview = document.getElementById('efb-cont-form-preview');
     // Adding page class in body element
-    if (className !== '') {
+    if (className != '') {
       preview.classList.add(className);
     }
     // Applying custom style to preview element
-    if (styles !== '') {
+    if (styles != '') {
       preview.setAttribute('style', styles);
     }
   }
