@@ -28,6 +28,7 @@ $string['heading-newform'] = "Add New Form";
 $string['heading-editform'] = "Edit Form";
 $string['heading-listforms'] = "View All Forms";
 $string['heading-listforms-empty'] = "You don't have any form. Click on Add New Form to create one.";
+$string['listformdata-empty'] = "There are no submissions yet.";
 $string["heading-listforms-showing"] = 'Showing {$a->start} to {$a->end} of {$a->total} entries';
 $string["heading-viewdata"] = "View data";
 $string['heading-import'] = 'Import form(PRO)';
