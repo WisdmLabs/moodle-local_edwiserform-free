@@ -11,7 +11,9 @@ var sassOptions = {
 
 gulp.task('commoncss', function() {
     return gulp.src('assets/scss/common/styles.scss')
-    .pipe(sass(sassOptions))
+    .pipe(sass({
+        outputStyle: false
+    }))
     .pipe(gulp.dest('.'));
 });
 
