@@ -210,6 +210,9 @@ class DOM {
 
     if (elem.config) {
       if (Object.prototype.hasOwnProperty.call(elem.config, 'recaptcha') && elem.config.recaptcha) {
+        // Fix for removing preview class.
+        elem.attrs.className = elem.attrs.className.replaceAll('-preview', '');
+
         delete elem.attrs.placeholder;
         elem.attrs['data-sitekey'] = _this.sitekey;
         let limit = 3;
