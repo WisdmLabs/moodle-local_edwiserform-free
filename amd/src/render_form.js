@@ -7,6 +7,7 @@ define([
     'jquery',
     'core/ajax',
     'core/notification',
+    './iefixes',
     'local_edwiserform/formviewer'
 ], function ($, Ajax, Notification) {
     var SELECTORS = {
@@ -257,7 +258,7 @@ define([
         forms = $('.edwiserform-container');
         fullpage = $('#edwiserform-fullpage') && $('#edwiserform-fullpage').val();
         $.each(forms, function(index, form) {
-            var idElement = $(form).children('.id');
+            var idElement = $(form).parent().find('.id');
             var id = idElement.val();
             PROMISES.GET_FORM_DEFINITION(id)
             .done(function(response) {
@@ -292,6 +293,9 @@ define([
     return {
         init: function(sitekey) {
             $(document).ready(function (e) {
+                if ($('#edwiserform-fullpage').length != 0 && $('#edwiserform-fullpage').val() == true) {
+                    $('body').addClass('edwiserform-fullpage');
+                }
                 render_forms(sitekey);
                 initializeEvents();
             });

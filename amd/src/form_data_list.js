@@ -12,6 +12,7 @@ define([
     'local_edwiserform/dataTables.bootstrap4',
     'local_edwiserform/fixedColumns.bootstrap4',
     'local_edwiserform/buttons.bootstrap4',
+    './iefixes',
     'local_edwiserform/formbuilder'
 ], function ($, Ajax, Templates, Notification) {
     var update_separator = function() {
@@ -86,8 +87,8 @@ define([
                     },
                     dom             : '<"efb-top"<"efb-listing"l><"efb-list-filtering"f>>t<"efb-bottom"<"efb-list-pagination"p><B><"efb-bulk">>i',
                     language        : {
-                        sSearch: M.util.get_string('search-form', 'local_edwiserform'),
-                        emptyTable: M.util.get_string('heading-listforms-empty', 'local_edwiserform'),
+                        sSearch: M.util.get_string('search-entry', 'local_edwiserform'),
+                        emptyTable: M.util.get_string('listformdata-empty', 'local_edwiserform'),
                         info: M.util.get_string('heading-listforms-showing', 'local_edwiserform', {'start': '_START_', 'end': '_END_', 'total': '_TOTAL_'}),
                         infoEmpty: M.util.get_string('heading-listforms-showing', 'local_edwiserform', {'start': '0', 'end': '0', 'total': '0'}),
                     },

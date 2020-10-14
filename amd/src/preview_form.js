@@ -3,10 +3,11 @@
  * Version: 0.1.0
  * Author: Yogesh Shirsath
  */
-define(['jquery', 'core/ajax', 'local_edwiserform/formviewer'], function ($, ajax) {
+define(['jquery', 'core/ajax', './iefixes', 'local_edwiserform/formviewer'], function ($, ajax) {
     return {
         init: function(title, sitekey) {
             $(document).ready(function (e) {
+                $('body').addClass('edwiserform-fullpage');
                 var form = $('#preview-form')[0];
                 let formeoOpts = {
                     container: form,

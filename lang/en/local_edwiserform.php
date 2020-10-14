@@ -28,6 +28,7 @@ $string['heading-newform'] = "Add New Form";
 $string['heading-editform'] = "Edit Form";
 $string['heading-listforms'] = "View All Forms";
 $string['heading-listforms-empty'] = "You don't have any form. Click on Add New Form to create one.";
+$string['listformdata-empty'] = "There are no submissions yet.";
 $string["heading-listforms-showing"] = 'Showing {$a->start} to {$a->end} of {$a->total} entries';
 $string["heading-viewdata"] = "View data";
 $string['heading-import'] = 'Import form(PRO)';
@@ -93,10 +94,11 @@ $string['clickonshortcode'] = 'Click on shortcode to copy';
 $string['shortcodecoppied'] = '{$a} copied to clipboard';
 $string['hey-wait'] = 'Hey Wait';
 $string['search-form'] = 'Search Forms:';
+$string['search-entry'] = 'Search Entry:';
 $string['missing-name-attribute-field'] = 'Please provide name in the: <strong>{$a}</strong>. This is important to run form properly.';
 $string['form-style'] = 'Style';
 $string['form-enter-title'] = 'Please give a name to your form';
-$string['fullpage-link-message'] = '<a class="view-fullpage" href="#">Click here</a> to view form in new tab.';
+$string['fullpage-link-message'] = '<a class="efb-view-fullpage" href="#">Click here</a> to view form in new tab.';
 $string['fullpage-link-clicked'] = 'Form is opened in another tab.';
 
  // Template event string.
@@ -145,7 +147,7 @@ $string["template-change-warning"] = "All fields from current form will be delet
 // Settings string start.
 $string['settings-general'] = "General";
 $string['settings-notification'] = "Notification";
-$string['settings-confirmation'] = 'Confirmation ' . $prolabel;
+$string['settings-confirmation'] = 'Confirmation ';
 $string['settings-events'] = 'Events ' . $prolabel;
 $string['allowsubmissionsfromdate'] = 'Start date ' . $prolabel;
 $string['allowsubmissionstodate'] = 'End date ' . $prolabel;
@@ -157,7 +159,7 @@ $string['notify-email-body'] = '<div style="background-color: #efefef; -webkit-t
 <tbody>
 <tr>
 <td style="background-color: #1177d1;border-top-left-radius: 6px !important;border-top-right-radius: 6px !important;border-bottom: 0;font-family: Arial;font-weight: bold;line-height: 100%;vertical-align: middle;">
-<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">Enter SITE_NAME here</h1>
+<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">Edwiser Forms Free</h1>
 </td>
 </tr>
 <tr>
@@ -188,14 +190,14 @@ $string['confirmation-email-failed'] = "<p>Unable to send confirmation email.</p
 $string['confirmation-email-success'] = "<p>Confirmation email sent successfully.</p>";
 $string['notify-email-failed'] = "<p>Unable to notify author.</p>";
 $string['notify-email-success'] = "<p>Notified to author successfully.</p>";
-$string["confirmation-subject"] = "Form Confirmation Email Subject";
+$string["confirmation-subject"] = "Form Confirmation Email Subject"  . $prolabel;
 $string["confirmation-default-subject"] = 'Form submitted successfully.';
 $string["confirmation-msg"] = "Form Confirmation Email Message";
 $string["confirmation-default-msg"] = '<div style="background-color: #efefef; -webkit-text-size-adjust: none !important; margin: 0; padding: 70px 70px 70px 70px;"><table id="template_container" style="text-align: center; padding-bottom: 20px; background-color: rgb(223, 223, 223); box-shadow: rgba(0, 0, 0, 0.024) 0px 0px 0px 3px !important; border-radius: 6px !important; margin: auto;" border="0" width="500" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
 <td style="background-color: #1177d1;border-top-left-radius: 6px !important;border-top-right-radius: 6px !important;border-bottom: 0;font-family: Arial;font-weight: bold;line-height: 100%;vertical-align: middle;">
-<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">Enter SITE_NAME here</h1>
+<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">Edwiser Forms Free</h1>
 </td>
 </tr>
 <tr>

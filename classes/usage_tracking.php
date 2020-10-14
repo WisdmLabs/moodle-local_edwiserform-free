@@ -201,11 +201,11 @@ class usage_tracking {
         }
 
         $allforms = $DB->get_records_sql('SELECT type, count(type) total
-                                              FROM `mdl_efb_forms`
+                                              FROM {efb_forms}
                                              GROUP BY type');
         $submissions = $DB->get_records_sql('SELECT form.type type, count(formdata.id) total
-                                         FROM `mdl_efb_forms` form
-                                         JOIN `mdl_efb_form_data` formdata ON form.id = formdata.formid
+                                         FROM {efb_forms} form
+                                         JOIN {efb_form_data} formdata ON form.id = formdata.formid
                                          GROUP BY form.type');
         $forms = [];
         foreach ($allforms as $type => $form) {
