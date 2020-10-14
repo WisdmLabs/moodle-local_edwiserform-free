@@ -9,6 +9,7 @@ define([
     'core/notification',
     'core/templates',
     'local_edwiserform/efb_form_basic_settings',
+    './iefixes',
     'local_edwiserform/formbuilder'
 ], function ($, ajax, notification, Templates) {
 

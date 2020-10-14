@@ -10,6 +10,7 @@ define([
     'local_edwiserform/jquery.dataTables',
     'local_edwiserform/dataTables.bootstrap4',
     'local_edwiserform/fixedColumns.bootstrap4',
+    './iefixes',
     'local_edwiserform/formbuilder'
 ], function ($, Ajax, notification) {
     return {

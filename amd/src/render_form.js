@@ -7,6 +7,7 @@ define([
     'jquery',
     'core/ajax',
     'core/notification',
+    './iefixes',
     'local_edwiserform/formviewer'
 ], function ($, Ajax, Notification) {
     var SELECTORS = {

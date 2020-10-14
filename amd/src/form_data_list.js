@@ -12,6 +12,7 @@ define([
     'local_edwiserform/dataTables.bootstrap4',
     'local_edwiserform/fixedColumns.bootstrap4',
     'local_edwiserform/buttons.bootstrap4',
+    './iefixes',
     'local_edwiserform/formbuilder'
 ], function ($, Ajax, Templates, Notification) {
     var update_separator = function() {

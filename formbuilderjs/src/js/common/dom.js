@@ -405,7 +405,9 @@ class DOM {
       const editablePreview = (elem.config.editable && isPreview);
       // Fix for removing preview class.
       if (h.get(elem, 'config.recaptcha')) {
-        elem.attrs.className = elem.attrs.className.replaceAll('-preview', '');
+        if (typeof elem.attrs.className == 'string') {
+          elem.attrs.className = elem.attrs.className.replaceAll('-preview', '');
+        }
       }
       if (h.get(elem, 'config.recaptcha') && !isPreview) {
         // Const renderCaptcha = new Function('element', 'key', 'grecaptcha.render(element, {sitekey: key});');
