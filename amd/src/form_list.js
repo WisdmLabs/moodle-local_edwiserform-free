@@ -112,7 +112,7 @@ define([
                                 data.order[0]
                             ).done(function(response) {
                                 callback(response);
-                            }).fail(Notification.exception);
+                            }).fail(notification.exception);
                         },
                         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
                             $('td:eq(0)', nRow).addClass( "efb-tbl-col-title" );
