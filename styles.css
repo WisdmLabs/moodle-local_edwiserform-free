@@ -332,9 +332,6 @@
   border-color: #62a8ea;
   background-color: #62a8ea; }
 
-.edwiserform-root-container {
-  display: flex; }
-
 .edwiserform-container.empty {
   width: 100%;
   text-align: center; }
