@@ -251,4 +251,13 @@ class edwiserform_events_plugin {
     public function support_multiple_submissions() {
         return false;
     }
+
+    /**
+     * Returns does teacher can create this type of form
+     * @return bool
+     * @since  Edwiser Form 1.2.0
+     */
+    public function teacher_allowed() {
+        return true;
+    }
 }
