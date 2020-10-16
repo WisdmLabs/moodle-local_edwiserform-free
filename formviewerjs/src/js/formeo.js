@@ -1,6 +1,13 @@
 'use strict';
 import {data} from './common/data';
 import dom from './common/dom';
+import 'mdn-polyfills/Object.assign';
+import 'mdn-polyfills/Object.values';
+import 'mdn-polyfills/Object.entries';
+import 'mdn-polyfills/Node.prototype.append';
+import 'mdn-polyfills/Node.prototype.prepend';
+import 'mdn-polyfills/Node.prototype.before';
+import 'mdn-polyfills/Node.prototype.after';
 
 // Simple object config for the main part of formeo
 const formeo = {

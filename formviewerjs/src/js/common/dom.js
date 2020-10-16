@@ -209,12 +209,7 @@ class DOM {
 
 
     if (elem.config) {
-      if (Object.prototype.hasOwnProperty.call(elem.config, 'recaptcha') && elem.config.recaptcha) {
-        // Fix for removing preview class.
-        if (typeof elem.attrs.className == 'string') {
-          elem.attrs.className = elem.attrs.className.replaceAll('-preview', '');
-        }
-
+      if (h.get(elem, 'config.recaptcha')) {
         delete elem.attrs.placeholder;
         elem.attrs['data-sitekey'] = _this.sitekey;
         let limit = 3;
@@ -231,10 +226,10 @@ class DOM {
               }
             });
           } else {
-            if (--limit !== 0) {
+            if (--limit != 0) {
               setTimeout(renderCaptcha, 1000);
             } else {
-              element.querySelector('.g-recaptcha').innerHTML = getString('google-recaptcha-not-loaded');
+              element.querySelector('.g-recaptcha').innerHTML = getString('efb-google-recaptcha-not-loaded');
             }
           }
         };
@@ -377,7 +372,7 @@ class DOM {
       }
       if (value) {
         element.setAttribute(name, value);
-        if (name === 'validation') {
+        if (name === 'validation' && typeof element.setCustomValidity === 'function') {
           element.setCustomValidity(value);
         }
       }
@@ -700,7 +695,14 @@ class DOM {
       columnData.className.push('f-render-column');
     }
     const colWidth = columnData.config.width || '100%';
-    columnData.style = `width: ${colWidth}`;
+    if (columnData.attrs == undefined) {
+      columnData.attrs = {};
+    }
+    if (columnData.attrs.style == undefined) {
+      columnData.attrs.style = '';
+    }
+
+    columnData.attrs.style += `width: ${colWidth};`;
     return columnData;
   }
 
@@ -711,6 +713,7 @@ class DOM {
   checkValidity(element) {
     if (element.className === 'g-recaptcha') {
       let response = false;
+      console.log('Here');
       let errormessage = getString('recaptcha-error');
       if (Object.prototype.hasOwnProperty.call(window, 'grecaptcha')) {
         response = window.grecaptcha.getResponse() !== '';
@@ -742,15 +745,21 @@ class DOM {
           return false;
         }
       }
-    } else if (typeof element.checkValidity === 'function') {
-      element.setCustomValidity('');
+    }
+    if (typeof element.checkValidity === 'function') {
+      if (typeof element.setCustomValidity === 'function') {
+        element.setCustomValidity('');
+      }
       if (element.checkValidity()) {
         return true;
       }
-      if (element.hasAttribute('validation')) {
+      if (element.hasAttribute('validation') && typeof element.setCustomValidity === 'function') {
         element.setCustomValidity(element.getAttribute('validation'));
       }
-      return element.reportValidity(); // Reporting error if input is not valid
+      if (typeof element.reportValidity === 'function') {
+        element.reportValidity(); // Reporting error if input is not valid
+      }
+      return false;
     }
     return true;
   }
@@ -1196,13 +1205,15 @@ class DOM {
     const formSettings = this.getFormSettings();
     const maxColumns = this.getMaxColumnCount();
     const toggleClass = status => {
-      this.renderTarget.classList.toggle('edwiser-inline-form', status);
+      const action = status ? 'add' : 'remove';
+      this.renderTarget.classList[action]('edwiser-inline-form');
     };
     if (fullpage && formSettings.form.responsive.value === false) {
       toggleClass(false);
       return;
     }
     const availableWidth = document.getElementById(`formeo-rendered-${document.getElementsByClassName('formeo-render').length - 1}`).offsetWidth;
+
     switch (maxColumns) {
       case 0:
       case 1:
@@ -1440,7 +1451,7 @@ class DOM {
     modal = dom.create(modal);
     this.container.parentElement.appendChild(modal);
     setTimeout(function() {
-      modal.classList.toggle('show');
+      modal.classList.add('show');
       modal.focus();
     }, 150);
   }

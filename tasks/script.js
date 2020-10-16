@@ -10,18 +10,31 @@ const PRODUCTION = process.argv.includes('-production');
 
 var minifyOptions = {
     ext: {
-        min: '.js',
+        min: '.min.js',
         ignoreFiles: ['*/formbuilder.js', '*/formviewer.js']
     }
 };
+
 minifyOptions.mangle = PRODUCTION;
 minifyOptions.compress = PRODUCTION;
 minifyOptions.noSource = PRODUCTION;
 if (PRODUCTION == false) {
     minifyOptions.preserveComments = 'all';
 }
+
+var jssrc = './amd/src/*.js';
+
+gulp.task('watchjs', function(done) {
+    var watcher = gulp.watch('./amd/src/*.js', gulp.series('script', 'purgeall'));
+    watcher.on('change', function(obj){
+        jssrc = obj;
+        return gulp.series('script', 'purgeall');
+    });
+    done();
+});
+
 gulp.task('script', function() {
-    return gulp.src('amd/src/*.js')
+    return gulp.src(jssrc)
     .pipe(sourcemaps.init())
     .pipe(babel({
         presets: [["@babel/preset-env"]]

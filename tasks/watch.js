@@ -14,13 +14,6 @@ gulp.task('watchcss', function(done) {
     done();
 });
 
-gulp.task('watchjs', function(done) {
-    gulp.watch('amd/src/*.js', gulp.series('script', 'purgeall'));
-    gulp.watch('amd/build/form*.js', gulp.series('purgeall'));
-    notify({message: 'Watching js files'});
-    done();
-});
-
 gulp.task('watchlang', function(done) {
     gulp.watch('lang/**/*', gulp.series('purgeall'));
     notify({message: 'Watching language files'});
