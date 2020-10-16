@@ -184,6 +184,7 @@
   .row-actions {
     border: none;
     left: calc(#{$action-btn-width} * -1 + 0px);
+    height: 4 * $action-btn-width;
   }
 }
 
