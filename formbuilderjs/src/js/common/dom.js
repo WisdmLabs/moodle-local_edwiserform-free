@@ -410,14 +410,28 @@ class DOM {
         }
       }
       if (h.get(elem, 'config.recaptcha') && !isPreview) {
-        // Const renderCaptcha = new Function('element', 'key', 'grecaptcha.render(element, {sitekey: key});');
-        const renderCaptcha = function(element, key) {
-          if (Object.prototype.hasOwnProperty.call(window, 'grecaptcha')) {
-            window.grecaptcha.render(element, {sitekey: key});
+        let limit = 3;
+        const renderCaptcha = function() {
+          if (Object.prototype.hasOwnProperty.call(window, 'grecaptcha') &&
+            Object.prototype.hasOwnProperty.call(window.grecaptcha, 'render')) {
+            window.grecaptcha.render(element, {
+              sitekey: _this.sitekey,
+              callback: function(response) {
+                if (response) {
+                  const errorelem = document.querySelector('.g-recaptcha-error');
+                  errorelem.classList.remove('show');
+                }
+              }
+            });
+          } else {
+            if (--limit != 0) {
+              setTimeout(renderCaptcha, 1000);
+            } else {
+              element.querySelector('.g-recaptcha').innerHTML = getString('efb-google-recaptcha-not-loaded');
+            }
           }
-          alert('Unable to render Google ReCaptch.');
         };
-        setTimeout(renderCaptcha(element, this.sitekey), 100);
+        renderCaptcha();
       }
       if (elem.config.label && tag !== 'button') {
         let label = null;
@@ -2623,7 +2637,11 @@ class DOM {
       childMap.set('columns', 'fields');
       childMap.set('stages', 'rows');
       const children = elem.getElementsByClassName(`stage-${childMap.get(type)}`);
-      elem.classList.toggle(`empty-${type}`, !children.length);
+      if (children.length == 0) {
+        elem.classList.add(`empty-${type}`);
+      } else {
+        elem.classList.remove(`empty-${type}`);
+      }
       if (type === 'stages') {
         this.toggleFormDeleteAction();
       }

@@ -9,6 +9,10 @@ import dom from './common/dom';
 import {Controls} from './components/controls';
 import Stage from './components/stage';
 import validator from './components/validator';
+import 'mdn-polyfills/Object.assign';
+import 'mdn-polyfills/Object.values';
+import 'dom-node-polyfills';
+import 'classlist-polyfill';
 
 // Simple object config for the main part of formeo
 const formeo = {
