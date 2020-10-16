@@ -15,11 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
- * @author      Sudam
+ * Trait for delete_form service
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
+ * @author    Sudam
  */
 
 namespace local_edwiserform\external;
@@ -31,8 +32,12 @@ use external_function_parameters;
 use external_value;
 use stdClass;
 
-trait delete_form
-{
+/**
+ * Service definition for delete form.
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+trait delete_form {
 
     /**
      * Describes the parameters for delete form
@@ -55,7 +60,7 @@ trait delete_form
      */
     public static function delete_form($formid) {
         global $DB;
-        $response = array("status" => false, "msg" => get_string("efb-msg-form-delete-fail", "local_edwiserform"));
+        $response = array("status" => false, "msg" => get_string("msg-form-delete-fail", "local_edwiserform"));
         if (!$formid) {
             return $response;
         }
@@ -64,7 +69,7 @@ trait delete_form
         $data->deleted = true;
         $status        = $DB->update_record("efb_forms", $data);
         if ($status) {
-            $msg = get_string("efb-msg-form-delete-success", "local_edwiserform");
+            $msg = get_string("msg-form-delete-success", "local_edwiserform");
         }
         return array("status" => $status, "msg" => $msg);
     }

@@ -1,40 +1,34 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/*
-    Created on : 5 Apr, 2018, 6:47:25 PM
-    Author     : sudam
-*/
-
-/* Style the tab */
+#page-local-edwiserform-view {
+    @import '../../formbuilderjs/src/sass/formeo.scss';
+}
+@import 'formedit/fastselect.scss';
+@import 'formedit/template.scss';
+@import 'formedit/settings.scss';
 .efb-form-builder-wrap {
-    overflow: hidden;
-    position: fixed;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    top: 0;
-    .btn-success:hover, .bg-success:hover, .btn-success:focus, .bg-success:focus, .efb-forms-pro-select:hover, .efb-forms-pro-select:focus {
-        background-color: #5cd29d;
-        text-decoration: none;
-        color: white;
-    }
-    .btn-success:active, .bg-success:active, .efb-forms-pro-select:active {
-        background-color: #36ab7a;
-        text-decoration: none;
-        color: white;
-    }
     .efb-editor-toolbar {
         border-bottom: 1px solid #d3d3d3;
         position: fixed;
         top: 0;
-        z-index: 140001;
+        left: 0;
+        height: 60px;
         width: 100%;
+        z-index: 2;
         background: #fff;
         text-align: center;
-        height: 60px;
+        .efb-editor-logo {
+            display: table;
+            height: 100%;
+            position: absolute;
+            .efb-editor-logo-wrap {
+                display: table-cell;
+                vertical-align: middle;
+                height: 100%;
+                padding: 11px;
+                img {
+                    height: 40px;
+                }
+            }
+        }
         .efb-editor-action {
             display: table;
             width: 100%;
@@ -44,11 +38,10 @@ and open the template in the editor.
             .efb-editor-action-title {
                 display: table-cell;
                 vertical-align: middle;
+                text-align: left;
+                padding-left: 125px;
                 label {
                     margin-bottom: 0;
-                }
-                .efb-form-title {
-                    font-weight: 700;
                 }
             }
         }
@@ -67,221 +60,187 @@ and open the template in the editor.
                     text-transform: uppercase;
                     font-weight: 700;
                     padding-left: 4rem;
-                    overflow: hidden;
+                    i {
+                        padding: 0% 8%;
+                    }
                 }
             }
         }
-        .efb-editor-logo {
-            display: table;
-            height: 100%;
-            position: absolute;
-            .efb-editor-logo-wrap {
-                display: table-cell;
-                vertical-align: middle;
-                height: 100%;
-                padding: 11px;
-                img {
-                    height: 40px;
-                }
-            }
-        }
-    }
-    .efb-forms-editor-body {
-        display: flex;
-        height: 100%;
-        margin-top: 60px;
     }
     .efb-forms-panels-toggle {
         position: fixed;
-        top: 0;
-        left: 0;
+        z-index: 1;
+        top: 60px;
+        left: 0px;
+        bottom: 0px;
         width: 110px;
-        height: 100%;
-        padding-top: 60px;
         color: #fff;
         background: #2d2d2d;
         overflow-y: auto;
         text-align: left;
         z-index: 10;
-        li {
-            cursor: pointer;
-        }
-        label {
-            padding: 1px 10px;
-            color: black;
-            text-decoration: none;
-        }
-        .fa {
-            font-size:30px;
-            line-height: inherit;
-        }
-        span {
-            display: block;
-        }
-        button {
+        .efb-panel-btn {
             color: white;
             cursor: pointer;
             width: 100%;
             border: none;
-            border-bottom: 1px solid #ddd;
+            border-radius: 0;
             padding: 10px 10px 10px 0;
             margin: 0;
-            border-radius: 0 !important;
+            span {
+                display: block;
+            }
+            .fa {
+                font-size:30px;
+                line-height: inherit;
+            }
+            &:not(.active):not(:hover) {
+                background-color: transparent !important;
+            }
         }
+    }
+    .efb-form-title {
+        font-weight: 700;
     }
     .efb-form-content {
         background: #2e2e2e;
         width: 100%;
         left: 124px;
-        position: relative;
+        position: fixed;
+        left: 110px;
+        top: 60px;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
         &:after {
             min-height: 6em;
             content: "";
             display: block;
         }
-        .efb-forms-panel-heading {
-            position: fixed;
-            right: 0;
-            left: 0;
-            background-color: #f6f6f6;
-            text-align: center;
-            font-size: 18px;
-            border-bottom: 1px solid #d3d3d3;
-            z-index: 2;
-            overflow: hidden;
-            width: 100%;
-            line-height: 40px;
-        }
-        .efb-forms-panels {
-            display: block;
-            position: fixed;
-            right: 0;
-            left: 110px;
-            top: 100px;
-            bottom: 0px;
-            background: #6b6b6b;
-            padding-top: 0;
-            #efb-cont-form-builder {
-                margin: 0 !important;
+        .efb-tabcontent {
+            padding: 15px;
+            height: 100%;
+            margin: 0;
+            display: none;
+            &.active {
+                display: block;
             }
-            #efb-cont-form-setup.efb-tabcontent {
-                padding: 15px;
+            .efb-form-settings {
                 height: 100%;
-                margin: 0;
+                background: white;
+                overflow: auto;
             }
-            #efb-cont-form-settings.efb-tabcontent {
-                padding: 15px;
+            .efb-form-settings::-webkit-scrollbar,
+            .efb-forms-setup::-webkit-scrollbar,
+            .render-form::-webkit-scrollbar,
+            .form-container::-webkit-scrollbar,
+            .efb-forms-panels-toggle::-webkit-scrollbar,
+            .formeo .formeo-controls::-webkit-scrollbar {
+                width: 5px;
             }
-            .efb-tabcontent {
-                padding: 15px;
-                height: 100%;
-                margin: 0;
-                &.content-active{
-                    display: block;
-                }
-                &.content-hide{
-                    display: none;
-                }
-                .efb-form-settings {
-                    height: 100%;
-                    background: white;
-                    overflow: auto;
-                    padding: 25px;
-                }
-                .efb-forms-setup {
+            /* Track */
+            .efb-form-settings::-webkit-scrollbar-track,
+            .efb-forms-setup::-webkit-scrollbar-track,
+            .render-form::-webkit-scrollbar-track,
+            .form-container::-webkit-scrollbar-track,
+            .efb-forms-panels-toggle::-webkit-scrollbar-track,
+            .formeo .formeo-controls::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+            /* Handle */
+            .efb-form-settings::-webkit-scrollbar-thumb,
+            .efb-forms-setup::-webkit-scrollbar-thumb,
+            .render-form::-webkit-scrollbar-thumb,
+            .form-container::-webkit-scrollbar-thumb,
+            .efb-forms-panels-toggle::-webkit-scrollbar-thumb,
+            .formeo .formeo-controls::-webkit-scrollbar-thumb {
+                background: #b8babf;
+                border-radius: 5px;
+            }
+            /* Handle on hover */
+            .efb-form-settings::-webkit-scrollbar-thumb:hover,
+            .efb-forms-setup::-webkit-scrollbar-thumb:hover,
+            .render-form::-webkit-scrollbar-thumb:hover,
+            .form-container::-webkit-scrollbar-thumb:hover,
+            .efb-forms-panels-toggle::-webkit-scrollbar-thumb:hover,
+            .formeo .formeo-controls::-webkit-scrollbar-thumb:hover {
+                background: #76838f;
+            }
+            .efb-form-step {
+                &.efb-form-step-builder,
+                &.efb-form-step-preview {
+                    position: absolute;
+                    bottom: 25px;
+                    border: 0;
+                    border-radius: 50%;
+                    height: 3rem;
+                    width: 3rem;
+                    color: white;
+                    outline: unset;
+                    box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.5);
+                    transition: right .5s;
                     padding: 0;
-                    background: white;
-                    display: grid;
-                    height: 100%;
-                    overflow-y: scroll;
-                    @import 'formedit/template.scss';
-                }
-                .efb-form-settings {
-                    @import 'formedit/settings.scss';
-                }
-                .efb-form-settings::-webkit-scrollbar, .efb-forms-setup::-webkit-scrollbar, .render-form::-webkit-scrollbar, .form-container::-webkit-scrollbar, .efb-forms-panels-toggle::-webkit-scrollbar, .formeo .formeo-controls::-webkit-scrollbar {
-                    width: 5px;
-                }
-                /* Track */
-                .efb-form-settings::-webkit-scrollbar-track, .efb-forms-setup::-webkit-scrollbar-track, .render-form::-webkit-scrollbar-track, .form-container::-webkit-scrollbar-track, .efb-forms-panels-toggle::-webkit-scrollbar-track, .formeo .formeo-controls::-webkit-scrollbar-track {
-                    background: #f1f1f1;
-                }
-                /* Handle */
-                .efb-form-settings::-webkit-scrollbar-thumb, .efb-forms-setup::-webkit-scrollbar-thumb, .render-form::-webkit-scrollbar-thumb, .form-container::-webkit-scrollbar-thumb, .efb-forms-panels-toggle::-webkit-scrollbar-thumb, .formeo .formeo-controls::-webkit-scrollbar-thumb {
-                    background: #b8babf;
-                    border-radius: 5px;
-                }
-                /* Handle on hover */
-                .efb-form-settings::-webkit-scrollbar-thumb:hover, .efb-forms-setup::-webkit-scrollbar-thumb:hover, .render-form::-webkit-scrollbar-thumb:hover, .form-container::-webkit-scrollbar-thumb:hover, .efb-forms-panels-toggle::-webkit-scrollbar-thumb:hover, .formeo .formeo-controls::-webkit-scrollbar-thumb:hover {
-                    background: #76838f;
+                    cursor: pointer;
+                    right: 275px;
                 }
             }
+            .build-form.hidden-controls + .efb-form-step.efb-form-step-preview,
+            .preview-form:not(.show-styles) + .efb-form-step-builder{
+                right: 25px;
+            }
         }
-    }
-    .efb-form-step {
-        &.efb-form-step-builder, &.efb-form-step-preview {
-            position: absolute;
-            bottom: 25px;
-            border: 0;
-            border-radius: 50%;
-            height: 3rem;
-            width: 3rem;
-            color: white;
-            outline: unset;
-            box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.5);
-            transition: right .5s;
-            padding: 0;
-            cursor: pointer;
-            right: 275px;
-        }
-    }
-    .build-form.hidden-controls + .efb-form-step.efb-form-step-preview, .preview-form + .efb-form-step-builder {
-        right: 25px;
     }
 }
 
-/* Style the tab content */
-.efb-hide{
+.efb-form-save.efb-form-step.btn i {
+    padding: 0% 8%;
+}
+
+#efb-cont-form-builder {
+    margin: 0;
+}
+.efb-hide {
     display: none !important;
 }
 #efb-btn-save-form-settings,
-#efb-btn-next
-{
+#efb-btn-next {
     float: right;
 }
-.efb-btn-link{
-    right: 1em;
-    position: absolute;
-    top: 1em;
-}
-.efb-notice-error {
-    color: red;
-}
 
-.efb-notice-fail,
-.efb-notice-success {
-    padding: 0.5em;
-    border-radius: 0.3em;
+.efb-forms-panels {
     display: block;
-    color: white;
+    position: fixed;
+    right: 0;
+    left: 110px;
+    top: 100px;
+    bottom: 0px;
+    background: #6b6b6b;
+    padding-top: 0;
+    &#efb-cont-form-builder {
+        margin: 0 !important;
+    }
 }
-.efb-notice-fail {
-    background-color: #ff606066;
-    border: 1px solid red;
-    color: red;
+.efb-forms-panel-heading {
+    position: fixed;
+    right: 0;
+    left: 0;
+    background-color: #f6f6f6;
+    text-align: center;
+    font-size: 18px;
+    border-bottom: 1px solid #d3d3d3;
+    z-index: 2;
+    overflow: hidden;
+    width: 100%;
+    line-height: 40px;
 }
 
-.efb-notice-success {
-    background-color: #D3FFCD;
-    border: 1px solid green;
-    color: green;
+.efb-forms-editor-body {
+    display: flex;
+    height: 100%;
+    margin-top: 60px;
 }
 
-.efb-panel-btn:not(.panel-active):not(:hover) {
-    background-color: transparent !important;
-}
-
-#efb-forms-setup-name{
+#efb-forms-setup-name {
     margin: 17px 0 18px 18px;
     height: 55px;
     box-shadow: none;
@@ -290,47 +249,113 @@ and open the template in the editor.
     width: 420px;
     padding: 0 20px;
 }
-.efb-form-name{
-    border-bottom: 1px solid #d6d6d6;
-    overflow: auto;
+
+.efb-form-builder-wrap .btn-success:hover,
+.efb-form-builder-wrap .bg-success:hover,
+.efb-form-builder-wrap .btn-success:focus,
+.efb-form-builder-wrap .bg-success:focus,
+.efb-forms-upgrade-link a:hover,
+.efb-forms-upgrade-link a:focus,
+.efb-forms-pro-select:hover,
+.efb-forms-pro-select:focus {
+    background-color: #5cd29d;
+    text-decoration: none;
+    color: white;
 }
-.efb-form-name span{
-    display: inline-block;
-    font-size: 16px;
-    height: 90px;
-    float: left;
-    border-right: 1px solid #d6d6d6;
-    line-height: 90px;
-    padding: 0 30px;
+.efb-form-builder-wrap .btn-success:actve,
+.efb-form-builder-wrap .bg-success:actve,
+.efb-forms-upgrade-link a:active,
+.efb-forms-pro-select:active {
+    background-color: #36ab7a;
+    text-decoration: none;
+    color: white;
 }
-.form-group.f-input-group, .prop-inputs.form-group {
-    margin: 0;
-}
-.item-handle .svg-icon {
-    fill: black;
-}
-#efb-cont-form-preview {
-    #edwiserform-background-cover {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        top: 0;
-        right: 0;
-        overflow: auto;
-        width: auto;
-        padding: 15px;
-        transition: right .5s;
-        background: rgba(0,0,0,0.5);
+.form-page {
+    .edwiserform-root-container {
+        padding:  2em;
+    }
+    .edwiserform-container {
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+        &.empty {
+            box-shadow: none;
+        }
     }
 }
-.preview-form .preview-form-container {
+
+.efb-import-form-container {
+    position: relative;
+    pointer-events: none;
+}
+.formeo-import-form {
+    position: absolute;
+    top: 2rem;
+    width: 100%;
+    left: 0;
+    text-align: center;
+}
+.efb-form-title-container {
+    border-bottom: 1px solid #d6d6d6;
+    .efb-form-title-heading {
+        display: inline-block;
+        font-size: 16px;
+        height: 65px;
+        float: left;
+        border-right: 1px solid #d6d6d6;
+        line-height: 70px;
+        padding: 0 30px;
+        i {
+            padding-left: 0.5rem;
+            cursor: help;
+        }
+    }
+    #efb-form-title {
+        float: left;
+        margin: 12px 0 13px 18px;
+        height: 40px;
+        box-shadow: none;
+        font-size: 18px;
+        width: 420px;
+        padding: 0 20px;
+    }
+    &:not(.has-danger) {
+        #efb-form-title {
+            border: 1px solid #d6d6d6;
+        }
+        .efb-form-title-warning {
+            display: none;
+        }
+    }
+    .efb-form-title-warning {
+        font-size: 1rem;
+        height: 90px;
+        float: left;
+        line-height: 90px;
+        padding: 0 20px;
+    }
+}
+.card-block {
+    padding:unset;
+}
+#region-main-box,
+#page.container-fluid,
+#page {
+    padding:unset;
+    margin: unset;
+}
+body {
+    padding: 0px;
+}
+.efb-form-builder-wrap,
+#page-wrapper,
+#page,
+#page-content,
+#region-main-box,
+#region-main > .card {
     position: fixed;
-    left: 110px;
-    bottom: 0;
-    top: 100px;
+    top: 0;
     right: 0;
-    overflow: auto;
-    width: auto;
-    padding: 15px;
-    transition: right .5s;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    margin: 0;
 }

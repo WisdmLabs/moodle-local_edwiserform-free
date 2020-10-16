@@ -15,14 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * Edwiser Forms settings
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 require_once('../../config.php');
-require_once($CFG->dirroot . '/local/edwiserform/lib.php');
+
+require_login();
+
 $context = context_system::instance();
 $PAGE->set_context($context);
 $formid = required_param('id', PARAM_INT);
@@ -37,8 +40,10 @@ if (!$form) {
     $title = $form->title;
     $out .= html_writer::tag('input', '', array('type' => 'hidden', 'id' => 'edwiserform-fullpage', 'value' => true));
     $out .= html_writer::start_tag('div', array('class' => 'edwiserform-root-container'));
+    $out .= html_writer::start_tag('div', array('class' => 'edwiserform-wrap-container'));
     $out .= html_writer::start_tag('form', array('id' => 'preview-form', 'class' => 'edwiserform-container', 'method' => 'post'));
     $out .= html_writer::end_tag('form');
+    $out .= html_writer::end_tag('div');
     $out .= html_writer::end_tag('div');
     $sitekey = get_config('local_edwiserform', 'google_recaptcha_sitekey');
     if (trim($sitekey) == '') {

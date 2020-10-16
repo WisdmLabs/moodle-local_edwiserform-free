@@ -37,14 +37,6 @@
         label {
           cursor: pointer;
         }
-        .efb-forms-pro-label {
-          background-color: #46be8a;
-          color: white;
-          padding: 4px;
-          transform: scale(0.6);
-          width: max-content;
-          display: inline-block;
-        }
       }
     }
     &:not(.collapsed-controls) {
@@ -163,22 +155,22 @@
     @extend %no-list-style;
   }
 
-  /*.control-group {
-    vertical-align: top;
-    display: inline-block;
-    width: 100%;
-    border-top: 1px solid $gray-lighter;
+  // .control-group {
+  //   vertical-align: top;
+  //   display: inline-block;
+  //   width: 100%;
+  //   border-top: 1px solid $gray-lighter;
 
-    > li {
-      &:first-child {
-        border-top-right-radius: 0;
-      }
+  //   > li {
+  //     &:first-child {
+  //       border-top-right-radius: 0;
+  //     }
 
-      &:last-child {
-        border-radius: 0 0 $border-radius $border-radius;
-      }
-    }
-  }*/
+  //     &:last-child {
+  //       border-radius: 0 0 $border-radius $border-radius;
+  //     }
+  //   }
+  // }
 
   &.filtered {
     .panel-nav {
@@ -189,9 +181,9 @@
   @include breakpoint('phone-lrg') {
     width: 45px;
 
-    /*.control-group {
-      text-indent: -9999px;
-    }*/
+    // .control-group {
+    //   text-indent: -9999px;
+    // }
 
     .form-actions {
       display: inline-block;

@@ -15,26 +15,34 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * Edwiser Form events class
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/local/edwiserform/lib.php');
-
+/**
+ * Common functions for Edwiser Form events plugin.
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class edwiserform_events_plugin {
     /**
      * Return does event require logged in user
+     * @return boolean
+     * @since  Edwiser Form 1.0.0
      */
     public function login_required() {
         return false;
     }
 
     /**
-     * Return does event require logged in user
+     * Return does event viewed while user logged in
+     * @return boolean
+     * @since  Edwiser Form 1.0.0
      */
     public function login_allowed() {
         return true;
@@ -42,6 +50,8 @@ class edwiserform_events_plugin {
 
     /**
      * Return action of form
+     * @return string url
+     * @since  Edwiser Form 1.0.0
      */
     public function get_action_url() {
         return '';
@@ -49,9 +59,10 @@ class edwiserform_events_plugin {
 
     /**
      * Execute event action after form submission
-     * @param object form
-     * @param object data - submitted by user
+     * @param  object $form Form object
+     * @param  object $data Data submitted by user
      * @return string
+     * @since  Edwiser Form 1.0.0
      */
     public function event_action($form, $data) {
         return [
@@ -63,9 +74,10 @@ class edwiserform_events_plugin {
 
     /**
      * Execute event action after form submission
-     * @param object form
-     * @param object data - submitted by user
-     * @return object with attached event data
+     * @param  object $form Form object
+     * @param  object $data Data submitted by user
+     * @return object       Data with attached event data
+     * @since  Edwiser Form 1.0.0
      */
     public function attach_data($form, $data) {
         return $data;
@@ -74,6 +86,7 @@ class edwiserform_events_plugin {
     /**
      * Returns can user submit data for this event
      * @return boolean
+     * @since Edwiser Form 1.0.0
      */
     public function can_save_data() {
         return true;
@@ -82,6 +95,7 @@ class edwiserform_events_plugin {
     /**
      * Does plugin support actions on form data list view
      * @return boolean
+     * @since  Edwiser Form 1.0.0
      */
     public function support_form_data_list_actions() {
         return false;
@@ -89,7 +103,10 @@ class edwiserform_events_plugin {
 
     /**
      * Validate submitted form data
+     * @param  object $form Form object
+     * @param  array  $data Form data
      * @return array
+     * @since  Edwiser Form 1.0.0
      */
     public function validate_form_data($form, $data) {
         return [];
@@ -97,7 +114,9 @@ class edwiserform_events_plugin {
 
     /**
      * Does plugin support actions on form data list view
+     * @param  object $form Form object
      * @return boolean
+     * @since  Edwiser Form 1.0.0
      */
     public function form_data_list_actions($form) {
         return [];
@@ -105,29 +124,30 @@ class edwiserform_events_plugin {
 
     /**
      * Form data list js files
+     * @since Edwiser Form 1.0.0
      */
     public function form_data_list_js() {
-        // Require js files or call amd
+        // Require js files or call amd.
     }
 
     /**
      * Perform action while enabling and disabling form
-     * @return object
+     * @param  object $form     Form object
+     * @param  string $action   Enable or Disable
+     * @param  array  $response Previous response
+     * @return array            Processed response
+     * @since  Edwiser Form 1.0.0
      */
-
     public function enable_disable_form($form, $action, $response) {
         return $response;
     }
 
     /**
-     * Get form settings
-     */
-    public function get_settings(&$mform, $form) {
-        return "";
-    }
-
-    /**
      * Creating new form
+     * @param  integer         $formid   id of form
+     * @param  string|stdClass $settings Settings
+     * @return intger                    new form id
+     * @since  Edwiser Form 1.0.0
      */
     public function create_new_form($formid, $settings) {
         return null;
@@ -135,6 +155,10 @@ class edwiserform_events_plugin {
 
     /**
      * Update form settings
+     * @param  integer         $formid   id of form
+     * @param  string          $settings Settings
+     * @return integer|boolean           status of form updation
+     * @return Edwiser Form 1.0.0
      */
     public function update_form($formid, $settings) {
         return null;
@@ -142,11 +166,19 @@ class edwiserform_events_plugin {
 
     /**
      * Verify form settings
+     * @param  array $settings Form settings
+     * @return string          Form verification status. If empty then no error otherwise error string
+     * @since  Edwiser Form 1.0.0
      */
     public function verify_form_settings($settings) {
         return '';
     }
 
+    /**
+     * Load strings of event
+     * @param string $type Type of event
+     * @since Edwiser Form 1.0.0
+     */
     public function load_event_strings($type) {
         global $PAGE;
         $stringmanager = get_string_manager();
@@ -154,64 +186,51 @@ class edwiserform_events_plugin {
         $PAGE->requires->strings_for_js(array_keys($strings), "edwiserformevents_$type");
     }
 
+    /**
+     * Does event support form data update
+     * @return boolean
+     * @since  Edwiser Form 1.0.0
+     */
     public function support_form_data_update() {
         return true;
     }
 
-    private function get_field_label($fields, $name) {
-        foreach ($fields as $field) {
-            if ($field['attrs']['name'] == $name) {
-                return $field['config']['label'];
-            }
-        }
-        return ucfirst($name);
-    }
-
-    public function common_submission_email_message($form, $submission) {
-        $definition = json_decode($form->definition, true);
-        $fields = $definition['fields'];
-        $data = json_decode($submission->submission);
-        $messagehtml = '';
-        foreach ($data as $input) {
-            $name = $this->get_field_label($fields, $input->name);
-            $messagehtml .= html_writer::start_tag('div');
-            $messagehtml .= html_writer::start_tag('table');
-            $messagehtml .= html_writer::start_tag('tr');
-            $messagehtml .= html_writer::tag('td', $name . ':');
-            $messagehtml .= html_writer::tag('td', $input->value);
-            $messagehtml .= html_writer::end_tag('tr');
-            $messagehtml .= html_writer::end_tag('table');
-            $messagehtml .= html_writer::end_tag('div');
-        }
-        return $messagehtml;
-    }
-
-    public function submission_email_message($form, $submission) {
-        return null;
-    }
     /**
      * Has field value in form data
-     * @param array   $formdata
-     * @param string  $field
-     * @return boolean
-     * @since Edwiser Form 1.0.0
+     * @param  array   $formdata Form data object
+     * @param  string  $field    Field to search
+     * @return boolean           True if found
+     * @since  Edwiser Form 1.0.0
      */
-    public function has_field($formdata, $fieldname) {
-        if (!is_null($formdata)) {
-            foreach ($formdata as $field) {
-                if ((is_object($field) && $field->name == $fieldname) || (is_array($field) && $field['name'] == $fieldname)) {
-                    return true;
-                }
+    public function has_field($formdata, $field) {
+        if ($formdata == null) {
+            return false;
+        }
+        foreach ($formdata as $fieldobj) {
+            if ((is_array($fieldobj) && $fieldobj['name'] == $field) || (is_object($fieldobj) && $fieldobj->name == $field)) {
+                return true;
             }
         }
         return false;
     }
 
+    /**
+     * Attach common data to user data such profile fields
+     * @param  stdClass $form Object
+     * @param  string   $data Submitted by user or empty data
+     * @return string         Data
+     * @since  Edwiser Form 1.0.0
+     */
     public function attach_common_data($form, $data) {
         global $USER;
         $data = json_decode($data);
         if ($USER->id != 0) {
-            $fields = ["firstname" => $USER->firstname, "lastname" => $USER->lastname, "email" => $USER->email, "mobile" => $USER->phone2];
+            $fields = [
+                "firstname" => $USER->firstname,
+                "lastname" => $USER->lastname,
+                "email" => $USER->email,
+                "mobile" => $USER->phone2
+            ];
             foreach ($fields as $key => $value) {
                 if (!$this->has_field($data, $key)) {
                     $data[] = [
@@ -226,11 +245,19 @@ class edwiserform_events_plugin {
 
     /**
      * Returns does plugin support multiple submissions for single user
-     *
      * @return bool
-     * @since  Edwiser Form 1.2
+     * @since  Edwiser Form 1.2.0
      */
     public function support_multiple_submissions() {
         return false;
+    }
+
+    /**
+     * Returns does teacher can create this type of form
+     * @return bool
+     * @since  Edwiser Form 1.2.0
+     */
+    public function teacher_allowed() {
+        return true;
     }
 }

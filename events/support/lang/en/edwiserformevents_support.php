@@ -15,12 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     edwiserformevents_support
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * English language
+ * @package   edwiserformevents_support
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 $string['pluginname'] = 'Support Us Form';
-$string['efb-event-support-name'] = "Simple Support Form";
-$string['efb-event-support-desc'] = "Allow your users to submit there queries with this simple support form.";
+$string['event-support-name'] = "Simple Support Form";
+$string['event-support-desc'] = "Allow your users to submit there queries with this simple support form.";

@@ -15,17 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * Edwiser Form plugin details
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_edwiserform';
-$plugin->release = '1.1.1';
-$plugin->version  = 2019082800;
+$plugin->release = '1.2.0';
+$plugin->version  = 2020101600;
 $plugin->requires = 2016052314;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->cron = 3600;

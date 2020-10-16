@@ -12,11 +12,11 @@ let formOpts;
 // Registered fields are the fields that are configured on init.
 // This variable acts as a data buffer thats contains
 // the configurations for a field's final view.
-let registeredFields = {};
+const registeredFields = {};
 
-let data = {
+const data = {
   init: (opts, userFormData) => {
-    let defaultFormData = {
+    const defaultFormData = {
       id: uuid(),
       settings: new Map(),
       stages: new Map(),
@@ -26,7 +26,7 @@ let data = {
     };
     _data.opts = opts;
     formOpts = opts;
-    let processFormData = data => {
+    const processFormData = data => {
       if (typeof data === 'string') {
         data = window.JSON.parse(data);
       }
@@ -43,7 +43,7 @@ let data = {
     if (userFormData) {
       processFormData(userFormData);
     } else if (window.localStorage && _data.opts.localStorage) {
-      let localFormData = window.localStorage.getItem('formData');
+      const localFormData = window.localStorage.getItem('formData');
       if (localFormData) {
         processFormData(localFormData);
       }
@@ -57,7 +57,7 @@ let data = {
   },
 
   get js() {
-    let jsData = {};
+    const jsData = {};
 
     Object.keys(formData).forEach(key => {
       if (typeof formData[key] === 'string') {
@@ -70,10 +70,10 @@ let data = {
   },
 
   get prepData() {
-    let jsData = data.js;
+    const jsData = data.js;
     Object.keys(jsData).forEach(type => {
       Object.keys(jsData[type]).forEach(entKey => {
-        let entity = jsData[type][entKey];
+        const entity = jsData[type][entKey];
         if (entity.action) {
           Object.keys(entity.action).forEach(fn => {
             entity.action[fn] = entity.action[fn].toString();
@@ -85,11 +85,11 @@ let data = {
   },
 
   /**
-   * getter method for JSON formData
+   * Getter method for JSON formData
    * @return {JSON} formData
    */
   get json() {
-    let preppedData = data.prepData;
+    const preppedData = data.prepData;
 
     return window.JSON.stringify(preppedData, null, '\t');
   }

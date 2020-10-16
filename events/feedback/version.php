@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     edwiserformevents_feedback
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * Feedback event plugin details
+ * @package   edwiserformevents_feedback
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -27,4 +28,4 @@ $plugin->component = 'edwiserformevents_feedback';
 $plugin->release = '1.0.1';
 $plugin->version  = 2019082800;
 $plugin->requires = 2015111610.00;
-$plugin->maturity = MATURITY_ALPHA;
+$plugin->maturity = MATURITY_STABLE;

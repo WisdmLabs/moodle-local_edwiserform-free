@@ -15,108 +15,123 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * English language
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
+$prolabel = '<label class="efb-forms-pro-label m-0">PRO</label>';
 $string['pluginname'] = "Edwiser Forms Free";
-$string['efb-heading-newform'] = "Add New Form";
-$string['efb-heading-editform'] = "Edit Form";
-$string['efb-heading-listforms'] = "View All Forms";
-$string['efb-heading-listforms-empty'] = "You don't have any form. Click on Add New Form to create one.";
-$string["efb-heading-listforms-showing"] = 'Showing {$a->start} to {$a->end} of {$a->total} entries';
-$string["efb-heading-viewdata"] = "View data";
-$string['efb-heading-import'] = 'Import form(PRO)';
-$string['efb-settings'] = "Settings";
-$string['efb-header-settings'] = "Form Settings";
-$string['efb-genral-settings'] = "General Settings";
-$string['efb-enable-user-level-from-creation'] = "Allow teacher to create new form";
-$string['efb-des-enable-user-level-from-creation'] = "This will allow teacher to add the new form and view form submitted data.";
-$string['efb-google-recaptcha-sitekey'] = 'Google reCaptcha site key';
-$string['efb-desc-google-recaptcha-sitekey'] = 'Enter google reCaptcha sitekey to use reCaptcha in your form';
-$string['efb-enable-site-navigation'] = 'Enable navigation using sidebar';
-$string['efb-desc-enable-site-navigation'] = 'Enable this to add navigation links in sidebar.';
-$string['efb-invalid-page'] = "Invalid";
-$string['efb-btn-next'] = "Next";
-$string['efb-btn-previous'] = "Previous";
-$string['efb-btn-save'] = "Save Changes";
-$string['efb-lbl-form-setup'] = "Templates";
-$string['efb-lbl-form-settings'] = "Settings";
-$string['efb-lbl-form-builder'] = "Fields";
-$string['efb-lbl-form-preview'] = "Preview";
-$string['efb-form-builder-step'] = 'Build Form';
-$string['efb-lbl-title'] = "Title";
-$string["efb-lbl-title-warning"] = "Title cannot be empty.";
-$string["efb-lbl-courses-warning"] = "Please select at least 1 course.";
-$string["efb-lbl-empty-form-warning"] = "Please add fields in form.";
-$string['efb-lbl-description'] = "Description";
-$string['efb-lbl-description-warning'] = "Description cannot be empty.";
-$string['efb-lbl-allowedit'] = "Allow Data Edit";
-$string['efb-lbl-allowedit-desc'] = "Allow user to edit submitted data.";
-$string['efb-lbl-event'] = "Select Event";
-$string['efb-lbl-courses-list'] = "Select Courses";
-$string['efb-lbl-notifi-email'] = "Recipient Email Address";
-$string['efb-lbl-notifi-email-warning'] = "Invalid email address.";
-$string['efb-lbl-notifi-email-duplicate'] = "Email is already present in the list.";
-$string['efb-lbl-multiplesubmission'] = 'Note: Selected template supports multiple submission';
-$string['efb-cannot-create-form'] = "You are not allowed to create form.";
-$string['efb-forms-get-title-desc'] = 'Please enter title and description';
-$string['efb-forms-update-confirm'] = "Do you want to create new form or overwrite existing?";
-$string['efb-forms-update-create-new'] = "New";
-$string['efb-forms-update-overwrite-existing'] = "Overwrite";
-$string['efb-admin-disabled-teacher'] = "You are not allowed to create form. Contact Admin to enable form creation.";
-$string['efb-contact-admin'] = "Please contact Site Admin.";
-$string['efb-notify-email-subject'] = '{$a->site}: New user submission in {$a->title}.';
-$string['efb-notify-email-body'] = '{$a->user} has made submission in {$a->title} form. To see all submissions please <a href="{$a->link}">click</a> here.';
-$string['efb-notify-email-failed'] = "<p>Unable to send email.</p>";
-$string['efb-notify-email-success'] = "<p>Notified successfully.</p>";
-$string['efb-confirmation-email-failed'] = "<p>Unable to send confirmation email.</p>";
-$string['efb-confirmation-email-success'] = "<p>Confirmation email sent successfully.</p>";
-$string['efb-notify-email-failed'] = "<p>Unable to notify author.</p>";
+$string['heading-newform'] = "Add New Form";
+$string['heading-editform'] = "Edit Form";
+$string['heading-listforms'] = "View All Forms";
+$string['heading-listforms-empty'] = "You don't have any form. Click on Add New Form to create one.";
+$string['listformdata-empty'] = "There are no submissions yet.";
+$string["heading-listforms-showing"] = 'Showing {$a->start} to {$a->end} of {$a->total} entries';
+$string["heading-viewdata"] = "View data";
+$string['heading-import'] = 'Import form(PRO)';
+$string['settings'] = "Settings";
+$string['header-settings'] = "Form Settings";
+$string['genral-settings'] = "General Settings";
+$string['enable-user-level-from-creation'] = "Allow teacher to create new form";
+$string['des-enable-user-level-from-creation'] = "This will allow teacher to add the new form and view form submitted data.";
+$string['google-recaptcha-sitekey'] = 'Google reCaptcha site key';
+$string['desc-google-recaptcha-sitekey'] = 'Enter google reCaptcha sitekey to use reCaptcha in your form';
+$string['enable-site-navigation'] = 'Enable navigation using sidebar';
+$string['desc-enable-site-navigation'] = 'Enable this to add navigation links in sidebar.';
+$string['invalid-page'] = "Invalid";
+$string['btn-next'] = "Next";
+$string['btn-previous'] = "Previous";
+$string['btn-save'] = "Save Changes";
+$string['lbl-form-setup'] = "Templates";
+$string['lbl-form-settings'] = "Settings";
+$string['lbl-form-builder'] = "Fields";
+$string['lbl-form-preview'] = "Preview";
+$string['form-builder-step'] = 'Build Form';
+$string['lbl-title'] = "Title";
+$string["lbl-title-warning"] = "Title cannot be empty.";
+$string["lbl-courses-warning"] = "Please select at least 1 course.";
+$string["lbl-empty-form-warning"] = "Please add fields in form.";
+$string['lbl-description'] = "Description";
+$string['lbl-description-warning'] = "Description cannot be empty.";
+$string['lbl-allowedit'] = "Allow Data Edit";
+$string['lbl-allowedit-desc'] = "Allow user to edit submitted data.";
+$string['lbl-event'] = "Select Event";
+$string['lbl-event-choose'] = "Choose events";
+$string['lbl-event-search'] = "Search events";
+$string['lbl-event-search-not-found'] = "No results";
+$string['lbl-event'] = "Select Event";
+$string['lbl-courses-list'] = "Select Courses";
+$string['lbl-notifi-email'] = "Recipient Email Address";
+$string['lbl-notifi-email-warning'] = "Invalid email address.";
+$string['lbl-notifi-email-duplicate'] = "Email is already present in the list.";
+$string['lbl-multiplesubmission'] = 'Note: Selected template supports multiple submission';
+$string['cannot-create-form'] = "You are not allowed to create form.";
+$string['forms-get-title-desc'] = 'Please enter title and description';
+$string['forms-update-confirm'] = "Do you want to create new form or overwrite existing?";
+$string['forms-update-create-new'] = "New";
+$string['forms-update-overwrite-existing'] = "Overwrite";
+$string['admin-disabled-teacher'] = "You are not allowed to create form. Contact Admin to enable form creation.";
+$string['contact-admin'] = "Please contact Site Admin.";
+$string['notify-email-subject'] = '{$a->site}: New user submission in {$a->title}.';
+$string['notify-email-body'] = '{$a->user} has made submission in {$a->title} form. To see all submissions please <a href="{$a->link}">click</a> here.';
+$string['notify-email-failed'] = "<p>Unable to send email.</p>";
+$string['notify-email-success'] = "<p>Notified successfully.</p>";
+$string['confirmation-email-failed'] = "<p>Unable to send confirmation email.</p>";
+$string['confirmation-email-success'] = "<p>Confirmation email sent successfully.</p>";
+$string['notify-email-failed'] = "<p>Unable to notify author.</p>";
 
-$string['efb-delete-form-and-data'] = '{$a->title} form with ID({$a->id}) will be deleted along with its submissions. Are you sure you want to delete this form?';
+$string['delete-form-and-data'] = '{$a->title} form with ID({$a->id}) will be deleted along with its submissions. Are you sure you want to delete this form?';
+$string['deletesubmission'] = 'Delete submission?';
+$string['deletesubmissionmsg'] = 'Are you sure you want to delete selected submission?';
+$string['submissionsdeleted'] = 'Submissions deleted successfully.';
+$string['submissiondeleted'] = 'Submission deleted successfully.';
+$string['emptysubmission'] = 'Please select submission to delete';
 $string['note'] = 'Note:';
 $string['clickonshortcode'] = 'Click on shortcode to copy';
 $string['shortcodecoppied'] = '{$a} copied to clipboard';
 $string['hey-wait'] = 'Hey Wait';
-$string['efb-search-form'] = 'Search Forms:';
-$string['efb-missing-name-attribute-field'] = 'Please provide name in the: <strong>{$a}</strong>. This is important to run form properly.';
-$string['efb-form-enter-title'] = 'Please give a name to your form';
+$string['search-form'] = 'Search Forms:';
+$string['search-entry'] = 'Search Entry:';
+$string['missing-name-attribute-field'] = 'Please provide name in the: <strong>{$a}</strong>. This is important to run form properly.';
+$string['form-style'] = 'Style';
+$string['form-enter-title'] = 'Please give a name to your form';
 $string['fullpage-link-message'] = '<a class="efb-view-fullpage" href="#">Click here</a> to view form in new tab.';
 $string['fullpage-link-clicked'] = 'Form is opened in another tab.';
 
- // Template event string
-$string['efb-event-blank-name'] = "Blank Form";
-$string['efb-event-blank-desc'] = "The blank form allows you to create any type of form using our drag & drop builder.";
-$string['efb-event-hover-text'] = "Select this form";
-$string['efb-event-enrolment-name'] = 'Course Enrolment Form';
-$string['efb-event-enrolment-desc'] = 'Provides the form for the user enrollment.';
-$string['efb-event-login-name'] = 'User Login Form';
-$string['efb-event-login-desc'] = 'Provides the login form. You can use this form in the place of default login form.';
-$string['efb-event-registration-name'] = "User Registration Form";
-$string['efb-event-registration-desc'] = "Provides the registration form. Use this form to create user account.";
-$string['efb-pro-label'] = 'PRO';
+ // Template event string.
+$string['event-blank-name'] = "Blank Form";
+$string['event-blank-desc'] = "The blank form allows you to create any type of form using our drag & drop builder.";
+$string['event-hover-text'] = "Select this form";
+$string['event-enrolment-name'] = 'Course Enrolment Form';
+$string['event-enrolment-desc'] = 'Provides the form for the user enrollment.';
+$string['event-login-name'] = 'User Login Form';
+$string['event-login-desc'] = 'Provides the login form. You can use this form in the place of default login form.';
+$string['event-registration-name'] = "User Registration Form";
+$string['event-registration-desc'] = "Provides the registration form. Use this form to create user account.";
+$string['pro-label'] = 'PRO';
+$string['preview-only'] = 'Preview Only';
 
 // Setup template strings start.
-$string['efb-setup-msg-select-tmpl'] = "To speed up the process, you can select from one of our pre-made templates";
-$string['efb-lbl-form-setup-formname'] = "Form Name";
-$string['efb-lbl-form-setup-formname-placeholder'] = "Enter your form name here…";
-$string['efb-lbl-form-setup-formname-sub-heading'] = "Select a Template";
-$string['efb-setup-additional-title'] = "Additional Templates";
-$string['efb-setup-additional-desc'] = "txt1";
-$string['efb-setup-additional-title'] = "txt2";
-$string['efb-setup-btn-upgrade'] = "Upgrade";
-$string['efb-setup-need-more-template'] = "Need more templates";
-$string['efb-setup-more-templates-message'] = "More templates are available in Edwiser Form PRO version";
-$string['efb-setup-msg-upgrade'] = "Unlock Pre-Made templates";
-$string['efb-setup-msg-upgrade-desc'] = "Edwiser Forms Free allows you to create Contact, Feedback, Support forms but there are other forms which have events on form submission. You can use those forms by unlocking our other pre-made form templates.";
-$string['efb-form-editing'] = "Now editing";
-$string['efb-select-template-warning'] = 'Please select template before proceeding';
-$string["efb-template-not-found"] = "Template not found.";
-$string["efb-template-name-not-valid"] = "Template name is not valid";
-$string["efb-template-found"] = "Template found";
+$string['setup-msg-select-tmpl'] = "To speed up the process, you can select from one of our pre-made templates";
+$string['lbl-form-setup-formname'] = "Form Name";
+$string['lbl-form-setup-formname-placeholder'] = "Enter your form name here…";
+$string['lbl-form-setup-formname-sub-heading'] = "Select a Template";
+$string['setup-additional-title'] = "Additional Templates";
+$string['setup-additional-desc'] = "txt1";
+$string['setup-additional-title'] = "txt2";
+$string['setup-btn-upgrade'] = "Upgrade";
+$string['setup-need-more-template'] = "Need more templates";
+$string['setup-more-templates-message'] = "More templates are available in Edwiser Form PRO version";
+$string['setup-msg-upgrade'] = "Unlock Pre-Made templates";
+$string['setup-msg-upgrade-desc'] = "Edwiser Forms Free allows you to create Contact, Feedback, Support forms but there are other forms which have events on form submission. You can use those forms by unlocking our other pre-made form templates.";
+$string['form-editing'] = "Now editing";
+$string['select-template-warning'] = 'Please select template before proceeding';
+$string["template-not-found"] = "Template not found.";
+$string["template-name-not-valid"] = "Template name is not valid";
+$string["template-found"] = "Template found";
 $string["operation-failed"] = "Operation failed";
 $string["active"] = "SELECTED";
 $string["enrol-success"] = 'Enrollment of user {$a} in courses is successful.';
@@ -124,79 +139,148 @@ $string["unenrol-success"] = 'Unenrollment of user {$a} in courses is successful
 $string["enrol-success"] = 'Enrollment of user {$a} in courses is unsuccessful.';
 $string["unenrol-success"] = 'Unenrollment of user {$a} in courses is unsuccessful.';
 $string["attention"] = "Attention";
-$string["efb-template-change-warning"] = "All fields from current form will be deleted. Are you sure you want to continue?";
+$string["template-change-warning"] = "All fields from current form will be deleted. Are you sure you want to continue?";
 
 // Setup template strings end.
 
-$string["efb-tbl-heading-title"] = "Title";
-$string["efb-tbl-heading-type"] = "Type";
-$string["efb-tbl-heading-shortcode"] = "Shortcode";
-$string["efb-tbl-heading-author"] = "Author";
-$string["efb-tbl-heading-author2"] = "Updated By";
-$string["efb-tbl-heading-created"] = "Created On";
-$string["efb-tbl-heading-submitted"] = "Submitted On";
-$string["efb-tbl-heading-modified"] = "Last Updated";
-$string["efb-tbl-heading-versions"] = "Versions";
-$string["efb-tbl-heading-version"] = "Version";
-$string["efb-tbl-heading-action"] = "Manage";
-$string["efb-form-action-edit-title"] = "Edit form";
-$string["efb-form-action-delete-title"] = "Delete";
-$string["efb-form-action-view-data-title"] = "View data";
-$string["efb-form-action-preview-title"] = "Preview form";
-$string["efb-form-action-live-demo-title"] = "Live demo";
-$string["efb-form-action-enable-title"] = "Enable form";
-$string["efb-form-action-disable-title"] = "Disable form";
-$string["efb-form-action-enable-failed"] = "Form enable failed";
-$string["efb-form-action-disable-failed"] = "Form disable failed";
-$string["efb-form-action-enable-success"] = "Form enable success";
-$string["efb-form-action-disable-success"] = "Form disable success";
-$string["efb-form-setting-save-msg"] = "Form saved successfuly. You will redirected to forms list. Click Ok to redirect manually.";
-$string["efb-form-setting-saved"] = "Your form is already saved. You will redirected to forms list.";
-$string["efb-form-setting-save-fail-msg"] = "Error while saving form definition.";
-$string["efb-form-def-save-fail-msg"] = "Error while saving form definition.";
-$string["efb-form-def-update-fail-msg"] = "Cannot overwrite form. User submissions present. Try to create new form.";
-$string["efb-form-setting-update-fail-msg"] = "Unable to update form.";
-$string["efb-form-setting-update-msg"] = "Form has been updated successfuly. Click Ok to redirect to forms list.";
-$string["efb-list-form-data-page-title"] = "List Form Data.";
-$string["efb-msg-form-delete-success"] = "Form deleted successfuly.";
-$string["efb-msg-form-delete-fail"] = "Form deletion failed.";
-$string["efb-lbl-confirmation-msg"] = "Form Confirmation Email Message";
-$string["efb-valid-form-data"] = "Form data is valid";
-$string["efb-invalid-form-data"] = "Form data is not valid";
-$string["efb-login-form-disable-different-form"] = "Cannot disable. Another login form is active";
-$string["exportcsv"] = "Export CSV(PRO)";
 
-// Import export form
-$string["efb-form-action-export-title"] = "Export form";
-$string['efb-form-import'] = 'Import form(PRO)';
-$string['efb-import-file'] = 'Select .xml file to import';
-$string['efb-import-file_help'] = 'Select .xml file to import form. This form will appear in list and can be used in future.';
-$string['efb-import-no-file'] = 'Please select file';
-$string['efb-import-empty-file'] = 'File do not contain anything';
-$string['efb-import-invalid-file-no-title'] = 'Form does not have title';
-$string['efb-import-invalid-file-no-description'] = 'Form does not have description';
-$string['efb-import-invalid-file-no-definition'] = 'Form does not have definition';
-$string['efb-import-invalid-file-no-type'] = 'Form does not have form type';
-$string['efb-import-invalid-file-no-courses'] = 'Form does not have courses';
+// Settings string start.
+$string['settings-general'] = "General";
+$string['settings-notification'] = "Notification";
+$string['settings-confirmation'] = 'Confirmation ';
+$string['settings-events'] = 'Events ' . $prolabel;
+$string['allowsubmissionsfromdate'] = 'Start date ' . $prolabel;
+$string['allowsubmissionstodate'] = 'End date ' . $prolabel;
+$string['enable-notification'] = 'Enable notification ' . $prolabel;
+$string['enable-notification-desc'] = 'Enable email notification.(Always enabled in Edwiser Forms Free)';
+$string['notify-email-subject'] = 'New user submission';
+$string['notify-email-subject-setting'] = 'Email Subject ' . $prolabel;
+$string['notify-email-body'] = '<div style="background-color: #efefef; -webkit-text-size-adjust: none !important; margin: 0; padding: 70px 70px 70px 70px;"><table id="template_container" style="text-align: center; padding-bottom: 20px; background-color: rgb(223, 223, 223); box-shadow: rgba(0, 0, 0, 0.024) 0px 0px 0px 3px !important; border-radius: 6px !important; margin: auto;" border="0" width="500" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="background-color: #1177d1;border-top-left-radius: 6px !important;border-top-right-radius: 6px !important;border-bottom: 0;font-family: Arial;font-weight: bold;line-height: 100%;vertical-align: middle;">
+<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">Edwiser Forms Free</h1>
+</td>
+</tr>
+<tr>
+<td style="padding: 20px; background-color: #dfdfdf; border-radius: 6px !important;" align="center" valign="top">
+<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Hi,</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Someone has made submission in your form.</div>
+<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div>
+<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div></td></tr>
+</tbody>
+</table>
+</div>';
+$string['email-show-tags'] = 'Show tags';
+$string['email-hide-tags'] = 'Hide tags';
+$string['email-body-tags'] = [
+    '{FORM_TITLE}' => 'Title of form',
+    '{SITE_NAME}' => 'Will be replaced with site name',
+    '{USER_FULLNAME}' => 'Firstname and Lastname of user',
+    '{USER_FIRSTNAME}' => 'User\'s firstname',
+    '{USER_LASTNAME}' => 'User\'s lastname',
+    '{AUTHOR_NAME}' => 'Firstname and Lastname of author',
+    '{AUTHOR_FIRSTNAME}' => 'Author\'s firstname',
+    '{AUTHOR_LASTNAME}' => 'Author\'s lastname',
+    '{USER_LINK}' => 'Link of user with fullname',
+    '{ALL_FIELDS}' => 'All fields from form',
+    '{VIEW_DATA_LINK LABEL=\"click\"}' => 'Link to view submission with custom label'
+];
+$string['notify-email-body-setting'] = 'Email Body ' . $prolabel;
+$string['confirmation-email-failed'] = "<p>Unable to send confirmation email.</p>";
+$string['confirmation-email-success'] = "<p>Confirmation email sent successfully.</p>";
+$string['notify-email-failed'] = "<p>Unable to notify author.</p>";
+$string['notify-email-success'] = "<p>Notified to author successfully.</p>";
+$string["confirmation-subject"] = "Form Confirmation Email Subject"  . $prolabel;
+$string["confirmation-default-subject"] = 'Form submitted successfully.';
+$string["confirmation-msg"] = "Form Confirmation Email Message";
+$string["confirmation-default-msg"] = '<div style="background-color: #efefef; -webkit-text-size-adjust: none !important; margin: 0; padding: 70px 70px 70px 70px;"><table id="template_container" style="text-align: center; padding-bottom: 20px; background-color: rgb(223, 223, 223); box-shadow: rgba(0, 0, 0, 0.024) 0px 0px 0px 3px !important; border-radius: 6px !important; margin: auto;" border="0" width="500" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="background-color: #1177d1;border-top-left-radius: 6px !important;border-top-right-radius: 6px !important;border-bottom: 0;font-family: Arial;font-weight: bold;line-height: 100%;vertical-align: middle;">
+<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">Edwiser Forms Free</h1>
+</td>
+</tr>
+<tr>
+<td style="padding: 20px; background-color: #dfdfdf; border-radius: 6px !important;" align="center" valign="top">
+<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Hi,</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Thank you for submission.</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div></td></tr></tbody></table><br>
+</div>';
+$string['error-occured-while-loading'] = 'Please wait while the page is loading. <br> If nothing appears then try to reload the page.';
+$string['email-body-restore-desc'] = '<a href="#" class="efb-email-body-restore" data-id="{$a->id}" data-string="{$a->string}">Restore</a> email body to default.';
+$string['recipient-email-desc'] = 'Default: Author\'s email address';
+// Settings strings end.
+
+$string["tbl-heading-title"] = "Title";
+$string["tbl-heading-type"] = "Type";
+$string["tbl-heading-shortcode"] = "Shortcode";
+$string["tbl-heading-author"] = "Author";
+$string["tbl-heading-author2"] = "Updated By";
+$string["tbl-heading-created"] = "Created On";
+$string["tbl-heading-submitted"] = "Submitted On";
+$string['suspend'] = 'Suspend';
+$string["tbl-heading-modified"] = "Last Updated";
+$string["tbl-heading-versions"] = "Versions";
+$string["tbl-heading-version"] = "Version";
+$string["tbl-heading-action"] = "Manage";
+$string["form-action-edit-title"] = "Edit form";
+$string["form-action-delete-title"] = "Delete";
+$string["form-action-view-data-title"] = "View data";
+$string["form-action-preview-title"] = "Preview form";
+$string["form-action-live-demo-title"] = "Live demo";
+$string["form-action-enable-title"] = "Enable form";
+$string["form-action-disable-title"] = "Disable form";
+$string["form-action-enable-failed"] = "Form enable failed";
+$string["form-action-disable-failed"] = "Form disable failed";
+$string["form-action-enable-success"] = "Form enable success";
+$string["form-action-disable-success"] = "Form disable success";
+$string["form-setting-save-msg"] = "Form saved successfuly. You will redirected to forms list. Click Ok to redirect manually.";
+$string["form-setting-saved"] = "Your form is already saved. You will redirected to forms list.";
+$string["form-setting-save-fail-msg"] = "Error while saving form definition.";
+$string["form-def-save-fail-msg"] = "Error while saving form definition.";
+$string["form-def-update-fail-msg"] = 'Cannot overwrite form. User submissions present. Try to create new form or <a href="{$a}" target="_blank">upgrade</a> to pro to override form even if it have submissions.';
+$string["form-setting-update-fail-msg"] = "Unable to update form.";
+$string["form-setting-update-msg"] = "Form has been updated successfuly. Click Ok to redirect to forms list.";
+$string["list-form-data-page-title"] = "List Form Data.";
+$string["msg-form-delete-success"] = "Form deleted successfuly.";
+$string["msg-form-delete-fail"] = "Form deletion failed.";
+$string["valid-form-data"] = "Form data is valid";
+$string["invalid-form-data"] = "Form data is not valid";
+$string["login-form-disable-different-form"] = "Cannot disable. Another login form is active";
+$string["exportcsv"] = "Export CSV(PRO)";
+$string["exportxlsx"] = "Export Excelsheet(PRO)";
+$string['apply'] = 'Apply';
+$string['selectbulkaction'] = 'Please select action';
+
+// Import export form.
+$string["form-action-export-title"] = "Export form";
+$string['form-import'] = 'Import form(PRO)';
+$string['import-file'] = 'Select .xml file to import';
+$string['import-file_help'] = 'Select .xml file to import form. This form will appear in list and can be used in future.';
+$string['import-no-file'] = 'Please select file';
+$string['import-empty-file'] = 'File do not contain anything';
+$string['import-invalid-file-no-title'] = 'Form does not have title';
+$string['import-invalid-file-no-description'] = 'Form does not have description';
+$string['import-invalid-file-no-definition'] = 'Form does not have definition';
+$string['import-invalid-file-no-type'] = 'Form does not have form type';
+$string['import-invalid-file-no-courses'] = 'Form does not have courses';
 /* End */
 
-// Form viewer strings
-$string["efb-form-not-found"] = 'Form {$a} not found.';
-$string["efb-form-not-enabled"] = 'Form {$a} not enable.';
-$string["efb-form-data-heading-action"] = "Action";
-$string["efb-form-data-heading-user"] = "User";
-$string["efb-form-data-submission-successful"] = '<p>Form submitted successfully. <a href="{$a}">Click</a> here to visit homepage.</p>';
-$string["efb-form-data-submission-failed"] = "Form data submission failed";
-$string["efb-form-data-submission-not-supported"] = "This form type does not support form submission";
-$string["efb-form-data-action-no-action"] = "No actions";
-$string["efb-form-data-no-data"] = "Found empty form definition. Nothing to display.";
-$string["efb-form-submission-found"] = 'You already submitted response. You are not allowed to edit or submit response. <a href="{$a}">Click</a> here to visit homepage.</p>';
-$string["efb-form-cannot-submit"] = "You are not allowed to submit data";
-$string["efb-unknown-error"] = "Unknown error";
-$string["efb-form-definition-found"] = "Form definition found";
-$string["efb-form-loggedin-required"] = 'You need to login before seeing the form. {$a} here to login.';
-$string["efb-form-loggedin-required-click"] = "Click";
-$string["efb-form-loggedin-not-allowed"] = "Form cannot be shown while you logged in";
+// Form viewer strings.
+$string["form-not-found"] = 'Form {$a} not found.';
+$string["form-not-enabled"] = 'Form {$a} not enable.';
+$string["form-data-heading-action"] = "Action";
+$string["form-data-heading-user"] = "User";
+$string["form-data-submission-successful"] = '<p>Form submitted successfully. <a href="{$a}">Click</a> here to visit homepage.</p>';
+$string["form-data-submission-failed"] = "Form data submission failed";
+$string["form-data-submission-not-supported"] = "This form type does not support form submission";
+$string["form-data-action-no-action"] = "No actions";
+$string["form-data-no-data"] = "Found empty form definition. Nothing to display.";
+$string["form-submission-found"] = 'You already submitted response. You are not allowed to edit or submit response. <a href="{$a}">Click</a> here to visit homepage.</p>';
+$string["form-cannot-submit"] = "You are not allowed to submit data";
+$string["unknown-error"] = "Unknown error";
+$string["form-definition-found"] = "Form definition found";
+$string["form-loggedin-required"] = 'You need to login before seeing the form. {$a} here to login.';
+$string["form-loggedin-required-click"] = "Click";
+$string["form-loggedin-not-allowed"] = "Form cannot be shown while you logged in";
 
 /* JS Strings */
 $string["action.add.attrs.attr"] = "What attribute would you like to add?";
@@ -423,7 +507,7 @@ $string["warning"] = "Warning";
 $string["website"] = "Website";
 $string["yes"] = "Yes";
 
-// Tooltips for Form editor
+// Tooltips for Form editor.
 $string['row-move'] = 'Order row';
 $string['row-edit'] = 'Edit row, column, conditional logic properties';
 $string['row-clone'] = 'Duplicate row with its columns and fields';
@@ -448,7 +532,7 @@ $string['remove-configs'] = 'Remove config';
 $string['remove-condition'] = 'Remove condition';
 $string['order-option'] = 'Order option';
 
-// Editing panel heading
+// Editing panel heading.
 $string['select-options-label'] = 'Option Label';
 $string['select-options-value'] = 'Option Value';
 $string['input-radio-options-name'] = 'Radio Name';
@@ -460,7 +544,7 @@ $string['input-checkbox-options-value'] = 'Checkbox Value';
 $string['input-radio-options-selected'] = $string['input-checkbox-options-selected'] = $string['select-options-selected'] = '';
 $string['datalist-options-value'] = 'List option value';
 
-// Validator Strings
+// Validator Strings.
 $string['input-invalid-type'] = 'Invalid input type in <strong>{$a}</strong>';
 $string['select-option-invalid'] = 'Invalid option in <strong>{$a}</strong>.';
 $string['input-radio-option-invalid'] = 'Invalid radio option in <strong>{$a}</strong>';
@@ -493,9 +577,23 @@ $string['backgroundcolor'] = 'Background color';
 $string['textcolor'] = 'Label color';
 
 /* Cron job string */
-$string['efb-delete-form-data-cron-start'] = 'Deleting form data of {$a}.';
-$string['efb-delete-form-data-cron-failed'] = 'Deleting form data of {$a} failed.';
-$string['efb-delete-form-data-cron-end'] = 'Deleted form data of {$a}.';
-$string['efb-delete-form-cron-start'] = 'Deleting form {$a}.';
-$string['efb-delete-form-cron-failed'] = 'Deleting form {$a} failed.';
-$string['efb-delete-form-cron-end'] = 'Deleted form {$a}.';
+$string['delete-form-data-cron-start'] = 'Deleting form data of {$a}.';
+$string['delete-form-data-cron-failed'] = 'Deleting form data of {$a} failed.';
+$string['delete-form-data-cron-end'] = 'Deleted form data of {$a}.';
+$string['delete-form-cron-start'] = 'Deleting form {$a}.';
+$string['delete-form-cron-failed'] = 'Deleting form {$a} failed.';
+$string['delete-form-cron-end'] = 'Deleted form {$a}.';
+
+// Usage tracking.
+$string['enableusagetracking'] = "Enable Usage Trakcing";
+$string['enableusagetrackingdesc'] = "<strong>USAGE TRACKING NOTICE</strong>
+
+<hr class='text-muted' />
+
+<p>Edwiser from now on will collect anonymous data to generate product usage statistics.</p>
+
+<p>This information will help us guide the development in right direction and the Edwiser community prosper.</p>
+
+<p>Having said that we don't gather your personal data or of your students during this process. You can disable this from the plugin whenever you wish to opt out of this service.</p>
+
+<p>An overview of the data collected is available <strong><a href='https://forums.edwiser.org/topic/67/anonymously-tracking-the-usage-of-edwiser-products' target='_blank'>here</a></strong>.</p>";

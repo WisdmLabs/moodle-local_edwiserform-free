@@ -15,11 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
- * @author      Sudam
+ * Edwiser Forms services list.
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
+ * @author    Sudam
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -51,15 +52,6 @@ $functions = [
         'loginrequired' => true,
         'ajax' => true,
     ],
-    'edwiserform_get_form_data' => [
-        'classname' => 'local_edwiserform\external\efb_api',
-        'methodname' => 'get_form_data',
-        'classpath' => '',
-        'description' => 'Provides the functionality to get the form submission data',
-        'type' => 'write',
-        'loginrequired' => true,
-        'ajax' => true,
-    ],
     'edwiserform_get_form_definition' => [
         'classname' => 'local_edwiserform\external\efb_api',
         'methodname' => 'get_form_definition',
@@ -67,15 +59,6 @@ $functions = [
         'description' => 'Provides the functionality to get the form definition',
         'type' => 'read',
         'loginrequired' => false,
-        'ajax' => true,
-    ],
-    'edwiserform_list_all_forms' => [
-        'classname' => 'local_edwiserform\external\efb_api',
-        'methodname' => 'get_form_list',
-        'classpath' => '',
-        'description' => 'Provides the list of the all the forms for the currant user.',
-        'type' => 'write',
-        'loginrequired' => true,
         'ajax' => true,
     ],
     'edwiserform_submit_form_data' => [
@@ -96,15 +79,6 @@ $functions = [
         'loginrequired' => true,
         'ajax' => true,
     ],
-    'edwiserform_register_user' => [
-        'classname' => 'local_edwiserform\external\efb_api',
-        'methodname' => 'register_user',
-        'classpath' => '',
-        'description' => 'Registering user',
-        'type' => 'write',
-        'loginrequired' => false,
-        'ajax' => true
-    ],
     'edwiserform_enable_disable_form' => [
         'classname' => 'local_edwiserform\external\efb_api',
         'methodname' => 'enable_disable_form',
@@ -113,5 +87,32 @@ $functions = [
         'type' => 'write',
         'loginrequired' => true,
         'ajax' => true
-    ]
+    ],
+    'edwiserform_get_form_submissions' => [
+        'classname' => 'local_edwiserform\external\efb_api',
+        'methodname' => 'get_form_submissions',
+        'classpath' => '',
+        'description' => 'Get form submissions',
+        'type' => 'read',
+        'loginrequired' => true,
+        'ajax' => true
+    ],
+    'edwiserform_get_forms' => [
+        'classname' => 'local_edwiserform\external\efb_api',
+        'methodname' => 'get_forms',
+        'classpath' => '',
+        'description' => 'Get forms',
+        'type' => 'read',
+        'loginrequired' => true,
+        'ajax' => true
+    ],
+    'edwiserform_delete_submissions' => [
+        'classname' => 'local_edwiserform\external\efb_api',
+        'methodname' => 'delete_submissions',
+        'classpath' => '',
+        'description' => 'Delete form submissions',
+        'type' => 'write',
+        'loginrequired' => true,
+        'ajax' => true
+    ],
 ];

@@ -16,7 +16,6 @@
 
 /**
  * Base class for unit tests for local_edwiserform.
- *
  * @package    local_edwiserform
  * @category   phpunit
  * @copyright  2018 WisdmLabs <support@wisdmlabs.com>
@@ -28,7 +27,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once($CFG->dirroot . '/local/edwiserform/lib.php');
 
 class local_edwiserform_base_testcase extends advanced_testcase {
 

@@ -15,8 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Plugin version and other meta-data are defined here.
  * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
+ * @copyright   (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author      Yogesh Shirsath
  */
@@ -27,9 +28,11 @@ defined('MOODLE_INTERNAL') || die();
 
 use core\plugininfo\base, core_plugin_manager, moodle_url;
 
-defined('MOODLE_INTERNAL') || die();
-
-
+/**
+ * Edwiser forms events plugin information definition.
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class edwiserformevents extends base {
     /**
      * Finds all enabled plugins, the result may include missing plugins.
@@ -65,6 +68,10 @@ class edwiserformevents extends base {
         return $enabled;
     }
 
+    /**
+     * Core function to to allow plugin uninstalled to be listed
+     * @return boolean
+     */
     public function is_uninstall_allowed() {
         return true;
     }

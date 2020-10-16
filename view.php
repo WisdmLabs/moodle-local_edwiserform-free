@@ -15,16 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * Main page to Create/Edit, list form and list form data.
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 require_once('../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->dirroot . '/local/edwiserform/locallib.php');
-
 
 global $CFG, $PAGE, $OUTPUT;
 require_login();
@@ -38,7 +38,7 @@ $urlparam = array('page' => $page);
 $formid = optional_param('formid', null, PARAM_INT);
 if ($formid) {
     $urlparam['formid'] = $formid;
-    // Switching between layout of new form and list form/formdata
+    // Switching between layout of new form and list form/formdata.
 }
 $title = $page;
 if ($page == 'newform') {
@@ -49,7 +49,7 @@ if ($page == 'newform') {
 } else {
     $PAGE->set_pagelayout('admin');
 }
-$efbpagetitle = get_string('efb-heading-' . $title, 'local_edwiserform');
+$efbpagetitle = get_string('heading-' . $title, 'local_edwiserform');
 $PAGE->set_title($efbpagetitle);
 $PAGE->set_heading($efbpagetitle);
 $PAGE->set_url(new moodle_url("/local/edwiserform/view.php", $urlparam));

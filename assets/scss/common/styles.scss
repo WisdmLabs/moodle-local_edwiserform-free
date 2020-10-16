@@ -1,15 +1,3 @@
-/* Modal css starts */
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/*
-    Created on : 5 Apr, 2018, 6:47:25 PM
-    Author     : sudam
-*/
-
-/* Style the tab */
 .efb-modal {
     position: fixed;
     top: 0;
@@ -19,7 +7,7 @@ and open the template in the editor.
     z-index: 1700;
     overflow: hidden;
     outline: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, .5);
     &:not(.show) {
         visibility: hidden;
     }
@@ -45,6 +33,28 @@ and open the template in the editor.
         width: auto;
         margin: 30px auto;
     }
+    .efb-modal-loader {
+        position: absolute;
+        top: calc(50% - 2rem);
+        left: calc(50% - 2rem);
+        text-align: center;
+        width: 4rem;
+        height: 4rem;
+        background: transparent;
+        border-radius: 50%;
+        border: 0.5rem solid white;
+        border-top-color: transparent;
+        animation: efb-loader-spin 2s infinite linear;
+    }
+    @keyframes efb-loader-spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
     .efb-modal-header {
         padding: 15px 20px;
         padding-right: 20px;
@@ -92,6 +102,10 @@ and open the template in the editor.
         table td {
             vertical-align: top;
         }
+        .efb-pro-demo {
+            width: 100%;
+            height: 310px;
+        }
     }
 
     .efb-modal-footer {
@@ -110,38 +124,6 @@ and open the template in the editor.
 
         &>:not(:first-child) {
             margin-left: .25rem;
-        }
-    }
-    &.pro {
-        .efb-modal-delete-form,
-        .efb-modal-delete-close,
-        .efb-modal-deleted-close,
-        .efb-modal-deleted-close,
-        .efb-modal-delete-form,
-        .efb-modal-delete-close {
-            display: none;
-        }
-    }
-    &.delete {
-        .efb-modal-deleted-close,
-        .efb-modal-upgrade-pro,
-        .efb-modal-upgrade-close,
-        .efb-modal-deleted-close,
-        .efb-modal-upgrade-pro,
-        .efb-modal-upgrade-close {
-            display: none;
-        }
-    }
-    &.deleted {
-        .efb-modal-delete-form,
-        .efb-modal-delete-close,
-        .efb-modal-upgrade-pro,
-        .efb-modal-upgrade-close,
-        .efb-modal-delete-form,
-        .efb-modal-upgrade-pro,
-        .efb-modal-delete-close,
-        .efb-modal-upgrade-close {
-            display: none;
         }
     }
     .btn-success, .bg-success {
@@ -261,6 +243,9 @@ and open the template in the editor.
     .dataTables_scrollHead {
         margin-bottom: 0!important;
     }
+    table.dataTable thead td, table.dataTable thead th, table.dataTable tbody td{
+        padding: 12px 8px;
+    }
     .efb-wrap-list-form-data table.dataTable tbody th {
         font-weight: 600;
     }
@@ -270,6 +255,9 @@ and open the template in the editor.
                 display: none;
             }
         }
+    }
+    #efb-bulk-actions {
+        display: inline-block;
     }
 }
 .efb-table {
@@ -284,8 +272,9 @@ and open the template in the editor.
         border-bottom: 0 !important;
         thead tr th {
             &:after, &:before {
+                top: 50%;
+                transform: translateY(-50%);
                 margin-top: 0;
-                bottom: 1rem !important;
             }
         }
         .DTFC_NoData {
@@ -404,9 +393,6 @@ and open the template in the editor.
     border-color: #62a8ea;
     background-color: #62a8ea;
 }
-.edwiserform-root-container {
-    display: flex;
-}
 .edwiserform-container.empty {
     width: 100%;
     text-align: center;
@@ -434,5 +420,31 @@ and open the template in the editor.
     }
     .f-render-column {
         width: 100% !important;
+    }
+}
+.edwiserform-container {
+    @import '../../../formviewerjs/src/sass/formeo.scss';
+}
+.efb-forms-pro-label {
+  background-color: #46be8a;
+  color: white;
+  padding: 4px;
+  transform: scale(0.6);
+  width: max-content;
+  display: inline-block;
+}
+
+.edwiserform-fullpage {
+    .edwiserform-root-container {
+        background: white;
+    }
+    .edwiserform-root-container, .edwiserform-wrap-container {
+        display: block;
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        overflow: auto;
     }
 }

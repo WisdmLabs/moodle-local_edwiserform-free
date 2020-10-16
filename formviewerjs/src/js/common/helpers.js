@@ -23,6 +23,26 @@ const stringToPath = function(string) {
   return result;
 };
 
+const decodeEntities = (function() {
+  const cache = {};
+  let character;
+  const e = document.createElement('div');
+  return function(html) {
+    return html.replace(/([&][^&; ]+[;])/g, function(entity) {
+      character = cache[entity];
+      if (!character) {
+        e.innerHTML = entity;
+        if (e.childNodes[0]) {
+          character = cache[entity] = e.childNodes[0].nodeValue;
+        } else {
+          character = '';
+        }
+      }
+      return character;
+    });
+  };
+})();
+
 const helpers = {
 
   /**
@@ -40,46 +60,46 @@ const helpers = {
   },
 
   safeAttrName: name => {
-    let safeAttr = {
+    const safeAttr = {
       className: 'class'
     };
 
     return safeAttr[name] || helpers.hyphenCase(name);
   },
   insertStyle: response => {
-    let formeoStyle = dom.create({
+    const formeoStyle = dom.create({
       tag: 'style',
       content: response.responseText
     });
     document.head.appendChild(formeoStyle);
   },
-  // nicer syntax for checking the existence of an element in an array
+  // Nicer syntax for checking the existence of an element in an array
   inArray: (needle, haystack) => {
     return haystack.indexOf(needle) !== -1;
   },
-  // forEach that can be used on nodeList
+  // ForEach that can be used on nodeList
   forEach: (array, callback, scope) => {
     for (let i = 0; i < array.length; i++) {
       callback.call(scope, array[i], i);
     }
   },
 
-  // basic map that can be used on nodeList
+  // Basic map that can be used on nodeList
   map: (arr, callback, scope) => {
-    let newArray = [];
+    const newArray = [];
     helpers.forEach(arr, (elem, i) => newArray.push(callback(i)));
 
     return newArray;
   },
   subtract: (arr, from) => {
     return from.filter(function(a) {
-      return !~this.indexOf(a);
+      return this.indexOf(a) === -1;
     }, arr);
   },
-  // find the index of one node in another
+  // Find the index of one node in another
   indexOfNode: (node, parent) => {
-    let parentElement = parent || node.parentElement;
-    let nodeList = Array.prototype.slice.call(parentElement.childNodes);
+    const parentElement = parent || node.parentElement;
+    const nodeList = Array.prototype.slice.call(parentElement.childNodes);
     return nodeList.indexOf(node);
   },
   // Tests if is whole number. returns false if n is Float
@@ -87,7 +107,7 @@ const helpers = {
     return Number(n) === n && n % 1 === 0;
   },
   /**
-   * get nested property value in an object
+   * Get nested property value in an object
    *
    * @private
    * @param {Object} object The object to query.
@@ -98,9 +118,12 @@ const helpers = {
     path = stringToPath(path);
 
     let index = 0;
-    let length = path.length;
+    const length = path.length;
 
-    while (object != null && index < length) {
+    while (object !== null && index < length) {
+      if (!Object.prototype.hasOwnProperty.call(object, path[index])) {
+        return undefined;
+      }
       object = object[path[index++]];
     }
 
@@ -110,23 +133,23 @@ const helpers = {
     path = stringToPath(path);
 
     let index = -1;
-    let length = path.length;
-    let lastIndex = length - 1;
+    const length = path.length;
+    const lastIndex = length - 1;
     let nested = object;
 
     while (nested !== null && ++index < length) {
-      let key = path[index];
+      const key = path[index];
       if (typeof nested === 'object') {
         let newValue = value;
         if (index !== lastIndex) {
-          let objValue = nested[key];
+          const objValue = nested[key];
           newValue = customizer ? customizer(objValue, key, nested) : undefined;
           if (newValue === undefined) {
             newValue = objValue === null ? [] : objValue;
           }
         }
 
-        if (!(hasOwnProperty.call(nested, key) && (nested[key] === newValue)) ||
+        if (!(Object.prototype.hasOwnProperty.call(nested, key) && (nested[key] === newValue)) ||
           (newValue === undefined && !(key in nested))) {
           nested[key] = newValue;
         }
@@ -144,9 +167,9 @@ const helpers = {
    * @return {Object}      merged object
    */
   merge: (obj1, obj2) => {
-    let mergedObj = Object.assign({}, obj1, obj2);
-    for (let prop in obj2) {
-      if (mergedObj.hasOwnProperty(prop)) {
+    const mergedObj = Object.assign({}, obj1, obj2);
+    for (const prop in obj2) {
+      if (Object.prototype.hasOwnProperty.call(mergedObj, prop)) {
         if (Array.isArray(obj2[prop])) {
           // eslint-disable-next-line
           if (obj1) {
@@ -166,6 +189,38 @@ const helpers = {
       }
     }
     return mergedObj;
+  },
+
+  /**
+   * Returns the text from a HTML string
+   *
+   * @param  {String}    html The html string
+   * @return {Boolean} Normal string without html tag
+   */
+  stripHtml: (html) => {
+    // Create a new div element
+    const temporalDivElement = document.createElement('div');
+    // Set the HTML content with the providen
+    temporalDivElement.innerHTML = decodeEntities(html);
+    // Retrieve the text property of the element (cross-browser support)
+    return temporalDivElement.textContent || temporalDivElement.innerText || '';
+  },
+
+  /**
+   * Check whether current string is html or not
+   *
+   * @param  {String} string Input string
+   * @return {Boolean}       True if string is html
+   */
+  isHtml: (string) => {
+    const a = document.createElement('div');
+    a.innerHTML = decodeEntities(string);
+    for (let c = a.childNodes, i = c.length; i--;) {
+      if (c[i].nodeType == 1) {
+        return true;
+      }
+    }
+    return false;
   }
 
 };

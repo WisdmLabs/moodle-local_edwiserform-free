@@ -15,60 +15,99 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Datatable ajax service for getting form submission records
- * @package   local_edwiserform
- * @copyright WisdmLabs 2018
- * @author    Yogesh Shirsath
- * @author    Krunal Kamble
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Form submission external service definition
+ * @package    local_edwiserform
+ * @copyright  (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author     Yogesh Shirsath
  */
 
-require_once('../../../../config.php');
-require_once($CFG->dirroot . "/local/edwiserform/lib.php");
-require_once($CFG->dirroot . "/local/edwiserform/classes/renderables/efb_list_form_data.php");
+namespace local_edwiserform\external;
 
+defined('MOODLE_INTERNAL') || die();
+
+use stdClass;
+use external_function_parameters;
+use external_value;
+use external_single_structure;
+use external_multiple_structure;
+use context_system;
+use html_writer;
+use local_edwiserform\output\list_form_data;
 
 /**
- * Returns total number of form data submitted by user in the XYZ form with search criteria
- * @param  boolean $searchflag true if user is filtering data
- * @param  string  $searchtext query string to search in the data
- * @param  integet $formid The id of form
- * @return integer count submission made in the form with filter result
- * @since  Edwiser Form 1.0.0
+ * Service definition for get form submissions
+ * @copyright  (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-function get_total_ebf_form_data_records($searchflag, $searchtext, $formid) {
-    global $DB, $USER;
-    $stmt = "SELECT * FROM {efb_form_data} WHERE formid = ?";
-    if ($searchflag) {
-        $stmt = "SELECT * FROM {efb_form_data} WHERE formid = ? AND JSON_EXTRACT(submission, '$[*].value') REGEXP '" . $searchtext . "'";
-    }
-    $param = [$formid];
-    $records = $DB->get_records_sql($stmt, $param);
-    return count($records);
-}
+trait get_form_submissions {
 
-// Checking for limit to paginate data
-if (isset($_REQUEST['iDisplayStart']) && $_REQUEST['iDisplayLength'] != '-1') {
-    $wdmlimit = 'LIMIT '.intval($_REQUEST['iDisplayStart']).', '.
-            intval($_REQUEST['iDisplayLength']);
-}
-$searchtext = "";
-$searchflag = 0;
-
-// Check for search query and setting search flag
-if (isset($_REQUEST['sSearch']) && !empty($_REQUEST['sSearch'])) {
-    $searchtext = $_REQUEST['sSearch'];
-    $searchflag = 1;
-}
-
-$formid = required_param('formid', PARAM_INT);
-$object = new \efb_list_form_data($formid);
-$rows = $object->get_submissions_list($wdmlimit, $searchtext);
-$data = array(
-            'sEcho' => intval($_REQUEST['sEcho']),
-            'iTotalRecords' => count($rows),
-            'iTotalDisplayRecords' => get_total_ebf_form_data_records($searchflag, $searchtext, $formid),
+    /**
+     * Returns description of method parameters
+     * @return external_function_parameters
+     */
+    public static function get_form_submissions_parameters() {
+        return new external_function_parameters(
+            array(
+                'formid'   => new external_value(PARAM_INT, 'Form id'),
+                'search'   => new external_value(PARAM_RAW, 'Search query'),
+                'start'    => new external_value(PARAM_INT, 'Start index of record'),
+                'length'   => new external_value(PARAM_INT, 'Number of records per page'),
+            )
         );
-$data["data"] = $rows;
-echo json_encode($data);
-die();
+    }
+
+
+
+    /**
+     * Get form submissions list using filter.
+     * @param  integer $formid Form id
+     * @param  string  $search Search query for form submissions list
+     * @param  integer $start  Start index for form submissions listing
+     * @param  integer $length Total form submissions can be fetched while listing
+     * @return array           Form submissions list
+     */
+    public static function get_form_submissions($formid, $search, $start = 0, $length = 0) {
+        global $PAGE;
+        $PAGE->set_context(context_system::instance());
+
+        $limit = array(
+            'from' => $start,
+            'to' => $length
+        );
+
+        $listformdata = new list_form_data($formid);
+
+        $rows = $listformdata->get_submissions_list($limit, $search);
+        $count = $listformdata->get_submission_count($formid, $search);
+
+        return array(
+            "data" => empty($rows) ? [] : $rows,
+            "recordsTotal" => $count,
+            "recordsFiltered" => $count
+        );
+    }
+    /**
+     * Returns description of method result value
+     * @return external_description
+     */
+    public static function get_form_submissions_returns() {
+        return new external_single_structure(
+            array(
+                "data" => new external_multiple_structure(
+                    new external_multiple_structure(
+                        new external_value(PARAM_RAW, "Row data"),
+                        'Form details',
+                        VALUE_DEFAULT,
+                        ''
+                    ),
+                    'Form submission list',
+                    VALUE_DEFAULT,
+                    []
+                ),
+                "recordsTotal" => new external_value(PARAM_INT, "Total records found"),
+                "recordsFiltered" => new external_value(PARAM_INT, "Total filtered record")
+            )
+        );
+    }
+}

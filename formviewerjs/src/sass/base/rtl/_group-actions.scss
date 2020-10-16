@@ -28,13 +28,3 @@
     }
   }
 }
-
-.stage-fields {
-  &.hovering-field,
-  &.editing-field {
-    .field-actions {
-      box-shadow: 1px 1px 1px $gray-lighter;
-      border-width: 1px 0 0 1px;
-    }
-  }
-}

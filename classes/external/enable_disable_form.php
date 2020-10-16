@@ -15,10 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * Trait of enable disable form service.
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
+ * @author    Sudam Chakor
  */
 
 namespace local_edwiserform\external;
@@ -30,11 +32,11 @@ use external_single_structure;
 use external_value;
 
 /**
- *
- * @author Yogesh Shirsath
+ * Service definition for enable disable form
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-trait enable_disable_form
-{
+trait enable_disable_form {
 
     /**
      * Describes the parameters for enable disable form
@@ -60,20 +62,20 @@ trait enable_disable_form
     public static function enable_disable_form($id, $action) {
         global $DB, $CFG;
         $action = $action ? "enable" : "disable";
-        $responce = array(
+        $response = array(
             "status" => false,
-            "msg" => get_string("efb-form-action-" . $action . "-failed", "local_edwiserform")
+            "msg" => get_string("form-action-" . $action . "-failed", "local_edwiserform")
         );
         $form = $DB->get_record("efb_forms", array("id" => $id));
         if ($form) {
             $form->enabled = $action == "enable";
             $DB->update_record("efb_forms", $form);
-            $responce = array(
+            $response = array(
                 "status" => true,
-                "msg" => get_string("efb-form-action-" . $action . "-success", "local_edwiserform")
+                "msg" => get_string("form-action-" . $action . "-success", "local_edwiserform")
             );
         }
-        return $responce;
+        return $response;
     }
 
     /**

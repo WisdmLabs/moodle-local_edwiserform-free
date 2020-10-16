@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * Trait for getting template definition.
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 namespace local_edwiserform\external;
@@ -29,6 +30,11 @@ use external_single_structure;
 use external_function_parameters;
 use external_value;
 
+/**
+ * Service definition from get template.
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 trait get_template {
 
     /**
@@ -52,26 +58,26 @@ trait get_template {
      */
     public static function get_template($name) {
         global $DB;
-        $responce = array(
+        $response = array(
             'status'     => false,
             'definition' => '',
-            'msg'        => get_string("efb-template-not-found", "local_edwiserform")
+            'msg'        => get_string("template-not-found", "local_edwiserform")
         );
 
-        // Checking for empty form template
+        // Checking for empty form template.
         if (trim($name) == '') {
-            $responce['msg'] = get_string("efb-template-name-not-valid", "local_edwiserform");
-            return $responce;
+            $response['msg'] = get_string("template-name-not-valid", "local_edwiserform");
+            return $response;
         }
 
-        // If template is part of pro version and license status is inactive then returning error
+        // If template is part of pro version and license status is inactive then returning error.
         $template = $DB->get_record("efb_form_templates", array("name" => $name));
         if ($template) {
-            $responce['status'] = true;
-            $responce['definition'] = $template->definition;
-            $responce['msg'] = get_string("efb-template-found", "local_edwiserform");
+            $response['status'] = true;
+            $response['definition'] = $template->definition;
+            $response['msg'] = get_string("template-found", "local_edwiserform");
         }
-        return $responce;
+        return $response;
     }
 
     /**
@@ -82,9 +88,9 @@ trait get_template {
     public static function get_template_returns() {
         return new external_single_structure(
             [
-                'status'     => new external_value(PARAM_BOOL, 'Template responce status.'),
+                'status'     => new external_value(PARAM_BOOL, 'Template response status.'),
                 'definition' => new external_value(PARAM_TEXT, 'Template definition'),
-                'msg'        => new external_value(PARAM_TEXT, 'Template responce message')
+                'msg'        => new external_value(PARAM_TEXT, 'Template response message')
             ]
         );
     }

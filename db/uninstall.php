@@ -15,22 +15,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * Edwiser Forms uninstall hook.
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Uninstall hook for local_edwiserform plugin
  * Here we delete all the files uploaded in moodle directory using this plugin
- *
  * @return boolean status
  * @since Edwiser Form 1.1.0
  */
 function xmldb_local_edwiserform_uninstall() {
     global $DB, $CFG;
-    require_once($CFG->dirroot . '/local/edwiserform/lib.php');
     $fs = get_file_storage();
     $fs->delete_area_files(context_system::instance()->id, EDWISERFORM_COMPONENT, EDWISERFORM_SUCCESS_FILEAREA);
     return true;

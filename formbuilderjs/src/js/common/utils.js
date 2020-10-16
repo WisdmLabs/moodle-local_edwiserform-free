@@ -10,7 +10,7 @@ export const match = (str = '', filter) => {
     console.warn('utils.match missing argument 2.');
     return false;
   }
-  let matchOperators = /[|\\{}()[\]^*$+?.]/g;
+  const matchOperators = /[|\\{}()[\]^*$+?.]/g;
   let filterArray = (typeof filter === 'string') ? [filter] : filter;
   filterArray = filterArray.map(filterStr => {
     return filterStr === '*' ? '' : filterStr.replace(matchOperators, '\\$&');
@@ -30,10 +30,10 @@ export const match = (str = '', filter) => {
  * @param  {String|Number} val
  */
 export const remove = (arr, val) => {
-  let index = arr.indexOf(val);
+  const index = arr.indexOf(val);
 
   if (index > -1) {
-     arr.splice(index, 1);
+    arr.splice(index, 1);
   }
 };
 
@@ -44,7 +44,7 @@ export const remove = (arr, val) => {
  * @return {Object}     DOM Element
  */
 export const closest = (el, cls) => {
-  let className = cls.replace('.', '');
+  const className = cls.replace('.', '');
   while ((el = el.parentElement) && !el.classList.contains(className));
   return el;
 };
@@ -66,7 +66,7 @@ export const closestFtype = el => {
  * @return {Object}    tag and type
  */
 export const elementTagType = el => {
-  let element = {
+  const element = {
     tag: el.tagName
   };
   if (el.tagName == 'INPUT') {
@@ -94,15 +94,15 @@ export const unique = array =>
     (arr.indexOf(elem) === pos));
 
 export const objToStrMap = obj => {
-  let strMap = new Map();
-  for (let k of Object.keys(obj)) {
+  const strMap = new Map();
+  for (const k of Object.keys(obj)) {
     strMap.set(k, obj[k]);
   }
   return strMap;
 };
 
 export const strMapToObj = strMap => {
-  let obj = Object.create(null);
+  const obj = Object.create(null);
   strMap.forEach((v, k) => {
     obj[k] = v;
   });
@@ -117,7 +117,7 @@ export const strMapToObj = strMap => {
 export const uuid = elem => {
   let id;
   if (elem) {
-    let {attrs = {}} = elem;
+    const {attrs = {}} = elem;
     id = attrs.id || elem.id || uuidv4();
     elem.id = id;
   } else {
@@ -157,15 +157,15 @@ export const clone = obj => {
 
   // Handle Object
   if (obj instanceof Object) {
-    copy = Object.assign({}, obj);
-    return copy;
+    return {...obj};
+    // Return Object.assign({}, obj);
   }
 
   throw new Error('Unable to copy Object, type not supported.');
 };
 
 export const strip = html => {
-  let temp = document.createElement('DIV');
+  const temp = document.createElement('DIV');
   temp.innerHTML = html;
   return temp.textContent || temp.innerText || '';
 };
@@ -192,10 +192,10 @@ export const numberBetween = (num, min, max) => (num > min && num < max);
  * @return {Object} fresh
  */
 export const cleanObj = obj => {
-  let fresh = Object.assign({}, obj);
+  const fresh = Object.assign({}, obj);
   Object.keys(obj).forEach(key => {
     if (typeof obj[key] === 'string') {
-      fresh[key] = '';
+      fresh[key] = key;
     } else if (typeof obj[key] === 'boolean') {
       fresh[key] = false;
     }
@@ -204,12 +204,12 @@ export const cleanObj = obj => {
 };
 
 export const clicked = (x, y, position, button) => {
-  let xMin = position.x - 5;
-  let xMax = position.x + 5;
-  let yMin = position.y - 5;
-  let yMax = position.y + 5;
-  let xOK = numberBetween(x, xMin, xMax);
-  let yOK = numberBetween(y, yMin, yMax);
+  const xMin = position.x - 5;
+  const xMax = position.x + 5;
+  const yMin = position.y - 5;
+  const yMax = position.y + 5;
+  const xOK = numberBetween(x, xMin, xMax);
+  const yOK = numberBetween(y, yMin, yMax);
 
   return (xOK && yOK && button !== 2);
 };
@@ -221,8 +221,8 @@ export const clicked = (x, y, position, button) => {
  * @return {String} string
  */
 export const getString = (id, args = null) => {
-  let M = window['M'];
-  let string = args == null ? M.util.get_string(id, 'local_edwiserform') : M.util.get_string(id, 'local_edwiserform', args);
+  const M = window.M;
+  const string = args === null ? M.util.get_string(id, 'local_edwiserform') : M.util.get_string(id, 'local_edwiserform', args);
   if (string == '[[' + id + ',local_edwiserform]]') {
     id = id.replace('-', ' ');
     if (string.indexOf('.') != -1) {
@@ -240,17 +240,17 @@ export const getString = (id, args = null) => {
  * @param  {String} className of control element
  */
 export const hideControl = className => {
-  let control = document.querySelector('.'+className);
-  let panel = control.parentElement.parentElement;
-  let list = control.parentElement;
-  let previousHeight = list.clientHeight + 'px';
+  const control = document.querySelector('.' + className);
+  const panel = control.parentElement.parentElement;
+  const list = control.parentElement;
+  const previousHeight = list.clientHeight + 'px';
   control.classList.add('disable-control');
   if (!panel.classList.contains('collapsed-controls')) {
     list.style.height = 'auto';
-    let height = list.clientHeight + 'px';
+    const height = list.clientHeight + 'px';
     list.style.height = previousHeight;
     setTimeout(() => {
-        list.style.height = height;
+      list.style.height = height;
     }, 0);
   }
 };
@@ -260,17 +260,17 @@ export const hideControl = className => {
  * @param  {String} className of control element
  */
 export const showControl = className => {
-  let control = document.querySelector('.'+className);
-  let panel = control.parentElement.parentElement;
-  let list = control.parentElement;
-  let previousHeight = list.clientHeight + 'px';
+  const control = document.querySelector('.' + className);
+  const panel = control.parentElement.parentElement;
+  const list = control.parentElement;
+  const previousHeight = list.clientHeight + 'px';
   control.classList.remove('disable-control');
   if (!panel.classList.contains('collapsed-controls')) {
     list.style.height = 'auto';
-    let height = list.clientHeight + 'px';
+    const height = list.clientHeight + 'px';
     list.style.height = previousHeight;
     setTimeout(() => {
-        list.style.height = height;
+      list.style.height = height;
     }, 0);
   }
 };
@@ -287,17 +287,17 @@ export const memoize = (fn, resolver) => {
     throw new TypeError('memoize: First argument must be a function');
   }
   const memoized = (...args) => {
-    let key = resolver ? resolver.apply(memoized, args) : args[0];
-    let cache = memoized.cache;
+    const key = resolver ? resolver.apply(memoized, args) : args[0];
+    const cache = memoized.cache;
 
     if (cache.has(key)) {
       return cache.get(key);
     }
-    let result = fn.apply(memoized, args);
+    const result = fn.apply(memoized, args);
     memoized.cache = cache.set(key, result);
     return result;
   };
-  memoized.cache = new(memoize.Cache);
+  memoized.cache = new (memoize.Cache)();
   return memoized;
 };
 

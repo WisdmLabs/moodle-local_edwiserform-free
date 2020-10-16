@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * Edwiser Forms upgrade hook.
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -34,7 +35,7 @@ function xmldb_local_edwiserform_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2019061800) {
-        // Updated data type of efb_forms table
+        // Updated data type of efb_forms table.
         $table = new xmldb_table('efb_forms');
         $field = new xmldb_field('created', XMLDB_TYPE_CHAR, 50, null, false, false);
         $dbman->change_field_type($table, $field);
@@ -66,7 +67,7 @@ function xmldb_local_edwiserform_upgrade($oldversion) {
         $field = new xmldb_field('modified', XMLDB_TYPE_INTEGER, 10);
         $dbman->change_field_type($table, $field);
 
-        // Updated data type of efb_form_data table
+        // Updated data type of efb_form_data table.
         $table = new xmldb_table('efb_form_data');
         $field = new xmldb_field('date', XMLDB_TYPE_CHAR, 50, null, false, false);
         $dbman->change_field_type($table, $field);

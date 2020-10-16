@@ -1,3 +1,21 @@
+.efb-forms-setup {
+    @import 'bootstrap-grid';
+    padding: 0;
+    background: white;
+    display: grid;
+    height: 100%;
+    overflow-y: scroll;
+    .efb-forms-setup-title {
+        font-size: 24px;
+        padding: 40px 30px 2px 30px;
+        .efb-forms-setup-desc {
+            color: #666;
+            font-size: 16px;
+            margin: 0;
+        }
+    }
+}
+
 .efb-form-title-container {
     border-bottom: 1px solid #d6d6d6;
     .efb-form-title-heading {

@@ -41,16 +41,16 @@ class DOM {
   set setConfig(userConfig) {
     const _this = this;
     const icon = _this.icon;
-    let btnTemplate = {
-        tag: 'button',
-        content: [],
-        attrs: {
-          className: ['btn'],
-          type: 'button'
-        }
-      };
+    const btnTemplate = {
+      tag: 'button',
+      content: [],
+      attrs: {
+        className: ['btn'],
+        type: 'button'
+      }
+    };
 
-    let handle = h.merge(Object.assign({}, btnTemplate), {
+    const handle = h.merge(Object.assign({}, btnTemplate), {
       content: [icon('move'), icon('handle')],
       attrs: {
         className: ['btn-default', 'item-handle'],
@@ -60,7 +60,7 @@ class DOM {
       }
     });
 
-    let edit = h.merge(Object.assign({}, btnTemplate), {
+    const edit = h.merge(Object.assign({}, btnTemplate), {
       content: icon('edit'),
       attrs: {
         className: ['btn-primary', 'item-edit-toggle'],
@@ -73,8 +73,8 @@ class DOM {
           const element = closestFtype(evt.target);
           let {fType} = element;
           fType = fType.replace(/s$/, '');
-          let editClass = 'editing-' + fType;
-          let editWindow = element.querySelector(`.${fType}-edit`);
+          const editClass = 'editing-' + fType;
+          const editWindow = element.querySelector(`.${fType}-edit`);
           animate.slideToggle(editWindow, 666);
           if (fType === 'field') {
             animate.slideToggle(editWindow.nextSibling, 666);
@@ -85,7 +85,7 @@ class DOM {
       }
     });
 
-    let remove = h.merge(Object.assign({}, btnTemplate), {
+    const remove = h.merge(Object.assign({}, btnTemplate), {
       content: icon('remove'),
       attrs: {
         className: ['btn-danger', 'item-remove'],
@@ -106,7 +106,7 @@ class DOM {
       }
     });
 
-    let cloneItem = h.merge(Object.assign({}, btnTemplate), {
+    const cloneItem = h.merge(Object.assign({}, btnTemplate), {
       content: icon('copy'),
       attrs: {
         className: ['btn-warning', 'item-clone'],
@@ -122,8 +122,8 @@ class DOM {
       }
     });
 
-    let defaultConfig = {
-        rows: {
+    const defaultConfig = {
+      rows: {
         actionButtons: {
           buttons: [
             addTitle(handle, 'row-move'),
@@ -169,25 +169,25 @@ class DOM {
       icon('handle'),
     ];
 
-    let mergedConfig = h.merge(defaultConfig, userConfig);
+    const mergedConfig = h.merge(defaultConfig, userConfig);
 
     Object.keys(mergedConfig).forEach(key => {
       if (mergedConfig[key].actionButtons) {
         const aButtons = mergedConfig[key].actionButtons;
         const disabled = aButtons.disabled;
-        let buttons = aButtons.buttons;
+        const buttons = aButtons.buttons;
 
         // Order buttons
         aButtons.buttons = h.orderObjectsBy(buttons, aButtons.order, 'meta.id');
-        // filter disabled buttons
+        // Filter disabled buttons
         aButtons.buttons = aButtons.buttons.filter(button => {
-          let metaId = h.get(button, 'meta.id');
+          const metaId = h.get(button, 'meta.id');
           return !h.inArray(metaId, disabled);
         });
       }
     });
 
-    // overrides language set dir
+    // Overrides language set dir
     if (mergedConfig.dir) {
       this.dir = mergedConfig.dir;
     }
@@ -209,9 +209,9 @@ class DOM {
       elem = {tag: tagName};
     }
     if (elem.attrs) {
-      let tag = elem.attrs.tag;
+      const tag = elem.attrs.tag;
       if (tag) {
-        let selectedTag = tag.filter(t => (t.selected === true));
+        const selectedTag = tag.filter(t => (t.selected === true));
         if (selectedTag.length) {
           tagName = selectedTag[0].value;
         }
@@ -223,14 +223,35 @@ class DOM {
   }
 
   /**
+   * Check for standard element
+   * @param  {Object}  elem      element config object
+   * @return {Boolean}            true | false
+   */
+  getWrapperClass(elem) {
+    if (h.get(elem, 'className') == 'g-recaptcha') {
+      return 'g-recaptcha-wrapper';
+    }
+    if (elem.tag == 'textarea' || elem.tag == 'select') {
+      return elem.tag + '-wrapper';
+    }
+    if (elem.tag == 'input') {
+      if (elem.attrs.type == 'radio' || elem.attrs.type == 'checkbox') {
+        return '';
+      }
+      return 'input-' + elem.attrs.type + '-wrapper';
+    }
+    return '';
+  }
+
+  /**
    * Missing form-control class in input element
    * @param  {Object} elem element config object
    * @return {Object}
    */
   missingFormControlClass(elem) {
-    let tag = elem.tag;
+    const tag = elem.tag;
     let className = h.get(elem, 'attrs.className') || '';
-    if (['input', 'textarea', 'select'].indexOf(tag) != -1 && className.indexOf('form-control') == -1) {
+    if (['input', 'textarea', 'select'].indexOf(tag) !== -1 && className.indexOf('form-control') === -1) {
       if (Array.isArray(className)) {
         className.push('form-control');
       } else {
@@ -247,8 +268,8 @@ class DOM {
    * @return {Object}      Element object
    */
   processClass(elem) {
-    if (typeof elem.attrs != 'undefined' && typeof elem.attrs.class != 'undefined') {
-      if (typeof elem.attrs.className != 'undefined') {
+    if (typeof elem.attrs !== 'undefined' && typeof elem.attrs.class !== 'undefined') {
+      if (typeof elem.attrs.className !== 'undefined') {
         if (Array.isArray(elem.attrs.className)) {
           elem.attrs.className.push(clone(elem.attrs.class));
         } else {
@@ -269,15 +290,15 @@ class DOM {
    * @return {Object}            DOM Object
    */
   create(elem, isPreview = false) {
-    let _this = this;
+    const _this = this;
     elem = _this.processClass(elem);
     elem = _this.processTagName(elem);
     let contentType;
-    let {tag} = elem;
-    let processed = [];
+    const {tag} = elem;
+    const processed = [];
     let i;
     let displayLabel = '';
-    let formSettings = this.getFormSettings();
+    const formSettings = this.getFormSettings();
     displayLabel = formSettings.form['display-label'].value;
     switch (displayLabel) {
       case 'top':
@@ -287,26 +308,26 @@ class DOM {
         displayLabel = ' single-line';
         break;
     }
-    let wrap = {
+    const wrap = {
       tag: 'div',
       attrs: {},
-      className: [h.get(elem, 'config.inputWrap') || 'f-field-group' + ' ' + displayLabel],
+      className: [h.get(elem, 'config.inputWrap') || 'f-field-group' + ' ' + displayLabel + ' ' + this.getWrapperClass(elem)],
       content: [],
       config: {}
     };
-    let requiredMark = {
+    const requiredMark = {
       tag: 'span',
       className: 'text-error',
       content: '*'
     };
     let element = document.createElement(tag);
-    let required = h.get(elem, 'attrs.required');
+    const required = h.get(elem, 'attrs.required');
 
     /**
      * Object for mapping contentType to its function
      * @type {Object}
      */
-    let appendContent = {
+    const appendContent = {
       string: content => {
         element.innerHTML += content;
       },
@@ -332,25 +353,36 @@ class DOM {
 
     processed.push('tag');
 
+    if (!h.get(elem, 'attrs')) {
+      elem.attrs = {};
+    }
 
-    // check for root className property
+    // Check for root className property
     if (elem.className) {
-      let {className} = elem;
-      elem.attrs = Object.assign({}, elem.attrs, {className});
+      elem.attrs.className = elem.className;
       delete elem.className;
+    }
+
+    // Check for id property
+    if (elem.attrs && elem.attrs.id) {
+      elem.id = elem.attrs.id;
+    }
+
+    if (h.get(elem, 'attrs.name') == undefined || h.get(elem, 'attrs.name') == '') {
+      elem.attrs.name = elem.id;
     }
 
     // Append Element Content
     if (elem.options) {
       let {options} = elem;
-      if (elem.tag == 'input' && (elem.attrs.type == 'radio' || elem.attrs.type == 'checkbox')) {
+      if (elem.tag === 'input' && (elem.attrs.type === 'radio' || elem.attrs.type === 'checkbox')) {
         h.forEach(options, option => {
           option.name = elem.attrs.name;
         });
       }
       options = this.processOptions(options, elem, isPreview);
       if (this.holdsContent(element) && tag !== 'button') {
-        // mainly used for <select> tag
+        // Mainly used for <select> tag
         appendContent.array.call(this, options);
         delete elem.content;
       } else {
@@ -370,31 +402,54 @@ class DOM {
     }
 
     if (elem.config) {
-      let editablePreview = (elem.config.editable && isPreview);
-      if (elem.config.hasOwnProperty('recaptcha') && elem.config.recaptcha && isPreview) {
-        elem.attrs.className += '-preview';
+      const editablePreview = (elem.config.editable && isPreview);
+      // Fix for removing preview class.
+      if (h.get(elem, 'config.recaptcha')) {
+        if (typeof elem.attrs.className == 'string') {
+          elem.attrs.className = elem.attrs.className.replaceAll('-preview', '');
+        }
       }
-      if (elem.config.hasOwnProperty('recaptcha') && elem.config.recaptcha && !isPreview) {
-        let renderCaptcha = new Function('element', 'key', 'grecaptcha.render(element, {sitekey: key});');
-        setTimeout(renderCaptcha(element, this.sitekey), 100);
+      if (h.get(elem, 'config.recaptcha') && !isPreview) {
+        let limit = 3;
+        const renderCaptcha = function() {
+          if (Object.prototype.hasOwnProperty.call(window, 'grecaptcha') &&
+            Object.prototype.hasOwnProperty.call(window.grecaptcha, 'render')) {
+            window.grecaptcha.render(element, {
+              sitekey: _this.sitekey,
+              callback: function(response) {
+                if (response) {
+                  const errorelem = document.querySelector('.g-recaptcha-error');
+                  errorelem.classList.remove('show');
+                }
+              }
+            });
+          } else {
+            if (--limit != 0) {
+              setTimeout(renderCaptcha, 1000);
+            } else {
+              element.querySelector('.g-recaptcha').innerHTML = getString('efb-google-recaptcha-not-loaded');
+            }
+          }
+        };
+        renderCaptcha();
       }
       if (elem.config.label && tag !== 'button') {
         let label = null;
 
         if (isPreview) {
-            label = _this.label(elem, 'config.label');
+          label = _this.label(elem, 'config.label');
         } else {
-            if (typeof elem.attrs.placeholder == 'undefined') {
-              elem.attrs.placeholder = 'label' in elem.config ? elem.config.label : '';
-            }
-            label = _this.label(elem);
+          if (typeof elem.attrs.placeholder === 'undefined') {
+            elem.attrs.placeholder = 'label' in elem.config ? elem.config.label : '';
+          }
+          label = _this.label(elem);
         }
         if (required) {
           label = [label, requiredMark];
         }
         if (!elem.config.hideLabel) {
           if (_this.labelAfter(elem)) {
-            // add check for inline checkbox
+            // Add check for inline checkbox
             wrap.className = `f-${elem.attrs.type}`;
             label.insertBefore(element, label.firstChild);
             wrap.content.push(label);
@@ -405,9 +460,9 @@ class DOM {
         } else if (editablePreview) {
           element.contentEditable = true;
           if (_this.labelAfter(elem)) {
-              wrap.className = `f-${elem.attrs.type}`;
-              label.insertBefore(element, label.firstChild);
-              wrap.content.push(label);
+            wrap.className = `f-${elem.attrs.type}`;
+            label.insertBefore(element, label.firstChild);
+            wrap.content.push(label);
           } else {
             wrap.content.push(label);
             wrap.content.push(element);
@@ -438,7 +493,7 @@ class DOM {
     // Set the new element's dataset
     if (elem.dataset) {
       for (const data in elem.dataset) {
-        if (elem.dataset.hasOwnProperty(data)) {
+        if (Object.prototype.hasOwnProperty.call(elem.dataset, data)) {
           element.dataset[data] = elem.dataset[data];
         }
       }
@@ -447,32 +502,36 @@ class DOM {
 
     // Add listeners for defined actions
     if (elem.action) {
-      let actions = Object.keys(elem.action);
+      const actions = Object.keys(elem.action);
+      const applyAction = function(action) {
+        setTimeout(() => {
+          action(element);
+        }, 10);
+      };
       for (i = actions.length - 1; i >= 0; i--) {
-        let event = actions[i];
+        const event = actions[i];
         let action = elem.action[event];
         if (typeof action === 'string') {
+          /* eslint no-eval: 0 */
           action = eval(`(${elem.action[event]})`);
         }
-        let useCaptureEvts = [
+        const useCaptureEvts = [
           'focus',
           'blur'
         ];
 
-        // dirty hack to handle onRender callback
+        // Dirty hack to handle onRender callback
         if (event === 'onRender') {
-          setTimeout(() => {
-            action(element);
-          }, 10);
+          applyAction(action);
         } else {
-          let useCapture = h.inArray(event, useCaptureEvts);
+          const useCapture = h.inArray(event, useCaptureEvts);
           element.addEventListener(event, action, useCapture);
         }
       }
       processed.push('action');
     }
 
-    let fieldDataBindings = [
+    const fieldDataBindings = [
       'stage',
       'row',
       'column',
@@ -480,7 +539,7 @@ class DOM {
     ];
 
     if (h.inArray(elem.fType, fieldDataBindings)) {
-      let dataType = elem.fType + 'Data';
+      const dataType = elem.fType + 'Data';
       element[dataType] = elem;
       if (dataType === 'fieldData') {
         element.panelNav = elem.panelNav;
@@ -489,7 +548,7 @@ class DOM {
     }
 
     // Subtract processed and ignored and attach the rest
-    let remaining = h.subtract(processed, Object.keys(elem));
+    const remaining = h.subtract(processed, Object.keys(elem));
     for (i = remaining.length - 1; i >= 0; i--) {
       element[remaining[i]] = elem[remaining[i]];
     }
@@ -510,13 +569,13 @@ class DOM {
    * @return {String} icon markup
    */
   icon(name) {
-    let iconLink = document.getElementById('icon-' + name);
+    const iconLink = document.getElementById('icon-' + name);
     let icon;
 
     if (iconLink) {
       icon = `<svg class="svg-icon svg-icon-${name}"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-${name}"></use></svg>`;
     } else {
-      //eslint-disable-next-line
+      // eslint-disable-next-line
       icon = `<span class="fa fa-${name}" aria-hidden="true"></span>`;
     }
     return icon;
@@ -530,7 +589,7 @@ class DOM {
    * @return {void}
    */
   processAttrs(elem, element, isPreview) {
-    let {attrs = {}} = elem;
+    const {attrs = {}} = elem;
     if (!isPreview) {
       if (!attrs.name && this.isInput(elem.tag)) {
         element.setAttribute('name', uuid(elem));
@@ -539,14 +598,14 @@ class DOM {
 
     // Set element attributes
     Object.keys(attrs).forEach(attr => {
-      let name = h.safeAttrName(attr);
-      if (name == 'tag') {
+      const name = h.safeAttrName(attr);
+      if (name === 'tag') {
         return;
       }
       let value = attrs[attr] || '';
       if (Array.isArray(value)) {
         if (typeof value[0] === 'object') {
-          let selected = value.filter(t => (t.selected === true));
+          const selected = value.filter(t => (t.selected === true));
           value = selected.length ? selected[0].value : value[0].value;
         } else {
           value = value.join(' ');
@@ -566,19 +625,19 @@ class DOM {
    * @return {Object} checkable
    */
   checkbox(elem, isPreview) {
-    let label = h.get(elem, 'elem.config.label') || '';
-    let checkable = {
+    const label = h.get(elem, 'elem.config.label') || '';
+    const checkable = {
       tag: 'span',
       className: 'checkable',
       content: label
     };
-    let optionLabel = {
+    const optionLabel = {
       tag: 'label',
       attrs: {},
       content: [elem, checkable]
     };
 
-    // if (isPreview) {
+    // If (isPreview) {
     //   input.fMap = `options[${i}].selected`;
     //   optionLabel.attrs.contenteditable = true;
     //   optionLabel.fMap = `options[${i}].label`;
@@ -609,11 +668,11 @@ class DOM {
    * @return {Array} option config objects
    */
   processOptions(options, elem, isPreview) {
-    let {action, attrs} = elem;
-    let fieldType = attrs.type || elem.tag;
-    let id = attrs.id || elem.id;
+    const {action, attrs} = elem;
+    const fieldType = attrs.type || elem.tag;
+    const id = attrs.id || elem.id;
 
-    let optionMap = (option, i) => {
+    const optionMap = (option, i) => {
       const defaultInput = () => {
         let input = {
           tag: 'input',
@@ -624,7 +683,7 @@ class DOM {
         input.attrs.id = id + '-' + i;
         input.attrs.type = fieldType;
         input.attrs.value = option.value || '';
-        let checkable = [{
+        const checkable = [{
           tag: 'span',
           className: 'checkable',
         }, {
@@ -640,7 +699,7 @@ class DOM {
           },
           content: [option.label]
         };
-        let inputWrap = {
+        const inputWrap = {
           tag: 'div',
           content: [optionLabel],
           className: [`f-${fieldType}`]
@@ -659,7 +718,7 @@ class DOM {
         if (option.selected) {
           input.attrs.checked = true;
         }
-        if (elem.tag == 'input' && (elem.attrs.type == 'radio' || elem.attrs.type == 'checkbox')) {
+        if (elem.tag === 'input' && (elem.attrs.type === 'radio' || elem.attrs.type === 'checkbox')) {
           input.attrs.name = elem.attrs.name;
         }
         if (isPreview) {
@@ -667,7 +726,7 @@ class DOM {
           optionLabel.attrs.contenteditable = true;
           optionLabel.fMap = `options[${i}].label`;
           checkable[1].content = undefined;
-          let checkableLabel = {
+          const checkableLabel = {
             tag: 'label',
             content: [input, checkable]
           };
@@ -682,7 +741,7 @@ class DOM {
         return inputWrap;
       };
 
-      let optionMarkup = {
+      const optionMarkup = {
         select: () => {
           return {
             tag: 'option',
@@ -691,7 +750,7 @@ class DOM {
           };
         },
         button: option => {
-          let {type, label, className, id} = option;
+          const {type, label, className, id} = option;
           return Object.assign({}, elem, {
             attrs: {
               type
@@ -757,7 +816,7 @@ class DOM {
    * @return {String}      parsed HTML
    */
   parsedHtml(html) {
-    let escapeElement = document.createElement('textarea');
+    const escapeElement = document.createElement('textarea');
     escapeElement.innerHTML = html;
     return escapeElement.textContent;
   }
@@ -768,8 +827,8 @@ class DOM {
    * @return {Boolean} labelAfter
    */
   labelAfter(elem) {
-    let type = h.get(elem, 'attrs.type');
-    let isCB = (type === 'checkbox' || type === 'radio');
+    const type = h.get(elem, 'attrs.type');
+    const isCB = (type === 'checkbox' || type === 'radio');
     return isCB || h.get(elem, 'config.labelAfter');
   }
 
@@ -780,16 +839,16 @@ class DOM {
    * @return {Object}      config object
    */
   label(elem, fMap) {
-    let fieldLabel = {
+    const fieldLabel = {
       tag: 'label',
       attrs: {},
       className: ['control-label'],
-      content: elem.config.label,
+      content: h.isHtml(elem.config.label) ? h.stripHtml(elem.config.label) : elem.config.label,
       action: {}
     };
 
     if (this.labelAfter(elem)) {
-      let checkable = {
+      const checkable = {
         tag: 'span',
         className: 'checkable',
         content: elem.config.label
@@ -802,7 +861,7 @@ class DOM {
     }
 
     if (fMap) {
-      // for attribute will prevent label focus
+      // For attribute will prevent label focus
       delete fieldLabel.attrs.for;
       fieldLabel.attrs.contenteditable = true;
       fieldLabel.fMap = fMap;
@@ -819,8 +878,8 @@ class DOM {
    */
   contentType(content, key = null) {
     let type = typeof content;
-    let longTextProperty = ['style'];
-    if (key != null && longTextProperty.indexOf(key) != -1) {
+    const longTextProperty = ['style'];
+    if (key !== null && longTextProperty.indexOf(key) !== -1) {
       type = 'textarea';
     } else if (content instanceof Node || content instanceof HTMLElement) {
       type = 'node';
@@ -853,7 +912,7 @@ class DOM {
    * @param {String} container class of form editor
    */
   repositionPanels(container) {
-    let panels = container.querySelectorAll('.panel-labels .active-tab');
+    const panels = container.querySelectorAll('.panel-labels .active-tab');
     let evt;
     panels.forEach(function(panel) {
       evt = new CustomEvent('click', {target: panel});
@@ -869,9 +928,9 @@ class DOM {
    * @param {String} type of panel need to be resized
    */
   resizeTabContainer(element, type = 'list') {
-    let container = closest(element, 'panel-tab-' + type);
+    const container = closest(element, 'panel-tab-' + type);
     if (container) {
-      let parentStyles = container.parentElement.style;
+      const parentStyles = container.parentElement.style;
       parentStyles.height = 'auto';
     }
   }
@@ -887,10 +946,10 @@ class DOM {
    * @return {Object} stage tabs configuration
    */
   getSettingItem(id, config, defaultConf, settingName, classPrefix = null, category = null) {
-    if (classPrefix == null) {
+    if (classPrefix === null) {
       classPrefix = settingName;
     }
-    let element = {
+    const element = {
       tag: 'li',
       className: classPrefix + '-wrap setting-wrap',
       content: [{
@@ -899,15 +958,15 @@ class DOM {
         content: config.title
       }]
     };
-    let input = {
+    const input = {
       tag: 'div',
       attrs: {
         className: classPrefix + '-inputs setting-inputs'
       },
       content: []
     };
-    let uid = uuid();
-    let inputControl = {
+    const uid = uuid();
+    const inputControl = {
       tag: 'input',
       attrs: {
         id: uid,
@@ -916,10 +975,10 @@ class DOM {
       },
       action: {
         change: event => {
-          let setting = formData.settings.get(settingName);
-          let inputTagType = elementTagType(event.target);
-          let target = event.target;
-          let value = target.value;
+          const setting = formData.settings.get(settingName);
+          const inputTagType = elementTagType(event.target);
+          const target = event.target;
+          const value = target.value;
           switch (inputTagType.tag) {
             case 'INPUT':
               switch (inputTagType.type) {
@@ -927,7 +986,7 @@ class DOM {
                   setting[category][id].value = target.checked;
                   break;
                 default:
-                  if (category != null) {
+                  if (category !== null) {
                     setting[category][id].value = value;
                   } else {
                     setting[id].value = value;
@@ -935,13 +994,13 @@ class DOM {
                   break;
               }
               break;
-              default:
-                if (category != null) {
-                  setting[category][id].value = value;
-                } else {
-                  setting[id].value = value;
-                }
-                break;
+            default:
+              if (category !== null) {
+                setting[category][id].value = value;
+              } else {
+                setting[id].value = value;
+              }
+              break;
           }
           if (target.previousSibling) {
             target.previousSibling.value = value;
@@ -964,9 +1023,9 @@ class DOM {
           },
           action: {
             change: event => {
-              let target = event.target;
+              const target = event.target;
               target.nextSibling.value = target.value;
-              let evt = new CustomEvent('change', {target: target.nextSibling});
+              const evt = new CustomEvent('change', {target: target.nextSibling});
               target.nextSibling.dispatchEvent(evt);
             }
           }
@@ -992,7 +1051,7 @@ class DOM {
         inputControl.tag = 'select';
         inputControl.options = [];
         Object.values(config.options).forEach(function(option) {
-          option.selected = option.value == config.value;
+          option.selected = option.value === config.value;
           inputControl.options.push(option);
         });
         break;
@@ -1000,7 +1059,7 @@ class DOM {
         inputControl.tag = 'textarea';
         inputControl.cols = 5;
         inputControl.content = config.value;
-        if (config.id == 'style') {
+        if (config.id === 'style') {
           inputControl.placeholder = getString('placeholder.style');
         }
         break;
@@ -1026,9 +1085,9 @@ class DOM {
           },
           action: {
             change: event => {
-              let target = event.target;
+              const target = event.target;
               target.previousSibling.value = target.value;
-              let evt = new CustomEvent('change', {target: target.previousSibling});
+              const evt = new CustomEvent('change', {target: target.previousSibling});
               target.previousSibling.dispatchEvent(evt);
             }
           }
@@ -1044,7 +1103,7 @@ class DOM {
         });
         break;
     }
-    let defaultConfig = {
+    const defaultConfig = {
       tag: 'div',
       attrs: {
         className: classPrefix + '-control setting-control'
@@ -1060,13 +1119,13 @@ class DOM {
         action: {
           click: event => {
             let target = event.target;
-            let setting = formData.settings.get(settingName);
+            const setting = formData.settings.get(settingName);
             if (target.classList.contains('restore-default')) {
               target = target.parentElement;
             }
-            let input = target.parentElement.previousSibling.childNodes[0];
-            let inputTagType = elementTagType(input);
-            let value = target.getAttribute('data-key');
+            const input = target.parentElement.previousSibling.childNodes[0];
+            const inputTagType = elementTagType(input);
+            const value = target.getAttribute('data-key');
             let opts;
             let opt;
             let i;
@@ -1074,12 +1133,12 @@ class DOM {
               case 'SELECT':
                 opts = input.childNodes;
                 for (i = 0; opt = opts[i]; i++) {
-                  if (opt.value == value) {
+                  if (opt.value === value) {
                     input.selectedIndex = i;
                     break;
                   }
                 }
-                if (category != null) {
+                if (category !== null) {
                   setting[category][id].value = value;
                 } else {
                   setting[id].value = value;
@@ -1088,11 +1147,11 @@ class DOM {
               case 'INPUT':
                 switch (inputTagType.type) {
                   case 'checkbox':
-                    input.checked = value == 'on';
+                    input.checked = value === 'on';
                     break;
                   default:
                     input.value = value;
-                    if (category != null) {
+                    if (category !== null) {
                       setting[category][id].value = value;
                     } else {
                       setting[id].value = value;
@@ -1102,14 +1161,14 @@ class DOM {
                 break;
               default:
                 input.value = value;
-                if (category != null) {
+                if (category !== null) {
                   setting[category][id].value = value;
                 } else {
                   setting[id].value = value;
                 }
                 break;
             }
-            let evt = new CustomEvent('change', {target: input});
+            const evt = new CustomEvent('change', {target: input});
             input.dispatchEvent(evt);
             formData.settings.set(settingName, setting);
             data.save();
@@ -1121,7 +1180,7 @@ class DOM {
         }]
       }]
     };
-    let setting = {
+    const setting = {
       tag: 'div',
       className: classPrefix + '-inputs-wrap setting-inputs-wrap',
       content: [input, defaultConfig]
@@ -1137,8 +1196,8 @@ class DOM {
     * @return {Object} stage tabs configuration container
     */
   getConfigContainer(category, resize = true) {
-    let _this = this;
-    let label = {
+    const _this = this;
+    const label = {
       tag: 'h4',
       className: 'category-label btn-primary p-10 m-0 collapsed',
       content: [getString('category-container-' + category), {
@@ -1151,30 +1210,34 @@ class DOM {
       action: {
         click: event => {
           let target = event.target;
-          if (target.tagName == 'I') {
+          if (target.tagName === 'I') {
             target = target.parentElement;
           }
-          let list = target.nextSibling;
-          if(target.classList.contains('collapsed')) {
+          const list = target.nextSibling;
+          if (target.classList.contains('collapsed')) {
             list.style.height = 'auto';
-            let height = list.clientHeight + 'px';
+            const height = list.clientHeight + 'px';
             list.style.height = '0px';
             target.classList.remove('collapsed');
             target.classList.add('collapsible');
-            resize ? _this.resizeTabContainer(target, 'config') : null;
+            if (resize) {
+              _this.resizeTabContainer(target, 'config');
+            }
             setTimeout(() => {
-                list.style.height = height;
+              list.style.height = height;
             }, 0);
           } else {
             list.style.height = '0px';
             target.classList.remove('collapsible');
             target.classList.add('collapsed');
-            resize ? _this.resizeTabContainer(target, 'config') : null;
+            if (resize) {
+              _this.resizeTabContainer(target, 'config');
+            }
           }
         },
       }
     };
-    let settings = {
+    const settings = {
       tag: 'ul',
       className: 'category-settings',
       content: []
@@ -1193,13 +1256,13 @@ class DOM {
    * @return {Object}             DOM element
    */
   getElement(elem) {
-    let getElement = {
-        node: () => elem,
-        object: () => document.getElementById(elem.id),
-        string: () => document.getElementById(elem)
-      };
-    let type = this.contentType(elem);
-    let element = getElement[type]();
+    const getElement = {
+      node: () => elem,
+      object: () => document.getElementById(elem.id),
+      string: () => document.getElementById(elem)
+    };
+    const type = this.contentType(elem);
+    const element = getElement[type]();
 
     return element;
   }
@@ -1224,37 +1287,23 @@ class DOM {
    * @return {Object}      element config object
    */
   actionButtons(id, item = 'column') {
-    let _this = this;
-    let tag = (item === 'column' ? 'li' : 'div');
-    let btnWrap = {
-        tag: 'div',
-        className: 'action-btn-wrap'
-      };
-    let actions = {
+    const _this = this;
+    const tag = (item === 'column' ? 'li' : 'div');
+    const btnWrap = {
+      tag: 'div',
+      className: 'action-btn-wrap'
+    };
+    const actions = {
       tag,
       className: item + '-actions group-actions',
       action: {
         mouseenter: evt => {
-          let element = document.getElementById(id);
+          const element = document.getElementById(id);
           element.classList.add('hovering-' + item);
           evt.target.parentReference = element;
         },
         mouseleave: evt => {
           evt.target.parentReference.classList.remove('hovering-' + item);
-        },
-        onRender: elem => {
-          const buttons = elem.getElementsByTagName('button');
-          let btnWidth = parseInt(_this.getStyle(buttons[0], 'width')) + 1;
-          const expandedWidth = (buttons.length * btnWidth) + 'px';
-          const woh = item === 'row' ? 'height' : 'width';
-          let rules = [
-            [
-              `.hovering-${item} .${item}-actions`,
-              [woh, expandedWidth, true]
-            ]
-          ];
-
-          _this.insertRule(rules);
         }
       }
     };
@@ -1272,10 +1321,10 @@ class DOM {
    * @return {Object} cloned element
    */
   clone(elem, parent) {
-    let _this = this;
-    let {id, fType} = elem;
-    let dataClone = clone(formData[fType].get(id));
-    let newIndex = h.indexOfNode(elem) + 1;
+    const _this = this;
+    const {id, fType} = elem;
+    const dataClone = clone(clone(formData[fType].get(id)));
+    const newIndex = h.indexOfNode(elem) + 1;
     let noParent = false;
     dataClone.id = uuid();
     formData[fType].set(dataClone.id, dataClone);
@@ -1300,7 +1349,7 @@ class DOM {
         const newColumn = _this.addColumn(parent.id, dataClone.id);
         parent.insertBefore(newColumn, parent.childNodes[newIndex]);
         data.saveColumnOrder(parent);
-        let fields = elem.getElementsByClassName('stage-fields');
+        const fields = elem.getElementsByClassName('stage-fields');
 
         if (noParent) {
           dom.columnWidths(parent);
@@ -1327,10 +1376,10 @@ class DOM {
   canRemoveElement(container) {
     let elementType = container.fType;
     let message = '';
-    let check = {
+    const check = {
       fields: (field) => {
         field = formData.fields.get(field);
-        if (field.hasOwnProperty('attrs') && field.attrs.hasOwnProperty('template')) {
+        if (h.get(field, 'attrs.template')) {
           if (field.attrs.template) {
             message += field.config.label + '<br>';
           }
@@ -1339,18 +1388,18 @@ class DOM {
       columns: (column) => {
         column = formData.columns.get(column);
         column.fields.forEach(function(field) {
-          check['fields'](field);
+          check.fields(field);
         });
       },
       rows: (row) => {
         row = formData.rows.get(row);
         row.columns.forEach(function(column) {
-          check['columns'](column);
+          check.columns(column);
         });
       }
     };
     check[elementType](container.id);
-    if (message != '') {
+    if (message !== '') {
       elementType = elementType.slice(0, elementType.length - 1);
       message = getString('cannotremove', elementType) + message;
       this.alert('danger', message);
@@ -1365,12 +1414,11 @@ class DOM {
    * @return {Object} formData
    */
   removeEmpty(element) {
-    let _this = this;
-    let parent = element.parentElement;
-    let type = element.fType;
-    let children;
+    const _this = this;
+    const parent = element.parentElement;
+    const type = element.fType;
     _this.remove(element);
-    children = parent.getElementsByClassName('stage-' + type);
+    const children = parent.getElementsByClassName('stage-' + type);
     if (!children.length) {
       if (parent.fType !== 'stages') {
         return _this.removeEmpty(parent);
@@ -1390,10 +1438,10 @@ class DOM {
    * @return  {Object} parent element
    */
   remove(elem) {
-    let {fType, id} = elem;
+    const {fType, id} = elem;
     if (fType) {
-      let parent = elem.parentElement;
-      let pData = formData[parent.fType].get(parent.id);
+      const parent = elem.parentElement;
+      const pData = formData[parent.fType].get(parent.id);
       data.empty(fType, id);
       this[fType].delete(id);
       formData[fType].delete(id);
@@ -1409,8 +1457,8 @@ class DOM {
    * @param  {String | Array} className
    */
   removeClasses(nodeList, className) {
-    let _this = this;
-    let removeClass = {
+    const _this = this;
+    const removeClass = {
       string: elem => {
         elem.className = elem.className.replace(className, '');
       },
@@ -1420,7 +1468,7 @@ class DOM {
         }
       }
     };
-    removeClass.object = removeClass.string; // handles regex map
+    removeClass.object = removeClass.string; // Handles regex map
     h.forEach(nodeList, removeClass[_this.contentType(className)]);
   }
 
@@ -1431,8 +1479,8 @@ class DOM {
    * @param  {String | Array} className
    */
   addClasses(nodeList, className) {
-    let _this = this;
-    let addClass = {
+    const _this = this;
+    const addClass = {
       string: elem => {
         elem.classList.add(className);
       },
@@ -1450,7 +1498,7 @@ class DOM {
    * @param  {[type]} column [description]
    */
   fieldOrderClass(column) {
-    let fields = column.querySelectorAll('.stage-fields');
+    const fields = column.querySelectorAll('.stage-fields');
 
     if (fields.length) {
       this.removeClasses(fields, ['first-field', 'last-field']);
@@ -1464,22 +1512,22 @@ class DOM {
    * @param  {Object}  row    DOM element
    */
   columnWidths(row) {
-    let _this = this;
-    let fields = [];
-    let columns = row.getElementsByClassName('stage-columns');
+    const _this = this;
+    const fields = [];
+    const columns = row.getElementsByClassName('stage-columns');
     if (!columns.length) {
       return;
     }
-      let width = parseFloat((100 / columns.length).toFixed(1))/1;
-    let bsGridRegEx = /\bcol-\w+-\d+/g;
+    const width = parseFloat((100 / columns.length).toFixed(1)) / 1;
+    const bsGridRegEx = /\bcol-\w+-\d+/g;
 
     _this.removeClasses(columns, bsGridRegEx);
 
     h.forEach(columns, column => {
-      let columnData = formData.columns.get(column.id);
+      const columnData = formData.columns.get(column.id);
       fields.push(...columnData.fields);
 
-      let colWidth = numToPercent(width);
+      const colWidth = numToPercent(width);
 
       column.style.width = colWidth;
       column.style.float = 'left';
@@ -1490,7 +1538,7 @@ class DOM {
 
     setTimeout(() => {
       fields.forEach(fieldID => {
-        let field = dom.fields.get(fieldID);
+        const field = dom.fields.get(fieldID);
         if (field.instance.panels) {
           field.instance.panels.nav.refresh();
         }
@@ -1520,24 +1568,24 @@ class DOM {
    * @return {Object}       [description]
    */
   columnPresetControl(rowID) {
-    let _this = this;
-    let rowData = formData.rows.get(rowID);
-    let layoutPreset = {
-        tag: 'select',
-        attrs: {
-          ariaLabel: getString('columnlayout'),
-          className: 'column-preset'
-        },
-        action: {
-          change: e => {
-            let dRow = this.rows.get(rowID);
-            _this.setColumnWidths(dRow.row, e.target.value);
-            data.save();
-          }
+    const _this = this;
+    const rowData = formData.rows.get(rowID);
+    const layoutPreset = {
+      tag: 'select',
+      attrs: {
+        ariaLabel: getString('columnlayout'),
+        className: 'column-preset'
+      },
+      action: {
+        change: e => {
+          const dRow = this.rows.get(rowID);
+          _this.setColumnWidths(dRow.row, e.target.value);
+          data.save();
         }
-      };
-    let pMap = new Map();
-    let custom = {value: 'custom', label: getString('custom')};
+      }
+    };
+    const pMap = new Map();
+    const custom = {value: 'custom', label: getString('custom')};
 
     pMap.set(1, [{value: '100.0', label: '100%'}]);
     pMap.set(2, [
@@ -1565,25 +1613,25 @@ class DOM {
       {value: '20.0,20.0,30.0,30.0', label: '20 | 20 | 30 | 30'},
       {value: '30.0,20.0,20.0,30.0', label: '30 | 20 | 20 | 30'},
       custom
-      ]);
+    ]);
     pMap.set('custom', [custom]);
 
     if (rowData && rowData.columns.length) {
-      let columns = rowData.columns;
-      let pMapVal = pMap.get(columns.length);
+      const columns = rowData.columns;
+      const pMapVal = pMap.get(columns.length);
       layoutPreset.options = pMapVal || pMap.get('custom');
-      let curVal = columns.map((columnID, i) => {
-        let colData = formData.columns.get(columnID);
+      const curVal = columns.map((columnID, i) => {
+        const colData = formData.columns.get(columnID);
         return colData.config.width.replace('%', '');
       }).join(',');
       if (pMapVal) {
         pMapVal.forEach((val, i) => {
-          let options = layoutPreset.options;
+          const options = layoutPreset.options;
           if (val.value === curVal) {
             options[i].selected = true;
           } else {
             delete options[i].selected;
-            options[options.length-1].selected = true;
+            options[options.length - 1].selected = true;
           }
         });
       }
@@ -1604,9 +1652,9 @@ class DOM {
       return;
     }
     widths = widths.split(',');
-    let columns = row.getElementsByClassName('stage-columns');
+    const columns = row.getElementsByClassName('stage-columns');
     h.forEach(columns, (column, i) => {
-      let percentWidth = widths[i] + '%';
+      const percentWidth = widths[i] + '%';
       column.dataset.colWidth = percentWidth;
       column.style.width = percentWidth;
       formData.columns.get(column.id).config.width = percentWidth;
@@ -1619,11 +1667,11 @@ class DOM {
    * @return {Object} columnPresetConfig
    */
   updateColumnPreset(row) {
-    let _this = this;
-    let oldColumnPreset = row.querySelector('.column-preset');
-    let rowEdit = oldColumnPreset.parentElement;
-    let columnPresetConfig = _this.columnPresetControl(row.id);
-    let newColumnPreset = _this.create(columnPresetConfig);
+    const _this = this;
+    const oldColumnPreset = row.querySelector('.column-preset');
+    const rowEdit = oldColumnPreset.parentElement;
+    const columnPresetConfig = _this.columnPresetControl(row.id);
+    const newColumnPreset = _this.create(columnPresetConfig);
 
     rowEdit.replaceChild(newColumnPreset, oldColumnPreset);
     return columnPresetConfig;
@@ -1636,8 +1684,8 @@ class DOM {
    * @return {Object}      {x,y} coordinates
    */
   coords(element) {
-    let elemPosition = element.getBoundingClientRect();
-    let bodyRect = document.body.getBoundingClientRect();
+    const elemPosition = element.getBoundingClientRect();
+    const bodyRect = document.body.getBoundingClientRect();
 
     return {
       pageX: elemPosition.left + (elemPosition.width / 2),
@@ -1655,9 +1703,9 @@ class DOM {
       stage = this.activeStage;
     }
 
-    let rows = formData.stages.get(stage.id).rows;
+    const rows = formData.stages.get(stage.id).rows;
     return rows.forEach(rowID => {
-      let row = this.addRow(stage.id, rowID);
+      const row = this.addRow(stage.id, rowID);
       this.loadColumns(row);
       dom.updateColumnPreset(row);
       stage.appendChild(row);
@@ -1669,9 +1717,9 @@ class DOM {
    * @param  {Object} row
    */
   loadColumns(row) {
-    let columns = formData.rows.get(row.id).columns;
+    const columns = formData.rows.get(row.id).columns;
     columns.forEach(columnID => {
-      let column = this.addColumn(row.id, columnID);
+      const column = this.addColumn(row.id, columnID);
       this.loadFields(column);
     });
   }
@@ -1681,7 +1729,7 @@ class DOM {
    * @param  {Object} column column config object
    */
   loadFields(column) {
-    let fields = formData.columns.get(column.id).fields;
+    const fields = formData.columns.get(column.id).fields;
     fields.forEach(fieldID => this.addField(column.id, fieldID));
     this.fieldOrderClass(column);
   }
@@ -1692,9 +1740,9 @@ class DOM {
    * @return {Object}     column
    */
   createColumn(evt) {
-    let fType = evt.from.fType;
-    let field = fType === 'columns' ? evt.item : new Field(evt.item.id);
-    let column = new Column();
+    const fType = evt.from.fType;
+    const field = fType === 'columns' ? evt.item : new Field(evt.item.id);
+    const column = new Column();
 
     field.classList.add('first-field');
     column.appendChild(field);
@@ -1711,7 +1759,7 @@ class DOM {
     if (columnData.className) {
       columnData.className.push('f-render-column');
     }
-    let colWidth = columnData.config.width || '100%';
+    const colWidth = columnData.config.width || '100%';
     columnData.style = `width: ${colWidth}`;
     return columnData;
   }
@@ -1727,7 +1775,7 @@ class DOM {
           return false;
         }
       }
-    } else if (typeof element.checkValidity == 'function') {
+    } else if (typeof element.checkValidity === 'function') {
       element.setCustomValidity('');
       if (element.checkValidity()) {
         return true;
@@ -1746,15 +1794,15 @@ class DOM {
    * @return {Object} submit button object
    */
   getFormSubmitButton(extraClass = '') {
-    let formSettings = this.getFormSettings();
+    const formSettings = this.getFormSettings();
     return {
       tag: 'button',
       attrs: {
         id: 'submit-form',
-        className: formSettings.submit['class'].value + extraClass,
+        className: formSettings.submit.class.value + extraClass,
         type: 'button',
         'data-processing': formSettings.submit['processing-text'].value,
-        style: formSettings.submit['style'].value
+        style: formSettings.submit.style.value
       },
       action: {
         click: evt => {
@@ -1762,7 +1810,7 @@ class DOM {
           return;
         }
       },
-      content: formSettings.submit['text'].value
+      content: formSettings.submit.text.value
     };
   }
 
@@ -1771,8 +1819,8 @@ class DOM {
    * @return {String} position of submit button
    */
   getSubmitButtonPosition() {
-    let formSettings = this.getFormSettings();
-    let position = formSettings.submit['position'].value;
+    const formSettings = this.getFormSettings();
+    let position = formSettings.submit.position.value;
     position = position ? position : 'center';
     return 'text-' + position;
   }
@@ -1783,33 +1831,33 @@ class DOM {
    * @return {Object} element
    */
   getElementFromCondition(condition) {
-    let _this = this;
-    let source = condition.content[0].options;
+    const _this = this;
+    const source = condition.content[0].options;
     if (source.length < 2) {
       return {
         status: false
       };
     }
-    let value = condition.content[1].options;
-    if (value.length == 0) {
+    const value = condition.content[1].options;
+    if (value.length === 0) {
       return {
         status: false
       };
     }
-    let operator = condition.content[2].options;
+    const operator = condition.content[2].options;
     let sourceSelected = null;
     let valueSelected = null;
     let operatorSelected = null;
     if (source.length > 0) {
       sourceSelected = source[0].value;
       for (let i = 0; i < source.length; i++) {
-        if (source[i].selected == true) {
+        if (source[i].selected === true) {
           sourceSelected = source[i].value;
           break;
         }
       }
       sourceSelected = _this.renderTarget.querySelectorAll('[id*="' + sourceSelected + '"]');
-      if (sourceSelected.length == 0) {
+      if (sourceSelected.length === 0) {
         return {
           status: false
         };
@@ -1818,7 +1866,7 @@ class DOM {
     if (value.length > 0) {
       valueSelected = value[0].value;
       for (let i = 0; i < value.length; i++) {
-        if (value[i].selected == true) {
+        if (value[i].selected === true) {
           valueSelected = value[i].value;
           break;
         }
@@ -1827,7 +1875,7 @@ class DOM {
     if (operator.length > 0) {
       operatorSelected = operator[0].value;
       for (let i = 0; i < operator.length; i++) {
-        if (operator[i].selected == true) {
+        if (operator[i].selected === true) {
           operatorSelected = operator[i].value;
           break;
         }
@@ -1847,12 +1895,12 @@ class DOM {
    * @return {String} value selected in element
    */
   getConditionChangedValue(elements) {
-    let elementType = elementTagType(elements[0]);
+    const elementType = elementTagType(elements[0]);
     switch (elementType.tag) {
       case 'SELECT':
         return elements[0].value;
       case 'INPUT':
-        if (elementType.type == 'radio') {
+        if (elementType.type === 'radio') {
           for (let i = 0; i < elements.length; i++) {
             if (elements[i].checked) {
               return elements[i].value;
@@ -1870,7 +1918,7 @@ class DOM {
    * @param {DOM} container on which conditions are applied
    */
   executeCondition(elements, container) {
-    let _this = this;
+    const _this = this;
     let result = null;
     let tempResult;
     let element;
@@ -1879,12 +1927,12 @@ class DOM {
     if (elements.length > 0) {
       element = elements[0];
       value = _this.getConditionChangedValue(element.source);
-      result = value == element.value;
+      result = value === element.value;
     }
     for (i = 1; i < elements.length - 1; i++) {
       element = elements[i];
       value = _this.getConditionChangedValue(element.source);
-      tempResult = value == element.value;
+      tempResult = value === element.value;
       switch (elements[i - 1].operator) {
         case 'AND':
           result = result && tempResult;
@@ -1897,7 +1945,7 @@ class DOM {
     if (i < elements.length) {
       element = elements[i];
       value = _this.getConditionChangedValue(element.source);
-      tempResult = value == element.value;
+      tempResult = value === element.value;
       switch (elements[i - 1].operator) {
         case 'AND':
           result = result && tempResult;
@@ -1907,7 +1955,7 @@ class DOM {
           break;
       }
     }
-    if (result == true) {
+    if (result === true) {
       container.style.display = 'flex';
     } else {
       container.style.display = 'none';
@@ -1920,22 +1968,22 @@ class DOM {
    * @param {DOM} container on which conditions are applied
    */
   processEachCondition(conditions, container) {
-    let _this = this;
-    let elements = [];
+    const _this = this;
+    const elements = [];
     let condition;
     let element;
     let elementType;
     for (let i = 0; i < conditions.length; i++) {
       condition = conditions[i];
       element = _this.getElementFromCondition(condition);
-      if (element.status == true) {
+      if (element.status === true) {
         elements.push(element);
       }
     }
-    if (elements.length != 0) {
+    if (elements.length !== 0) {
       container.style.display = 'none';
     }
-    for (let i= 0; i < elements.length; i++) {
+    for (let i = 0; i < elements.length; i++) {
       element = elements[i];
       elementType = elementTagType(element.source[0]);
       switch (elementType.tag) {
@@ -1945,7 +1993,7 @@ class DOM {
           });
           break;
         case 'INPUT':
-          if (elementType.type == 'radio') {
+          if (elementType.type === 'radio') {
             for (let i = 0; i < element.source.length; i++) {
               element.source[i].addEventListener('click', function(event) {
                 _this.executeCondition(elements, container);
@@ -1962,11 +2010,11 @@ class DOM {
    * @param {Map} rows map of rows
    */
   applyConditions(rows) {
-    let _this = this;
+    const _this = this;
     rows.forEach(function(row) {
-      let id = row.id;
+      const id = row.id;
       if (row.conditions.length > 0) {
-        let DOMrow = _this.renderTarget.querySelector('[id="' + id + '"]');
+        const DOMrow = _this.renderTarget.querySelector('[id="' + id + '"]');
         _this.processEachCondition(row.conditions, DOMrow);
       }
     });
@@ -1977,7 +2025,7 @@ class DOM {
    * @return {Object} formSettings
    */
   getFormDefaultSettings() {
-    let formSettings = {
+    const formSettings = {
       'class': {
         title: getString('class'),
         id: 'class',
@@ -2049,7 +2097,7 @@ class DOM {
         value: ''
       }
     };
-    let submitButtonSetting = {
+    const submitButtonSetting = {
       'class': {
         title: getString('class'),
         id: 'class',
@@ -2095,7 +2143,7 @@ class DOM {
         value: ''
       }
     };
-    let pageSetting = {
+    const pageSetting = {
       'class': {
         title: getString('class'),
         id: 'class',
@@ -2132,11 +2180,15 @@ class DOM {
    * @return {Object} formSettings with replaced labels
    */
   getFormSettings() {
+    /* eslint prefer-const: 0 */
     let formSettings = this.getFormDefaultSettings();
-    if (formData.settings.get('formSettings') != undefined) {
-      for (let [category] of Object.entries(formSettings)) {
-        Object.assign(formSettings[category], formData.settings.get('formSettings')[category]);
-      }
+    const savedSettings = formData ? formData.settings.get('formSettings') : null;
+    if (savedSettings !== undefined && savedSettings !== null) {
+      Object.keys(formSettings).forEach(key => {
+        if (Object.prototype.hasOwnProperty.call(savedSettings, key)) {
+          Object.assign(formSettings[key], savedSettings[key]);
+        }
+      });
     }
     return formSettings;
   }
@@ -2148,28 +2200,28 @@ class DOM {
    * @return {String} styles
    */
   mergeStyles(settings, styles) {
-    let stylesObj = {};
+    const stylesObj = {};
     let prop;
     let val;
     let styleString = '';
     let index;
     styles = styles.trim();
-    if (styles != '') {
+    if (styles !== '') {
       styles = styles.split(';');
       h.forEach(styles, function(style, i) {
         style = style.trim();
-        if (style != '') {
+        if (style !== '') {
           index = style.indexOf(':');
           prop = style.substring(0, index).trim();
           val = style.substring(index + 1).trim();
-          if (prop != '' && val != '') {
+          if (prop !== '' && val !== '') {
             stylesObj[prop] = val;
           }
         }
       });
       settings = h.merge(settings, stylesObj);
     }
-    for (let [prop1, val1] of Object.entries(settings)) {
+    for (const [prop1, val1] of Object.entries(settings)) {
       styleString += prop1 + ': ' + val1 + '; ';
     }
     return styleString;
@@ -2180,7 +2232,7 @@ class DOM {
    * @return {Number} Max column
    */
   getMaxColumnCount() {
-    if (formData.rows.size == 0) {
+    if (formData.rows.size === 0) {
       return 0;
     }
     let maxColumns = 0;
@@ -2197,18 +2249,18 @@ class DOM {
    * @param {Boolean} fullpage Is for opened in full page or embedded
    */
   manageFormWidth(fullpage) {
-    let formSettings = this.getFormSettings();
-    let maxColumns = this.getMaxColumnCount();
-    let width = formSettings.form['width'] ? formSettings.form['width'].value : '100';
+    const formSettings = this.getFormSettings();
+    const maxColumns = this.getMaxColumnCount();
+    const width = formSettings.form.width ? formSettings.form.width.value : '100';
     this.renderTarget.style.width = width + '%';
-    let toggleClass = status => {
+    const toggleClass = status => {
       this.renderTarget.classList.toggle('edwiser-inline-form', status);
     };
-    if (formSettings.form['responsive'].value == false) {
+    if (formSettings.form.responsive.value === false) {
       toggleClass(false);
       return;
     }
-    let availableWidth = document.getElementById(`formeo-rendered-${document.getElementsByClassName('formeo-render').length - 1}`).offsetWidth;
+    const availableWidth = document.getElementById(`formeo-rendered-${document.getElementsByClassName('formeo-render').length - 1}`).offsetWidth;
     switch (maxColumns) {
       case 0:
       case 1:
@@ -2234,51 +2286,42 @@ class DOM {
    * @param {DOM} renderTarget
    */
   processFormSettings(renderTarget) {
-    let formSettings = this.getFormSettings();
+    const formSettings = this.getFormSettings();
     // Getting form setting like classname, color and background color
-    let className = formSettings.form['class'] ? formSettings.form['class'].value : '';
-    let color = formSettings.form['color'] ? formSettings.form['color'].value : 'inherit';
-    let backgroundColor = formSettings.form['background-color'] ? formSettings.form['background-color'].value : 'inherit';
-    let padding = formSettings.form['padding'] ? formSettings.form['padding'].value : '25';
-    let styles = formSettings.form['style'] ? formSettings.form['style'].value : '';
+    const className = formSettings.form.class ? formSettings.form.class.value : '';
+    const color = formSettings.form.color ? formSettings.form.color.value : 'inherit';
+    const backgroundColor = formSettings.form['background-color'] ? formSettings.form['background-color'].value : 'inherit';
+    const padding = formSettings.form.padding ? formSettings.form.padding.value : '25';
+    const width = formSettings.form.width ? formSettings.form.width.value : '100';
+    const margin = width == 100 ? '0 auto' : '5% auto';
     renderTarget.classList.add(className);
     // Adding form class in renderTarget to apply settings
-    let settings = {
+    const settings = {
       color: color,
       'background-color': backgroundColor,
-      margin: '0 auto',
+      margin: margin,
       padding: padding + 'px'
     };
+    let styles = formSettings.form.style ? formSettings.form.style.value : '';
     styles = this.mergeStyles(settings, styles);
     renderTarget.setAttribute('style', styles);
     this.manageFormWidth();
   }
 
-    /**
+  /**
    * Processing form settings
    * @param {DOM} renderTarget
    */
   processPageSettings(renderTarget) {
-    let formSettings = this.getFormSettings();
+    const formSettings = this.getFormSettings();
     // Getting form setting like classname, style
-    let className = formSettings.page['class'] ? formSettings.page['class'].value : '';
-    let styles = formSettings.page['style'] ? formSettings.page['style'].value : '';
-    let backgroundopacity = formSettings.page['background-opacity'] ? formSettings.page['background-opacity'].value : '0';
-    let id = 'edwiserform-background-cover';
-    let style = `position: fixed; width: 100%; height: 100%; background: rgba(0,0,0,${backgroundopacity});`;
-    let cover = document.getElementById(id);
-    if (!cover) {
-      renderTarget.parentElement.before(this.create({
-        tag: 'div',
-        attrs: {
-          id: id,
-          style: style
-        }
-      }));
-    } else {
-      cover.setAttribute('style', style);
-    }
-    let preview = document.getElementById('efb-cont-form-preview');
+    const className = formSettings.page.class ? formSettings.page.class.value : '';
+    const styles = formSettings.page.style ? formSettings.page.style.value : '';
+    const backgroundopacity = formSettings.page['background-opacity'] ? formSettings.page['background-opacity'].value : '0';
+    renderTarget.parentElement.style.background = 'rgba(0, 0, 0, ' + backgroundopacity + ')';
+    renderTarget.parentElement.style.margin = '0';
+    renderTarget.parentElement.style.padding = '0';
+    const preview = document.getElementById('efb-cont-form-preview');
     // Adding page class in body element
     if (className != '') {
       preview.classList.add(className);
@@ -2296,25 +2339,25 @@ class DOM {
   renderForm(renderTarget) {
     this.empty(renderTarget);
     this.renderTarget = renderTarget;
-    let renderData = data.prepData;
-    let renderCount = document.getElementsByClassName('formeo-render').length;
+    const renderData = data.prepData;
+    const renderCount = document.getElementsByClassName('formeo-render').length;
     let first = true;
-    let content = Object.values(renderData.stages).map(stageData => {
+    const content = Object.values(renderData.stages).map(stageData => {
       let {rows, ...stage} = stageData;
       rows = rows.map(rowID => {
         let {columns, ...row} = renderData.rows[rowID];
-        let cols = columns.map(columnID => {
-          let col = this.processColumnConfig(renderData.columns[columnID]);
-          let fields = col.fields.map(fieldID => renderData.fields[fieldID]);
+        const cols = columns.map(columnID => {
+          const col = this.processColumnConfig(renderData.columns[columnID]);
+          const fields = col.fields.map(fieldID => renderData.fields[fieldID]);
           col.tag = 'div';
           col.content = fields;
           return col;
         });
         row.tag = 'div';
         row.content = [cols];
-        let rowData = clone(row);
+        const rowData = clone(row);
         if (row.config.inputGroup) {
-          let removeButton = {
+          const removeButton = {
             tag: 'button',
             className: 'remove-input-group',
             content: dom.icon('remove'),
@@ -2326,9 +2369,9 @@ class DOM {
                 e.target.parentElement.classList.remove('will-remove');
               },
               click: e => {
-                let currentInputGroup = e.target.parentElement;
-                let iGWrap = currentInputGroup.parentElement;
-                let iG = iGWrap.getElementsByClassName('f-input-group');
+                const currentInputGroup = e.target.parentElement;
+                const iGWrap = currentInputGroup.parentElement;
+                const iG = iGWrap.getElementsByClassName('f-input-group');
                 if (iG.length > 1) {
                   dom.remove(currentInputGroup);
                 } else {
@@ -2338,19 +2381,19 @@ class DOM {
             }
           };
           rowData.content.unshift(removeButton);
-          let inputGroupWrap = {
+          const inputGroupWrap = {
             tag: 'div',
             id: uuid(),
             className: 'f-input-group-wrap'
           };
-            if (rowData.attrs.className) {
-              if (typeof rowData.attrs.className === 'string') {
-                rowData.attrs.className += ' f-input-group';
-              } else {
-                rowData.attrs.className.push('f-input-group');
-              }
+          if (rowData.attrs.className) {
+            if (typeof rowData.attrs.className === 'string') {
+              rowData.attrs.className += ' f-input-group';
+            } else {
+              rowData.attrs.className.push('f-input-group');
             }
-          let addButton = {
+          }
+          const addButton = {
             tag: 'button',
             attrs: {
               className: 'add-input-group btn pull-right',
@@ -2359,8 +2402,8 @@ class DOM {
             content: 'Add +',
             action: {
               click: e => {
-                let fInputGroup = e.target.parentElement;
-                let newRow = dom.create(rowData);
+                const fInputGroup = e.target.parentElement;
+                const newRow = dom.create(rowData);
                 fInputGroup.insertBefore(newRow, fInputGroup.lastChild);
               }
             }
@@ -2385,7 +2428,7 @@ class DOM {
       return stage;
     });
 
-    let config = {
+    const config = {
       tag: 'div',
       id: `formeo-rendered-${renderCount}`,
       className: 'formeo-render formeo',
@@ -2413,7 +2456,7 @@ class DOM {
    */
   clearStep(evt) {
     this.clearStage(dom.activeStage);
-    // this.stages.forEach(dStage => this.clearStage(dStage.stage));
+    // This.stages.forEach(dStage => this.clearStage(dStage.stage));
   }
 
   /**
@@ -2434,7 +2477,7 @@ class DOM {
       });
     };
 
-    // var markEmptyArray = [];
+    // Var markEmptyArray = [];
 
     // if (opts.prepend) {
     //   markEmptyArray.push(true);
@@ -2449,7 +2492,7 @@ class DOM {
     // }
 
     animate.slideUp(stage, 600, resetStage);
-    // animate.slideUp(stage, 2000);
+    // Animate.slideUp(stage, 2000);
   }
 
   /**
@@ -2459,8 +2502,8 @@ class DOM {
    * @return {Object} DOM element
    */
   addRow(stageID, rowID) {
-    let row = new Row(rowID);
-    let stage = stageID ? this.stages.get(stageID).stage : this.activeStage;
+    const row = new Row(rowID);
+    const stage = stageID ? this.stages.get(stageID).stage : this.activeStage;
     stage.appendChild(row);
     data.saveRowOrder(stage);
     this.emptyClass(stage);
@@ -2483,8 +2526,8 @@ class DOM {
    * @return {Object} DOM element
    */
   addColumn(rowID, columnID) {
-    let column = new Column(columnID);
-    let row = this.rows.get(rowID).row;
+    const column = new Column(columnID);
+    const row = this.rows.get(rowID).row;
     row.appendChild(column);
     data.saveColumnOrder(row);
     this.emptyClass(row);
@@ -2506,11 +2549,11 @@ class DOM {
    * @param  {Boolean} state
    */
   toggleSortable(elem, state) {
-    let {fType} = elem;
+    const {fType} = elem;
     if (!fType) {
       return;
     }
-    let pFtype = elem.parentElement.fType;
+    const pFtype = elem.parentElement.fType;
     const sortable = dom[fType].get(elem.id).sortable;
     if (state === undefined) {
       state = !sortable.option('disabled');
@@ -2530,13 +2573,13 @@ class DOM {
    */
   addField(columnID, fieldID, action = null) {
     let field;
-    if (action == 'clone') {
+    if (action === 'clone') {
       field = new Field(fieldID, action);
     } else {
       field = new Field(fieldID);
     }
     if (columnID) {
-      let column = this.columns.get(columnID).column;
+      const column = this.columns.get(columnID).column;
       column.appendChild(field);
       data.saveFieldOrder(column);
       this.emptyClass(column);
@@ -2558,8 +2601,8 @@ class DOM {
    */
   toggleFormDeleteAction() {
     if (this.container) {
-      let action = this.container.querySelector('.item-delete-form');
-      let result = formData.fields.size == 0 && formData.stages.size == 1;
+      const action = this.container.querySelector('.item-delete-form');
+      const result = formData.fields.size === 0 && formData.stages.size === 1;
       if (action) {
         action.classList.toggle('d-none', result);
         action.parentElement.parentElement.classList.toggle('hide-delete', result);
@@ -2573,15 +2616,19 @@ class DOM {
    * @param  {Object} elem
    */
   emptyClass(elem) {
-    let type = elem.fType;
+    const type = elem.fType;
     if (type) {
-      let childMap = new Map();
+      const childMap = new Map();
       childMap.set('rows', 'columns');
       childMap.set('columns', 'fields');
       childMap.set('stages', 'rows');
-      let children = elem.getElementsByClassName(`stage-${childMap.get(type)}`);
-      elem.classList.toggle(`empty-${type}`, !children.length);
-      if (type == 'stages') {
+      const children = elem.getElementsByClassName(`stage-${childMap.get(type)}`);
+      if (children.length == 0) {
+        elem.classList.add(`empty-${type}`);
+      } else {
+        elem.classList.remove(`empty-${type}`);
+      }
+      if (type === 'stages') {
         this.toggleFormDeleteAction();
       }
     }
@@ -2605,11 +2652,11 @@ class DOM {
    */
   insertRule(rules) {
     const styleSheet = this.styleSheet;
-    let rulesLength = styleSheet.cssRules.length;
+    const rulesLength = styleSheet.cssRules.length;
     for (let i = 0, rl = rules.length; i < rl; i++) {
       let j = 1;
       let rule = rules[i];
-      let selector = rules[i][0];
+      const selector = rules[i][0];
       let propStr = '';
       // If the second argument of a rule is an array
       // of arrays, correct our variables.
@@ -2619,8 +2666,8 @@ class DOM {
       }
 
       for (let pl = rule.length; j < pl; j++) {
-        let prop = rule[j];
-        let important = (prop[2] ? ' !important' : '');
+        const prop = rule[j];
+        const important = (prop[2] ? ' !important' : '');
         propStr += `${prop[0]}:${prop[1]}${important};`;
       }
 
@@ -2636,10 +2683,9 @@ class DOM {
    * @return {Object} conditon including condition position, input position and row container
    */
   conditionPositions(event, type) {
-    let panel;
     let conditions;
     let condition;
-    panel = closest(event.target, 'panel-conditions');
+    const panel = closest(event.target, 'panel-conditions');
     conditions = panel.getElementsByClassName('conditions')[0];
     conditions = conditions.childNodes;
     switch (type) {
@@ -2665,7 +2711,7 @@ class DOM {
    * @param {Event} event change event
    */
   conditionSourceChange(event) {
-    let targetID = event.target.value;
+    const targetID = event.target.value;
     let select = {
       tag: 'select',
       attrs: {
@@ -2673,15 +2719,15 @@ class DOM {
       },
       options: []
     };
-    if (targetID != 'choose') {
+    if (targetID !== 'choose') {
       select.options = formData.fields.get(targetID).options;
     }
-    let value = event.target.nextSibling;
+    const value = event.target.nextSibling;
     value.innerHTML = '';
     if (select.options.length > 0) {
       select = dom.create(select);
-      let options = select.childNodes;
-      while(options.length) {
+      const options = select.childNodes;
+      while (options.length) {
         value.appendChild(options[0]);
       }
       value.firstChild.selected = true;
@@ -2693,14 +2739,18 @@ class DOM {
    */
   checkSingle() {
     defaultElements.forEach(function(defaultElement, index) {
-      if (defaultElement.hasOwnProperty('config') && defaultElement.config.hasOwnProperty('single') && defaultElement.config.single) {
+      if (h.get(defaultElement, 'config.single')) {
         let show = true;
         formData.fields.forEach(function(element, index) {
-          if (element.meta.group == defaultElement.meta.group && element.meta.id == defaultElement.meta.id) {
+          if (element.meta.group === defaultElement.meta.group && element.meta.id === defaultElement.meta.id) {
             show = false;
           }
         });
-        show == true ? showControl(`${defaultElement.meta.id}-control`) : hideControl(`${defaultElement.meta.id}-control`);
+        if (show === true) {
+          showControl(`${defaultElement.meta.id}-control`);
+        } else {
+          hideControl(`${defaultElement.meta.id}-control`);
+        }
       }
     });
   }
@@ -2710,12 +2760,12 @@ class DOM {
    * @param {String} msg for warning
    */
   proWarning(msg = null) {
-    let _this = this;
+    const _this = this;
     let video = '';
-    if (typeof msg == 'object' && msg != null) {
-      if (msg.hasOwnProperty('video')) {
+    if (typeof msg === 'object' && msg !== null) {
+      if (Object.prototype.hasOwnProperty.call(msg, 'video')) {
         video += `
-        <div><iframe class="demo" src="${this.get_pro_demo_url(msg.video)}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+        <div><iframe class="efb-pro-demo" src="${this.get_pro_demo_url(msg.video)}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
         </iframe></div>`;
       }
       msg = getString('profeaturemessage', msg);
@@ -2729,19 +2779,19 @@ class DOM {
     };
     warning = dom.create(warning);
     dom.multiActions(
-      'warning',
-      getString('hey-wait'),
-      warning,
-      [{
-        title: getString('upgrade'),
-        type: 'success',
-        action: function() {
-          window.open(_this.prourl);
-        }
-      }, {
-        title: getString('later'),
-        type: 'secondary'
-      }]
+        'warning',
+        getString('hey-wait'),
+        warning,
+        [{
+          title: getString('upgrade'),
+          type: 'success',
+          action: function() {
+            window.open(_this.prourl);
+          }
+        }, {
+          title: getString('later'),
+          type: 'secondary'
+        }]
     );
   }
 
@@ -2753,7 +2803,7 @@ class DOM {
    * @return {Object} dialog for modal
    */
   modalContainer(id, content, keyup) {
-    let dialog = {
+    const dialog = {
       tag: 'div',
       attrs: {
         className: 'efb-modal-dialog',
@@ -2782,7 +2832,7 @@ class DOM {
   }
 
   /**
-   * return object for modal header
+   * Return object for modal header
    * @param {String} id of modal
    * @param {String} title for modal
    * @return {Object} header of modal
@@ -2790,8 +2840,8 @@ class DOM {
    * @param {function} keyup function
    */
   modalHeader(id, title, type, keyup) {
-    let _this = this;
-    let action = {
+    const _this = this;
+    const action = {
       click: evt => {
         _this.removeModal(id, keyup);
       }
@@ -2835,18 +2885,18 @@ class DOM {
     document.querySelector('body').appendChild(modal);
     setTimeout(function() {
       modal.classList.toggle('show');
-      let event = new CustomEvent('focus', {target: modal});
+      const event = new CustomEvent('focus', {target: modal});
       modal.dispatchEvent(event);
     }, 150);
   }
 
   /**
-   * removing modal
+   * Removing modal
    * @param {String} id of modal element
    * @param {function} keyup function
    */
   removeModal(id, keyup = null) {
-    let modal = document.getElementById(id);
+    const modal = document.getElementById(id);
     modal.classList.remove('show');
     setTimeout(function() {
       modal.remove();
@@ -2862,8 +2912,8 @@ class DOM {
    * @param {Number} time
    */
   toaster(title, time = 2000) {
-    let id = uuid();
-    let toast = this.create({
+    const id = uuid();
+    const toast = this.create({
       tag: 'div',
       attrs: {
         id,
@@ -2892,9 +2942,9 @@ class DOM {
    * Display loading effect
    */
   loading() {
-    let _this = this;
-    let id = 'efb-modal-loading';
-    let modal = {
+    const _this = this;
+    const id = 'efb-modal-loading';
+    const modal = {
       tag: 'div',
       id: id,
       attrs: {
@@ -2914,8 +2964,8 @@ class DOM {
    * Display loading effect
    */
   loadingClose() {
-    let _this = this;
-    let id = 'efb-modal-loading';
+    const _this = this;
+    const id = 'efb-modal-loading';
     _this.removeModal(id);
   }
 
@@ -2925,18 +2975,18 @@ class DOM {
    * @param {function} action to apply after pressing ok button
    */
   alert(type, msg, action = null) {
-    let _this = this;
-    let id = uuid();
-    let keyup = evt => {
-      if(evt.keyCode == 27) {
-        if (action != null) {
+    const _this = this;
+    const id = uuid();
+    const keyup = evt => {
+      if (evt.keyCode === 27) {
+        if (action !== null) {
           action();
         }
         _this.removeModal(id, keyup);
       }
     };
-    let title = getString(type);
-    let body = {
+    const title = getString(type);
+    const body = {
       tag: 'div',
       className: 'efb-modal-body',
       content: [{
@@ -2944,7 +2994,7 @@ class DOM {
         content: msg
       }]
     };
-    let footer = {
+    const footer = {
       tag: 'div',
       className: 'efb-modal-footer',
       content: [{
@@ -2957,7 +3007,7 @@ class DOM {
         action: {
           click: evt => {
             _this.removeModal(id, keyup);
-            if (action != null) {
+            if (action !== null) {
               action();
             }
           },
@@ -2965,7 +3015,7 @@ class DOM {
         }
       }]
     };
-    let modal = _this.modalContainer(id, [_this.modalHeader(id, title, type, keyup), body, footer], keyup);
+    const modal = _this.modalContainer(id, [_this.modalHeader(id, title, type, keyup), body, footer], keyup);
     _this.addModal(modal);
   }
 
@@ -2976,14 +3026,14 @@ class DOM {
    * @param {function} actions function
    */
   multiActions(type, title, msg, actions) {
-    let _this = this;
-    let id = uuid();
-    let keyup = evt => {
-      if(evt.keyCode == 27) {
+    const _this = this;
+    const id = uuid();
+    const keyup = evt => {
+      if (evt.keyCode === 27) {
         _this.removeModal(id, keyup);
       }
     };
-    let body = {
+    const body = {
       tag: 'div',
       className: 'efb-modal-body',
       content: [{
@@ -2991,7 +3041,7 @@ class DOM {
         content: msg
       }]
     };
-    let footer = {
+    const footer = {
       tag: 'div',
       className: 'efb-modal-footer',
       content: []
@@ -3007,8 +3057,8 @@ class DOM {
         action: {
           click: evt => {
             if (button.action) {
-              let status = button.action(evt);
-              if (typeof status == 'boolean' && status == false) {
+              const status = button.action(evt);
+              if (typeof status === 'boolean' && status === false) {
                 return;
               }
             }
@@ -3017,7 +3067,7 @@ class DOM {
         }
       });
     });
-    let modal = _this.modalContainer(id, [_this.modalHeader(id, title, type, keyup), body, footer], keyup);
+    const modal = _this.modalContainer(id, [_this.modalHeader(id, title, type, keyup), body, footer], keyup);
     _this.addModal(modal);
   }
 
@@ -3028,22 +3078,22 @@ class DOM {
    * @param {function} action function
    */
   confirm(type, title, msg, action) {
-    let _this = this;
-    let id = uuid();
-    let applyAction = () => {
+    const _this = this;
+    const id = uuid();
+    const applyAction = () => {
       action();
       _this.removeModal(id, keyup);
     };
-    let keyup = evt => {
-      if (evt.keyCode == 13) {
+    const keyup = evt => {
+      if (evt.keyCode === 13) {
         applyAction();
         this.onkeyup = null;
-      } else if(evt.keyCode == 27) {
+      } else if (evt.keyCode === 27) {
         _this.removeModal(id, keyup);
         this.onkeyup = null;
       }
     };
-    let body = {
+    const body = {
       tag: 'div',
       className: 'efb-modal-body',
       content: [{
@@ -3051,7 +3101,7 @@ class DOM {
         content: msg
       }]
     };
-    let footer = {
+    const footer = {
       tag: 'div',
       className: 'efb-modal-footer',
       content: [{
@@ -3078,7 +3128,7 @@ class DOM {
         }
       }]
     };
-    let modal = _this.modalContainer(id, [_this.modalHeader(id, title, type, keyup), body, footer], keyup);
+    const modal = _this.modalContainer(id, [_this.modalHeader(id, title, type, keyup), body, footer], keyup);
     _this.addModal(modal);
   }
 
@@ -3088,12 +3138,12 @@ class DOM {
    * @param {function} addAction function
    */
   addAttributePrompt(type, title, addAction) {
-    let _this = this;
-    let id = uuid();
+    const _this = this;
+    const id = uuid();
     let applied = false;
-    let applyAction = () => {
-      let attr = document.getElementById('attr-' + id).value;
-      let value = document.getElementById('value-' + id).value;
+    const applyAction = () => {
+      const attr = document.getElementById('attr-' + id).value;
+      const value = document.getElementById('value-' + id).value;
       _this.removeModal(id, keyup);
       if (attr) {
         if (!applied) {
@@ -3102,14 +3152,14 @@ class DOM {
         }
       }
     };
-    let keyup = evt => {
-      if (evt.keyCode == 13) {
+    const keyup = evt => {
+      if (evt.keyCode === 13) {
         applyAction();
-      } else if(evt.keyCode == 27) {
+      } else if (evt.keyCode === 27) {
         _this.removeModal(id, keyup);
       }
     };
-    let body = {
+    const body = {
       tag: 'div',
       className: 'efb-modal-body',
       content: [{
@@ -3143,7 +3193,7 @@ class DOM {
         }
       }]
     };
-    let footer = {
+    const footer = {
       tag: 'div',
       className: 'efb-modal-footer',
       content: [{
@@ -3170,10 +3220,9 @@ class DOM {
         }
       }]
     };
-    let modal = _this.modalContainer(id, [_this.modalHeader(id, title, type, keyup), body, footer], keyup);
+    const modal = _this.modalContainer(id, [_this.modalHeader(id, title, type, keyup), body, footer], keyup);
     _this.addModal(modal);
   }
-
 }
 
 const dom = new DOM();

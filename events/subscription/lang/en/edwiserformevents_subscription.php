@@ -15,12 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     edwiserformevents_subscription
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * English language
+ * @package   edwiserformevents_subscription
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 $string['pluginname'] = 'Subscription Form';
-$string['efb-event-subscription-name'] = "Simple Subscription Form";
-$string['efb-event-subscription-desc'] = "Allow your users to subscribe for event.";
+$string['event-subscription-name'] = "Simple Subscription Form";
+$string['event-subscription-desc'] = "Allow your users to subscribe for event.";

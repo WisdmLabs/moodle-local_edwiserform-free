@@ -298,36 +298,36 @@
     }
   }
 
-  /* Removing style to add bootstrap button style */
-  /*button {
-    box-sizing: border-box;
-    font-size: 1em;
-    line-height: 1.8em;
-    display: block;
-    height: 100%;
-    width: 100%;
-    background: transparent;
-    border: 0 none;
-    text-align: left;
-    padding: 10px;
-    border-radius: 0;
-    margin: 0;
+  // Removing style to add bootstrap button style
+  // button {
+  //   box-sizing: border-box;
+  //   font-size: 1em;
+  //   line-height: 1.8em;
+  //   display: block;
+  //   height: 100%;
+  //   width: 100%;
+  //   background: transparent;
+  //   border: 0 none;
+  //   text-align: left;
+  //   padding: 10px;
+  //   border-radius: 0;
+  //   margin: 0;
 
-    &:focus {
-      outline: 0 none;
-      background-color: darken($white, 5%);
-      box-shadow: 0 0 0 1px $input-focus inset;
-      border-radius: 0 !important;
-    }
+  //   &:focus {
+  //     outline: 0 none;
+  //     background-color: darken($white, 5%);
+  //     box-shadow: 0 0 0 1px $input-focus inset;
+  //     border-radius: 0 !important;
+  //   }
 
-    &:active {
-      transform: none;
-    }
+  //   &:active {
+  //     transform: none;
+  //   }
 
-    &:hover {
-      filter: none;
-    }
-  }*/
+  //   &:hover {
+  //     filter: none;
+  //   }
+  // }
 
   svg {
     position: absolute;

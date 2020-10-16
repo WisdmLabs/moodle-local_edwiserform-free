@@ -15,24 +15,31 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
- * @author      Sudam
+ * Trait for create_new_form service
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
+ * @author    Sudam
  */
 
 namespace local_edwiserform\external;
 
 defined('MOODLE_INTERNAL') || die();
 
-use external_single_structure;
 use external_function_parameters;
-use external_value;
-use stdClass;
+use local_edwiserform\controller;
+use external_single_structure;
 use context_system;
+use external_value;
 use Exception;
+use stdClass;
 
+/**
+ * Service definition for create new form
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 trait create_new_form {
 
     /**
@@ -47,7 +54,12 @@ trait create_new_form {
             'description' => new external_value(PARAM_TEXT, 'Form description.', VALUE_DEFAULT, ''),
             'data_edit' => new external_value(PARAM_BOOL, 'Is form editable. Boolean true/flase', VALUE_REQUIRED),
             'type' => new external_value(PARAM_TEXT, 'Type of the form', VALUE_REQUIRED),
-            'notifi_email' => new external_value(PARAM_TEXT, 'Notification email address. This value is required if the form type is contact us', VALUE_DEFAULT, ''),
+            'notifi_email' => new external_value(
+                PARAM_TEXT,
+                'Notification email address. This value is required if the form type is contact us',
+                VALUE_DEFAULT,
+                ''
+            ),
             'message' => new external_value(PARAM_RAW, 'Message to show after successfull submission', VALUE_DEFAULT, ''),
             "draftitemid" => new external_value(PARAM_INT, 'Draft item id form message', VALUE_DEFAULT, 0)
         );
@@ -97,25 +109,30 @@ trait create_new_form {
      * @since  Edwiser Form 1.0.0
      */
     public static function create_new_form($settings, $formdef) {
-        $responce = array(
+        $controller = controller::instance();
+
+        $response = array(
             'status' => false,
-            'msg' => get_string("efb-form-setting-save-fail-msg", "local_edwiserform"),
+            'msg' => get_string("form-setting-save-fail-msg", "local_edwiserform"),
             'formid' => 0
         );
-        $type = self::getarrayval($settings, "type");
-        $eventsettings = self::getarrayval($settings, "eventsettings");
-        $params = self::validate_parameters(self::create_new_form_parameters(), array("setting" => $settings, "formdef" => $formdef));
+        $type = $controller->get_array_val($settings, "type");
+        $eventsettings = $controller->get_array_val($settings, "eventsettings");
+        $params = self::validate_parameters(
+            self::create_new_form_parameters(),
+            array("setting" => $settings, "formdef" => $formdef)
+        );
         $formid = self::save_form($params['setting'], $params['formdef']);
         if ($formid > 0) {
             if ($type != 'blank') {
-                $plugin = get_plugin($type);
+                $plugin = $controller->get_plugin($type);
                 $plugin->create_new_form($formid, $eventsettings);
             }
-            $responce['status'] = true;
-            $responce['msg'] = get_string("efb-form-setting-save-msg", "local_edwiserform");
-            $responce['formid'] = $formid;
+            $response['status'] = true;
+            $response['msg'] = get_string("form-setting-save-msg", "local_edwiserform");
+            $response['formid'] = $formid;
         }
-        return $responce;
+        return $response;
     }
 
     /**
@@ -127,14 +144,17 @@ trait create_new_form {
      */
     private static function save_form($setting, $definition) {
         global $DB, $USER, $CFG;
+
+        $controller = controller::instance();
+
         $data = new stdClass();
-        $data->title = self::getarrayval($setting, "title");
-        $data->description = self::getarrayval($setting, "description");
+        $data->title = $controller->get_array_val($setting, "title");
+        $data->description = $controller->get_array_val($setting, "description");
         $data->author = $USER->id;
-        $data->type = self::getarrayval($setting, "type");
-        $data->notifi_email = self::getarrayval($setting, "notifi_email");
-        $data->message = self::getarrayval($setting, "message", "");
-        $data->data_edit = self::getarrayval($setting, "data_edit");
+        $data->type = $controller->get_array_val($setting, "type");
+        $data->notifi_email = $controller->get_array_val($setting, "notifi_email");
+        $data->message = $controller->get_array_val($setting, "message", "");
+        $data->data_edit = $controller->get_array_val($setting, "data_edit");
         $data->definition = $definition;
         $data->created = time();
         $data->enabled = 0;
@@ -146,13 +166,13 @@ trait create_new_form {
             $context = context_system::instance();
             require_once($CFG->libdir . "/filelib.php");
             $form->message = file_save_draft_area_files(
-                self::getarrayval($setting, "draftitemid", 0),
+                $controller->get_array_val($setting, "draftitemid", 0),
                 $context->id,
                 EDWISERFORM_COMPONENT,
                 EDWISERFORM_FILEAREA,
                 $result,
                 array('subdirs' => false),
-                self::getarrayval($setting, "message", "")
+                $controller->get_array_val($setting, "message", "")
             );
             $DB->update_record("efb_forms", $form);
         } catch (Exception $ex) {
@@ -169,20 +189,4 @@ trait create_new_form {
     public static function create_new_form_returns() {
         return self::get_create_update_form_returns();
     }
-
-    /**
-     * Returns value from array at given key. If key not found then returning third parameter or empty value
-     * @param  array  $array The array of value
-     * @param  string $key to find in the array
-     * @param  string $value optional value to return if key not found
-     * @return mixed  value found at key location in array
-     * @since  Edwiser Form 1.0.0
-     */
-    public static function getarrayval($array, $key, $value = "") {
-        if (isset($array[$key]) && !empty($array[$key])) {
-            $value = $array[$key];
-        }
-        return $value;
-    }
-
 }

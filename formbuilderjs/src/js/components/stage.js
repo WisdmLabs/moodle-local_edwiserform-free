@@ -18,13 +18,13 @@ export default class Stage {
    */
   constructor(formeoOptions, stageID) {
     this.stageID = stageID || uuid();
-    let stage = formData.stages.get(this.stageID);
+    const stage = formData.stages.get(this.stageID);
     let title = getString('stepindex');
     title = title.replace('{{index}}', (formData.stages.size + 1));
     if (stage) {
       title = stage.title;
     }
-    let defaultOptions = {
+    const defaultOptions = {
       title: title,
       formSettings: [{
         tag: 'input',
@@ -64,12 +64,12 @@ export default class Stage {
 
     stageOpts = Object.assign(stageOpts, defaultOptions, formeoOptions);
     if (!formData.stages.get(this.stageID)) {
-      let defaultStageData = {
-          title: stageOpts.title,
-          id: this.stageID,
-          settings: {},
-          rows: []
-        };
+      const defaultStageData = {
+        title: stageOpts.title,
+        id: this.stageID,
+        settings: {},
+        rows: []
+      };
       formData.stages.set(this.stageID, defaultStageData);
     }
 
@@ -84,7 +84,7 @@ export default class Stage {
    */
   loadStage() {
     const _this = this;
-    let stageWrap = this.dom;
+    const stageWrap = this.dom;
     const sortable = Sortable.create(stageWrap.childNodes[0], {
       animation: 150,
       scroll: true,
@@ -101,7 +101,7 @@ export default class Stage {
       // Element is dropped into the list from another list
       onAdd: _this.onAdd.bind(_this),
       onRemove: _this.onRemove.bind(_this),
-      // onDrop: _this.onAdd.bind(_this),
+      // OnDrop: _this.onAdd.bind(_this),
       sort: true,
       onStart: evt => {
         dom.activeStage = _this.stage;
@@ -131,47 +131,47 @@ export default class Stage {
    * @return {Object} stage elements, settings, stage ul
    */
   elementConfigs() {
-    let _this = this;
-    let title = formData.stages.get(this.stageID).title || getString('untitled');
-    let config = {
-        header: {
-          tag: 'label',
-          content: title,
-          attrs: {
-            id: 'for-' + _this.stageID,
-            contenteditable: true
-          },
-          className: 'stage-label',
-          action: {
-            focusout: (evt) => {
-              let stageID = evt.target.id;
-              let stageLabel = evt.target.innerText || evt.target.textContent;
-              stageID = stageID.replace('for-', '');
-              data.saveStageLabel(stageID, stageLabel);
-            }
+    const _this = this;
+    const title = formData.stages.get(this.stageID).title || getString('untitled');
+    const config = {
+      header: {
+        tag: 'label',
+        content: title,
+        attrs: {
+          id: 'for-' + _this.stageID,
+          contenteditable: true
+        },
+        className: 'stage-label',
+        action: {
+          focusout: (evt) => {
+            let stageID = evt.target.id;
+            const stageLabel = evt.target.innerText || evt.target.textContent;
+            stageID = stageID.replace('for-', '');
+            data.saveStageLabel(stageID, stageLabel);
           }
-        },
-        stage: {
-          tag: 'ul',
-          attrs: {
-            className: [
-              'stage',
-              'empty-stages'
-            ],
-            id: _this.stageID
-          },
-          fType: 'stages',
-          content: []
-        },
-        settings: {
-          tag: 'div',
-          attrs: {
-            className: 'formeo-settings',
-            id: `${_this.stageID}-settings`
-          },
-          fType: 'settings'
         }
-      };
+      },
+      stage: {
+        tag: 'ul',
+        attrs: {
+          className: [
+            'stage',
+            'empty-stages'
+          ],
+          id: _this.stageID
+        },
+        fType: 'stages',
+        content: []
+      },
+      settings: {
+        tag: 'div',
+        attrs: {
+          className: 'formeo-settings',
+          id: `${_this.stageID}-settings`
+        },
+        fType: 'settings'
+      }
+    };
 
     config.settings.content = stageOpts.formSettings.slice();
 
@@ -192,14 +192,14 @@ export default class Stage {
    * @return {Object} formData
    */
   onAdd(evt) {
-    let _this = this;
+    const _this = this;
     dom.activeStage = _this.stage;
-    let {from, item, to} = evt;
-    let newIndex = h.indexOfNode(item, to);
-    let row = from.fType === 'stages' ? item : dom.addRow();
-    let fromColumn = from.fType === 'columns';
-    let fromRow = from.fType === 'rows';
-    let fromControl = from.fType === 'controlGroup';
+    const {from, item, to} = evt;
+    const newIndex = h.indexOfNode(item, to);
+    const row = from.fType === 'stages' ? item : dom.addRow();
+    const fromColumn = from.fType === 'columns';
+    const fromRow = from.fType === 'rows';
+    const fromControl = from.fType === 'controlGroup';
 
     if (fromControl) {
       dom.proWarning({
@@ -212,11 +212,11 @@ export default class Stage {
       dom.emptyClass(dom.activeStage);
       return data.save();
     } else if (fromColumn) {
-      let column = dom.addColumn(row.id);
+      const column = dom.addColumn(row.id);
       column.appendChild(item);
       data.saveFieldOrder(column);
       dom.emptyClass(column);
-    } else if(fromRow) {
+    } else if (fromRow) {
       row.appendChild(item);
       data.saveColumnOrder(row);
       dom.emptyClass(row);
@@ -244,12 +244,12 @@ export default class Stage {
    * @return {DOM}
    */
   get dom() {
-    let _this = this;
+    const _this = this;
     if (_this.stage) {
       return _this.stage;
     }
     const config = _this.elementConfigs();
-    let stageWrap = dom.create({
+    const stageWrap = dom.create({
       tag: 'div',
       attrs: {
         className: 'stage-wrap tab-pane',

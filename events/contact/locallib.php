@@ -15,25 +15,29 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     edwiserformevents_contact
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * Edwiser Form contact event class
+ * @package   edwiserformevents_contact
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/local/edwiserform/events/events.php');
 
+/**
+ * Edwiser Form contact event definition
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class edwiserform_events_contact extends edwiserform_events_plugin {
-    public function submission_email_message($form, $submission) {
-        return $this->common_submission_email_message($form, $submission);
-    }
+
     /**
      * Execute event action after form submission
-     * @param object form
-     * @param object data - submitted by user
-     * @return object with attached event data
+     * @param  object $form Form object
+     * @param  object $data Data submitted by user
+     * @return object       Object with attached event data
      */
     public function attach_data($form, $data) {
         return $this->attach_common_data($form, $data);

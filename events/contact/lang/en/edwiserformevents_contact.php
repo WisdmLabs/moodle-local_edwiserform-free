@@ -15,12 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     edwiserformevents_contact
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * English language
+ * @package   edwiserformevents_contact
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 $string['pluginname'] = 'Contact Us Form';
-$string['efb-event-contact-name'] = "Simple Contact Form";
-$string['efb-event-contact-desc'] = "Allow your users to contact you with this simple contact form.";
+$string['event-contact-name'] = "Simple Contact Form";
+$string['event-contact-desc'] = "Allow your users to contact you with this simple contact form.";

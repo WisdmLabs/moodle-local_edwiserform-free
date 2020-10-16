@@ -15,48 +15,88 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package     local_edwiserform
- * @copyright   2018 WisdmLabs <support@wisdmlabs.com>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @author      Yogesh Shirsath
+ * Edwiser Form root class
+ * @package   local_edwiserform
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @author    Yogesh Shirsath
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/repository/lib.php');
-require_once($CFG->dirroot . '/local/edwiserform/renderable.php');
-require_once($CFG->dirroot . '/local/edwiserform/lib.php');
 
+use local_edwiserform\output\list_form_data;
+use local_edwiserform\output\add_new_form;
+use local_edwiserform\output\list_form;
+use local_edwiserform\controller;
+
+/**
+ * Edwiser Form root class definition
+ * @copyright (c) 2020 WisdmLabs (https://wisdmlabs.com/) <support@wisdmlabs.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class edwiserform {
 
+    /**
+     * Renderer output object
+     * @var core_renderer
+     */
     private $output;
 
-    // Event plugins
+    /**
+     * Events list
+     * @var array
+     */
     private $events = [];
 
+    /**
+     * Edwiser Forms $controller class instance
+     * @var controller
+     */
+    private $controller;
+
+    /**
+     * Constructor to initialize required variables
+     */
+    public function __construct() {
+        $this->controller = controller::instance();
+    }
+
+    /**
+     * Cron function to cleanup delete form, it's data and user uploaded files in the form
+     *
+     * @since Edwiser Form 1.1.0
+     */
     public function cron() {
         global $DB;
         $forms = $DB->get_records('efb_forms', array('deleted' => true));
         foreach ($forms as $form) {
-            mtrace(get_string('efb-delete-form-data-cron-start', 'local_edwiserform', $form->id));
+            mtrace(get_string('delete-form-data-cron-start', 'local_edwiserform', $form->id));
             $status = $DB->delete_records('efb_form_data', array('formid' => $form->id));
             $status = true;
             if ($status) {
-                mtrace(get_string('efb-delete-form-data-cron-end', 'local_edwiserform', $form->id));
+                mtrace(get_string('delete-form-data-cron-end', 'local_edwiserform', $form->id));
             } else {
-                mtrace(get_string('efb-delete-form-data-cron-failed', 'local_edwiserform', $form->id));
+                mtrace(get_string('delete-form-data-cron-failed', 'local_edwiserform', $form->id));
             }
-            mtrace(get_string('efb-delete-form-cron-start', 'local_edwiserform', $form->id));
+            mtrace(get_string('delete-form-cron-start', 'local_edwiserform', $form->id));
             $status = $DB->delete_records('efb_forms', array('deleted' => true));
             $status = true;
             if ($status) {
-                mtrace(get_string('efb-delete-form-cron-end', 'local_edwiserform', $form->id));
+                mtrace(get_string('delete-form-cron-end', 'local_edwiserform', $form->id));
             } else {
-                mtrace(get_string('efb-delete-form-cron-failed', 'local_edwiserform', $form->id));
+                mtrace(get_string('delete-form-cron-failed', 'local_edwiserform', $form->id));
             }
         }
     }
 
+    /**
+     * Get renderer for edwiserform plugin
+     *
+     * @return stdClass $outpu
+     * @since Edwiser Form 1.0.0
+     */
     public function get_renderer() {
         global $PAGE;
         if ($this->output) {
@@ -64,49 +104,6 @@ class edwiserform {
         }
         $this->output = $PAGE->get_renderer('local_edwiserform');
         return $this->output;
-    }
-
-    /**
-     * Load the plugins from the sub folder events
-     *
-     * @param string type - Type of plugin
-     * @return array - The sorted list of plugins
-     */
-    public function get_plugin($type) {
-        global $CFG;
-        $result = null;
-
-        $names = core_component::get_plugin_list('edwiserformevents');
-        foreach ($names as $name => $path) {
-            if ($name == $type && file_exists($path . '/locallib.php')) {
-                require_once($path . '/locallib.php');
-                $shortsubtype = substr('edwiserformevents', strlen('edwiserform'));
-                $pluginclass = 'edwiserform_' . $shortsubtype . '_' . $name;
-                $result = new $pluginclass($this, $name);
-            }
-        }
-        return $result;
-    }
-
-    /**
-     * Load the plugins from the sub folder events
-     *
-     * @return array - The sorted list of plugins
-     */
-    public function get_plugins() {
-        global $CFG;
-        $result = array();
-
-        $names = core_component::get_plugin_list('edwiserformevents');
-        foreach ($names as $name => $path) {
-            if (file_exists($path . '/locallib.php')) {
-                require_once($path . '/locallib.php');
-                $shortsubtype = substr('edwiserformevents', strlen('edwiserform'));
-                $pluginclass = 'edwiserform_' . $shortsubtype . '_' . $name;
-                $result[$name] = new $pluginclass($this, $name);
-            }
-        }
-        return $result;
     }
 
     /**
@@ -129,15 +126,22 @@ class edwiserform {
         );
     }
 
+    /**
+     * Main function responsible to show create_new_form|listforms|listformdata page
+     * It also calls js file and extra stylesheets
+     * @param  string $page page to view
+     * @return string       page output
+     * @since  Edwiser Form 1.0.0
+     */
     public function view($page) {
         global $USER, $CFG, $PAGE;
         $out = "";
-        can_create_or_view_form($USER->id);
         $PAGE->requires->data_for_js('videotypes', $this->get_video_types());
         $js = [new moodle_url('https://www.google.com/recaptcha/api.js')];
         $css = [new moodle_url($CFG->wwwroot .'/local/edwiserform/style/datatables.css')];
         switch ($page) {
             case 'newform':
+                $this->controller->can_create_or_view_form($USER->id);
                 $sitekey = get_config('local_edwiserform', 'google_recaptcha_sitekey');
                 if (trim($sitekey) == '') {
                     $sitekey = 'null';
@@ -145,21 +149,38 @@ class edwiserform {
                 $PAGE->requires->js_call_amd('local_edwiserform/new_form_main', 'init', array($sitekey, PRO_URL));
                 $PAGE->requires->data_for_js('sitekey', $sitekey);
                 $formid = optional_param('formid', null, PARAM_FLOAT);
-                $out = $this->get_renderer()->render(new efb_add_new_form($formid));
+                $out = $this->get_renderer()->render(new add_new_form($formid));
                 if ($formid) {
                     $page = 'editform';
                 }
+                $out .= html_writer::start_tag('div', array('id' => 'root-page-loading', 'style' => '
+                    position: fixed;
+                    width: 100%;
+                    top: 0;
+                    left: 0;
+                    height: 100%;
+                '));
+                $out .= html_writer::start_tag('div', array('style' => '
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    text-align: center;
+                '));
+                $out .= get_string("error-occured-while-loading", "local_edwiserform");
+                $out .= html_writer::end_tag('div');
+                $out .= html_writer::end_tag('div');
                 $css = [new moodle_url($CFG->wwwroot .'/local/edwiserform/style/formedit.css')];
-                $css[] = new moodle_url($CFG->wwwroot .'/local/edwiserform/style/bootstrap-grid.css');
                 break;
             case 'listforms':
+                $this->controller->can_create_or_view_form($USER->id);
                 $PAGE->requires->js_call_amd('local_edwiserform/form_list', 'init');
-                $out = $this->get_renderer()->render(new efb_list_form());
+                $out = $this->get_renderer()->render(new list_form());
                 break;
             case 'viewdata':
                 $formid = optional_param('formid', null, PARAM_FLOAT);
                 $PAGE->requires->js_call_amd('local_edwiserform/form_data_list', 'init', array($formid));
-                $out = $this->get_renderer()->render(new efb_list_form_data($formid));
+                $out = $this->get_renderer()->render(new list_form_data($formid));
                 break;
         }
         foreach ($js as $jsfile) {

@@ -1,7 +1,13 @@
 'use strict';
-import '../sass/formeo.scss';
 import {data} from './common/data';
 import dom from './common/dom';
+import 'mdn-polyfills/Object.assign';
+import 'mdn-polyfills/Object.values';
+import 'mdn-polyfills/Object.entries';
+import 'mdn-polyfills/Node.prototype.append';
+import 'mdn-polyfills/Node.prototype.prepend';
+import 'mdn-polyfills/Node.prototype.before';
+import 'mdn-polyfills/Node.prototype.after';
 
 // Simple object config for the main part of formeo
 const formeo = {
@@ -29,7 +35,7 @@ class Formeo {
       actions: {},
       localStorage: true
     };
-    let _this = this;
+    const _this = this;
 
     _this.container = options.container || defaults.container;
     dom.container = _this.container;
@@ -51,6 +57,7 @@ class Formeo {
 
 if (window !== undefined) {
   window.Formeo = Formeo;
+  Formeo.dom = dom;
 }
 
 export default Formeo;

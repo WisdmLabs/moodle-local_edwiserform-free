@@ -16,7 +16,6 @@
 
 /**
  * Base class for unit tests for local_edwiserform.
- *
  * @package    local_edwiserform
  * @category   phpunit
  * @copyright  2018 WisdmLabs <support@wisdmlabs.com>
@@ -28,48 +27,63 @@
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
+
 require_once($CFG->dirroot . '/local/edwiserform/tests/base_test.php');
+
+use local_edwiserform\controller;
 
 class local_edwiserform_lib_testcase extends local_edwiserform_base_testcase {
 
     public function test_generate_email_user() {
-        $emailuser = generate_email_user('test@gmail.com', 'Yogesh Shirsath', 1);
+        $controller = controller::instance();
+
+        $emailuser = $controller->generate_email_user('test@gmail.com', 'Yogesh Shirsath', 1);
         $this->assertEquals('test@gmail.com', $emailuser->email);
         $this->assertEquals('Yogesh Shirsath', $emailuser->firstname);
         $this->assertEquals(1, $emailuser->id);
     }
 
     public function test_edwiserform_send_email() {
+        $controller = controller::instance();
+
         $subject = "PHPUnit Test";
         $messagehtml = "<p>This is sample PHPUnit test";
         $sink = $this->redirectEmails();
-        $status = edwiserform_send_email('test.sender@gmail.com', 'test.receiver@gmail.com', $subject, $messagehtml);
+        $status = $controller->edwiserform_send_email('test.sender@gmail.com', 'test.receiver@gmail.com', $subject, $messagehtml);
         $messages = $sink->get_messages();
         $this->assertEquals(true, $status, 'Email sent successfully.');
     }
 
     public function test_can_create_or_view_form() {
+        $controller = controller::instance();
+
         $this->setUser($this->student);
         try {
-            can_create_or_view_form();
+            $controller->can_create_or_view_form();
         } catch (moodle_exception $ex) {
             $this->assertEquals('You are not allowed to create form. (Please contact Site Admin.)', $ex->getMessage());
         }
         $this->setUser($this->teacher);
         try {
-            can_create_or_view_form();
+            $controller->can_create_or_view_form();
         } catch (moodle_exception $ex) {
-            $this->assertEquals('You are not allowed to create form. Contact Admin to enable form creation. (Please contact Site Admin.)', $ex->getMessage());
+            $this->assertEquals(
+                'You are not allowed to create form. Contact Admin to enable form creation. (Please contact Site Admin.)',
+                $ex->getMessage()
+            );
         }
         $this->setUser($this->editingteacher);
         try {
-            can_create_or_view_form();
+            $controller->can_create_or_view_form();
         } catch (moodle_exception $ex) {
-            $this->assertEquals('You are not allowed to create form. Contact Admin to enable form creation. (Please contact Site Admin.)', $ex->getMessage());
+            $this->assertEquals(
+                'You are not allowed to create form. Contact Admin to enable form creation. (Please contact Site Admin.)',
+                $ex->getMessage()
+            );
         }
         set_config('enable_teacher_forms', true, 'local_edwiserform');
-        $this->assertEquals(true, can_create_or_view_form(), 'Editing Teacher can create form.');
+        $this->assertEquals(true, $controller->can_create_or_view_form(), 'Editing Teacher can create form.');
         $this->setUser($this->teacher);
-        $this->assertEquals(true, can_create_or_view_form(), 'Teacher can create form.');
+        $this->assertEquals(true, $controller->can_create_or_view_form(), 'Teacher can create form.');
     }
 }
