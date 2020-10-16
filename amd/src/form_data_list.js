@@ -100,8 +100,8 @@ define([
                             data.length
                         ).done(function(response) {
                             callback(response);
-                            update_separator();
-                        }).fail(notification.exception);
+                            update_separator(); 
+                        }).fail(Notification.exception);
                     },
                     drawCallback: function( settings ) {
                         update_separator();
@@ -114,7 +114,7 @@ define([
                         .done(function(html, js) {
                             Templates.replaceNode($('.efb-bulk'), html, js);
                         })
-                        .fail(notification.exception);
+                        .fail(Notification.exception);
                         $('.efb-shortcode-copy-note').html(M.util.get_string('clickonshortcode', 'local_edwiserform'));
                     }
                 });

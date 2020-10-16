@@ -91,6 +91,10 @@
     &::after {
       opacity: 0;
     }
+
+    .column-actions {
+      width: 3 * $action-btn-width;
+    }
   }
 
   &.editing-column,

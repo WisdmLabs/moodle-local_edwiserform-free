@@ -1304,20 +1304,6 @@ class DOM {
         },
         mouseleave: evt => {
           evt.target.parentReference.classList.remove('hovering-' + item);
-        },
-        onRender: elem => {
-          const buttons = elem.getElementsByTagName('button');
-          const btnWidth = parseInt(_this.getStyle(buttons[0], 'width')) + 1;
-          const expandedWidth = (buttons.length * btnWidth) + 'px';
-          const woh = item === 'row' ? 'height' : 'width';
-          const rules = [
-            [
-              `.hovering-${item} .${item}-actions`,
-              [woh, expandedWidth, true]
-            ]
-          ];
-
-          _this.insertRule(rules);
         }
       }
     };

@@ -65,6 +65,9 @@
       border-left: 1px solid $field-outline-color;
       border-bottom: 1px solid $field-outline-color;
     }
+    .field-actions {
+      width: 4 * $action-btn-width;
+    }
   }
 
   &.field-moving {
