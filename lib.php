@@ -92,15 +92,8 @@ function local_edwiserform_extend_navigation(navigation_node $nav) {
     if ($can != true) {
         return;
     }
-    if ($PAGE->theme->resolve_image_location('icon', 'local_edwiserform', null)) {
-        $icon = new pix_icon('icon', '', 'local_edwiserform', array('class' => 'icon pluginicon'));
-    } else {
-        $icon = new pix_icon('spacer', '', 'moodle', array(
-            'class' => 'spacer',
-            'width' => 1,
-            'height' => 1
-        ));
-    }
+
+    $icon = new pix_icon('icon', '', 'local_edwiserform', array('class' => 'icon pluginicon'));
 
     // Archieve page node.
     $nav->add(
