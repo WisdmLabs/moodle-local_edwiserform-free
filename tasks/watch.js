@@ -14,10 +14,22 @@ gulp.task('watchcss', function(done) {
     done();
 });
 
+gulp.task('watchjs', function(done) {
+    gulp.watch('amd/src/*.js', gulp.series('script', 'purgejs'));
+    gulp.watch('amd/build/form*.js', gulp.series('purgejs'));
+    notify({message: 'Watching js files'});
+    done();
+});
+
+gulp.task('watcheventsscript', function(done) {
+    gulp.watch('./events/**/amd/src/*.js', gulp.series('eventsscript', 'purgejs'));
+    done();
+});
+
 gulp.task('watchlang', function(done) {
-    gulp.watch('lang/**/*', gulp.series('purgeall'));
+    gulp.watch('lang/**/*', gulp.series('purgelang'));
     notify({message: 'Watching language files'});
     done();
 });
 
-gulp.task('watch', gulp.series('watchjs', 'watchcss', 'watchlang'));
+gulp.task('watch', gulp.series('watchjs', 'watchcss', 'watcheventsscript', 'watchlang'));

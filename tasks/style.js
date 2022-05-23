@@ -10,18 +10,22 @@ var sassOptions = {
 };
 
 gulp.task('commoncss', function() {
-    return gulp.src('assets/scss/common/styles.scss')
-    .pipe(sass({
-        outputStyle: false
-    }))
+    return gulp.src(['assets/scss/common/styles.scss'])
+    .pipe(sass(sassOptions))
     .pipe(gulp.dest('.'));
 });
 
-gulp.task('separatecss', function() {
-    return gulp.src('assets/scss/*.scss')
+gulp.task('separatecss', function(done) {
+    gulp.src([
+        'assets/scss/common/*.scss',
+        '!assets/scss/common/styles.scss',
+        'assets/scss/formedit/*.scss',
+        'assets/scss/*.scss'
+    ])
     .pipe(sass(sassOptions))
     .pipe(gulp.dest('./style'))
-    .pipe(notify({message: 'Separate styles completed.', onLast: true}));
+    .pipe(notify({message: 'Common styles completed.', onLast: true}));
+    done();
 });
 
 gulp.task('copydatatablescss', function() {
