@@ -17,10 +17,10 @@ define([
     'local_edwiserform/formbuilder'
 ], function($, Ajax, Templates, Notification) {
     var updateSeparator = function() {
-        if ($('.DTFC_LeftBodyLiner tr').length == 0) {
+        if ($('.efb-form-submissions-table tr').length == 0) {
             return;
         }
-        $('.DTFC_LeftBodyLiner tr').each(function(index, tr) {
+        $('.efb-form-submissions-table tr').each(function(index, tr) {
             $(tr).find('.efb-data-actions span').remove();
             var actions = $(tr).find('.efb-data-action.show');
             if (actions.length < 2) {
@@ -79,9 +79,6 @@ define([
                     scrollY: "400px",
                     scrollX: true,
                     scrollCollapse: true,
-                    fixedColumns: {
-                        leftColumns: 2,
-                    },
                     classes: {
                         sScrollHeadInner: 'efb_dataTables_scrollHeadInner'
                     },
