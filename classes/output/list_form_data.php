@@ -274,7 +274,17 @@ class list_form_data implements renderable, templatable {
 
             list($usql, $uparams) = $DB->get_in_or_equal($record->userid);
 
-            $sql = "SELECT id," . get_all_user_name_fields(true) . " FROM {user} WHERE id " . $usql;
+            // Handling backward compatibility for deprecated functions.
+            if (method_exists('\core_user\fields', 'get_name_fields')) {
+                // Get all user name fields as an array, but with firstname and lastname first.
+                $allusernamefields = \core_user\fields::get_name_fields(true);
+                $allusernamefieldsx = implode("," , $allusernamefields);
+                $alluser = $allusernamefieldsx;
+            } else {
+                $alluser = get_all_user_name_fields(true);
+            }
+
+            $sql = "SELECT id," . $alluser . " FROM {user} WHERE id " . $usql;
 
             if ($user = $DB->get_record_sql($sql, $uparams)) {
                 $userlink = new moodle_url('/user/profile.php', array('id' => $record->userid));
