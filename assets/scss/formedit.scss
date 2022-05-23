@@ -1,6 +1,7 @@
 #page-local-edwiserform-view {
     @import '../../formbuilderjs/src/sass/formeo.scss';
 }
+
 @import 'formedit/fastselect.scss';
 @import 'formedit/template.scss';
 @import 'formedit/settings.scss';
@@ -87,11 +88,12 @@
             border-radius: 0;
             padding: 10px 10px 10px 0;
             margin: 0;
+            display: block !important;
             span {
                 display: block;
             }
             .fa {
-                font-size:30px;
+                font-size: 30px;
                 line-height: inherit;
             }
             &:not(.active):not(:hover) {
@@ -177,15 +179,15 @@
                     width: 3rem;
                     color: white;
                     outline: unset;
-                    box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.5);
+                    box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.5);
                     transition: right .5s;
                     padding: 0;
                     cursor: pointer;
                     right: 275px;
                 }
             }
-            .build-form.hidden-controls + .efb-form-step.efb-form-step-preview,
-            .preview-form:not(.show-styles) + .efb-form-step-builder{
+            .build-form.hidden-controls+.efb-form-step.efb-form-step-preview,
+            .preview-form:not(.show-styles)+.efb-form-step-builder {
                 right: 25px;
             }
         }
@@ -199,9 +201,11 @@
 #efb-cont-form-builder {
     margin: 0;
 }
+
 .efb-hide {
     display: none !important;
 }
+
 #efb-btn-save-form-settings,
 #efb-btn-next {
     float: right;
@@ -220,6 +224,7 @@
         margin: 0 !important;
     }
 }
+
 .efb-forms-panel-heading {
     position: fixed;
     right: 0;
@@ -262,6 +267,7 @@
     text-decoration: none;
     color: white;
 }
+
 .efb-form-builder-wrap .btn-success:actve,
 .efb-form-builder-wrap .bg-success:actve,
 .efb-forms-upgrade-link a:active,
@@ -270,12 +276,13 @@
     text-decoration: none;
     color: white;
 }
+
 .form-page {
     .edwiserform-root-container {
-        padding:  2em;
+        padding: 2em;
     }
     .edwiserform-container {
-        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
         &.empty {
             box-shadow: none;
         }
@@ -286,6 +293,7 @@
     position: relative;
     pointer-events: none;
 }
+
 .formeo-import-form {
     position: absolute;
     top: 2rem;
@@ -293,6 +301,7 @@
     left: 0;
     text-align: center;
 }
+
 .efb-form-title-container {
     border-bottom: 1px solid #d6d6d6;
     .efb-form-title-heading {
@@ -333,24 +342,28 @@
         padding: 0 20px;
     }
 }
+
 .card-block {
-    padding:unset;
+    padding: unset;
 }
+
 #region-main-box,
 #page.container-fluid,
 #page {
-    padding:unset;
+    padding: unset;
     margin: unset;
 }
+
 body {
     padding: 0px;
 }
+
 .efb-form-builder-wrap,
 #page-wrapper,
 #page,
 #page-content,
 #region-main-box,
-#region-main > .card {
+#region-main>.card {
     position: fixed;
     top: 0;
     right: 0;
