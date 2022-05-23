@@ -52,7 +52,7 @@ class list_form_data implements renderable, templatable {
 
     /**
      * Selected event plugin
-     * @var null
+     * @var object
      */
     private $plugin         = null;
 
@@ -71,6 +71,43 @@ class list_form_data implements renderable, templatable {
         $this->supportsubmission = $this->form->type == 'blank' ? true : $this->plugin->can_save_data();
     }
 
+    /**
+     * Function to get toggler content for long content
+     *
+     * @param  string  $content The content trimmed
+     * @param  bool    $export  If true then return original content
+     * @return string
+     * @since  Edwiser Form 1.5.4
+     */
+    private function get_long_text_toggler($content) {
+        if (mb_strlen($content) > 60) {
+            $shortheading = mb_substr($content, 0, 60) . '...';
+            $content = html_writer::tag(
+                'div',
+                html_writer::tag(
+                    'span',
+                    $shortheading,
+                    array(
+                        'class' => 'table-data'
+                    )
+                ).
+                html_writer::tag(
+                    'a',
+                    get_string('readmore', 'local_edwiserform'),
+                    array(
+                        'class' => 'data-toggler',
+                        'href' => 'javascript:void(0)'
+                    )
+                ),
+                array(
+                    'class' => 'efb-table-data-expand',
+                    'data-short' => $shortheading,
+                    'data-long' => $content
+                )
+            );
+        }
+        return $content;
+    }
 
     /**
      * Function to export the renderer data in a format that is suitable for a
@@ -122,6 +159,7 @@ class list_form_data implements renderable, templatable {
             $headingsmap = $this->get_name_label_map();
             foreach ($headings as $value) {
                 $value = isset($headingsmap[$value]) ? $headingsmap[$value] : $value;
+                $value = $this->get_long_text_toggler($value);
                 $data->headings[] = ucfirst($value);
             }
             $data->rows = [];
@@ -175,7 +213,7 @@ class list_form_data implements renderable, templatable {
      * @since  Edwiser Form 1.0.2
      */
     public function get_submissions_list($limit = "", $search = "") {
-        global $DB;
+        global $DB, $USER;
 
         $supportactions = isset($this->plugin) && $this->plugin->support_form_data_list_actions();
 
@@ -295,9 +333,11 @@ class list_form_data implements renderable, templatable {
                 if (is_array($value)) {
                     $formdata[$key] = html_writer::start_tag('ul');
                     $formdata[$key] .= html_writer::start_tag('li');
-                    $formdata[$key] .= implode($value, "</li><li>");
+                    $formdata[$key] .= implode("</li><li>", $value);
                     $formdata[$key] .= html_writer::end_tag('li');
                     $formdata[$key] .= html_writer::end_tag('ul');
+                } else {
+                    $formdata[$key] = $key < 3 ? $formdata[$key] : $this->get_long_text_toggler($formdata[$key]);
                 }
             }
             $rows[] = $formdata;

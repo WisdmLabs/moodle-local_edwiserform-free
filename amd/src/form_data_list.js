@@ -191,6 +191,21 @@ define([
             $('body').on('click', '.efb-actions a', function(event) {
                 event.preventDefault();
             });
+
+            // Toggle long data in table cells.
+            $('body').on('click', '.data-toggler', function() {
+                let parent = $(this).closest('.efb-table-data-expand');
+                if (parent.is('.expanded')) {
+                    parent.removeClass('expanded');
+                    parent.find('.table-data').html(parent.data('short'));
+                    $(this).text(M.util.get_string('readmore', 'local_edwiserform'));
+                } else {
+                    parent.addClass('expanded');
+                    parent.find('.table-data').html(parent.data('long'));
+                    $(this).text(M.util.get_string('readless', 'local_edwiserform'));
+                }
+                table.columns.adjust();
+            });
         }
     };
 });
