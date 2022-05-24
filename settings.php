@@ -68,11 +68,13 @@ $settings->add(new admin_setting_configtext(
     'null'
 ));
 
+$prefix = $CFG->branch >= 400 ? 'moodle-400-' : '';
+
 // Enable navigation using sidebar.
 $settings->add(new admin_setting_configcheckbox(
     "local_edwiserform/enable_sidebar_navigation",
-    new lang_string("enable-site-navigation", "local_edwiserform"),
-    new lang_string("desc-enable-site-navigation", "local_edwiserform"),
+    new lang_string($prefix . "enable-site-navigation", "local_edwiserform"),
+    new lang_string($prefix . "desc-enable-site-navigation", "local_edwiserform"),
     true
 ));
 
