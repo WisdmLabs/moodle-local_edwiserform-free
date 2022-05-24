@@ -10,38 +10,47 @@ const PRODUCTION = process.argv.includes('-production');
 
 var minifyOptions = {
     ext: {
-        min: '.min.js',
-        ignoreFiles: ['*/formbuilder.js', '*/formviewer.js']
+        min: '.min.js'
     }
 };
-
 minifyOptions.mangle = PRODUCTION;
 minifyOptions.compress = PRODUCTION;
 minifyOptions.noSource = PRODUCTION;
 if (PRODUCTION == false) {
     minifyOptions.preserveComments = 'all';
 }
-
-var jssrc = './amd/src/*.js';
-
-gulp.task('watchjs', function(done) {
-    var watcher = gulp.watch('./amd/src/*.js', gulp.series('script', 'purgeall'));
-    watcher.on('change', function(obj){
-        jssrc = obj;
-        return gulp.series('script', 'purgeall');
-    });
-    done();
+gulp.task('script', function() {
+    var task = gulp.src('amd/src/*.js');
+    if (PRODUCTION) {
+        task = task.pipe(sourcemaps.init())
+        .pipe(babel({
+            presets: [["@babel/preset-env"]]
+        }))
+        .pipe(minify(minifyOptions))
+        .pipe(sourcemaps.write('.'));
+    }
+    return task.pipe(gulp.dest('amd/build'));
 });
 
-gulp.task('script', function() {
-    return gulp.src(jssrc)
-    .pipe(sourcemaps.init())
-    .pipe(babel({
-        presets: [["@babel/preset-env"]]
+// Minify events plugins scripts
+gulp.task('eventsscript', function(done) {
+    var task = gulp.src('*.js', { cwd : './events/**/amd/src/'});
+    if (PRODUCTION) {
+        task = task.pipe(sourcemaps.init())
+        .pipe(babel({
+            presets: [["@babel/preset-env"]]
+        }))
+        .pipe(minify(minifyOptions))
+        .pipe(sourcemaps.write('.'));
+    }
+    return task.pipe(rename(function (path) {
+        return {
+            dirname: path.dirname + "/../build",
+            basename: path.basename,
+            extname: path.extname
+        };
     }))
-    .pipe(minify(minifyOptions))
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('amd/build'));
+    .pipe(gulp.dest('./events/'));
 });
 
 gulp.task('cleandatatablesjs', function() {

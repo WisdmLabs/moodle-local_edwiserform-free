@@ -1,8 +1,22 @@
 CHANGES for "Edwiser Forms Free"
+--------------------------------------------------------------------------------------------
+
+May 24, 2022 (Edwiser Forms Free 1.3.0)
+
+Tweaks:
+-------
+1. Compatibility with Moodle 4.0
+2. Improved styling of tables.
+3. Handling large form submission content. Added view more/view less link for large content.
+4. Changed submission column to text to support large submissions.
+
+Bug Fixes:
+1. Fixed loading issue with preview page.
+2. Compatibility with Edwiser RemUI form styling.
 
 --------------------------------------------------------------------------------------------
 
-September 16, 2020
+September 16, 2020 (Edwiser Forms Free 1.2.0)
 
 1. Made free plugin UI similar to PRO. To get overview how Pro plugin looks.
 2. Compatibility with IE.
