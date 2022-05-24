@@ -30,7 +30,7 @@
                 <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
                 <FIELD NAME="formid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
                 <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="submission" TYPE="char" LENGTH="1000" NOTNULL="true" SEQUENCE="false"/>
+                <FIELD NAME="submission" TYPE="text" LENGTH="1000" NOTNULL="true" SEQUENCE="false"/>
                 <FIELD NAME="date" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
                 <FIELD NAME="updated" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
             </FIELDS>

@@ -66,14 +66,14 @@ class list_form implements renderable, templatable {
         $data = new stdClass();
         $data->heading = "Forms";
         $data->headings = array(
-            html_writer::tag('div', get_string("tbl-heading-title", "local_edwiserform"), array('style' => 'width: 80px;')),
+            get_string("tbl-heading-title", "local_edwiserform"),
             get_string("tbl-heading-type", "local_edwiserform"),
-            html_writer::tag('div', get_string("tbl-heading-shortcode", "local_edwiserform"), array('style' => 'width: 160px;')),
-            html_writer::tag('div', get_string("tbl-heading-author", "local_edwiserform"), array('style' => 'width: 120px;')),
-            html_writer::tag('div', get_string("tbl-heading-created", "local_edwiserform"), array('style' => 'width: 120px;')),
-            html_writer::tag('div', get_string("tbl-heading-author2", "local_edwiserform"), array('style' => 'width: 120px;')),
-            html_writer::tag('div', get_string("tbl-heading-modified", "local_edwiserform"), array('style' => 'width: 120px;')),
-            html_writer::tag('div', get_string("tbl-heading-action", "local_edwiserform"),  array('style' => 'width: 80px;')),
+            get_string("tbl-heading-shortcode", "local_edwiserform"),
+            get_string("tbl-heading-author", "local_edwiserform"),
+            get_string("tbl-heading-created", "local_edwiserform"),
+            get_string("tbl-heading-author2", "local_edwiserform"),
+            get_string("tbl-heading-modified", "local_edwiserform"),
+            get_string("tbl-heading-action", "local_edwiserform"),
         );
         $data->pageactions = $this->get_page_actions();
         $data->upgradeurl = PRO_URL;

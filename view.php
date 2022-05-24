@@ -27,12 +27,18 @@ require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->dirroot . '/local/edwiserform/locallib.php');
 
 global $CFG, $PAGE, $OUTPUT;
+
 require_login();
+
+// Set page context.
 $context = context_system::instance();
 $PAGE->set_context($context);
+
+// Loading edwiser form langs.
 $stringmanager = get_string_manager();
 $strings = $stringmanager->load_component_strings('local_edwiserform', 'en');
 $PAGE->requires->strings_for_js(array_keys($strings), 'local_edwiserform');
+
 $page = optional_param('page', 'listforms', PARAM_TEXT);
 $urlparam = array('page' => $page);
 $formid = optional_param('formid', null, PARAM_INT);
@@ -49,10 +55,14 @@ if ($page == 'newform') {
 } else {
     $PAGE->set_pagelayout('admin');
 }
+
 $efbpagetitle = get_string('heading-' . $title, 'local_edwiserform');
 $PAGE->set_title($efbpagetitle);
+
 $PAGE->set_heading($efbpagetitle);
+
 $PAGE->set_url(new moodle_url("/local/edwiserform/view.php", $urlparam));
+
 $edwiserform = new edwiserform();
 $out = $edwiserform->view($page);
 $out = $OUTPUT->header() . $out;

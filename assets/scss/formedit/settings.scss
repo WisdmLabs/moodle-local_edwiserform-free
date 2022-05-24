@@ -1,9 +1,11 @@
 #efb-cont-form-settings.efb-tabcontent {
     padding: 0;
 }
+
 .notifi-email-group {
     width: 100%;
-    .notifi-email-group-input, .notifi-email-group-edit {
+    .notifi-email-group-input,
+    .notifi-email-group-edit {
         outline-width: 0px;
         width: 100%;
     }
@@ -21,6 +23,7 @@
         }
     }
 }
+
 #efb-basic-form-settings {
     .form-control-feedback {
         width: 100%;
@@ -35,13 +38,22 @@
     .editor_atto .form-control {
         width: 100%;
     }
+    #fitem_id_notifi_email_body,
+    #fitem_id_confirmation_msg {
+        .col-form-label {
+            display: flex;
+            flex-direction: column;
+        }
+    }
 }
+
 .efb-settings-tab-content .efb-settings-tab {
     background: white;
     height: 100%;
     padding: 25px;
     overflow: auto;
 }
+
 .efb-form-settings {
     box-sizing: border-box;
     .fdescription {
@@ -51,17 +63,18 @@
         display: none;
     }
 }
+
 .efb-settings-tab-list {
     height: 100%;
     margin: 0;
-    background-color: rgba(255,255,255,0.8);
+    background-color: rgba(255, 255, 255, 0.8);
     .efb-settings-tab-list-item {
         list-style: none;
         cursor: pointer;
         a {
             text-decoration: none;
         }
-        &.active h4{
+        &.active h4 {
             color: white;
         }
         &:not(.active) {
@@ -69,6 +82,7 @@
         }
     }
 }
+
 .efb-email-show-tags {
     width: 100%;
     .efb-email-tags {
@@ -78,18 +92,19 @@
         ul {
             list-style: none;
             padding-left: 0;
-            li{
+            li {
                 padding: 5px 10px;
-                border-bottom: 1px solid rgba(0,0,0,0.1);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             }
         }
         &.show {
             height: 150px;
-            border: 1px solid rgba(0,0,0,0.2);
+            border: 1px solid rgba(0, 0, 0, 0.2);
             margin: 10px 0px;
         }
     }
 }
+
 .efb-settings-tab-list-container {
     position: fixed;
     top: 100px;
@@ -97,6 +112,7 @@
     overflow-y: auto;
     width: 220px;
 }
+
 .efb-settings-tab-content {
     position: fixed;
     top: 100px;
@@ -120,16 +136,19 @@
         }
     }
 }
+
 .efb-form-settings .fdescription {
     display: none;
 }
+
 .efb-form-settings .efb-settings-tab:not(.active) {
     display: none;
 }
+
 .efb-settings-tab-list {
     height: 100%;
     margin-bottom: 0;
-    background-color: rgba(255,255,255,0.8);
+    background-color: rgba(255, 255, 255, 0.8);
     .efb-settings-tab-list-item {
         text-decoration: none;
         &:not(.active) {
@@ -143,18 +162,20 @@
             padding: 0.75rem 1.25rem;
         }
         &:not(.active) h4 {
-            background-color: rgba(255,255,255,0.8);
+            background-color: rgba(255, 255, 255, 0.8);
             color: black;
         }
     }
 }
+
 .efb-settings-description span {
     font-weight: 700;
 }
+
 .efb-event-list {
     width: 100%;
     .efb-event {
-        box-shadow: 1px 1px 3px rgba(0,0,0,.5);
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, .5);
         margin-top: 1rem;
         .efb-event-label {
             cursor: pointer;
@@ -178,15 +199,17 @@
         }
     }
 }
+
 .efb-event-settings {
     overflow: hidden;
     padding: 0px 10px;
-    transition: height .25s linear,padding .05s linear;
+    transition: height .25s linear, padding .05s linear;
     .row {
         padding: 0;
         margin: 10px 0px;
     }
 }
+
 #efb-cont-form-preview {
     #edwiserform-background-cover {
         position: fixed;
@@ -198,6 +221,6 @@
         width: auto;
         padding: 15px;
         transition: right .5s;
-        background: rgba(0,0,0,0.5);
+        background: rgba(0, 0, 0, 0.5);
     }
 }

@@ -100,6 +100,14 @@ function xmldb_local_edwiserform_upgrade($oldversion) {
         $dbman->change_field_type($table, $field);
 
         upgrade_plugin_savepoint(true, 2019061800, 'local', 'edwiserform');
+
+    }
+    if ($oldversion < 2022052400) {
+        $table = new xmldb_table('efb_form_data');
+        $field = new xmldb_field('submission', XMLDB_TYPE_TEXT, 1000, null, true, false);
+        $dbman->change_field_type($table, $field);
+
+        upgrade_plugin_savepoint(true, 2022052400, 'local', 'edwiserform');
     }
     return true;
 }

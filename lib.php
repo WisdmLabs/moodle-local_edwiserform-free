@@ -92,23 +92,25 @@ function local_edwiserform_extend_navigation(navigation_node $nav) {
     if ($can != true) {
         return;
     }
-    if ($PAGE->theme->resolve_image_location('icon', 'local_edwiserform', null)) {
-        $icon = new pix_icon('icon', '', 'local_edwiserform', array('class' => 'icon pluginicon'));
-    } else {
-        $icon = new pix_icon('spacer', '', 'moodle', array(
-            'class' => 'spacer',
-            'width' => 1,
-            'height' => 1
-        ));
-    }
 
-    // Archieve page node.
-    $nav->add(
-        get_string('pluginname', 'local_edwiserform'),
-        new moodle_url($CFG->wwwroot . '/local/edwiserform/view.php'),
-        navigation_node::NODETYPE_BRANCH,
-        null,
-        'local_edwiserform-list',
-        $icon
-    )->showinflatnavigation = true;
+    if ($CFG->branch < 400) {
+        $icon = new pix_icon('icon', '', 'local_edwiserform', array('class' => 'icon pluginicon'));
+
+        // Archieve page node.
+        $nav->add(
+            get_string('pluginname', 'local_edwiserform'),
+            new moodle_url($CFG->wwwroot . '/local/edwiserform/view.php'),
+            navigation_node::NODETYPE_BRANCH,
+            null,
+            'local_edwiserform-list',
+            $icon
+        )->showinflatnavigation = true;
+    } else {
+        $nodes = explode("\n", $CFG->custommenuitems);
+        $node = get_string('pluginname', 'local_edwiserform');
+        $node .= "|";
+        $node .= "/local/edwiserform/view.php";
+        array_unshift($nodes, $node);
+        $CFG->custommenuitems = implode("\n", $nodes);
+    }
 }

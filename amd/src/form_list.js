@@ -3,6 +3,7 @@
  * Version: 0.1.0
  * Author: Yogesh Shirsath
  */
+/* eslint-disable babel/object-curly-spacing */
 define([
     'jquery',
     'core/ajax',
@@ -12,7 +13,7 @@ define([
     'local_edwiserform/fixedColumns.bootstrap4',
     './iefixes',
     'local_edwiserform/formbuilder'
-], function ($, Ajax, notification) {
+], function($, Ajax, notification) {
     return {
         init: function() {
             var PROMISES = {
@@ -24,15 +25,16 @@ define([
                  */
                 DELETE_FORM: function(id) {
                     return Ajax.call([{
-                        methodname: 'edwiserform_delete_form', args: { id }
+                        methodname: 'edwiserform_delete_form',
+                        args: { id }
                     }])[0];
                 },
 
                 /**
                  * Get forms using ajax
                  * @param  {String}  search Search query
-                 * @param  {Number}  length Number of courses
                  * @param  {Number}  start  Start index of courses
+                 * @param  {Number}  length Number of courses
                  * @param  {Array}   order  Column order
                  * @return {Promise}        Ajax promise
                  */
@@ -40,9 +42,9 @@ define([
                     return Ajax.call([{
                         methodname: 'edwiserform_get_forms',
                         args: {
-                            search : search,
-                            start  : start,
-                            length : length,
+                            search: search,
+                            start: start,
+                            length: length,
                             order: order
                         }
                     }])[0];
@@ -58,8 +60,8 @@ define([
                     return Ajax.call([{
                         methodname: 'edwiserform_enable_disable_form',
                         args: {
-                            id     : id,
-                            action : action
+                            id: id,
+                            action: action
                         }
                     }])[0];
                 }
@@ -67,43 +69,51 @@ define([
 
             var table = null;
 
-            $(document).ready(function (e) {
+            // Document ready.
+            $(document).ready(function() {
                 if ($(".efb-wrap-list").data("sesskey") != 0) {
-                    var sesskey = $(".efb-wrap-list").data("sesskey");
                     table = $("#efb-forms").DataTable({
-                        paging          :   true,
-                        ordering        : true,
-                        bProcessing     : true,
-                        bServerSide     : true,
-                        rowId           : 'DT_RowId',
-                        bDeferRender    : true,
-                        scrollY         : "400px",
-                        scrollX         : true,
-                        scrollCollapse  : true,
-                        fixedColumns    : {
-                            leftColumns     : 1,
-                            rightColumns    : 1
+                        paging: true,
+                        ordering: true,
+                        bProcessing: true,
+                        bServerSide: true,
+                        rowId: 'DT_RowId',
+                        bDeferRender: true,
+                        scrollY: "400px",
+                        scrollX: true,
+                        scrollCollapse: true,
+                        fixedColumns: {
+                            leftColumns: 1,
+                            rightColumns: 1
                         },
                         classes: {
                             sScrollHeadInner: 'efb_dataTables_scrollHeadInner'
                         },
+                        // eslint-disable-next-line max-len
                         dom: '<"efb-top"<"efb-listing"l><"efb-list-filtering"f>>t<"efb-bottom"<"efb-form-list-info"i><"efb-list-pagination"p>><"efb-shortcode-copy-note">',
                         columns: [
                             { data: "title" },
                             { data: "type" },
-                            { data: "shortcode" , orderable : false},
+                            { data: "shortcode", orderable: false },
                             { data: "author" },
                             { data: "created" },
                             { data: "author2" },
                             { data: "modified" },
-                            { data: "actions" , orderable : false}
+                            { data: "actions", orderable: false, 'class': 'text-center' }
                         ],
-                        language        : {
+                        language: {
                             sSearch: M.util.get_string('search-form', 'local_edwiserform'),
                             emptyTable: M.util.get_string('heading-listforms-empty', 'local_edwiserform'),
-                            info: M.util.get_string('heading-listforms-showing', 'local_edwiserform', {'start': '_START_', 'end': '_END_', 'total': '_TOTAL_'}),
-                            infoEmpty: M.util.get_string('heading-listforms-showing', 'local_edwiserform', {'start': '0', 'end': '0', 'total': '0'}),
+                            info: M.util.get_string(
+                                'heading-listforms-showing',
+                                'local_edwiserform', { 'start': '_START_', 'end': '_END_', 'total': '_TOTAL_' }
+                            ),
+                            infoEmpty: M.util.get_string(
+                                'heading-listforms-showing',
+                                'local_edwiserform', { 'start': '0', 'end': '0', 'total': '0' }
+                            ),
                         },
+                        // eslint-disable-next-line
                         ajax: function(data, callback, settings) {
                             PROMISES.GET_FORMS(
                                 data.search.value,
@@ -114,17 +124,23 @@ define([
                                 callback(response);
                             }).fail(notification.exception);
                         },
-                        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                            $('td:eq(0)', nRow).addClass( "efb-tbl-col-title" );
-                            $('td:eq(1)', nRow).addClass( "efb-tbl-col-type" );
-                            $('td:eq(2)', nRow).addClass( "efb-tbl-col-shortcode").attr('title', M.util.get_string('clickonshortcode', 'local_edwiserform'));
-                            $('td:eq(3)', nRow).addClass( "efb-tbl-col-create" );
-                            $('td:eq(4)', nRow).addClass( "efb-tbl-col-modified" );
-                            $('td:eq(5)', nRow).addClass( "efb-tbl-col-action-list" );
+                        // eslint-disable-next-line
+                        "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                            $('td:eq(0)', nRow).addClass("efb-tbl-col-title");
+                            $('td:eq(1)', nRow).addClass("efb-tbl-col-type");
+                            $('td:eq(2)', nRow).addClass("efb-tbl-col-shortcode").attr(
+                                'title',
+                                M.util.get_string('clickonshortcode', 'local_edwiserform')
+                            );
+                            $('td:eq(3)', nRow).addClass("efb-tbl-col-create");
+                            $('td:eq(4)', nRow).addClass("efb-tbl-col-modified");
+                            $('td:eq(5)', nRow).addClass("efb-tbl-col-action-list");
                         },
-                        drawCallback: function( settings ) {
+                        // eslint-disable-next-line
+                        drawCallback: function(settings) {
                             $('.efb-csv-export').removeClass('dt-button').off();
-                            $('.efb-shortcode-copy-note').html(M.util.get_string('note', 'local_edwiserform') + ' ' + M.util.get_string('clickonshortcode', 'local_edwiserform'));
+                            $('.efb-shortcode-copy-note').html(M.util.get_string('note', 'local_edwiserform') +
+                                ' ' + M.util.get_string('clickonshortcode', 'local_edwiserform'));
                         }
                     });
                 }
@@ -133,11 +149,11 @@ define([
                     event.preventDefault();
                     var id = $(this).data('formid');
                     var title = table.row(this).data().title;
+                    // eslint-disable-next-line
                     Formeo.dom.multiActions(
                         'warning',
                         M.util.get_string('warning', 'local_edwiserform'),
-                        '<h5>' + M.util.get_string('delete-form-and-data', 'local_edwiserform', {title, id}) + '</h5>',
-                        [{
+                        '<h5>' + M.util.get_string('delete-form-and-data', 'local_edwiserform', { title, id }) + '</h5>', [{
                             title: M.util.get_string('proceed', 'local_edwiserform'),
                             type: 'danger',
                             action: function() {
@@ -160,9 +176,10 @@ define([
                  * @param  {string} video type of feature
                  * @return {string}       Youtube embed video url
                  */
-                var get_pro_demo_url = function(video) {
+                var getProDemoUrl = function(video) {
+                    // eslint-disable-next-line
                     return videotypes.hasOwnProperty(video) ? videotypes[video] : videotypes['default'];
-                }
+                };
 
                 $('body').on('click', '.efb-form-export', function(event) {
                     event.preventDefault();
@@ -173,11 +190,13 @@ define([
                         type: string + '! <b>' + exporttitle + '</b>',
                         message: message
                     });
+                    // eslint-disable-next-line
                     Formeo.dom.multiActions(
                         'success',
                         M.util.get_string('upgrade', 'local_edwiserform'),
-                        '<h5>' + message + '</h5><div><iframe class="efb-pro-demo" src="' + get_pro_demo_url('export') + '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>',
-                        [{
+                        '<h5>' + message + '</h5><div><iframe class="efb-pro-demo" src="' +
+                        getProDemoUrl('export') +
+                        '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>', [{
                             title: M.util.get_string('proceed', 'local_edwiserform'),
                             type: 'success',
                             action: function() {
@@ -190,33 +209,43 @@ define([
                     );
                 });
 
-                function enable_disable_form(input) {
+                /**
+                 * Enable disable form
+                 * @param {DOM} input Input element
+                 */
+                function enableDisableForm(input) {
                     var formid = $(input).data('formid');
                     PROMISES.ENABLE_DISABLE_FORM(formid, !$(input).is(':checked'))
-                    .done(function(response) {
-                        if (response.status) {
-                            $(input).prop('checked', $(input).is(':checked'));
-                        } else {
-                            $(input).prop('checked', !$(input).is(':checked'));
-                        }
-                        $(input).parent().attr('title', $(input).is(':checked') ? $(input).data('disable-title') : $(input).data('enable-title'))
-                    }).fail(function(ex) {
-                        console.log(ex);
-                    });
+                        .done(function(response) {
+                            if (response.status) {
+                                $(input).prop('checked', $(input).is(':checked'));
+                            } else {
+                                $(input).prop('checked', !$(input).is(':checked'));
+                            }
+                            $(input).parent().attr('title', $(input).is(':checked') ?
+                                $(input).data('disable-title') :
+                                $(input).data('enable-title'));
+                        }).fail(function(ex) {
+                            // eslint-disable-next-line
+                            console.log(ex);
+                        });
                 }
 
-                $('body').on('click', '.efb-enable-disable-form', function(event) {
+                // Enable disable form.
+                $('body').on('click', '.efb-enable-disable-form', function() {
                     var input = $(this).prev();
-                    enable_disable_form(input);
+                    enableDisableForm(input);
                 });
 
-                $('body').on("click", ".efb-tbl-col-shortcode", function(event) {
+                // Copy shortcode.
+                $('body').on("click", ".efb-tbl-col-shortcode", function() {
                     var temp = $('<input>');
                     $('body').append(temp);
                     var shortcode = $(this).text();
                     temp.val(shortcode).select();
                     document.execCommand('copy');
                     temp.remove();
+                    // eslint-disable-next-line
                     Formeo.dom.toaster(M.util.get_string('shortcodecoppied', 'local_edwiserform', shortcode));
                 });
             });

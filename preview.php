@@ -53,7 +53,7 @@ if (!$form) {
     $strings = $stringmanager->load_component_strings('local_edwiserform', 'en');
     $PAGE->requires->strings_for_js(array_keys($strings), 'local_edwiserform');
     $PAGE->requires->js(new moodle_url('https://www.google.com/recaptcha/api.js'));
-    $PAGE->requires->data_for_js('definition', $form->definition);
+    $PAGE->requires->data_for_js('formDefinition', $form->definition);
     $PAGE->requires->js_call_amd('local_edwiserform/preview_form', 'init', array($form->title, $sitekey));
 }
 $out .= html_writer::end_tag("div");
