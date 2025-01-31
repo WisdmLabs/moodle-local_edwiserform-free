@@ -136,16 +136,19 @@ class form_basic_settings extends moodleform {
             get_string("lbl-allowedit", "local_edwiserform"),
             get_string('lbl-allowedit-desc', 'local_edwiserform')
         );
+        $a = new \stdClass();
+        $a->labelstart = '<label class="efb-forms-pro-label m-0">';
+        $a->labelend = '</label>';
         $form->addElement(
             'date_time_selector',
             'allowsubmissionsfromdate',
-            get_string('allowsubmissionsfromdate', 'local_edwiserform'),
+            get_string('allowsubmissionsfromdate', 'local_edwiserform', $a),
             array('optional' => true)
         );
         $form->addElement(
             'date_time_selector',
             'allowsubmissionstodate',
-            get_string('allowsubmissionstodate', 'local_edwiserform'),
+            get_string('allowsubmissionstodate', 'local_edwiserform', $a),
             array('optional' => true)
         );
         $form->addElement("html", "</div>");
@@ -162,26 +165,38 @@ class form_basic_settings extends moodleform {
      * @since Edwiser Form 1.0.0
      */
     private function get_notification_settings(&$form) {
+        global $PAGE, $OUTPUT;
+        
         $form->addElement("html", "<div class='efb-settings-tab' id='efb-settings-notification'>");
+        $a = new \stdClass();
+        $a->labelstart = '<label class="efb-forms-pro-label m-0">';
+        $a->labelend = '</label>';
         $form->addElement(
             "checkbox",
             "enable_notification",
-            get_string("enable-notification", "local_edwiserform"),
+            get_string("enable-notification", "local_edwiserform", $a),
             get_string('enable-notification-desc', 'local_edwiserform')
         );
         $form->addElement("text", "notifi_email", get_string("lbl-notifi-email", "local_edwiserform"), null);
         $form->setType("notifi_email", PARAM_TEXT);
-        $form->addElement("text", "notifi_email_subject", get_string('notify-email-subject-setting', 'local_edwiserform'), null);
+        $form->addElement("text", "notifi_email_subject", get_string('notify-email-subject-setting', 'local_edwiserform', $a), null);
         $form->setDefault("notifi_email_subject", get_string('notify-email-subject', 'local_edwiserform'));
         $form->setType("notifi_email_subject", PARAM_TEXT);
         $context = context_system::instance();
-        $form->addElement("editor", "notifi_email_body", get_string("notify-email-body-setting", "local_edwiserform"), null, array(
+        // Prepare data for the template.
+        $data = [
+            'title' => get_string('notify-email-title', 'local_edwiserform'),
+            'message' => get_string('notify-email-message', 'local_edwiserform')
+        ];
+        // Render the Mustache template.
+        $emailBody = $OUTPUT->render_from_template('local_edwiserform/notify-email-body', $data);
+        $form->addElement("editor", "notifi_email_body", get_string("notify-email-body-setting", "local_edwiserform", $a), null, array(
             'maxfiles' => EDITOR_UNLIMITED_FILES,
             'noclean' => true,
             'autosave' => false,
             'context' => $context,
             'subdirs' => false
-        ))->setValue(array('text' => get_string('notify-email-body', 'local_edwiserform')));
+        ))->setValue(array('text' => $emailBody));
         $form->setType("notifi_email_message", PARAM_RAW);
         $form->addElement("html", "</div>");
     }
@@ -192,17 +207,32 @@ class form_basic_settings extends moodleform {
      * @since Edwiser Form 1.0.0
      */
     private function get_confirmation_settings(&$form) {
+        global $PAGE, $OUTPUT;
         $form->addElement("html", "<div class='efb-settings-tab' id='efb-settings-confirmation'>");
         $context = context_system::instance();
-        $form->addElement("text", "confirmation_subject", get_string('confirmation-subject', 'local_edwiserform'), null);
+        $a = new \stdClass();
+        $a->labelstart = '<label class="efb-forms-pro-label m-0">';
+        $a->labelend = '</label>';
+        $form->addElement("text", "confirmation_subject", get_string('confirmation-subject', 'local_edwiserform', $a), null);
         $form->setType("confirmation_subject", PARAM_RAW);
         $form->setDefault("confirmation_subject", get_string('confirmation-default-subject', 'local_edwiserform'));
+        
+        $renderer = $PAGE->get_renderer('local_edwiserform');
+        // Define the data for the template.
+        $templateData = [
+            'title' => get_string('form_title', 'local_edwiserform'),
+            'greeting' => get_string('greeting_message', 'local_edwiserform'),
+            'message' => get_string('thank_you_message', 'local_edwiserform'),
+        ];
+        // Render the Mustache template.
+        $confirmationMsgHtml = $renderer->render_from_template('local_edwiserform/confirmation-default-msg', $templateData);
+
         $form->addElement("editor", "confirmation_msg", get_string("confirmation-msg", "local_edwiserform"), null, array(
             'maxfiles' => EDITOR_UNLIMITED_FILES,
             'noclean' => true,
             'context' => $context,
             'subdirs' => false
-        ))->setValue(array('text' => get_string('confirmation-default-msg', 'local_edwiserform')));
+        ))->setValue(array('text' => $confirmationMsgHtml));
         $form->setType("confirmation_msg", PARAM_RAW);
         $form->addElement("html", "</div>");
     }
@@ -247,8 +277,11 @@ class form_basic_settings extends moodleform {
                 "html",
                 "<li class='efb-settings-tab-list-item efb-list-group-item $active' data-target='efb-settings-$tab'>"
             );
+            $a = new \stdClass();
+            $a->labelstart = '<label class="efb-forms-pro-label m-0">';
+            $a->labelend = '</label>';
             $form->addElement("html", "<div class='bg-primary'>");
-            $form->addElement("html", "<h4>" . get_string("settings-$tab", 'local_edwiserform') . "</h4>");
+            $form->addElement("html", "<h4>" . get_string("settings-$tab", 'local_edwiserform', $a) . "</h4>");
             $form->addElement("html", "</div>");
             $form->addElement("html", "</li>");
         }

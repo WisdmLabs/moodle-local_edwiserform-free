@@ -1425,7 +1425,10 @@ class DOM {
     if (!fullpage || fullpage === false) {
       renderTarget.append(this.create({
         tag: 'div',
-        content: getString('fullpage-link-message')
+        content: getString('fullpage-link-message', {
+          anchorstart: '<a class="efb-view-fullpage" href="#">',
+          anchorend: '</a>'
+        })
       }));
     }
     dom.applyConditions(formData.rows);

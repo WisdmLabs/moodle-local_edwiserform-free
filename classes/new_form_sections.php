@@ -41,7 +41,7 @@ class new_form_sections {
      * $navitem Sidebar navigation items
      * @var array
      */
-    private $navitem;
+    private $nav_item;
 
     /**
      * $panels Panels
@@ -96,6 +96,8 @@ class new_form_sections {
      * @var string
      */
     private $buildericons;
+
+    private $section_data;
 
     /**
      * Get complete form section data object

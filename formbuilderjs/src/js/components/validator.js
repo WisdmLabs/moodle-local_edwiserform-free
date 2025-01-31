@@ -58,18 +58,18 @@ class Validator {
         let optionValid = this.validateOptions(fieldData);
         const type = fieldData.attrs.type || '';
         if (type == '') {
-          errors.push(getString('input-invalid-type', this.getFieldLabelAndId(fieldData)));
+          errors.push(getString('input-invalid-type', '<strong>' + this.getFieldLabelAndId(fieldData) + '</strong>'));
           optionValid = false;
         }
         if (optionValid == false) {
-          errors.push(getString(`input-${fieldData.attrs.type || 'all'}-option-invalid`, this.getFieldLabelAndId(fieldData)));
+          errors.push(getString(`input-${fieldData.attrs.type || 'all'}-option-invalid`, '<strong>' + this.getFieldLabelAndId(fieldData) + '</strong>'));
         }
         return optionValid;
       },
       select: fieldData => {
         const optionValid = this.validateOptions(fieldData);
         if (optionValid == false) {
-          errors.push(getString('select-option-invalid', this.getFieldLabelAndId(fieldData)));
+          errors.push(getString('select-option-invalid', '<strong>' + this.getFieldLabelAndId(fieldData) + '</strong>'));
         }
         return optionValid;
       }
@@ -114,7 +114,7 @@ class Validator {
     if (nameMissing.length == 0) {
       return '';
     }
-    return getString('missing-name-attribute-field', nameMissing.join(', '));
+    return getString('missing-name-attribute-field', '<strong>' + nameMissing.join(', ') + '</strong>');
   }
 }
 const validator = new Validator();

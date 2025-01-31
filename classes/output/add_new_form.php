@@ -57,13 +57,17 @@ class add_new_form implements renderable, templatable {
      * Form sections
      * @var null
      */
-    private $formsections = null;
+    private $form_sections = null;
 
     /**
      * Plugins installed in events directory.
      * @var array
      */
-    private $plugin = [];
+    private $plugins = [];
+
+    private $teacher = false;
+
+    private $form = null;
 
     /**
      * Constructor for add new form renderable

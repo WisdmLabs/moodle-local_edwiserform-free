@@ -140,8 +140,11 @@ trait get_form_definition {
         $canuser = $controller->can_save_data($form, $plugin);
         switch ($canuser['status']) {
             case 0:
+                $a = new \stdClass();
+                $a->anchoropen = '<a href="' . $CFG->wwwroot . '">';
+                $a->anchorclose = '</a>';
                 // User previously submitted data into form but admin disabled user from re-submitting data.
-                $response["msg"] = get_string("form-submission-found", "local_edwiserform", $CFG->wwwroot);
+                $response["msg"] = get_string("form-submission-found", "local_edwiserform", $a);
                 break;
             case 2:
                 // User previously submitted data into form and can re-submit data to edit previous submission.

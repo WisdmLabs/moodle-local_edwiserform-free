@@ -93,6 +93,8 @@
         "mdn-polyfills": "^5.20.0",
         "nodelist-foreach-polyfill": "^1.2.0",
         "sortablejs": "^1.10.0",
+        "svg-sprite": "^2.0.4",
+        "svgo": "^3.3.2",
         "symbol": "^0.3.1",
         "uuid-v4": "^0.1.0",
         "webpack": "^4.40.2",

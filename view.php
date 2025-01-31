@@ -23,10 +23,10 @@
  */
 
 require_once('../../config.php');
+global $CFG, $PAGE, $OUTPUT;
 require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->dirroot . '/local/edwiserform/locallib.php');
 
-global $CFG, $PAGE, $OUTPUT;
 
 require_login();
 

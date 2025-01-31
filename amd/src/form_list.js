@@ -187,7 +187,7 @@ define([
                     var exporttitle = M.util.get_string('form-action-export-title', 'local_edwiserform');
                     var message = M.util.get_string('export-pro-message', 'local_edwiserform');
                     message = M.util.get_string('profeaturemessage', 'local_edwiserform', {
-                        type: string + '! <b>' + exporttitle + '</b>',
+                        type: "<strong>" + string + '! <b>' + exporttitle + '</b></strong>',
                         message: message
                     });
                     // eslint-disable-next-line

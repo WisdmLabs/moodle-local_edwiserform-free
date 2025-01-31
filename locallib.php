@@ -171,7 +171,7 @@ class edwiserform {
                     transform: translate(-50%, -50%);
                     text-align: center;
                 '));
-                $out .= get_string("error-occured-while-loading", "local_edwiserform");
+                $out .= get_string("error-occured-while-loading", "local_edwiserform", "<br />");
                 $out .= html_writer::end_tag('div');
                 $out .= html_writer::end_tag('div');
                 $css = [new moodle_url($CFG->wwwroot .'/local/edwiserform/style/formedit.css')];

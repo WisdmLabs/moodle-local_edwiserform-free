@@ -111,10 +111,13 @@ trait submit_form_data {
         }
         if ($status) {
             $response['status'] = true;
+            $a = new \stdClass();
+            $a->anchoropen = '<a href="' . $CFG->wwwroot . '/?redirect=0">';
+            $a->anchorclose = '</a>';
             $response['msg'] = "<p>" . get_string(
                 "form-data-submission-successful",
                 "local_edwiserform",
-                $CFG->wwwroot . '/?redirect=0'
+                $a
             ) . "</p>";
             if ($form->message) {
                 $response['msg'] .= self::confirmation($form, $data);
@@ -179,13 +182,16 @@ trait submit_form_data {
         global $USER, $CFG;
 
         $controller = controller::instance();
+        $a = new \stdClass();
+        $a->pstart = '<p>';
+        $a->pend = '</p>';
 
         $email = self::email_from_form($form->definition, $submission);
         if ($email == '' && $USER->id != 0 && !empty($USER->email)) {
             $email = $USER->email;
         }
         if (!$email) {
-            return get_string('confirmation-email-failed', 'local_edwiserform');
+            return get_string('confirmation-email-failed', 'local_edwiserform', $a);
         }
         $context = context_system::instance();
         $messagehtml = file_rewrite_pluginfile_urls(
@@ -202,9 +208,9 @@ trait submit_form_data {
             get_string('confirmation-default-subject', 'local_edwiserform'),
             $messagehtml
         )) {
-            return get_string('confirmation-email-success', 'local_edwiserform');
+            return get_string('confirmation-email-success', 'local_edwiserform', $a);
         }
-        return get_string('confirmation-email-failed', 'local_edwiserform');
+        return get_string('confirmation-email-failed', 'local_edwiserform', $a);
     }
 
     /**
@@ -229,7 +235,7 @@ trait submit_form_data {
         $messagehtml = get_string(
             'notify-email-body',
             'local_edwiserform',
-            array('user' => $user, 'title' => $form->title, 'link' => $link)
+            array('user' => $user, 'title' => $form->title, 'anchorstart' => "<a href='" . $link . "'>", 'anchorend' => "</a>")
         );
         if ($form->notifi_email) {
             $emails = explode(',', $form->notifi_email);
@@ -245,10 +251,13 @@ trait submit_form_data {
                 $messagehtml
             );
         }
+        $a = new \stdClass();
+        $a->pstart = '<p>';
+        $a->pend = '</p>';
         if ($status != true) {
-            return get_string('notify-email-failed', 'local_edwiserform');
+            return get_string('notify-email-failed', 'local_edwiserform', $a);
         }
-        return get_string('notify-email-success', 'local_edwiserform');
+        return get_string('notify-email-success', 'local_edwiserform', $a);
     }
 
     /**

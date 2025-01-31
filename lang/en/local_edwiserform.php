@@ -22,7 +22,7 @@
  * @author    Yogesh Shirsath
  */
 
-$prolabel = '<label class="efb-forms-pro-label m-0">PRO</label>';
+$prolabel = '{$a->labelstart}PRO{$a->labelend}';
 $string['pluginname'] = "Edwiser Forms Free";
 $string['heading-newform'] = "Add New Form";
 $string['heading-editform'] = "Edit Form";
@@ -79,13 +79,13 @@ $string['forms-update-create-new'] = "New";
 $string['forms-update-overwrite-existing'] = "Overwrite";
 $string['admin-disabled-teacher'] = "You are not allowed to create form. Contact Admin to enable form creation.";
 $string['contact-admin'] = "Please contact Site Admin.";
-$string['notify-email-subject'] = '{$a->site}: New user submission in {$a->title}.';
-$string['notify-email-body'] = '{$a->user} has made submission in {$a->title} form. To see all submissions please <a href="{$a->link}">click</a> here.';
-$string['notify-email-failed'] = "<p>Unable to send email.</p>";
-$string['notify-email-success'] = "<p>Notified successfully.</p>";
-$string['confirmation-email-failed'] = "<p>Unable to send confirmation email.</p>";
-$string['confirmation-email-success'] = "<p>Confirmation email sent successfully.</p>";
-$string['notify-email-failed'] = "<p>Unable to notify author.</p>";
+$string['notify-email-subject-old'] = '{$a->site}: New user submission in {$a->title}.';
+$string['notify-email-body'] = '{$a->user} has made submission in {$a->title} form. To see all submissions please {$a->anchorstart}click{$a->anchorend} here.';
+$string['notify-email-failed-old-1'] = '{$a->pstart}Unable to send email.{$a->pend}';
+$string['notify-email-success-old'] = '{$a->pstart}Notified successfully.{$a->pend}';
+$string['confirmation-email-failed'] = '{$a->pstart}Unable to send confirmation email.{$a->pend}';
+$string['confirmation-email-success'] = '{$a->pstart}Confirmation email sent successfully.{$a->pend}';
+$string['notify-email-failed-old-2'] = '{$a->pstart}Unable to notify author.{$a->pend}';
 
 $string['delete-form-and-data'] = '{$a->title} form with ID({$a->id}) will be deleted along with its submissions. Are you sure you want to delete this form?';
 $string['deletesubmission'] = 'Delete submission?';
@@ -99,10 +99,10 @@ $string['shortcodecoppied'] = '{$a} copied to clipboard';
 $string['hey-wait'] = 'Hey Wait';
 $string['search-form'] = 'Search Forms:';
 $string['search-entry'] = 'Search Entry:';
-$string['missing-name-attribute-field'] = 'Please provide name in the: <strong>{$a}</strong>. This is important to run form properly.';
+$string['missing-name-attribute-field'] = 'Please provide name in the: {$a}. This is important to run form properly.';
 $string['form-style'] = 'Style';
 $string['form-enter-title'] = 'Please give a name to your form';
-$string['fullpage-link-message'] = '<a class="efb-view-fullpage" href="#">Click here</a> to view form in new tab.';
+$string['fullpage-link-message'] = '{$a->anchorstart}Click here{$a->anchorend} to view form in new tab.';
 $string['fullpage-link-clicked'] = 'Form is opened in another tab.';
 
  // Template event string.
@@ -159,57 +159,34 @@ $string['enable-notification'] = 'Enable notification ' . $prolabel;
 $string['enable-notification-desc'] = 'Enable email notification.(Always enabled in Edwiser Forms Free)';
 $string['notify-email-subject'] = 'New user submission';
 $string['notify-email-subject-setting'] = 'Email Subject ' . $prolabel;
-$string['notify-email-body'] = '<div style="background-color: #efefef; -webkit-text-size-adjust: none !important; margin: 0; padding: 70px 70px 70px 70px;"><table id="template_container" style="text-align: center; padding-bottom: 20px; background-color: rgb(223, 223, 223); box-shadow: rgba(0, 0, 0, 0.024) 0px 0px 0px 3px !important; border-radius: 6px !important; margin: auto;" border="0" width="500" cellspacing="0" cellpadding="0">
-<tbody>
-<tr>
-<td style="background-color: #1177d1;border-top-left-radius: 6px !important;border-top-right-radius: 6px !important;border-bottom: 0;font-family: Arial;font-weight: bold;line-height: 100%;vertical-align: middle;">
-<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">Edwiser Forms Free</h1>
-</td>
-</tr>
-<tr>
-<td style="padding: 20px; background-color: #dfdfdf; border-radius: 6px !important;" align="center" valign="top">
-<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Hi,</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Someone has made submission in your form.</div>
-<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div>
-<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div></td></tr>
-</tbody>
-</table>
-</div>';
+$string['notify-email-title'] = 'Edwiser Forms Free';
+$string['notify-email-message'] = 'Someone has made a submission in your form.';
 $string['email-show-tags'] = 'Show tags';
 $string['email-hide-tags'] = 'Hide tags';
-$string['email-body-tags'] = [
+$string['email-body-tags'] = json_encode([
     '{FORM_TITLE}' => 'Title of form',
     '{SITE_NAME}' => 'Will be replaced with site name',
     '{USER_FULLNAME}' => 'Firstname and Lastname of user',
-    '{USER_FIRSTNAME}' => 'User\'s firstname',
-    '{USER_LASTNAME}' => 'User\'s lastname',
+    '{USER_FIRSTNAME}' => "User's firstname",
+    '{USER_LASTNAME}' => "User's lastname",
     '{AUTHOR_NAME}' => 'Firstname and Lastname of author',
-    '{AUTHOR_FIRSTNAME}' => 'Author\'s firstname',
-    '{AUTHOR_LASTNAME}' => 'Author\'s lastname',
+    '{AUTHOR_FIRSTNAME}' => "Author's firstname",
+    '{AUTHOR_LASTNAME}' => "Author's lastname",
     '{USER_LINK}' => 'Link of user with fullname',
     '{ALL_FIELDS}' => 'All fields from form',
-    '{VIEW_DATA_LINK LABEL=\"click\"}' => 'Link to view submission with custom label'
-];
+    '{VIEW_DATA_LINK LABEL="click"}' => 'Link to view submission with custom label'
+]);
 $string['notify-email-body-setting'] = 'Email Body ' . $prolabel;
-$string['confirmation-email-failed'] = "<p>Unable to send confirmation email.</p>";
-$string['confirmation-email-success'] = "<p>Confirmation email sent successfully.</p>";
-$string['notify-email-failed'] = "<p>Unable to notify author.</p>";
-$string['notify-email-success'] = "<p>Notified to author successfully.</p>";
+$string['notify-email-failed'] = '{$a->pstart}Unable to notify author.{$a->pend}';
+$string['notify-email-success'] = '{$a->pstart}Notified to author successfully.{$a->pend}';
 $string["confirmation-subject"] = "Form Confirmation Email Subject"  . $prolabel;
 $string["confirmation-default-subject"] = 'Form submitted successfully.';
 $string["confirmation-msg"] = "Form Confirmation Email Message";
-$string["confirmation-default-msg"] = '<div style="background-color: #efefef; -webkit-text-size-adjust: none !important; margin: 0; padding: 70px 70px 70px 70px;"><table id="template_container" style="text-align: center; padding-bottom: 20px; background-color: rgb(223, 223, 223); box-shadow: rgba(0, 0, 0, 0.024) 0px 0px 0px 3px !important; border-radius: 6px !important; margin: auto;" border="0" width="500" cellspacing="0" cellpadding="0">
-<tbody>
-<tr>
-<td style="background-color: #1177d1;border-top-left-radius: 6px !important;border-top-right-radius: 6px !important;border-bottom: 0;font-family: Arial;font-weight: bold;line-height: 100%;vertical-align: middle;">
-<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">Edwiser Forms Free</h1>
-</td>
-</tr>
-<tr>
-<td style="padding: 20px; background-color: #dfdfdf; border-radius: 6px !important;" align="center" valign="top">
-<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Hi,</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Thank you for submission.</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div></td></tr></tbody></table><br>
-</div>';
-$string['error-occured-while-loading'] = 'Please wait while the page is loading. <br> If nothing appears then try to reload the page.';
-$string['email-body-restore-desc'] = '<a href="#" class="efb-email-body-restore" data-id="{$a->id}" data-string="{$a->string}">Restore</a> email body to default.';
+$string['form_title'] = 'Edwiser Forms Free';
+$string['greeting_message'] = 'Hi,';
+$string['thank_you_message'] = 'Thank you for your submission.';
+$string['error-occured-while-loading'] = 'Please wait while the page is loading. {$a} If nothing appears then try to reload the page.';
+$string['email-body-restore-desc'] = '{$a->anchorstart}Restore{$a->anchorend} email body to default.';
 $string['recipient-email-desc'] = 'Default: Author\'s email address';
 // Settings strings end.
 
@@ -240,7 +217,7 @@ $string["form-setting-save-msg"] = "Form saved successfuly. You will redirected 
 $string["form-setting-saved"] = "Your form is already saved. You will redirected to forms list.";
 $string["form-setting-save-fail-msg"] = "Error while saving form definition.";
 $string["form-def-save-fail-msg"] = "Error while saving form definition.";
-$string["form-def-update-fail-msg"] = 'Cannot overwrite form. User submissions present. Try to create new form or <a href="{$a}" target="_blank">upgrade</a> to pro to override form even if it have submissions.';
+$string["form-def-update-fail-msg"] = 'Cannot overwrite form. User submissions present. Try to create new form or {$a->anchoropen}upgrade{$a->anchorclose} to pro to override form even if it have submissions.';
 $string["form-setting-update-fail-msg"] = "Unable to update form.";
 $string["form-setting-update-msg"] = "Form has been updated successfuly. Click Ok to redirect to forms list.";
 $string["list-form-data-page-title"] = "List Form Data.";
@@ -273,12 +250,12 @@ $string["form-not-found"] = 'Form {$a} not found.';
 $string["form-not-enabled"] = 'Form {$a} not enable.';
 $string["form-data-heading-action"] = "Action";
 $string["form-data-heading-user"] = "User";
-$string["form-data-submission-successful"] = '<p>Form submitted successfully. <a href="{$a}">Click</a> here to visit homepage.</p>';
+$string["form-data-submission-successful"] = 'Form submitted successfully. {$a->anchoropen}Click{$a->anchorclose} here to visit homepage.';
 $string["form-data-submission-failed"] = "Form data submission failed";
 $string["form-data-submission-not-supported"] = "This form type does not support form submission";
 $string["form-data-action-no-action"] = "No actions";
 $string["form-data-no-data"] = "Found empty form definition. Nothing to display.";
-$string["form-submission-found"] = 'You already submitted response. You are not allowed to edit or submit response. <a href="{$a}">Click</a> here to visit homepage.</p>';
+$string["form-submission-found"] = 'You already submitted response. You are not allowed to edit or submit response. {$a->anchoropen}Click{$a->anchorclose} here to visit homepage.';
 $string["form-cannot-submit"] = "You are not allowed to submit data";
 $string["unknown-error"] = "Unknown error";
 $string["form-definition-found"] = "Form definition found";
@@ -288,7 +265,7 @@ $string["form-loggedin-not-allowed"] = "Form cannot be shown while you logged in
 
 /* JS Strings */
 $string["action.add.attrs.attr"] = "What attribute would you like to add?";
-$string['attribute-help'] = 'What is attribute? <a target="_blank" href="https://www.google.com/search?q=what+is+html+form+field+attributes&oq=what+is+html+form+field+attr">Click here for help.</a>';
+$string['attribute-help'] = 'What is attribute? {$a->anchoropen}Click here for help.{$a->anchorclose}';
 $string["action.add.attrs.value"] = "Default Value";
 $string["address"] = "Address";
 $string["allFieldsRemoved"] = "All fields were removed.";
@@ -333,7 +310,7 @@ $string["controlGroups.nextGroup"] = "Next Group";
 $string["controlGroups.prevGroup"] = "Previous Group";
 $string["copy"] = "Copy To Clipboard";
 $string["customcssstyle"] = "Custom Css Style";
-$string["cannotremove"] = 'Cannot remove {$a}. Contains template elements:<br>';
+$string["cannotremove"] = 'Cannot remove {$a->original}. Contains template elements:{$a->breakline}';
 $string["columnlayout"] = "Define a column layout";
 $string["columnwidths"] = "Define column widths";
 $string["control-name"] = "Name - First Name & Last Name";
@@ -449,9 +426,9 @@ $string["panelEditButtons.logics"] = "Logics";
 $string["panelLabels.logics"] = "Logics";
 $string["panelEditButtons.logics"] = "Logics";
 $string["proceed"] = "Proceed";
-$string["profeature"] = '<strong>{$a}</strong> is part of Edwiser Forms Pro version. Upgrade to Edwiser Forms Pro Now to avail this feature.';
+$string["profeature"] = '{$a} is part of Edwiser Forms Pro version. Upgrade to Edwiser Forms Pro Now to avail this feature.';
 $string["export-pro-message"] = "It helps you save time by replicating the same form on another Moodle site.";
-$string["profeaturemessage"] = '<strong>{$a->type}</strong> is part of Edwiser Forms Pro version.{$a->message} Upgrade to Edwiser Forms Pro Now to avail this feature.';
+$string["profeaturemessage"] = '{$a->type} is part of Edwiser Forms Pro version.{$a->message} Upgrade to Edwiser Forms Pro Now to avail this feature.';
 $string["row.settings.inputGroup.aria"] = "Aria";
 $string["radio"] = "Radio";
 $string["radioGroup"] = "Radio Group - Radio Button";
@@ -549,10 +526,10 @@ $string['input-radio-options-selected'] = $string['input-checkbox-options-select
 $string['datalist-options-value'] = 'List option value';
 
 // Validator Strings.
-$string['input-invalid-type'] = 'Invalid input type in <strong>{$a}</strong>';
-$string['select-option-invalid'] = 'Invalid option in <strong>{$a}</strong>.';
-$string['input-radio-option-invalid'] = 'Invalid radio option in <strong>{$a}</strong>';
-$string['input-checkbox-option-invalid'] = 'Invalid checkbox option in <strong>{$a}</strong>';
+$string['input-invalid-type'] = 'Invalid input type in {$a}';
+$string['select-option-invalid'] = 'Invalid option in {$a}.';
+$string['input-radio-option-invalid'] = 'Invalid radio option in {$a}';
+$string['input-checkbox-option-invalid'] = 'Invalid checkbox option in {$a}';
 $string['input-all-option-invalid'] = $string['select-option-invalid'];
 
 /* Tab configuration strings for designer */
@@ -590,14 +567,44 @@ $string['delete-form-cron-end'] = 'Deleted form {$a}.';
 
 // Usage tracking.
 $string['enableusagetracking'] = "Enable Usage Trakcing";
-$string['enableusagetrackingdesc'] = "<strong>USAGE TRACKING NOTICE</strong>
+$string['enableusagetrackingdesc'] = "<strong>USAGE TRACKING NOTICE</strong><hr class='text-muted' /><p>Edwiser from now on will collect anonymous data to generate product usage statistics.</p><p>This information will help us guide the development in right direction and the Edwiser community prosper.</p><p>Having said that we don't gather your personal data or of your students during this process. You can disable this from the plugin whenever you wish to opt out of this service.</p><p>An overview of the data collected is available <strong><a href='https://forums.edwiser.org/topic/67/anonymously-tracking-the-usage-of-edwiser-products' target='_blank'>here</a></strong>.</p>";
+    
+// Sub plugin title
+$string['edwiserformevents_contact'] = 'Edwiser Forms Contact';
+$string['edwiserformevents_feedback'] = 'Edwiser Forms Feedback';
+$string['edwiserformevents_subscription'] = 'Edwiser Forms Subscription';
+$string['edwiserformevents_support'] = 'Edwiser Forms Support';
+$string['edwiserformevents_blank'] = 'Edwiser Forms Blank';
+$string['edwiserformevents_enrolment'] = 'Edwiser Forms Enrollment';
+$string['edwiserformevents_login'] = 'Edwiser Forms Login';
+$string['edwiserformevents_registration'] = 'Edwiser Forms Registration';
+$string['subplugintype_edwiserformevents'] = 'Edwiser Forms Events'; //patch
+$string['subplugintype_edwiserformevents_plural'] = "Edwiser Form Events Plural"; //patch
 
-<hr class='text-muted' />
-
-<p>Edwiser from now on will collect anonymous data to generate product usage statistics.</p>
-
-<p>This information will help us guide the development in right direction and the Edwiser community prosper.</p>
-
-<p>Having said that we don't gather your personal data or of your students during this process. You can disable this from the plugin whenever you wish to opt out of this service.</p>
-
-<p>An overview of the data collected is available <strong><a href='https://forums.edwiser.org/topic/67/anonymously-tracking-the-usage-of-edwiser-products' target='_blank'>here</a></strong>.</p>";
+// Dynamic string fetching using jQuery operation.
+$string["confirmation-default-msg"] = '<div style="background-color: #efefef; -webkit-text-size-adjust: none !important; margin: 0; padding: 70px 70px 70px 70px;"><table id="template_container" style="text-align: center; padding-bottom: 20px; background-color: rgb(223, 223, 223); box-shadow: rgba(0, 0, 0, 0.024) 0px 0px 0px 3px !important; border-radius: 6px !important; margin: auto;" border="0" width="500" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="background-color: #1177d1;border-top-left-radius: 6px !important;border-top-right-radius: 6px !important;border-bottom: 0;font-family: Arial;font-weight: bold;line-height: 100%;vertical-align: middle;">
+<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">Edwiser Forms Free</h1>
+</td>
+</tr>
+<tr>
+<td style="padding: 20px; background-color: #dfdfdf; border-radius: 6px !important;" align="center" valign="top">
+<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Hi,</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Thank you for submission.</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div></td></tr></tbody></table><br>
+</div>';
+$string['notify-email-body2'] = '<div style="background-color: #efefef; -webkit-text-size-adjust: none !important; margin: 0; padding: 70px 70px 70px 70px;"><table id="template_container" style="text-align: center; padding-bottom: 20px; background-color: rgb(223, 223, 223); box-shadow: rgba(0, 0, 0, 0.024) 0px 0px 0px 3px !important; border-radius: 6px !important; margin: auto;" border="0" width="500" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="background-color: #1177d1;border-top-left-radius: 6px !important;border-top-right-radius: 6px !important;border-bottom: 0;font-family: Arial;font-weight: bold;line-height: 100%;vertical-align: middle;">
+<h1 style="text-align: center;color: white;margin: 0px;padding: 28px 24px;display: block;font-family: Arial;font-size: 30px;font-weight: bold;">Edwiser Forms Free</h1>
+</td>
+</tr>
+<tr>
+<td style="padding: 20px; background-color: #dfdfdf; border-radius: 6px !important;" align="center" valign="top">
+<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Hi,</div><div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;">Someone has made submission in your form.</div>
+<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div>
+<div style="font-family: Arial; font-size: 14px; line-height: 150%; text-align: left;"></div></td></tr>
+</tbody>
+</table>
+</div>';

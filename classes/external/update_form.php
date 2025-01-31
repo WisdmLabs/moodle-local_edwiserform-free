@@ -80,7 +80,10 @@ trait update_form {
             $response['status'] = true;
             $response['msg'] = get_string("form-setting-update-msg", "local_edwiserform");
         } else if ($status == false) {
-            $response['msg'] = get_string("form-def-update-fail-msg", "local_edwiserform", PRO_URL);
+            $a = new \stdClass();
+            $a->anchoropen = '<a href="' . PRO_URL . '" target="_blank">';
+            $a->anchorclose = '</a>';
+            $response['msg'] = get_string("form-def-update-fail-msg", "local_edwiserform", $a);
         } else {
             $response['msg'] = $status;
         }

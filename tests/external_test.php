@@ -205,10 +205,16 @@ class local_edwiserform_external_testcase extends local_edwiserform_base_testcas
         // Testing form data submission.
         $this->create_test_form(array('enabled' => true));
         $result = efb_api::submit_form_data($this->formid, $this->get_test_data());
+        $a = new \stdClass();
+        $a->anchoropen = '<a href="' . $CFG->wwwroot . '/?redirect=0">';
+        $a->anchorclose = '</a>';
+        $a->pstart = '<p>';
+        $a->pclose = '</p>';
         $this->assertEquals("<p>" . get_string(
             "form-data-submission-successful",
-            "local_edwiserform"
-        ) . "</p>" . get_string('confirmation-email-success', 'local_edwiserform'), $result['msg']);
+            "local_edwiserform",
+            $a
+        ) . "</p>" . get_string('confirmation-email-success', 'local_edwiserform', $a), $result['msg']);
 
         // Testing edit form data.
         $this->setAdminUser();
@@ -216,8 +222,9 @@ class local_edwiserform_external_testcase extends local_edwiserform_base_testcas
         $result = efb_api::submit_form_data($this->formid, $this->get_test_data());
         $this->assertEquals("<p>" . get_string(
             "form-data-submission-successful",
-            "local_edwiserform"
-        ) . "</p>" . get_string('confirmation-email-success', 'local_edwiserform'), $result['msg']);
+            "local_edwiserform",
+            $a
+        ) . "</p>" . get_string('confirmation-email-success', 'local_edwiserform', $a), $result['msg']);
     }
 
     public function test_update_form() {
@@ -256,6 +263,9 @@ class local_edwiserform_external_testcase extends local_edwiserform_base_testcas
         $setting['type'] = 'subscription';
         $def = $DB->get_field('efb_form_templates', 'definition', array('name' => 'subscription'));
         $result = efb_api::update_form($setting, $def);
-        $this->assertEquals(get_string("form-def-update-fail-msg", "local_edwiserform", PRO_URL), $result['msg']);
+        $a = new \stdClass();
+        $a->anchoropen = '<a href="' . PRO_URL . '" target="_blank">';
+        $a->anchorclose = '</a>';
+        $this->assertEquals(get_string("form-def-update-fail-msg", "local_edwiserform", $a), $result['msg']);
     }
 }

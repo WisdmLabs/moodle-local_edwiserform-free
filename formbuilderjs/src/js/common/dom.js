@@ -1401,7 +1401,7 @@ class DOM {
     check[elementType](container.id);
     if (message !== '') {
       elementType = elementType.slice(0, elementType.length - 1);
-      message = getString('cannotremove', elementType) + message;
+      message = getString('cannotremove', {original: elementType, breakline: '<br>'}) + message;
       this.alert('danger', message);
       return false;
     }
@@ -2768,10 +2768,11 @@ class DOM {
         <div><iframe class="efb-pro-demo" src="${this.get_pro_demo_url(msg.video)}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
         </iframe></div>`;
       }
+      msg.type = '<strong>' + msg.type + '</strong>';
       msg = getString('profeaturemessage', msg);
       msg += video;
     } else {
-      msg = getString('profeature', msg);
+      msg = getString('profeature', '<strong>' + msg + '</strong>');
     }
     let warning = {
       tag: 'div',
@@ -3164,7 +3165,10 @@ class DOM {
       className: 'efb-modal-body',
       content: [{
         tag: 'div',
-        content: getString('attribute-help')
+        content: getString('attribute-help', {
+          anchoropen: '<a target="_blank" href="https://www.google.com/search?q=what+is+html+form+field+attributes&oq=what+is+html+form+field+attr">',
+          anchorclose: '</a>'
+        })
       }, {
         tag: 'input',
         attrs: {
