@@ -196,8 +196,10 @@ class usage_tracking {
         $filterplugininstalled = core_plugin_manager::instance()->get_plugin_info('filter_edwiserformlink');
         if ($filterplugininstalled != null) {
             $filter = $DB->get_record('filter_active', array('filter' => 'edwiserformlink'));
-            $filteredpluginconfig['filter_edwiserformlink_active'] = $filter->active;
-            $filteredpluginconfig['filter_edwiserformlink_sortorder'] = $filter->sortorder;
+            if (!empty($filter)) {
+                $filteredpluginconfig['filter_edwiserformlink_active'] = $filter->active;
+                $filteredpluginconfig['filter_edwiserformlink_sortorder'] = $filter->sortorder;
+            }
         }
 
         $allforms = $DB->get_records_sql('SELECT type, count(type) total

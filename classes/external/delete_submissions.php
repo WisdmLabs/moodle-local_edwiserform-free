@@ -47,8 +47,7 @@ trait delete_submissions {
                 'id' => new external_value(PARAM_INT, 'Form id', VALUE_REQUIRED),
                 'submissions' => new external_multiple_structure(
                     new external_value(PARAM_INT, 'Submission id'),
-                    VALUE_DEFAULT,
-                    []
+                    VALUE_OPTIONAL
                 )
             ]
         );
