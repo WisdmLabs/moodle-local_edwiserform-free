@@ -33,6 +33,6 @@ defined('MOODLE_INTERNAL') || die();
 function xmldb_local_edwiserform_uninstall() {
     global $DB, $CFG;
     $fs = get_file_storage();
-    $fs->delete_area_files(context_system::instance()->id, EDWISERFORM_COMPONENT, EDWISERFORM_SUCCESS_FILEAREA);
+    $fs->delete_area_files(context_system::instance()->id, "local_edwiserform", "successmessage");
     return true;
 }

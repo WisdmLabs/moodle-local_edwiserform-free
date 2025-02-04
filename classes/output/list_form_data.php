@@ -56,6 +56,12 @@ class list_form_data implements renderable, templatable {
      */
     private $plugin         = null;
 
+    private $form;
+
+    private $supportsubmission;
+
+    private $decoded;
+
     /**
      * Constructor for list form data renderable
      * @param  integer $formid The id of form when re-editing form otherwise null
