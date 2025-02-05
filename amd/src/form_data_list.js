@@ -155,6 +155,7 @@ define([
                         type: 'success'
                     }]
                 );
+                $('.bg-warning').parents('.efb-modal-dialog').css("transform", "translate(0,-200%)");
             }
 
             // Select All/None checkbox.

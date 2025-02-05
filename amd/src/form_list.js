@@ -168,6 +168,7 @@ define([
                             type: 'success'
                         }]
                     );
+                    jQuery('.bg-warning').parents('.efb-modal-dialog').css("transform", "translate(0,-200%)");
                     return;
                 });
 
