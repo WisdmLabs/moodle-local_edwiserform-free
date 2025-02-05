@@ -198,7 +198,7 @@ class list_form implements renderable, templatable {
             '',
             $enabled,
             '',
-            array('data-formid' => $id, 'data-enable-title' => $enabletitle, 'data-disable-title' => $disabletitle)
+            array('data-formid' => $id, 'data-enable-title' => $enabletitle, 'data-disable-title' => $disabletitle, 'class' => 'custom-control-input')
         );
         $html .= html_writer::start_tag('div', array('class' => 'switch-container efb-enable-disable-form'));
         $html .= html_writer::tag('div', '', array('class' => 'switch-background bg-success'));
