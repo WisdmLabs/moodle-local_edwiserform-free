@@ -159,7 +159,7 @@ define([
 
             // Select All/None checkbox.
             $('body').on('change', '.submission-check-all', function() {
-                $('.DTFC_Cloned .submission-check').prop('checked', $(this).is(':checked'));
+                $('.dataTable .submission-check').prop('checked', $(this).is(':checked'));
             });
 
             // Apply bulk actions.
