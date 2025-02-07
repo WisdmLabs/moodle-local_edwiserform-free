@@ -81,16 +81,50 @@ define(['jquery'], function ($) {
         }
         $("#id_notifi_email").parent().prepend('<div class="notifi-email-group"><input type="email" class="notifi-email-group-input form-control" id="notifi-email-group-input"/><div>' + M.util.get_string('recipient-email-desc', 'local_edwiserform') + '</div></div>');
         $("#id_notifi_email").hide();
-        $('#id_notifi_email_body').after(M.util.get_string('email-body-restore-desc', 'local_edwiserform', {
-            anchorstart: '<a href="#" class="efb-email-body-restore" data-id="#id_notifi_email_bodyeditable" data-string="notify-email-body2">',
-            anchorend: '</a>'
-        }));
-        $('#id_confirmation_msg').after(M.util.get_string('email-body-restore-desc', 'local_edwiserform', {
-            anchorstart: '<a href="#" class="efb-email-body-restore" data-id="#id_confirmation_msgeditable" data-string="confirmation-default-msg">',
-            anchorend: '</a>'
-        }));
-        $('.efb-email-body-restore').click(function() {
-            $($(this).data('id')).html(M.util.get_string($(this).data('string'), 'local_edwiserform'))
+        // $('#id_notifi_email_body').after(M.util.get_string('email-body-restore-desc', 'local_edwiserform', {
+        //     anchorstart: '<a href="#" class="efb-email-body-restore" data-id="#id_notifi_email_bodyeditable" data-string="notify-email-body2">',
+        //     anchorend: '</a>'
+        // }));
+        // $('#id_confirmation_msg').after(M.util.get_string('email-body-restore-desc', 'local_edwiserform', {
+        //     anchorstart: '<a href="#" class="efb-email-body-restore" data-id="#id_confirmation_msgeditable" data-string="confirmation-default-msg">',
+        //     anchorend: '</a>'
+        // }));
+        // $('body').on('click', '.efb-email-body-restore', function(e) {
+        //     e.preventDefault();
+        //     $($(this).data('id')).html(M.util.get_string($(this).data('string'), 'local_edwiserform'));
+        // });
+        $('#id_notifi_email_body').after(M.util.get_string('email-body-restore-desc','local_edwiserform',{anchorstart:'<a href="#" class="efb-email-body-restore" data-id="#id_notifi_email_body" data-string="notify-email-body2">',anchorend:'</a>'}));
+        $('#id_confirmation_msg').after(M.util.get_string('email-body-restore-desc','local_edwiserform',{anchorstart:'<a href="#" class="efb-email-body-restore" data-id="#id_confirmation_msg" data-string="confirmation-default-msg">',anchorend:'</a>'}));
+        $('body').on('click','.efb-email-body-restore',function(e){
+            e.preventDefault();
+            var activeEditor=null;
+            if(typeof tinymce !== 'undefined' && tinymce.activeEditor){
+                activeEditor={name:'tinymce',instance:tinymce.activeEditor};
+            }else if ($('.editor_atto_content').length > 0){
+                var attoEditor=$($(this).data('id')).parent().find('.editor_atto_content').first();
+                activeEditor={name:'atto',instance:attoEditor};
+            }else{
+                var textarea=$($(this).data('id')).not('.hidden, [disabled]').first();
+                if (textarea.length > 0){
+                    activeEditor={name:'plain',instance:textarea};
+                }
+            }
+            if (!activeEditor){
+                console.warn("No editor detected.");
+                return;
+            }
+            var newContent=M.util.get_string($(this).data('string'),'local_edwiserform');
+            if (activeEditor.name === 'tinymce'){
+                activeEditor.instance.setContent(newContent);
+                $($(this).data('id')).first().val(newContent);
+            } else if (activeEditor.name === 'atto'){
+                activeEditor.instance.html(newContent);
+                $($(this).data('id')).first().val(newContent);
+            } else if (activeEditor.name === 'plain'){
+                activeEditor.instance.val(newContent);
+            } else {
+                notification.alert("Unsupported editor: " + activeEditor.name);
+            }
         });
         function get_body_tags() {
             var tags = JSON.parse(M.util.get_string('email-body-tags', 'local_edwiserform'));
