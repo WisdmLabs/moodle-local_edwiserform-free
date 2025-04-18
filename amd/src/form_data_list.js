@@ -10,9 +10,9 @@ define([
     'core/templates',
     'core/notification',
     'local_edwiserform/jquery.dataTables',
-    'local_edwiserform/dataTables.bootstrap4',
-    'local_edwiserform/fixedColumns.bootstrap4',
-    'local_edwiserform/buttons.bootstrap4',
+    'local_edwiserform/dataTables.bootstrap5',
+    'local_edwiserform/fixedColumns.bootstrap5',
+    'local_edwiserform/buttons.bootstrap5',
     './iefixes',
     'local_edwiserform/formbuilder'
 ], function($, Ajax, Templates, Notification) {

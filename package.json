@@ -9,10 +9,10 @@
     "author": "Wisdmlabs 2020",
     "license": "GPL-3.0-or-later",
     "dependencies": {
-        "datatables.net-bs4": "^1.10.21",
-        "datatables.net-buttons-bs4": "^1.6.2",
-        "datatables.net-fixedcolumns-bs4": "^3.3.1",
-        "datatables.net-fixedheader-bs4": "^3.1.7",
+        "datatables.net-bs5": "^1.13.6",
+        "datatables.net-buttons-bs5": "^2.4.1",
+        "datatables.net-fixedcolumns-bs5": "^4.3.0",
+        "datatables.net-fixedheader-bs5": "^3.4.0",
         "font-awesome": "^4.7.0",
         "gulp-babel": "^8.0.0",
         "gulp-batch-replace": "0.0.0",
@@ -29,7 +29,7 @@
     "devDependencies": {
         "@babel/core": "^7.10.4",
         "@babel/preset-env": "^7.10.4",
-        "bootstrap": "^4.5.0",
+        "bootstrap": "^5.3.0",
         "del": "^5.1.0",
         "gulp": "^4.0.2",
         "gulp-rename": "^2.0.0",

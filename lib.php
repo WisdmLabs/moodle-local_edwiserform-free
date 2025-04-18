@@ -114,3 +114,28 @@ function local_edwiserform_extend_navigation(navigation_node $nav) {
         $CFG->custommenuitems = implode("\n", $nodes);
     }
 }
+
+/**
+ * A compatibility function to handle date formatting across Moodle versions
+ * Uses humandate in Moodle 5.0+ and falls back to calendar_format_event_time in earlier versions
+ *
+ * @param int $time The timestamp to format
+ * @param int|null $endtime End timestamp (for time ranges)
+ * @param int $showtime Whether to show time
+ * @return string Formatted date/time
+ */
+function edwiserform_format_date($time, $endtime = null, $showtime = 1) {
+    global $CFG;
+    
+    // Check if we're using Moodle 5.0+ with humandate
+    if (class_exists('\core\output\humandate') && $endtime === null) {
+        $humandate = new \core\output\humandate($time, $showtime ? '%d %B %Y, %l:%M %p' : '%d %B %Y');
+        return $humandate->render();
+    } else if (class_exists('\core\output\humantimeperiod') && $endtime !== null) {
+        $timeperiod = new \core\output\humantimeperiod($time, $endtime, $showtime ? '%d %B %Y, %l:%M %p' : '%d %B %Y');
+        return $timeperiod->render();
+    } else {
+        // Fall back to old method for Moodle 4.x
+        return calendar_format_event_time($time, $endtime, $showtime);
+    }
+}

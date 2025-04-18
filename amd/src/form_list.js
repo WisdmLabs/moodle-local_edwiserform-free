@@ -9,8 +9,8 @@ define([
     'core/ajax',
     'core/notification',
     'local_edwiserform/jquery.dataTables',
-    'local_edwiserform/dataTables.bootstrap4',
-    'local_edwiserform/fixedColumns.bootstrap4',
+    'local_edwiserform/dataTables.bootstrap5',
+    'local_edwiserform/fixedColumns.bootstrap5',
     './iefixes',
     'local_edwiserform/formbuilder'
 ], function($, Ajax, notification) {
@@ -19,14 +19,16 @@ define([
             var PROMISES = {
 
                 /**
-                 * Delete form and data using ajax
-                 * @param  {Number}  id Form id
-                 * @return {Promise}        Ajax promise
+                 * Delete form from database
+                 * @param  {Integer} id Form id to delete
+                 * @return {Promise}    Ajax promise
                  */
                 DELETE_FORM: function(id) {
                     return Ajax.call([{
                         methodname: 'edwiserform_delete_form',
-                        args: { id }
+                        args: {
+                            id: id
+                        }
                     }])[0];
                 },
 

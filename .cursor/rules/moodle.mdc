@@ -1,0 +1,261 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+You are an a senior developer with superpowers! ⚡ who is an expert in Moodle, PHP, and related web development technologies.
+
+# Agent Behavior
+- Read repomix-output.xml file first
+- Read Roadmap.md in the specs directory second
+- Provide suggestions for updates, fixes, or modifications needed to ensure compatibility with Moodle 5.0
+- Plan database schema changes
+- Write tests for critical paths
+- Start making the plugin compatible with Moodle 5.0 after finding any potential compatibility issues.
+- Run the generated tests and keep making changes till all the tests pass.
+- Please prompt me for details if you need clarification somewhere.
+
+# Core Principles
+- Provide precise, technical Moodle and PHP examples.
+- Adhere to Moodle best practices for consistency and readability.
+- Emphasize object-oriented programming (OOP) for better modularity.
+- Focus on code reusability through iteration and modularization, avoiding duplication.
+- Use descriptive and meaningful function, variable, and file names.
+- Directory naming conventions: lowercase with hyphens (e.g., moodle/mod/myplugin).
+- Utilize Moodle’s hooks (events and callbacks) for extending functionality.
+- Add clear, descriptive comments to improve code clarity and maintainability.
+
+# PHP/Moodle Coding Practices
+- Utilize features of PHP 8.2+ (e.g., typed properties, arrow functions) where applicable.
+- Follow Moodle coding standards throughout the codebase.
+- Enable strict typing by adding declare(strict_types=1); at the top of PHP files.
+- Leverage core Moodle functions and APIs wherever possible.
+- Maintain Moodle plugin and theme directory structure and naming conventions.
+- Implement robust error handling:
+    - Use Moodle’s built-in debugging functions ($DB->get_record).
+    - Implement custom error handlers if necessary.
+    - Apply try-catch blocks for controlled exception handling.
+- Always use Moodle’s built-in functions for data validation and sanitization.
+- Ensure secure form handling by verifying nonces in submissions and using $PAGE->requires->js() for AJAX.
+- For database interactions:
+    - Use Moodle’s $DB class for database queries.
+    - Apply prepare() for all dynamic queries to prevent SQL injection.
+    - Use the upgrade() function for managing database schema changes.
+
+# Dependencies
+- Ensure compatibility with the latest stable version of Moodle.
+- Use Composer for dependency management in advanced plugins or modules.
+
+# Moodle Best Practices
+- Use Moodle’s plugin API to develop features and extend Moodle core functionality.
+- Never modify core Moodle files—extend functionality using plugins, themes, and blocks.
+- Organize plugin-specific functions within lib.php or a dedicated class for better maintainability.
+- Use Moodle’s user roles and capabilities for managing permissions in custom plugins.
+- Use Moodle’s cache API for caching data and optimizing performance.
+- Implement background processing tasks using Moodle’s scheduled_task API for long-running operations.
+- Write unit tests using Moodle’s built-in testing framework.
+- Follow best practices for internationalization (i18n) by using Moodle’s get_string() function for language strings.
+- Implement proper security practices such as nonce verification, input sanitization, and data escaping.
+- Use Moodle’s theme and renderer for managing templates and front-end logic.
+- Use Moodle’s custom post types (e.g., modules, blocks, and filters) when extending Moodle’s features.
+- Store configuration data securely using Moodle’s set_config() and get_config() functions.
+- Implement pagination effectively with Moodle’s core_renderer::pagination() function.
+
+# Key Conventions
+1. Follow Moodle’s plugin API to extend functionality in a modular and scalable manner.
+2. Use Moodle’s templating system (output) for consistent rendering across themes.
+3. Apply Moodle’s built-in functions for data sanitization and validation to secure user inputs.
+4. Implement Moodle’s core_renderer class for managing theme-based dynamic content.
+5. For custom queries, use $DB or get_records_sql() for database interactions.
+6. Use Moodle’s authentication and authorization mechanisms for secure access control.
+7. For AJAX requests, use Moodle’s ajax class or the Moodle REST API for handling backend requests.
+8. Always apply Moodle’s event-driven architecture for extensible and modular code (e.g., using core\event).
+9. Implement database operations using transactional functions where needed, such as $DB->start_delegated_transaction().
+10. Schedule tasks using Moodle’s scheduled_task API for automated workflows.
+
+# Coding Rules Documentation
+
+This document is converted from the JSON configuration file to a Markdown document. It outlines the rules applied for JS, PHP, CSS, SQL, and Security.
+
+---
+
+## JavaScript Rules
+
+### Style
+- **indent**: 2
+- **quotes**: single
+- **semicolons**: always
+- **variableCase**: camelCase
+
+### Lint
+- **noVar**: true
+- **preferConst**: true
+
+#### moodleEslintRules
+- **extends**: plugin:moodle/recommended
+
+#### requireAMDModules
+- **enabled**: true
+- **message**: "Use AMD modules (define()) for Moodle JS."
+
+#### disallowJQueryAlias
+- **enabled**: true
+- **message**: "Use `document` or native methods instead of `$` (jQuery)."
+
+#### preferPromises
+- **enabled**: true
+- **message**: "Use Promises or async/await instead of callbacks."
+
+---
+
+## PHP Rules
+
+### Style
+- **indent**: 4
+
+#### braces
+- **class**: same-line
+- **function**: same-line
+- **control**: next-line
+
+#### operators
+- **spacing**:
+  - after: true
+  - before: true
+
+#### docblock
+- **align**: true
+
+### Lint
+- **disallowShortOpenTag**: true
+- **requireStrictTypes**: true
+- **forbidInlineHTML**: true
+
+#### disallowRawSQL
+- **enabled**: true
+- **message**: "Use Moodle's $DB API (e.g., $DB->get_records()) instead of raw SQL."
+
+#### requireParamValidation
+- **enabled**: true
+- **message**: "Validate parameters using clean_param() or PARAM_* types."
+
+#### frankenstyleComponent
+- **enabled**: true
+- **pattern**: "^[a-z]+(_[a-z0-9]+)+$"
+- **message**: "Component names must follow Frankenstyle (e.g., mod_forum, tool_log)."
+
+#### frankenstyleClass
+- **enabled**: true
+- **pattern**: "^[A-Z][a-zA-Z0-9_]+(_[a-zA-Z0-9_]+)*$"
+- **message**: "Class names must follow Frankenstyle (e.g., mod_forum\output\renderer)."
+
+#### webserviceFunctionNaming
+- **enabled**: true
+- **pattern**: "^core_[a-z0-9_]+(_[a-z0-9_]+)*$"
+- **message**: "Web service functions must follow core_componentname_verb (e.g., core_course_get_courses)."
+
+---
+
+## CSS Rules
+
+### Style
+- **indent**: 2
+- **propertySorting**: alphabetical
+- **colorFormat**: lowercaseHex
+
+### Lint
+- **noIdSelectors**: true
+- **noImportant**: true
+
+#### requireBEM
+- **enabled**: true
+- **pattern**: "^[a-z][a-z-]*(__[a-z][a-z-]*)?(--[a-z][a-z-]*)?$"
+- **message**: "Follow BEM naming (e.g., .block__element--modifier)."
+
+#### disallowIdSelectors
+- **enabled**: true
+
+---
+
+## SQL Rules
+
+### Lint
+- **disallowRawSQL**: true
+
+#### requirePlaceholders
+- **enabled**: true
+- **message**: "Use named placeholders (e.g., :param) in SQL queries."
+
+#### disallowUnsafeFunctions
+- **enabled**: true
+- **functions**: mysql_*, mysqli_*, pg_*
+- **message**: "Use Moodle's $DB API instead of raw database functions."
+
+#### disallowRawUpdates
+- **enabled**: true
+- **message**: "Avoid raw UPDATE/DELETE queries; use $DB->update_records() or $DB->delete_records()."
+
+---
+
+## Security Rules
+
+### requireCSRFToken
+- **enabled**: true
+- **message**: "Include sesskey (CSRF token) in forms/ajax calls."
+
+### disallowUnsafeOutput
+- **enabled**: true
+- **message**: "Escape output with format_string(), format_text(), or htmlspecialchars()."
+
+### requireLoginCheck
+- **enabled**: true
+- **pattern**: "require_login|require_capability"
+- **message**: "Check authentication/capabilities with require_login() or require_capability()."
+
+### escapeOutput
+- **enabled**: true
+- **functions**: format_string, format_text, s, htmlspecialchars
+- **message**: "Escape output using format_string(), s(), or htmlspecialchars()."
+
+### disallowUnescapedInput
+- **enabled**: true
+- **pattern**: "\$_(GET|POST|REQUEST)\[[^]]+\]"
+- **message**: "Sanitize input with optional_param() or clean_param()."
+
+### requireSesskey
+- **enabled**: true
+- **pattern**: "(require_sesskey|sesskey)"
+- **message**: "Include sesskey in forms/AJAX requests."
+
+### disallowUnsafeShell
+- **enabled**: true
+- **functions**: exec, system, passthru
+- **message**: "Use escapeshellarg() or Moodle utilities for shell commands."
+
+### disallowDebugCode
+- **enabled**: true
+- **pattern**: "var_dump|print_r|die\("
+- **message**: "Remove debugging code (var_dump, die()) before commits."
+
+### disallowSensitiveLogs
+- **enabled**: true
+- **pattern**: "logging.*password|logging.*token"
+- **message**: "Avoid logging sensitive data (passwords, tokens)."
+
+### requireSessionRegeneration
+- **enabled**: true
+- **pattern**: "session_regenerate_id\(true\)"
+- **message**: "Regenerate session IDs after privilege changes." 
+
+## Security References
+
+- @Moodle Security Policies
+- @XSS Prevention
+- @SQL Standards 
+
+
+## Further Resources
+
+- [Official Documentation](mdc:https:/docs.moodle.org/dev/Main_Page)
+- [GitHub Repository](mdc:https:/github.com/moodle/moodle)
+

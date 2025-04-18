@@ -1,0 +1,207 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+You are instructed, a senior PHP developer with superpowers! ⚡
+
+# Agent Behavior
+- Read Roadmap.md first
+- Plan database schema changes
+- Write system tests for critical paths
+
+# Code Standards
+- Follow Rails conventions
+- Use concerns for shared logic
+- Tests must pass before merge
+
+# Coding Rules Documentation
+
+This document is converted from the JSON configuration file to a Markdown document. It outlines the rules applied for JS, PHP, CSS, SQL, and Security.
+
+---
+
+## JavaScript Rules
+
+### Style
+- **indent**: 2
+- **quotes**: single
+- **semicolons**: always
+- **variableCase**: camelCase
+
+### Lint
+- **noVar**: true
+- **preferConst**: true
+
+#### moodleEslintRules
+- **extends**: plugin:moodle/recommended
+
+#### requireAMDModules
+- **enabled**: true
+- **message**: "Use AMD modules (define()) for Moodle JS."
+
+#### disallowJQueryAlias
+- **enabled**: true
+- **message**: "Use `document` or native methods instead of `$` (jQuery)."
+
+#### preferPromises
+- **enabled**: true
+- **message**: "Use Promises or async/await instead of callbacks."
+
+---
+
+## PHP Rules
+
+### Style
+- **indent**: 4
+
+#### braces
+- **class**: same-line
+- **function**: same-line
+- **control**: next-line
+
+#### operators
+- **spacing**:
+  - after: true
+  - before: true
+
+#### docblock
+- **align**: true
+
+### Lint
+- **disallowShortOpenTag**: true
+- **requireStrictTypes**: true
+- **forbidInlineHTML**: true
+
+#### disallowRawSQL
+- **enabled**: true
+- **message**: "Use Moodle's $DB API (e.g., $DB->get_records()) instead of raw SQL."
+
+#### requireParamValidation
+- **enabled**: true
+- **message**: "Validate parameters using clean_param() or PARAM_* types."
+
+#### frankenstyleComponent
+- **enabled**: true
+- **pattern**: "^[a-z]+(_[a-z0-9]+)+$"
+- **message**: "Component names must follow Frankenstyle (e.g., mod_forum, tool_log)."
+
+#### frankenstyleClass
+- **enabled**: true
+- **pattern**: "^[A-Z][a-zA-Z0-9_]+(_[a-zA-Z0-9_]+)*$"
+- **message**: "Class names must follow Frankenstyle (e.g., mod_forum\output\renderer)."
+
+#### webserviceFunctionNaming
+- **enabled**: true
+- **pattern**: "^core_[a-z0-9_]+(_[a-z0-9_]+)*$"
+- **message**: "Web service functions must follow core_componentname_verb (e.g., core_course_get_courses)."
+
+---
+
+## CSS Rules
+
+### Style
+- **indent**: 2
+- **propertySorting**: alphabetical
+- **colorFormat**: lowercaseHex
+
+### Lint
+- **noIdSelectors**: true
+- **noImportant**: true
+
+#### requireBEM
+- **enabled**: true
+- **pattern**: "^[a-z][a-z-]*(__[a-z][a-z-]*)?(--[a-z][a-z-]*)?$"
+- **message**: "Follow BEM naming (e.g., .block__element--modifier)."
+
+#### disallowIdSelectors
+- **enabled**: true
+
+---
+
+## SQL Rules
+
+### Lint
+- **disallowRawSQL**: true
+
+#### requirePlaceholders
+- **enabled**: true
+- **message**: "Use named placeholders (e.g., :param) in SQL queries."
+
+#### disallowUnsafeFunctions
+- **enabled**: true
+- **functions**: mysql_*, mysqli_*, pg_*
+- **message**: "Use Moodle's $DB API instead of raw database functions."
+
+#### disallowRawUpdates
+- **enabled**: true
+- **message**: "Avoid raw UPDATE/DELETE queries; use $DB->update_records() or $DB->delete_records()."
+
+---
+
+## Security Rules
+
+### requireCSRFToken
+- **enabled**: true
+- **message**: "Include sesskey (CSRF token) in forms/ajax calls."
+
+### disallowUnsafeOutput
+- **enabled**: true
+- **message**: "Escape output with format_string(), format_text(), or htmlspecialchars()."
+
+### requireLoginCheck
+- **enabled**: true
+- **pattern**: "require_login|require_capability"
+- **message**: "Check authentication/capabilities with require_login() or require_capability()."
+
+### escapeOutput
+- **enabled**: true
+- **functions**: format_string, format_text, s, htmlspecialchars
+- **message**: "Escape output using format_string(), s(), or htmlspecialchars()."
+
+### disallowUnescapedInput
+- **enabled**: true
+- **pattern**: "\$_(GET|POST|REQUEST)\[[^]]+\]"
+- **message**: "Sanitize input with optional_param() or clean_param()."
+
+### requireSesskey
+- **enabled**: true
+- **pattern**: "(require_sesskey|sesskey)"
+- **message**: "Include sesskey in forms/AJAX requests."
+
+### disallowUnsafeShell
+- **enabled**: true
+- **functions**: exec, system, passthru
+- **message**: "Use escapeshellarg() or Moodle utilities for shell commands."
+
+### disallowDebugCode
+- **enabled**: true
+- **pattern**: "var_dump|print_r|die\("
+- **message**: "Remove debugging code (var_dump, die()) before commits."
+
+### disallowSensitiveLogs
+- **enabled**: true
+- **pattern**: "logging.*password|logging.*token"
+- **message**: "Avoid logging sensitive data (passwords, tokens)."
+
+### requireSessionRegeneration
+- **enabled**: true
+- **pattern**: "session_regenerate_id\(true\)"
+- **message**: "Regenerate session IDs after privilege changes." 
+
+## Security References
+
+- [Moodle Security Policies](mdc:https:/moodledev.io/general/development/policies/security)
+- [XSS Prevention](mdc:https:/moodledev.io/general/development/policies/security/crosssite-scripting)
+- [SQL Standards](mdc:https:/moodledev.io/general/development/policies/codingstyle/sql) 
+
+
+
+
+
+
+
+
+
+
+

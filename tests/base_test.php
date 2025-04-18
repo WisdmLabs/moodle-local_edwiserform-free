@@ -45,7 +45,7 @@ class local_edwiserform_base_testcase extends advanced_testcase {
     /**
      * Setup function - we will create a course, users and enrol users in course.
      */
-    protected function setUp() {
+    protected function setUp(): void {
         global $DB;
         $this->resetAfterTest(true);
         $this->setAdminuser();

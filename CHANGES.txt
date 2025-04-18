@@ -107,3 +107,14 @@ Bug Fixes:
 2. Modal visibility (Message that appears after submission of the form) on the course page.
 
 --------------------------------------------------------------------------------------------
+
+1.3.2 (2023-08-16)
+------------------
+* Added compatibility with Moodle 5.0
+* Updated to Bootstrap 5 while maintaining backward compatibility with Bootstrap 4
+* Added support for new humandate renderer in Moodle 5.0
+* Updated PHPUnit tests to be compatible with PHPUnit 11
+* Added subplugins.json alongside subplugins.php for modern plugin architecture
+* Updated DataTables integration to support Bootstrap 5
+
+--------------------------------------------------------------------------------------------
