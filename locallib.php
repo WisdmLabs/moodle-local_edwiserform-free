@@ -138,7 +138,7 @@ class edwiserform {
         $out = "";
         $PAGE->requires->data_for_js('videotypes', $this->get_video_types());
         $js = [new moodle_url('https://www.google.com/recaptcha/api.js')];
-        $css = [new moodle_url($CFG->wwwroot .'/local/edwiserform/style/datatables.css')];
+        $css = [new moodle_url($CFG->wwwroot .'/local/edwiserform/style/datatables.css'), new moodle_url($CFG->wwwroot .'/local/edwiserform/style/common_remui.css')];
         $themedependentcss = '/local/edwiserform/style/common_' . $PAGE->theme->name . '.css';
         if (file_exists($CFG->dirroot . $themedependentcss)) {
             $css[] = new moodle_url($CFG->wwwroot . $themedependentcss);

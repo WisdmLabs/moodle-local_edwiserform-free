@@ -1,1 +1,3 @@
 .efb-table th .data-toggler{color:white}
+#efb-forms_wrapper .DTFC_LeftWrapper,
+#efb-forms_wrapper .DTFC_RightWrapper { overflow: hidden; }
