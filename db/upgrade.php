@@ -109,5 +109,36 @@ function xmldb_local_edwiserform_upgrade($oldversion) {
 
         upgrade_plugin_savepoint(true, 2022052400, 'local', 'edwiserform');
     }
+    if ($oldversion < 2025041802) {
+        $table = new xmldb_table('efb_forms');
+
+        // Special handling for PostgreSQL: convert bytea to int using explicit SQL.
+        if ($DB->get_dbfamily() === 'postgres') {
+            $table_name = $DB->get_prefix() . 'efb_forms';
+            // Convert 'enabled' column: bytea to int (0/1). The value '\\x01' in PHP becomes '\x01' in SQL.
+            $sql = "ALTER TABLE $table_name ALTER COLUMN enabled TYPE SMALLINT USING (CASE WHEN enabled = '\x01' THEN 1 ELSE 0 END)";
+            $DB->execute($sql);
+            $sql = "ALTER TABLE $table_name ALTER COLUMN enabled SET DEFAULT 0";
+            $DB->execute($sql);
+            // Convert 'deleted' column: bytea to int (0/1)
+            $sql = "ALTER TABLE $table_name ALTER COLUMN deleted TYPE SMALLINT USING (CASE WHEN deleted = '\x01' THEN 1 ELSE 0 END)";
+            $DB->execute($sql);
+            $sql = "ALTER TABLE $table_name ALTER COLUMN deleted SET DEFAULT 0";
+            $DB->execute($sql);
+        }
+
+        // For all DBs, use XMLDB to ensure type and constraints are correct.
+        $field = new xmldb_field('enabled', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'message');
+        if ($dbman->field_exists($table, $field->getName())) {
+            $dbman->change_field_type($table, $field);
+        }
+        $field = new xmldb_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'enabled');
+        if ($dbman->field_exists($table, $field->getName())) {
+            $dbman->change_field_type($table, $field);
+        }
+
+        // Upgrade savepoint.
+        upgrade_plugin_savepoint(true, 2025041801, 'local', 'edwiserform');
+    }
     return true;
 }

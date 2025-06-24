@@ -144,23 +144,32 @@ class list_form implements renderable, templatable {
             "5" => "author2",
             "6" => "modified"
         );
-        $searchquery = " ";
-        $orderbyquery = " ";
+
+        $param = [];
+        $searchquery = "";
+        $orderbyquery = " ORDER BY title asc ";
+
         if ($search) {
-            $searchquery = " (title REGEXP '" . $search . "' OR  type REGEXP '" . $search . "') and ";
+            $searchlikes = [];
+            $searchlikes[] = $DB->sql_like('title', ':search1', false);
+            $searchlikes[] = $DB->sql_like('type', ':search2', false);
+            $param['search1'] = "%{$search}%";
+            $param['search2'] = "%{$search}%";
+            $searchquery = ' AND (' . implode(' OR ', $searchlikes) . ')';
         }
+
         if (!empty($sortdir) && array_key_exists($sortcolumn, $colarray)) {
             $orderbyquery = " ORDER BY ".$colarray[$sortcolumn]. " ".$sortdir . " ";
         }
 
         $stmt = "SELECT id, title, author, author2, type, enabled, deleted, created, modified
-                   FROM {efb_forms} WHERE" . $searchquery . "deleted = '0'";
-        $param = [];
+                   FROM {efb_forms} WHERE deleted = 0 {$searchquery}";
         if (!is_siteadmin()) {
-            $stmt .= " and author=? ";
-            $param[] = $this->controller->can_create_or_view_form() ? $USER->id : 0;
+            $stmt .= " and author=:authorid ";
+            $param['authorid'] = $this->controller->can_create_or_view_form() ? $USER->id : 0;
         }
         $stmt .= $orderbyquery;
+
         $records = $DB->get_records_sql($stmt, $param, $limit['from'], $limit['to']);
         foreach ($records as $record) {
             $data = array(

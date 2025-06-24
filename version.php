@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_edwiserform';
 $plugin->release = '1.3.2';
-$plugin->version  = 2025041800;
+$plugin->version  = 2025041802;
 $plugin->requires = 2016052314;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->cron = 3600;

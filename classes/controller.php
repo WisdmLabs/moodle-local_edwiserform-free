@@ -277,7 +277,7 @@ class controller {
         $sql = "SELECT count(ra.id) teacher FROM {role_assignments} ra
                   JOIN {role} r ON ra.roleid = r.id
                  WHERE ra.userid = ?
-                   AND r.archetype REGEXP 'editingteacher|teacher'";
+                   AND r.archetype IN ('editingteacher', 'teacher')";
         $count = $DB->get_record_sql($sql, array($userid));
 
         // User is not teacher so not allowed.
