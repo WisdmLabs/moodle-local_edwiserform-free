@@ -294,7 +294,8 @@ class list_form implements renderable, templatable {
                 "class" => "efb-form-delete",
                 "target" => "_blank",
                 "href" => "#",
-                "data-formid" => $form->id
+                "data-formid" => $form->id,
+                "data-title" => $form->title
             )
         );
 
