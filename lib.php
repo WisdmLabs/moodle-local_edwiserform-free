@@ -89,7 +89,12 @@ function local_edwiserform_extend_navigation(navigation_node $nav) {
         return;
     }
     $can = $controller->can_create_or_view_form(false, true);
+ 
     if ($can != true) {
+        return;
+    }
+
+    if (strpos($CFG->custommenuitems, get_string('pluginname', 'local_edwiserform')) !== false) {
         return;
     }
 
