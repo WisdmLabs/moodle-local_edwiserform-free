@@ -36,7 +36,8 @@ class Formeo {
       localStorage: true
     };
     const _this = this;
-
+    dom.countries = options.countries;
+    dom.defaultcountry = options.defaultcountry;
     _this.container = options.container || defaults.container;
     dom.container = _this.container;
     dom.sitekey = options.sitekey || '';
