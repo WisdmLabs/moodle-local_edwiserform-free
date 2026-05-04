@@ -138,7 +138,7 @@ function xmldb_local_edwiserform_upgrade($oldversion) {
         }
 
         // Upgrade savepoint.
-        upgrade_plugin_savepoint(true, 2025041801, 'local', 'edwiserform');
+        upgrade_plugin_savepoint(true, 2025041802, 'local', 'edwiserform');
     }
     return true;
 }

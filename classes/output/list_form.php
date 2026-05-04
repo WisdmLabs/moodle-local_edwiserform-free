@@ -142,7 +142,7 @@ class list_form implements renderable, templatable {
             "3" => "author",
             "4" => "created",
             "5" => "author2",
-            "6" => "modified"
+            "6" => "COALESCE(modified, created)"
         );
 
         $param = [];
