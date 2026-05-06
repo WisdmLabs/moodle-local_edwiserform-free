@@ -2,6 +2,15 @@ CHANGES for "Edwiser Forms Free"
 
 -------------------------------------------------------------------------------------------
 
+May 06, 2026 (Edwiser Forms Free 1.3.4)
+
+Bug Fixes:
+----------
+1. Fixed phone number field not accepting international formats (e.g. German local format with area code) by adding default country support in form viewer.
+2. Fixed form submissions list not sortable by date - now uses COALESCE of modified/created date columns.
+
+--------------------------------------------------------------------------------------------
+
 Aug 07, 2025 (Edwiser Forms Free 1.3.3)
 
 Bug Fixes:
