@@ -195,7 +195,7 @@ class controller {
             $emailuser->email = '';
         }
         $name = format_text($name, FORMAT_HTML, array('trusted' => false, 'noclean' => false));
-        $emailuser->firstname = trim(filter_var($name, FILTER_SANITIZE_STRING));
+        $emailuser->firstname = trim(strip_tags($name));
         $emailuser->lastname = '';
         $emailuser->maildisplay = true;
         $emailuser->mailformat = 1; // 0 (zero) text-only emails, 1 (one) for HTML emails.

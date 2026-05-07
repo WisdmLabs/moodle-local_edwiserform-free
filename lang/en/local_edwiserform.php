@@ -608,3 +608,4 @@ $string['notify-email-body2'] = '<div style="background-color: #efefef; -webkit-
 </tbody>
 </table>
 </div>';
+$string['submission-anonymous-user'] = 'Anonymous';
